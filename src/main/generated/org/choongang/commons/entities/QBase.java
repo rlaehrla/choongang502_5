@@ -1,4 +1,4 @@
-package org.choongang.entities;
+package org.choongang.commons.entities;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultSupertypeSerializer")
 public class QBase extends EntityPathBase<Base> {
 
-    private static final long serialVersionUID = -1818758878L;
+    private static final long serialVersionUID = 1289676188L;
 
     public static final QBase base = new QBase("base");
 
