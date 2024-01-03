@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.choongang.member.service.JoinService;
-import org.choongang.member.service.MemberInfo;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,7 @@ public class MemberController implements ExceptionProcessor {
 
     private final Utils utils;
     private final JoinService joinService;
+    private final MemberUtil memberUtil;
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form) {
@@ -59,7 +60,7 @@ public class MemberController implements ExceptionProcessor {
         System.out.println(memberInfo);
     }
     */
-
+    /*
     @ResponseBody
     @GetMapping("/info")
     public void info() {
@@ -69,5 +70,16 @@ public class MemberController implements ExceptionProcessor {
                                     .getPrincipal();
 
         System.out.println(memberInfo);
+    }
+     */
+    @ResponseBody
+    @GetMapping("/info")
+    public void info() {
+        if (memberUtil.isLogin()) {
+            Member member = memberUtil.getMember();
+            System.out.println(member);
+        } else {
+            System.out.println("미로그인 상태...");
+        }
     }
 }
