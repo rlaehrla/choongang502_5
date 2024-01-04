@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 * { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; }
+:root{
+    --main-color: #596b99;
+}
 html { font-size: 13px; }
 body { margin: 0; }
 a { text-decoration: none; }
@@ -11,14 +14,14 @@ img { border: 0; }
 header { display: flex; justify-content: space-between; height: 80px; align-items: center; background: #fff; }
 header > section:first-of-type { width: 208px; text-align: center; }
 header > section:last-of-type { flex-grow: 1; padding-right: 20px; text-align: right; }
-header .btn_area a { display: inline-block; width: 90px; height: 28px; border: 1px solid #596b99; color: #596b99; border-radius: 5px; line-height: 26px; text-align: center; font-weight: 500; }
-header .btn_area a:last-of-type { background: #596b99; color: #fff; }
+header .btn_area a { display: inline-block; width: 90px; height: 28px; border: 1px solid var(--main-color); color: var(--main-color); border-radius: 5px; line-height: 26px; text-align: center; font-weight: 500; }
+header .btn_area a:last-of-type { background: var(--main-color); color: #fff; }
 
 /* 헤더 영역 E */
 
 /* 내용 영역  S */
 main { background: #f1f3fa; min-height: 1000px; display: flex; }
-main > aside { width: 208px; background: #596b99; }
+main > aside { width: 208px; background: var(--main-color); }
 main > section { flex-grow: 1; padding: 50px; }
 
 main > aside > a { display: block; height: 71px; color: #dddee4; font-size: 1.385rem; text-align: center; line-height: 70px; position: relative; }
@@ -29,7 +32,23 @@ main > aside > a.on:after, main > aside > a:hover:after { content: ''; display: 
 
 nav.submenus { box-shadow: 1px 1px 5px #cdced5; height: 60px; background: #fff; border-radius: 5px; margin-bottom: 50px; display: flex; align-items: center; }
 nav.submenus a { height: 60px; line-height: 60px; padding: 0 40px; font-size: 1.385rem; color: #222; }
-nav.submenus a.on { background: #596b99; color: #fff; font-weight: 500; }
+nav.submenus a.on { background: var(--main-color); color: #fff; font-weight: 500; }
 
 /* 내용 영역 E */
 
+/* 제목 공통 */
+h1{ margin: 0; padding: 0 0 20px 10px; line-height: 1; font-size: 2rem; border-bottom: 2px solid #222; margin-bottom: 30px;}
+
+/*테이블 공통 S*/
+.table_cols{ border-spacing: 0; width: 100%; border-top: 2px solid #222; border-bottom: 1px solid #d5d5d5; }
+.table_cols th, .table_cols td{ padding: 10px; }
+.table_cols th{ background: #ccc; font-weight: normal; }
+/*테이블 공통 E*/
+
+/* 입력 공통 S*/
+input[type='text'],
+input[type='number'],
+input[type='email'],
+input[type='password']{ border: 1px solid #d5d5d5; height: 35px; padding: 0 10px; }
+
+/* 입력 공통 E*/
