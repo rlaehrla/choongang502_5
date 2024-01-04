@@ -10,7 +10,7 @@
         <th:block th:if="${siteConfig.siteTitle != null}" th:text="${siteConfig.siteTitle}"></th:block>
     </title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <link rel="stylesheet" type="text/css"
           th:each="cssFile : ${addCommonCss}"
@@ -23,12 +23,12 @@
 
     <th:block layout:fragment="addCss"></th:block>
 
-    <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
-    <script th:each="jsFile : ${addCommonScript}"
+    <script type="text/javascript" th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script type="text/javascript" th:each="jsFile : ${addCommonScript}"
             th:src="@{/common/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
 
-    <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
-    <script th:each="jsFile : ${addScript}"
+    <script type="text/javascript" th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script type="text/javascript" th:each="jsFile : ${addScript}"
             th:src="@{/admin/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
 
     <th:block layout:fragment="addScript"></th:block>
