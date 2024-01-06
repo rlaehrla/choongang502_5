@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -47,8 +46,6 @@ public class QFileInfo extends EntityPathBase<FileInfo> {
     public final StringPath modifiedBy = _super.modifiedBy;
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
-
-    public final ListPath<String, StringPath> thumbsUrl = this.<String, StringPath>createList("thumbsUrl", String.class, StringPath.class, PathInits.DIRECT2);
 
     public QFileInfo(String variable) {
         super(FileInfo.class, forVariable(variable));
