@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mobile/layouts/main}">
+<main layout:fragment="content">
+    <section class="rank-sec" name="farmRank">
+        <h2>농장 랭킹</h2>
+        <div th:each="farm : farmRank" th:object="${farmRank}">
+            <img class="rank-img" th:src="랭킹사진링크">
+            <a th:href="@{농장링크}">
+                <div> <!-- flex left? -->
+                    <strong th:field="*{총판매량}"></strong>
+                    <input type="text" th:field="*{한줄소개}" readonly>
+                </div>
+                <input type="text" th:field="*{찜}" readonly>
+                <img th:src="*{프로필사진링크}">
+                <input type="text" th:field="*{농장이름}" readonly>
+            </a>
+        </div>
+    </section>
+    <section class="rank-sec" name="recipeRank">
+        <h2>레시피 랭킹</h2>
+        <div th:each="recipe : recipeRank" th:object="${recipeRank}">
+            <img th:src="랭킹사진링크">
+            <a th:href="@{레시피게시물링크}">
+                <div>
+                    <strong type="text" th:field="*{레시피제목}"></strong>
+                    <input type="text" th:field="*{상품태그}" readonly>
+                </div>
+                <input type="text" th:field="*{좋아요}" readonly>
+                <img th:src="*{프로필사진링크}">
+                <input type="text" th:field="*{글쓴이}" readonly>
+            </a>
+        </div>
+    </section>
+</main>
+</html>
