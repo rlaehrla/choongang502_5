@@ -86,7 +86,7 @@ public class Utils {
      * 썸네일 이미지 사이즈 설정
      * @return
      */
-    public List<int[]> getThumbsSize() {
+    public List<int[]> getThumbSize() {
         BasicConfig config = (BasicConfig) request.getAttribute("siteConfig");
         String thumbSize = config.getThumbSize(); // \r\n
         String[] thumbsSize = thumbSize.split("\\n");
