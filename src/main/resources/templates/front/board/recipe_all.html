@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div>
+    <h1>레시피 모두 보기</h1>
+    <input type="text" name="searchRcp" placeholder="요리나 재료를 검색!">
+    <button type="submit">검색</button>
+    <div>
+        <th:block th:each="ing : ${ingredients}">
+            <a href="@{재료 필터 검색}" th:text="${ing.IngName}"></a>
+        </th:block>
+    </div>
+
+    <div>
+        <div>
+
+            <ul th:each="recipe : ${recipes}" th:object="${recipe}">
+                <a th:href="@{레시피 상세}">
+                    <li th:text="*{RcpName}"></li>
+                    <li th:text="*{userName}"></li>
+                </a>
+                좋아요
+            </ul>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
