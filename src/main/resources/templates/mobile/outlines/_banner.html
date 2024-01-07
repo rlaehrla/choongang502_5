@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<section th:fragment="banner">
+   <ul>
+      <li th:each="banner : ${배너들}">
+         <img th:src="${banner}">
+      </li>
+   </ul>
+</section>
+</html>
