@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <div>
+        <h1 th:text="${farmName}"></h1>
+        <!-- 이미지를 추가하는 부분 -->
+        <img th:src="@{/images/your-image-file.jpg}" alt="Farm Image">
+
+        <!-- 탭 구성 -->
+        <div>
+            <ul class="nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="introduction-tab" data-toggle="tab" th:href="@{/blog/farmerblog#introduction}">소개</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="products-tab" data-toggle="tab" th:href="@{/blog/farmerblog#products}">상품</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="reviews-tab" data-toggle="tab" th:href="@{/blog/farmerblog#reviews}">후기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="news-tab" data-toggle="tab" th:href="@{/blog/farmerblog#news}">소식</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 탭 내용 -->
+        <div class="tab-content">
+            <!-- 소개 섹션 -->
+            <div class="tab-pane fade show active" id="introduction">
+                <!-- 소개글 내용 -->
+                <p>소개글 내용을 여기에 작성하세요.</p>
+            </div>
+
+            <!-- 상품 섹션 -->
+            <div class="tab-pane fade" id="products">
+                <!-- 상품 내용 -->
+                <p>상품 내용을 여기에 작성하세요.</p>
+            </div>
+
+            <!-- 후기 섹션 -->
+            <div class="tab-pane fade" id="reviews">
+                <!-- 후기 내용 -->
+                <p>후기 내용을 여기에 작성하세요.</p>
+            </div>
+
+            <!-- 소식 섹션 -->
+            <div class="tab-pane fade" id="news">
+                <!-- 소식 내용 -->
+                <p>소식 내용을 여기에 작성하세요.</p>
+            </div>
+        </div>
+    </div>
+</main>
+</html>
