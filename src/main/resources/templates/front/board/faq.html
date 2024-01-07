@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <div>
+        <h3 th:text="#{자주_묻는_질문}"></h3>
+        <hr>
+        <div class="faq_content">
+            <table class="faq_list">
+                <tr>
+                    <th>카테고리</th>
+                    <th>내용</th>
+                </tr>
+                <tr>
+                    <th>회원정보</th>
+                    <td href="/faq/detail">아이디 또는 비밀번호가 기억나지 않아요.</td>
+                </tr>
+                <tr>
+                    <th>회원정보</th>
+                    <td>회원정보 수정은 어디서 하나요?</td>
+                </tr>
+                <tr>
+                    <th>상품 문의</th>
+                    <td>판매 중인 상품은 어디서 확인 하나요?</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+</html>
