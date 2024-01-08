@@ -4,54 +4,24 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
     <div>
-        <h1 th:text="${farmName}"></h1>
-        <!-- 이미지를 추가하는 부분 -->
-        <img th:src="@{/images/your-image-file.jpg}" alt="Farm Image">
-
+        <img th:src="@{농장사진}">
+        <div>
+            <h1 th:text="${농장이름}"></h1>
+            <button type="button" th:text="#{일대일채팅}"></button>
+        </div>
+        <div>
+            <img th:src="@{별사진링크}">
+            <span th:text="${찜}"></span>
+            <span th:text="${판매량}"></span>
+        </div>
         <!-- 탭 구성 -->
         <div>
-            <ul class="nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" id="introduction-tab" data-toggle="tab" th:href="@{/blog/farmerblog#introduction}">소개</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="products-tab" data-toggle="tab" th:href="@{/blog/farmerblog#products}">상품</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="reviews-tab" data-toggle="tab" th:href="@{/blog/farmerblog#reviews}">후기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="news-tab" data-toggle="tab" th:href="@{/blog/farmerblog#news}">소식</a>
-                </li>
-            </ul>
+            <button type="submit" th:text="#{소개}" id="farmIntoduction"></button>
+            <button type="submit" th:text="#{판매중}" id="farmSales"></button>
+            <button type="submit" th:text="#{후기}" id="farmReview"></button>
+            <button type="submit" th:text="#{소식}" id="farmSns"></button>
         </div>
-
-        <!-- 탭 내용 -->
-        <div class="tab-content">
-            <!-- 소개 섹션 -->
-            <div class="tab-pane fade show active" id="introduction">
-                <!-- 소개글 내용 -->
-                <p>소개글 내용을 여기에 작성하세요.</p>
-            </div>
-
-            <!-- 상품 섹션 -->
-            <div class="tab-pane fade" id="products">
-                <!-- 상품 내용 -->
-                <p>상품 내용을 여기에 작성하세요.</p>
-            </div>
-
-            <!-- 후기 섹션 -->
-            <div class="tab-pane fade" id="reviews">
-                <!-- 후기 내용 -->
-                <p>후기 내용을 여기에 작성하세요.</p>
-            </div>
-
-            <!-- 소식 섹션 -->
-            <div class="tab-pane fade" id="news">
-                <!-- 소식 내용 -->
-                <p>소식 내용을 여기에 작성하세요.</p>
-            </div>
-        </div>
-    </div>
+        <section id="farmBlogSection" th:replace>
+        </section>
 </main>
 </html>
