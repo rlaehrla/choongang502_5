@@ -27,6 +27,11 @@ public class RecipeController {
     private final IngredientRepository ingredientRepository;
     private final Utils utils;
 
+    @GetMapping
+    public String recipe() {
+        return utils.tpl("board/recipe");
+    }
+
     @GetMapping("/recipe_all")
     public String allRcp(Model model) {
         List<Recipe> recipes = recipeRepository.findAll();

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section th:replace="banner">
+    <section th:replace="~{front/outlines/_banner::banner}">
     </section>
     <h2 th:text="#{맞춤레시피}"></h2>
     <div>
