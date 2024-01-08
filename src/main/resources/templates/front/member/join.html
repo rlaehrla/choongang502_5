@@ -6,6 +6,7 @@
     <h1 th:text="#{회원가입}"></h1>
 
     <form name="frmJoin" method="post" th:action="@{/member/join}" autocomplete="off" th:object="${requestJoin}">
+        <input type="hidden" name="gid" th:field="*{gid}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
         <dl>
@@ -59,6 +60,14 @@
             <dd>
                 <input type="text" name="name" th:field="*{name}">
                 <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt th:text="#{프로필_이미지}"></dt>
+            <dd>
+                <button type="button" class="upload_files"
+                        th:text="#{이미지_업로드}"></button>
             </dd>
         </dl>
 

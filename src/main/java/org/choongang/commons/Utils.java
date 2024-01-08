@@ -77,6 +77,8 @@ public class Utils {
      * @return
      */
     public String nl2br(String str) {
+        str = Objects.requireNonNullElse(str, "");
+
         str = str.replaceAll("\\n", "<br>")
                 .replaceAll("\\r", "");
 
@@ -144,4 +146,7 @@ public class Utils {
 
         return chars.stream().limit(length).collect(Collectors.joining());
     }
+
+
+
 }
