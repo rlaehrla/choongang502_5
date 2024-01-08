@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import org.choongang.commons.entities.Base;
+import org.choongang.file.entities.FileInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
 public class Member extends Base {
     @Id @GeneratedValue
     private Long seq;
+
+    @Column(length=65, nullable = false)
+    private String gid;
 
     @Column(length=80, nullable = false, unique = true)
     private String email;
@@ -29,4 +33,7 @@ public class Member extends Base {
     @ToString.Exclude
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Authorities> authorities = new ArrayList<>();
+
+    @Transient
+    private FileInfo profileImage;
 }

@@ -69,7 +69,6 @@ public class MemberController implements ExceptionProcessor {
             // 공통 JS
             addCommonScript.add("fileManager");
             // 회원가입 페이지를 위한 CSS, JS
-            addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/form");
 
@@ -78,7 +77,6 @@ public class MemberController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
         }
         model.addAttribute("pageTitle", pageTitle);
-        model.addAttribute("addCss", addCss);
         model.addAttribute("addScript", addScript);
         model.addAttribute("addCommonScript", addCommonScript);
     }
