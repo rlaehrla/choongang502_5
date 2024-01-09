@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <section th:replace="~{front/outlines/_banner::banner}">
+    </section>
 <div>
     <h1>레시피 모두 보기</h1>
     <input type="text" name="searchRcp" placeholder="요리나 재료를 검색!">
@@ -18,7 +19,7 @@
         <div>
 
             <ul th:each="recipe : ${recipes}" th:object="${recipe}">
-                <a th:href="@{레시피 상세}">
+                <a th:href="@{/recipe/{seq}}">
                     <li th:text="*{RcpName}"></li>
                     <li th:text="*{userName}"></li>
                 </a>
@@ -31,6 +32,5 @@
 
 </div>
 
-
-</body>
+</main>
 </html>
