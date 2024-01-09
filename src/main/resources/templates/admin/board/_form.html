@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="form">
+    <input type="hidden" name="gid" value="testgid">
+
     <h2>기본 설정</h2>
     <table class="table_cols mb30">
         <tr>
@@ -216,7 +218,7 @@
                 <textarea id="html_top" name="htmlTop"></textarea>
 
                 <button type="button" class="upload_files"
-                    data-location="html_top" data-image-only="true" data-single-file="true"
+                    data-location="html_top" data-image-only="true"
                 >이미지 추가</button>
                 <div class="uploaded_files" id="uploaded_files_html_top"></div>
             </td>
@@ -231,12 +233,13 @@
                 <textarea id="html_bottom" name="htmlBottom"></textarea>
 
                 <button type="button" class="upload_files"
-                        data-location="html_bottom" data-image-only="true" data-single-file="true"
+                        data-location="html_bottom" data-image-only="true"
                 >이미지 추가</button>
                 <div class="uploaded_files" id="uploaded_files_html_bottom"></div>
             </td>
         </tr>
     </table>
 
+    <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
 </th:block>
 </html>
