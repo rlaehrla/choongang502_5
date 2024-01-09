@@ -8,7 +8,7 @@
     </section>
     <section class="rank-sec" name="recipeRank">
         <h2>레시피 랭킹</h2>
-        <div th:each="recipe : recipeRank" th:object="${recipeRank}">
+        <div th:each="recipe : ${recipeRank}" th:object="${recipe}">
             <img th:src="랭킹사진링크">
             <a th:href="@{레시피게시물링크}">
                 <div>

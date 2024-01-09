@@ -65,6 +65,9 @@ public class SecurityConfig {
 
         /* 인가 설정 E - 접근 통제 */
 
+        http.headers(c -> c.frameOptions(f -> f.sameOrigin()));
+
+
         /* 자동 로그인 설정 S */
         http.rememberMe(c -> {
             c.rememberMeParameter("autoLogin") // 자동 로그인으로 사용할 요청 파리미터 명, 기본값은 remember-me
