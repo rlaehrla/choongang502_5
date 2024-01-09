@@ -10,5 +10,20 @@
         <a th:href="@{/admin/board}" th:classappend="${menuCode} == 'board' ? 'on'">
             <i class="xi-pen"></i> 게시판 관리
         </a>
+        <a th:href="@{/admin/product}" th:classappend="${menuCode} == 'product' ? 'on'">
+            <i class="xi-pen"></i> 품목관리
+        </a>
+        <a th:href="@{/admin/order}" th:classappend="${menuCode} == 'order' ? 'on'">
+            <i class="xi-pen"></i> 주문관리
+        </a>
+        <a th:href="@{/admin/customer}" th:classappend="${menuCode} == 'customer' ? 'on'">
+            <i class="xi-pen"></i> 상담관리
+        </a>
+        <a th:href="@{/admin/banner}" th:classappend="${menuCode} == 'banner' ? 'on'">
+            <i class="xi-pen"></i> 배너관리
+        </a>
+        <a th:href="@{/admin/search}" th:classappend="${menuCode} == 'search' ? 'on'">
+            <i class="xi-pen"></i> 검색순위
+        </a>
     </aside>
 </html>
