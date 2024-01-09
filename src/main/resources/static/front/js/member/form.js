@@ -8,7 +8,7 @@ function callbackFileUpload(files) {
       return;
     }
 
-    const file = file[0];
+    const file = files[0];
 
     let html = document.getElementById("image1_tpl").innerHTML;
 
