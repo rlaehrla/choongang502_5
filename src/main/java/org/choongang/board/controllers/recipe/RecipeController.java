@@ -16,7 +16,7 @@ import java.util.List;
 
 
 /**
-레시피 모두 보기 test
+레시피 모두 보기, 상세보기 test
  */
 @Controller
 @RequestMapping("/recipe")
@@ -40,6 +40,12 @@ public class RecipeController {
         model.addAttribute("ingredients", ingredients);
 
         return utils.tpl("board/recipe_all");
+    }
+    // 레시피 상세 보기
+    @GetMapping("/{seq}")
+    public String detailRcp(Model model) {
+
+        return utils.tpl("board/recipe_detail");
     }
 
     @PostConstruct // 생성자 호출 -> 의존성 주입 -> @PostConstruct
