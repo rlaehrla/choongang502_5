@@ -24,15 +24,5 @@ public class BoardController {
         return utils.tpl("board/index");
     }
 
-    @GetMapping("/farm/blog")
-    public String blog(Model model){
-        List<String> addScript = new ArrayList<>();
-        List<String> addCommonScript = new ArrayList<>();
-        addScript.add("board/blog");
-        addCommonScript.add("common");
-        model.addAttribute("addScript", addScript);
-        model.addAttribute("addCommonScript", addCommonScript);
-        return utils.tpl("blog/farmerblog");
-    }
 
 }
