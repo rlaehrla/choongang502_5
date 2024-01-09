@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+* { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; }
+:root{
+    --main-color: #596b99;
+}
+.footerInfoSect {
+    display: flex;
+    width: 1400px;
+    position: relative;
+    margin: 0 auto;
+    padding: 40px 0 30px;
+    text-align: left;
+    font-size: 14px;
+    }
+.footerBox1 {
+    margin: 16px 32px 0 0;
+}
+.footerBox2 {
+    margin: 32px 32px 0px 200px;
+    }
