@@ -24,9 +24,10 @@ public class ApiFileController implements ExceptionRestProcessor { // 통일된 
                            @RequestParam(name = "gid", required = false) String gid,
                            // gid는 필수, 없으면 기본값을 넣는다. location은 필수는 아니다
                            @RequestParam(name = "location", required = false) String location,
-                           @RequestParam(name = "imageOnly", required = false) boolean imageOnly) {
+                           @RequestParam(name = "imageOnly", required = false) boolean imageOnly,
+                           @RequestParam(name = "singleFile", required = false) boolean singleFile) {
 
-        List<FileInfo> uploadedFiles = uploadService.upload(files, gid, location, imageOnly);
+        List<FileInfo> uploadedFiles = uploadService.upload(files, gid, location, imageOnly, singleFile);
 
 
         return new JSONData<>(uploadedFiles);
