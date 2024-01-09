@@ -3,6 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">  <!--csrf 토큰 추가-->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, minimum-scale=0.5, maximum-scale=3.0">
     <meta th:if="${siteConfig.siteDescription != null}" name="description" th:content="${siteConfig.siteDescription}">
     <meta th:if="${siteConfig.siteKeywords != null}" name="keywords" th:content="${siteConfig.siteKeywords}">
@@ -11,6 +14,7 @@
         <th:block th:if="${siteConfig.siteTitle != null}" th:text="${siteConfig.siteTitle}"></th:block>
     </title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <link rel="stylesheet" type="text/css"
           th:each="cssFile : ${addCommonCss}"
@@ -39,5 +43,6 @@
     <main layout:fragment="content"></main>
 
     <footer th:replace="~{mobile/outlines/footer::common}"></footer>
+    <iframe name="ifrmProcess" class="dn"></iframe>
 </body>
 </html>

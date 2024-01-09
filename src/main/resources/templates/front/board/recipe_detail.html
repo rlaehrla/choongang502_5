@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <section th:replace="~{front/outlines/_banner::banner}">
+    </section>
+<div>
+    <div class="imgRcp"> <!-- 왼쪽 -->
+        <img th:src="*{레시피썸네일}">
+    </div>
+    <div>
+         <a href="@{작성자블로그}">작성자</p></a>
+            작성자 님의 레시피 - 볶음밥1
+
+            -------------------------------<br>
+            작성자 소개 <br><br>
+            #10분 요리 ...<br><br>
+            댓글1 좋아요1 <br>
+            -------------------------------<br>
+
+
+
+    </div>
+
+
+</div>
+
+
+</main>
+
+</html>

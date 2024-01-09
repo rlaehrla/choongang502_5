@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<section th:fragment="farm">
+    <div th:each="farm : farmRank" th:object="${farmRank}">
+        <img class="rank-img" th:src="랭킹사진링크">
+        <a th:href="@{농장링크}">
+            <div>
+                <strong th:text="#{총판매량}"></strong>
+                <p th:text="#{한줄소개}"></p>
+            </div>
+            <p th:text="#{찜}"></p>
+            <img th:src="#{프로필사진링크}">
+            <p th:text="#{농장이름}"></p>
+        </a>
+    </div>
+    <!-- 지도 영역 : th:block th:if로 처리 -->
+</section>
+</html>

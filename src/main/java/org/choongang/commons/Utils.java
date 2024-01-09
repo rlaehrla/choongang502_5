@@ -8,9 +8,10 @@ import org.choongang.file.service.FileInfoService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -76,6 +77,8 @@ public class Utils {
      * @return
      */
     public String nl2br(String str) {
+        str = Objects.requireNonNullElse(str, "");
+
         str = str.replaceAll("\\n", "<br>")
                 .replaceAll("\\r", "");
 
@@ -120,4 +123,30 @@ public class Utils {
     public String printThumb(long seq, int width, int height) {
         return  printThumb(seq, width, height, null);
     }
+
+    /**
+     * 알파벳, 숫자, 특수문자 조합 랜덤 문자열 생성
+     */
+    public String randomChars() {
+        return randomChars(8);
+    }
+
+    public String randomChars(int length) {
+        // 알파벳 생성
+        Stream<String> alphas = IntStream.concat(IntStream.rangeClosed((int)'a', (int)'z'), IntStream.rangeClosed((int)'A', (int)'Z')).mapToObj(s -> String.valueOf((char)s));
+
+        // 숫자 생성
+        Stream<String> nums = IntStream.range(0, 10).mapToObj(String::valueOf);
+
+        // 특수문자 생성
+        Stream<String> specials = Stream.of("~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "-", "=", "[", "{", "}", "]", ";", ":");
+
+        List<String> chars = Stream.concat(Stream.concat(alphas, nums), specials).collect(Collectors.toCollection(ArrayList::new));
+        Collections.shuffle(chars);
+
+        return chars.stream().limit(length).collect(Collectors.joining());
+    }
+
+
+
 }

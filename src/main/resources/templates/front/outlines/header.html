@@ -2,11 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <header th:fragment="common">
+        <section>
+            <a th:href="@{/}">로고이미지</a>  <!--로고 링크-->
+            <!--검색창 폼-->
+            <form name="serchFrm" th:action="@{/search/result(임시)}">
+                <div>
+                    <input type="text" name="search" placeholder="검색어를 입력하세요.">
+                </div>
+                <button type="submit">찾기</button>
+            </form>
+            <a th:href="@{/장바구니}">장바구니</a>
+        </section>
         <th:block sec:authorize="isAnonymous()"> <!-- 미 로그인 상태 -->
             <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
             <a th:href="@{/member/login}" th:text="#{로그인}"></a>
         </th:block>
         <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->
+
+            <th:block th:if="${session.member.profileImage != null}"
+                th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
+            </th:block>
+
             <span th:text="${#messages.msg('LOGIN_MSG', session.member.name, session.member.userId)}"></span>
             <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
             <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>

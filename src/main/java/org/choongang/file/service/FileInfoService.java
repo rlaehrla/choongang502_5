@@ -78,7 +78,7 @@ public class FileInfoService {
         return getList(gid, location, "ALL");
     }
 
-    public List<FileInfo> getLisetDone(String gid) {
+    public List<FileInfo> getListDone(String gid) {
         return getList(gid, null, "DONE");
     }
 
