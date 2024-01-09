@@ -28,14 +28,14 @@ public class MemberController implements ExceptionProcessor {
     private final FindPwService findPwService ;
 
     @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin form, Model model) {
+    public String join(@ModelAttribute FarmerRequestJoin form, Model model) {
         commonProcess("join", model);
 
         return utils.tpl("member/join");
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors,Model model) {
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
         commonProcess("join", model);
 
         joinService.process(form, errors);
@@ -46,6 +46,22 @@ public class MemberController implements ExceptionProcessor {
 
 
         return "redirect:/member/login";
+    }
+
+    /**
+     * farmer 회원가입 양식 전송 시 실행되는 컨트롤러
+     */
+    @PostMapping("/join/farmer")
+    public String farmerJoinPs(@Valid FarmerRequestJoin form, Errors errors, Model model) {
+        commonProcess("join", model);
+
+        joinService.farmerJoinProcess(form, errors);
+
+        if (errors.hasErrors()) {
+            return utils.tpl("member/join");
+        }
+
+        return "redirect:/member/login" ;
     }
 
     @GetMapping("/login")

@@ -14,7 +14,11 @@ public class Authorities {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="member_seq")
-    private Member member;
+    private Member member;    // 일반회원
+
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="farmer_seq")
+    private Farmer farmer;    // 농장주(판매자)
 
     @Enumerated(EnumType.STRING)
     @Column(length=15, nullable = false)
