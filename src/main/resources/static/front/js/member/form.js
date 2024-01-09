@@ -29,3 +29,13 @@ function callbackFileUpload(files) {
     profileImage.appendChild(imageTplEl);
 
 }
+
+/**
+* 파일 삭제 후 후속처리 함수
+*
+* @param seq : 파일 등록 번호
+*/
+function callbackFileUpload(seq) {
+   const fileEl = document.getElementById(`file_${seq}`);
+   fileEl.parentElement.removeChild(fileEl);
+}
