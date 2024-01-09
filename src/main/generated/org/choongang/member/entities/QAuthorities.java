@@ -24,6 +24,8 @@ public class QAuthorities extends EntityPathBase<Authorities> {
 
     public final EnumPath<org.choongang.member.Authority> authority = createEnum("authority", org.choongang.member.Authority.class);
 
+    public final QFarmer farmer;
+
     public final QMember member;
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
@@ -46,6 +48,7 @@ public class QAuthorities extends EntityPathBase<Authorities> {
 
     public QAuthorities(Class<? extends Authorities> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.farmer = inits.isInitialized("farmer") ? new QFarmer(forProperty("farmer")) : null;
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
     }
 

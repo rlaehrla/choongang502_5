@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", function() {
-    /* 인증 코드 전송 S */
+
+    /* 이메일 인증 코드 전송 */
     const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
     const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
     const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
