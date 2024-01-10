@@ -2,7 +2,6 @@ package org.choongang.member.repositories;
 
 import com.querydsl.core.BooleanBuilder;
 import org.choongang.member.entities.Farmer;
-import org.choongang.member.entities.Member;
 import org.choongang.member.entities.QFarmer;
 import org.choongang.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -37,7 +36,7 @@ public interface FarmerRepository extends JpaRepository<Farmer, Long>, QuerydslP
         QFarmer farmer = QFarmer.farmer ;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(farmer.email.eq(email))
-                .and(farmer.name.eq(name));
+                .and(farmer.username.eq(name));
 
         return exists(builder);
     }

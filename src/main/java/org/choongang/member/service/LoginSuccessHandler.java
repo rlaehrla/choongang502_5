@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.entities.Member;
+import org.choongang.member.entities.AbstractMember;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.StringUtils;
@@ -20,7 +20,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         /* 회원 정보 조회 편의 구현 */
         MemberInfo memberInfo = (MemberInfo) authentication.getPrincipal();
-        Member member = memberInfo.getMember();
+        AbstractMember member = memberInfo.getMember();
         session.setAttribute("member", member);
 
         String redirectURL = request.getParameter("redirectURL");

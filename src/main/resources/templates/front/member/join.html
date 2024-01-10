@@ -10,7 +10,7 @@
     <input type="radio" name="memberType" id="farmer">
     <label for="farmer">농장주인</label>
 
-    <form name="frmJoin" method="post" th:action="@{/member/join/farmer}" autocomplete="off" th:object="${farmerRequestJoin}">
+    <form name="frmJoin" method="post" th:action="@{/member/join/farmer}" autocomplete="off" th:object="${requestJoin}">
         <input type="hidden" name="gid" th:field="*{gid}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
@@ -63,8 +63,8 @@
         <dl>
             <dt th:text="#{회원명}"></dt>
             <dd>
-                <input type="text" name="name" th:field="*{name}">
-                <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
+                <input type="text" name="username" th:field="*{username}">
+                <div class="error" th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
             </dd>
         </dl>
 
@@ -78,6 +78,14 @@
         </dl>
 
         <dl>
+            <dt th:text="#{닉네임}"></dt>
+            <dd>
+                <input type="text" name="nickname" th:field="*{nickname}">
+                <div class="error" th:each="err : ${#fields.errors('nickname')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+
+        <dl>
             <dt th:text="#{프로필_이미지}"></dt>
             <dd>
                 <div id="profile_image"></div>
@@ -86,39 +94,11 @@
                          data-single-file="true"></button>
             </dd>
         </dl>
-<!--farmer일 때만 활성화------------------------------------------------------------------------------------------------>
 
-        <dl class="farmer_only">
-            <dt th:text="#{농장이름}"></dt>
-            <dd>
-                <input type="text" name="farmTitle" th:field="*{farmTitle}">
-                <div class="error" th:each="err : ${#fields.errors('farmTitle')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-
-        <dl class="farmer_only">
-            <dt th:text="#{농장주소}"></dt>
-            <dd>
-                <input type="text" name="farmAddress" th:field="*{farmAddress}">
-                <div class="error" th:each="err : ${#fields.errors('farmAddress')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-
-        <dl class="farmer_only">
-            <dt th:text="#{사업자등록증}"></dt>
-            <dd>
-                <input type="text" name="certificateNo" th:field="*{certificateNo}">
-                <div class="error" th:each="err : ${#fields.errors('certificateNo')}" th:text="${err}"></div>
-            </dd>
-            <dd>
-                <div id="certificate_file"></div>
-                <button type="button" class="upload_files"
-                        th:text="#{사업자등록증_업로드}"
-                        data-single-file="true"></button>
-            </dd>
-        </dl>
-
-<!-------------------------------------------------------------------------------------------------------------->
+        <!--추가 항목을 분리-->
+        <th:block th:replace="~{front/member/_join_member::member}"></th:block>
+        <th:block th:replace="~{front/member/_join_farmer::member}"></th:block>
+        <!--추가 항목을 분리-->
 
         <div th:text="#{회원가입_약관}"></div>
         <div class="terms" th:utext="${@utils.nl2br(siteConfig.joinTerms)}"></div>
@@ -132,14 +112,6 @@
     </form>
 
     <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
-<!--    <script>
-        const farmerOnly = document.querySelectorAll('.farmer_only') ;
-        if (document.getElementsByName('memberType')[1].checked) {
-            for (let i = 0; i < farmerOnly.length; i++) {
-                farmerOnly[i].hidden=false ;
-            }
-        }
-    </script>-->
 
 </main>
 </html>

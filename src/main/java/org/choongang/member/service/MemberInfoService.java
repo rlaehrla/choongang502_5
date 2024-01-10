@@ -15,6 +15,7 @@ import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Authorities;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
 import org.choongang.member.entities.QMember;
 import org.choongang.member.repositories.MemberRepository;
@@ -32,13 +33,13 @@ public class MemberInfoService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final FileInfoService fileInfoService;
-    private final HttpServletRequest request;
-    private final EntityManager em;
+    private final EntityManager em ;
+    private final HttpServletRequest request ;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByEmail(username) // 이메일 조회
+        AbstractMember member = memberRepository.findByEmail(username) // 이메일 조회
                 .orElseGet(() -> memberRepository.findByUserId(username) // 아이디로 조회
                         .orElseThrow(() -> new UsernameNotFoundException(username)));
 
@@ -67,45 +68,37 @@ public class MemberInfoService implements UserDetailsService {
                 .build();
     }
 
+
     /**
-     * 회원 목록
-     *
-     * @param search
-     * @return
+     * 회원 목록 반환
      */
     public ListData<Member> getList(MemberSearch search) {
 
-        int page = Utils.onlyPositiveNumber(search.getPage(), 1); // 페이지 번호
-        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20); // 1페이지당 레코드 갯수
-        int offset = (page - 1) * limit; // 레코드 시작 위치 번호
+        int page = Utils.onlyPositiveNumber(search.getPage(), 1) ;    // 현재 페이지 번호
+        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20) ;    // 한 페이지 당 노출할 레코드 개수
+        int offset = (page - 1) * limit ;    // 레코드 시작 위치 번호
 
-        BooleanBuilder andBuilder = new BooleanBuilder();
-        QMember member = QMember.member;
+        BooleanBuilder andBuilder = new BooleanBuilder() ;
+        QMember member = QMember.member ;
 
-        PathBuilder<Member> pathBuilder = new PathBuilder<>(Member.class, "member");
+        PathBuilder<Member> pathBuilder = new PathBuilder<>(Member.class, "member") ;
 
         List<Member> items = new JPAQueryFactory(em)
                 .selectFrom(member)
                 .leftJoin(member.authorities)
                 .fetchJoin()
-                .where(andBuilder)
+                .where(andBuilder)    // 조건식
                 .limit(limit)
                 .offset(offset)
-                .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
-                .fetch();
+                .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))    // 정렬
+                .fetch() ;
 
         /* 페이징 처리 S */
-        int total = (int)memberRepository.count(andBuilder); // 총 레코드 갯수
-        // 페이징 test
-         total = 10000;
-
-        Pagination pagination = new Pagination(page, total, 10, limit, request);
+        int total = (int) memberRepository.count(andBuilder) ;    // 총 레코드 개수
+        total = 123456 ;
+        Pagination pagination = new Pagination(page, total, 10, limit, request) ;
         /* 페이징 처리 E */
 
-        return new ListData<>(items, pagination);
+        return new ListData<>(items, pagination) ;
     }
-
-
-
-
 }

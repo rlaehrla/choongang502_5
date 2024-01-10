@@ -1,7 +1,6 @@
 package org.choongang.member.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 import org.choongang.commons.entities.Base;
@@ -10,47 +9,29 @@ import org.choongang.file.entities.FileInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 판매회원 = 농부
+ */
 @Data
 @Entity
-public class Farmer extends Base {
-    @Id @GeneratedValue
-    private Long seq;
+@DiscriminatorValue("F")
+public class Farmer extends AbstractMember {
 
-    @Column(length=65, nullable = false)
-    private String gid;
-
-    @Column(length=80, nullable = false, unique = true)
-    private String email;
-
-    @Column(length=40, nullable = false, unique = true)
-    private String userId;
-
-    @Column(length=65, nullable = false)
-    private String password;
-
-    @Column(length=40, nullable = false)
-    private String name;
-
-    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "{phone.number.invalid}")
-    @Column(nullable = false)
-    private String tel ;
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "farmer", fetch = FetchType.LAZY)
-    private List<Authorities> authorities = new ArrayList<>();
-
-    @Transient
-    private FileInfo profileImage;
-
-    @Column(length = 40, nullable = false)
+    @Column(length = 90, nullable = false)
     private String farmTitle ;    // 농장 이름
 
-    @Column(length = 80, nullable = false)
+    @Column(length = 10, nullable = false)
+    private String farmZonecode ;    // 농장 우편번호
+
+    @Column(length = 100, nullable = false)
     private String farmAddress ;    // 농장 주소
 
-    @Column(length = 10, nullable = false)
-    private String certificateNo ;    // 사업자등록증 번호
+    @Column(length = 100)
+    private String farmAddressSub ;    // 농장 나머지 주소
 
-    @Transient
-    private FileInfo certificateFile ;    // 사업자등록증 파일
+    @Column(length = 15)
+    private String businessPermitNum ;    // 사업자등록 번호
+
+    @Transient    // 가공될 데이터
+    private FileInfo businessPermit ;    // 사업자등록증 파일
 }

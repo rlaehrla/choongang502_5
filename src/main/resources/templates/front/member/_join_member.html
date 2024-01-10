@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="member" th:object="${requestJoin}">
+    <div class="extra_info member">
+        <dl>
+            <dt th:text="#{성별}"></dt>
+            <dd>
+                <input type="radio" name="gender" value="FEMALE" id="gender_FEMALE" th:field="*{gender}">
+                <label for="gender_FEMALE">여성</label>
+                <input type="radio" name="gender" value="MALE" id="gender_MALE" th:field="*{gender}">
+                <label for="gender_MALE">남성</label>
+
+                <div class="error" th:each="err : ${#fields.errors('gender')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{생년월일}"></dt>
+            <dd>
+                <input type="date" name="birthdate" th:field="*{birthdate}">
+
+                <div class="error" th:each="err : ${#fields.errors('birthdate')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+    </div>
+</th:block>
+</html>
