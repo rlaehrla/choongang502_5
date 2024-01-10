@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mobile/layouts/main}">
+<main layout:fragment="content">
+    <section name="mobile order">
+        <h1>주문/결제하기</h1>
+
+        <div class="section">
+            <h2>주문 상품</h2>
+            <div>
+                <p>상품 코드 <input type="text" name="productCode"></p>
+                <p>상품명 <input type="text" name="productName"></p>
+                <p>주문 수량 <input type="number" name="quantity"></p>
+                <p>가격 <input type="number" name="price"></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>주문자</h2>
+            <div>
+                <p>이름 <input type="text" name="memberName"></p>
+                <p>이메일 주소 <input type="email" name="memberEmail"></p>
+                <p>핸드폰 번호 <input type="tel" name="memberPhone"></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>배송 정보</h2>
+            <div>
+                <p>배송지 <input type="text" name="defaultAddress"></p>
+                <p>배송시 요청 사항 <textarea name="deliveryNote"></textarea></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>포인트</h2>
+            <div>
+                <p>포인트 사용 <input type="number" name="pointsUsed"></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>결제 수단</h2>
+            <div>
+                <label><input type="radio" name="paymentMethod" value="신용카드"> 신용카드 </label>
+                <label><input type="radio" name="paymentMethod" value="계좌이체"> 계좌이체 </label>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>결제 금액</h2>
+            <div>
+                <p>상품 주문 금액 <input type="number" name="productPrice"></p>
+                <p>배송비 <input type="number" name="shippingCost"></p>
+                <p>포인트 사용 금액 <input type="number" name="pointsUsed"></p>
+                <p>최종 결제 금액 <input type="number" name="finalPrice"></p>
+            </div>
+        </div>
+
+        <button type="submit">결제하기</button>
+
+    </section>
+</main>
+</html>

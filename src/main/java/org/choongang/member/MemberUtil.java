@@ -2,6 +2,7 @@ package org.choongang.member;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.entities.AbstractMember;
 import org.springframework.stereotype.Component;
