@@ -33,13 +33,13 @@
 .loginPlz a:nth-child(2) {
     margin-right: 10px; /* 로그인창 */
 }
-a {
- text-decoration: none; /* a 태그 밑줄 삭제 */
-}
 .cate_all {
     text-align: center; /* 카테고리 */
 }
 .cate_all a {
     display: inline-block; /* 카테고리 */
     margin: 20px 50px 20px 0; /* 각 링크 사이의 간격 조절 */
+}
+.selectSearch { /* Select필드 */
+    width: 70px;
 }

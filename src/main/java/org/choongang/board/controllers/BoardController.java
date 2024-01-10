@@ -19,9 +19,14 @@ import java.util.List;
 public class BoardController {
     private final Utils utils;
 
-    @GetMapping("/")
+    @GetMapping("/") // 메인 페이지 이동
     public String main(){
         return utils.tpl("board/index");
+    }
+
+    @GetMapping("/policy/terms_of_service") // 서비스 이용약관 이동
+    public String service() {
+        return utils.tpl("outlines/terms_of_service");
     }
 
 
