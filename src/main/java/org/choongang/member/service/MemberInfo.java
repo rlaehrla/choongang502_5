@@ -2,7 +2,7 @@ package org.choongang.member.service;
 
 import lombok.Builder;
 import lombok.Data;
-import org.choongang.member.entities.Member;
+import org.choongang.member.entities.AbstractMember;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
@@ -16,7 +16,7 @@ public class MemberInfo implements UserDetails {
     private String email;
     private String userId;
     private String password;
-    private Member member;
+    private AbstractMember member;
 
     private Collection<? extends GrantedAuthority> authorities;
 

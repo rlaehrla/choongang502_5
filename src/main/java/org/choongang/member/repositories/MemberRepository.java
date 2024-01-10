@@ -1,7 +1,7 @@
 package org.choongang.member.repositories;
 
 import com.querydsl.core.BooleanBuilder;
-import org.choongang.member.entities.Member;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,13 +9,13 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member> {
+public interface MemberRepository extends JpaRepository<AbstractMember, Long>, QuerydslPredicateExecutor<AbstractMember> {
 
     @EntityGraph(attributePaths = "authorities")
-    Optional<Member> findByEmail(String email);
+    Optional<AbstractMember> findByEmail(String email);
 
     @EntityGraph(attributePaths = "authorities")
-    Optional<Member> findByUserId(String userId);
+    Optional<AbstractMember> findByUserId(String userId);
 
     default boolean existsByEmail(String email) {
         QMember member = QMember.member;
@@ -36,7 +36,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
         QMember member = QMember.member;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(member.email.eq(email))
-                .and(member.name.eq(name));
+                .and(member.username.eq(name));
 
         return exists(builder);
     }

@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -20,29 +19,44 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
-    public final org.choongang.commons.entities.QBase _super = new org.choongang.commons.entities.QBase(this);
+    public final QAbstractMember _super = new QAbstractMember(this);
 
-    public final ListPath<Authorities, QAuthorities> authorities = this.<Authorities, QAuthorities>createList("authorities", Authorities.class, QAuthorities.class, PathInits.DIRECT2);
+    //inherited
+    public final ListPath<Authorities, QAuthorities> authorities = _super.authorities;
+
+    public final DatePath<java.time.LocalDate> birthdate = createDate("birthdate", java.time.LocalDate.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
+    //inherited
+    public final StringPath email = _super.email;
 
-    public final StringPath gid = createString("gid");
+    public final EnumPath<org.choongang.member.constants.Gender> gender = createEnum("gender", org.choongang.member.constants.Gender.class);
+
+    //inherited
+    public final StringPath gid = _super.gid;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final StringPath name = createString("name");
+    //inherited
+    public final StringPath nickname = _super.nickname;
 
-    public final StringPath password = createString("password");
+    //inherited
+    public final StringPath password = _super.password;
 
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
+    //inherited
+    public final NumberPath<Long> seq = _super.seq;
 
-    public final NumberPath<Long> tel = createNumber("tel", Long.class);
+    //inherited
+    public final StringPath tel = _super.tel;
 
-    public final StringPath userId = createString("userId");
+    //inherited
+    public final StringPath userId = _super.userId;
+
+    //inherited
+    public final StringPath username = _super.username;
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));

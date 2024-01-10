@@ -3,12 +3,12 @@ package org.choongang.member.service;
 import lombok.RequiredArgsConstructor;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.Authority;
-import org.choongang.member.controllers.FarmerJoinValidator;
-import org.choongang.member.controllers.FarmerRequestJoin;
+import org.choongang.member.constants.Gender;
 import org.choongang.member.controllers.JoinValidator;
 import org.choongang.member.controllers.RequestJoin;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.entities.Farmer;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
 import org.choongang.member.repositories.AuthoritiesRepository;
 import org.choongang.member.repositories.FarmerRepository;
@@ -24,10 +24,9 @@ import org.springframework.validation.Errors;
 public class JoinService {
 
     private final MemberRepository memberRepository;
-    private final FarmerRepository farmerRepository ;
+    private final FarmerRepository farmerRepository;
     private final AuthoritiesRepository authoritiesRepository;
     private final JoinValidator joinValidator;
-    private final FarmerJoinValidator farmerJoinValidator ;
     private final PasswordEncoder encoder;
     private final FileUploadService uploadService;
 
@@ -40,14 +39,35 @@ public class JoinService {
         // 비밀번호 BCrypt로 해시화
         String hash = encoder.encode(form.getPassword());
 
-        Member member = new Member();
+        String mType = form.getMtype();
+        // mType에 따라 회원 구분
+        AbstractMember member = mType.equals("F") ? new Farmer() : new Member();
         member.setEmail(form.getEmail());
-        member.setName(form.getName());
+        member.setUsername(form.getUsername());
         member.setPassword(hash);
         member.setUserId(form.getUserId());
         member.setGid(form.getGid());
+        member.setNickname(form.getNickname());
+        member.setTel(form.getTel());
 
-        process(member);
+        // mType에 따라 구별하여 처리
+        if (mType.equals("F")) {
+            // 농장주 회원
+            Farmer farmer = (Farmer) member;
+            farmer.setFarmTitle(form.getFarmTitle());
+            farmer.setFarmZonecode(form.getFarmZonecode());
+            farmer.setFarmAddress(form.getFarmAddress());
+            farmer.setFarmAddressSub(form.getFarmAddressSub());
+
+            processFarmer(farmer);
+        } else {
+            // 일반 회원
+            Member _member = (Member) member;
+            _member.setGender(Gender.valueOf(form.getGender()));
+            _member.setBirthdate(form.getBirthdate());
+
+            processMember(_member);
+        }
 
         // 회원 가입시에는 일반 사용자 권한 부여(USER)
         Authorities authorities = new Authorities();
@@ -60,40 +80,12 @@ public class JoinService {
 
     }
 
-    public void process(Member member) {
+    public void processMember(Member member) {
         memberRepository.saveAndFlush(member);
     }
 
-    /**
-     * 농장주 회원가입 처리
-     */
-    public void farmerJoinProcess(FarmerRequestJoin form, Errors errors) {
-        farmerJoinValidator.validate(form, errors);
-        if (errors.hasErrors()) {
-            return;
-        }
-
-        // 비밀번호 BCrypt로 해시화
-        String hash = encoder.encode(form.getPassword());
-        Farmer farmer = new Farmer() ;
-        farmer.setEmail(form.getEmail());
-        farmer.setName(form.getName());
-        farmer.setPassword(hash);
-        farmer.setUserId(form.getUserId());
-        farmer.setGid(form.getGid());
-        farmer.setFarmTitle(form.getFarmTitle());
-        farmer.setFarmAddress(form.getFarmAddress());
-
-        farmerJoinProcess(farmer);
-
-        // 회원 가입시에는 판매자 권한 부여
-        Authorities authorities = new Authorities();
-        authorities.setFarmer(farmer);
-        authorities.setAuthority(Authority.FARMER);
-        authoritiesRepository.saveAndFlush(authorities);
-    }
-
-    public void farmerJoinProcess(Farmer farmer) {
-        farmerRepository.saveAndFlush(farmer) ;
+    public void processFarmer(Farmer farmer) {
+        farmerRepository.saveAndFlush(farmer);
     }
 }
+

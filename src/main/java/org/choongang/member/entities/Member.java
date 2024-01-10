@@ -2,41 +2,21 @@ package org.choongang.member.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.ToString;
-import org.choongang.commons.entities.Base;
-import org.choongang.file.entities.FileInfo;
+import org.choongang.member.constants.Gender;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
+/**
+ * 일반회원
+ */
 @Data
 @Entity
-public class Member extends Base {
-    @Id @GeneratedValue
-    private Long seq;
+@DiscriminatorValue("M")
+public class Member extends AbstractMember {
 
-    @Column(length=65, nullable = false)
-    private String gid;
+    @Column(length = 10)    // 성별은 필수 항목 X
+    @Enumerated(EnumType.STRING)
+    private Gender gender ;    // 성별
 
-    @Column(length=80, nullable = false, unique = true)
-    private String email;
-
-    @Column(length=40, nullable = false, unique = true)
-    private String userId;
-
-    @Column(length=65, nullable = false)
-    private String password;
-
-    @Column(length=40, nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private Long tel ;
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Authorities> authorities = new ArrayList<>();
-
-    @Transient
-    private FileInfo profileImage;
+    private LocalDate birthdate ;
 }

@@ -8,7 +8,7 @@ import org.choongang.file.entities.FileInfo;
 import org.choongang.file.entities.QFileInfo;
 import org.choongang.file.repositories.FileInfoRepository;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.entities.Member;
+import org.choongang.member.entities.AbstractMember;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -27,7 +27,7 @@ public class FileDeleteService {
         FileInfo data = infoService.get(seq);
 
         // 파일 삭제 권한 체크
-        Member member = memberUtil.getMember();
+        AbstractMember member = memberUtil.getMember();
         String createBy = data.getCreatedBy();
         if (StringUtils.hasText(createBy) && (!memberUtil.isLogin() || ///비회원일때
                 (!memberUtil.isAdmin() && StringUtils.hasText(createBy) // 로그인한 회원이 작성했을때

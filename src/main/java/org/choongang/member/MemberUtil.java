@@ -3,7 +3,7 @@ package org.choongang.member;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.member.entities.Authorities;
-import org.choongang.member.entities.Member;
+import org.choongang.member.entities.AbstractMember;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,8 +27,8 @@ public class MemberUtil {
         return getMember() != null;
     }
 
-    public Member getMember() {
-        Member member = (Member) session.getAttribute("member");
+    public AbstractMember getMember() {
+        AbstractMember member = (AbstractMember) session.getAttribute("member");
 
         return member;
     }

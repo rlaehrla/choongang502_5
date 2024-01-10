@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="member">
+    <div class="extra_info farmer" th:object="${requestJoin}">
+        <dl>
+            <dt th:text="#{농장이름}"></dt>
+            <dd>
+                <input type="text" name="farmTitle" th:field="*{farmTitle}">
+                <div class="error" th:each="err : ${#fields.errors('farmTitle')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt th:text="#{농장주소}"></dt>
+            <dd>
+                <input type="text" name="farmZonecode" th:field="*{farmZonecode}" readonly th:placeholder="#{우편번호}">
+                <button type="button" class="search_address" th:text="#{주소_찾기}"></button>
+                <input type="text" name="farmAddress" th:field="*{farmAddress}" readonly  th:placeholder="#{주소}">
+
+                <input type="text" name="farmAddressSub" th:field="*{farmAddressSub}"   th:placeholder="#{나머지_주소}">
+
+                <div class="error" th:each="err : ${#fields.errors('farmAddress')}" th:text="${err}"></div>
+                <div class="error" th:each="err : ${#fields.errors('farmZonecode')}" th:text="${err}"></div>
+                <div class="error" th:each="err : ${#fields.errors('farmAddressSub')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt th:text="#{사업자_번호}"></dt>
+            <dd>
+                <div>
+                <input type="text" name="businessPermitNum" th:field="*{businessPermitNum}">
+                <button type="button" th:text="#{확인하기}"></button>
+                <div class="error" th:each="err : ${#fields.errors('businessPermitNum')}" th:text="${err}"></div>
+                </div>
+
+                <div>
+                    <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"
+                            data-location="business_permit"></button>
+                </div>
+            </dd>
+        </dl>
+
+    </div>
+</th:block>
+</html>

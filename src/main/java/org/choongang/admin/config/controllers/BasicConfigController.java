@@ -61,9 +61,25 @@ public class BasicConfigController implements ExceptionProcessor {
         return "admin/config/payment";
     }
 
+    /**
+     * Api 설정 정보 저장
+     */
     @GetMapping("/api")
-    public String api(Model model) {
-        commonProcess("api", model);
+    public String api(@ModelAttribute ApiConfig config, Model model) {
+
+        config = infoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
+
+        model.addAttribute("apiConfig", config);
+
+        return "admin/config/api";
+    }
+
+    @PostMapping("/api")
+    public String apiSave(ApiConfig config, Model model) {
+
+        saveService.save("apiConfig", config);
+
+        model.addAttribute("message", "저장되었습니다.");
 
         return "admin/config/api";
     }
