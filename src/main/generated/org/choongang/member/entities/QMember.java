@@ -40,7 +40,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
-    public final NumberPath<Long> tel = createNumber("tel", Long.class);
+    public final StringPath tel = createString("tel");
 
     public final StringPath userId = createString("userId");
 

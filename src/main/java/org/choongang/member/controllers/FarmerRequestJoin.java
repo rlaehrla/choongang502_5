@@ -28,10 +28,11 @@ public class FarmerRequestJoin {
     private String name;
 
     @NotNull
-    private Long tel ;
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "{phone.number.invalid}")
+    private String tel ;
 
     @NotBlank
-    @Size(min=4)
+    @Size(min=2)
     private String farmTitle ;
 
     @NotBlank

@@ -71,7 +71,7 @@
         <dl>
             <dt th:text="#{전화번호}"></dt>
             <dd>
-                <input type="tel" name="tel" th:field="*{tel}">
+                <input type="tel" name="tel" th:field="*{tel}" oninput="autoHyphen(this)" maxlength="13">
                 <div class="error" th:each="err : ${#fields.errors('tel')}" th:text="${err}"></div>
                 <div>휴대폰 본인인증(임시)</div>
             </dd>

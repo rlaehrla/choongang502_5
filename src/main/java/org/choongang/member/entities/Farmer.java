@@ -1,6 +1,7 @@
 package org.choongang.member.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 import org.choongang.commons.entities.Base;
@@ -30,8 +31,9 @@ public class Farmer extends Base {
     @Column(length=40, nullable = false)
     private String name;
 
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "{phone.number.invalid}")
     @Column(nullable = false)
-    private Long tel ;
+    private String tel ;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "farmer", fetch = FetchType.LAZY)
