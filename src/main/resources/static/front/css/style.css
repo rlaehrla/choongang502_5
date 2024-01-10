@@ -33,9 +33,6 @@
 .loginPlz a:nth-child(2) {
     margin-right: 10px; /* 로그인창 */
 }
-a {
- text-decoration: none; /* a 태그 밑줄 삭제 */
-}
 .cate_all {
     text-align: center; /* 카테고리 */
 }
