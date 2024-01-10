@@ -1,6 +1,6 @@
 package org.choongang;
 
-import org.choongang.member.Authority;
+import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.repositories.AuthoritiesRepository;

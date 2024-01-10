@@ -11,21 +11,6 @@
         </dl>
 
         <dl>
-            <dt th:text="#{농장주소}"></dt>
-            <dd>
-                <input type="text" name="farmZonecode" th:field="*{farmZonecode}" readonly th:placeholder="#{우편번호}">
-                <button type="button" class="search_address" th:text="#{주소_찾기}"></button>
-                <input type="text" name="farmAddress" th:field="*{farmAddress}" readonly  th:placeholder="#{주소}">
-
-                <input type="text" name="farmAddressSub" th:field="*{farmAddressSub}"   th:placeholder="#{나머지_주소}">
-
-                <div class="error" th:each="err : ${#fields.errors('farmAddress')}" th:text="${err}"></div>
-                <div class="error" th:each="err : ${#fields.errors('farmZonecode')}" th:text="${err}"></div>
-                <div class="error" th:each="err : ${#fields.errors('farmAddressSub')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-
-        <dl>
             <dt th:text="#{사업자_번호}"></dt>
             <dd>
                 <div>
