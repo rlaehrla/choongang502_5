@@ -22,6 +22,9 @@ public class QMember extends EntityPathBase<Member> {
     public final QAbstractMember _super = new QAbstractMember(this);
 
     //inherited
+    public final ListPath<Address, QAddress> address = _super.address;
+
+    //inherited
     public final ListPath<Authorities, QAuthorities> authorities = _super.authorities;
 
     public final DatePath<java.time.LocalDate> birthdate = createDate("birthdate", java.time.LocalDate.class);

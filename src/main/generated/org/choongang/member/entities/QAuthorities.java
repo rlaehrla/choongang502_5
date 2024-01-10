@@ -22,7 +22,7 @@ public class QAuthorities extends EntityPathBase<Authorities> {
 
     public static final QAuthorities authorities = new QAuthorities("authorities");
 
-    public final EnumPath<org.choongang.member.Authority> authority = createEnum("authority", org.choongang.member.Authority.class);
+    public final EnumPath<org.choongang.member.constants.Authority> authority = createEnum("authority", org.choongang.member.constants.Authority.class);
 
     public final QFarmer farmer;
 

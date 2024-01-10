@@ -22,6 +22,9 @@ public class QFarmer extends EntityPathBase<Farmer> {
     public final QAbstractMember _super = new QAbstractMember(this);
 
     //inherited
+    public final ListPath<Address, QAddress> address = _super.address;
+
+    //inherited
     public final ListPath<Authorities, QAuthorities> authorities = _super.authorities;
 
     public final StringPath businessPermitNum = createString("businessPermitNum");
@@ -32,13 +35,7 @@ public class QFarmer extends EntityPathBase<Farmer> {
     //inherited
     public final StringPath email = _super.email;
 
-    public final StringPath farmAddress = createString("farmAddress");
-
-    public final StringPath farmAddressSub = createString("farmAddressSub");
-
     public final StringPath farmTitle = createString("farmTitle");
-
-    public final StringPath farmZonecode = createString("farmZonecode");
 
     //inherited
     public final StringPath gid = _super.gid;

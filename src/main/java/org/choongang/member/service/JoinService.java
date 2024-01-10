@@ -2,14 +2,12 @@ package org.choongang.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.file.service.FileUploadService;
-import org.choongang.member.Authority;
+import org.choongang.member.constants.Authority;
 import org.choongang.member.constants.Gender;
 import org.choongang.member.controllers.JoinValidator;
 import org.choongang.member.controllers.RequestJoin;
-import org.choongang.member.entities.Authorities;
-import org.choongang.member.entities.Farmer;
-import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Member;
+import org.choongang.member.entities.*;
+import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.AuthoritiesRepository;
 import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.repositories.MemberRepository;
@@ -29,6 +27,7 @@ public class JoinService {
     private final JoinValidator joinValidator;
     private final PasswordEncoder encoder;
     private final FileUploadService uploadService;
+    private final AddressRepository addressRepository;
 
     public void process(RequestJoin form, Errors errors) {
         joinValidator.validate(form, errors);
@@ -55,9 +54,6 @@ public class JoinService {
             // 농장주 회원
             Farmer farmer = (Farmer) member;
             farmer.setFarmTitle(form.getFarmTitle());
-            farmer.setFarmZonecode(form.getFarmZonecode());
-            farmer.setFarmAddress(form.getFarmAddress());
-            farmer.setFarmAddressSub(form.getFarmAddressSub());
 
             processFarmer(farmer);
         } else {
@@ -74,6 +70,17 @@ public class JoinService {
         authorities.setMember(member);
         authorities.setAuthority(Authority.USER);
         authoritiesRepository.saveAndFlush(authorities);
+
+        // 주소 처리
+        Address address = Address.builder()
+                .zoneCode(form.getZoneCode())
+                .address(form.getAddress())
+                .addressSub(form.getAddressSub())
+                .member(member)
+                .defaultAddress(true)
+                .build();
+
+        addressRepository.saveAndFlush(address);
 
         // 파일 업로드 완료 처리
         uploadService.processDone(form.getGid());

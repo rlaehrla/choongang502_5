@@ -40,6 +40,10 @@ public abstract class AbstractMember extends Base {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Address> address = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Authorities> authorities = new ArrayList<>();
 
     @Transient
