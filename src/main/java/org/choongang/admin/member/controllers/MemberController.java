@@ -1,7 +1,7 @@
 package org.choongang.admin.member.controllers;
 
-import org.choongang.admin.menus.Menu;
-import org.choongang.admin.menus.MenuDetail;
+import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.MenuDetail;
 import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class MemberController implements ExceptionProcessor {
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus() {
 
-        return Menu.getMenus("member");
+        return AdminMenu.getMenus("member");
     }
 
     @GetMapping

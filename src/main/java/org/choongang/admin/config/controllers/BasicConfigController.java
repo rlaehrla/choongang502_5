@@ -3,8 +3,8 @@ package org.choongang.admin.config.controllers;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.config.service.ConfigSaveService;
-import org.choongang.admin.menus.Menu;
-import org.choongang.admin.menus.MenuDetail;
+import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.MenuDetail;
 import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,7 +31,7 @@ public class BasicConfigController implements ExceptionProcessor {
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus() { // 서브 메뉴
-        return Menu.getMenus("config");
+        return AdminMenu.getMenus("config");
     }
 
     @GetMapping
@@ -75,7 +74,8 @@ public class BasicConfigController implements ExceptionProcessor {
 
         if (mode.equals("payment")) {
             pageTitle = "결제설정";
-
+        } else if (mode.equals("api")) {
+            pageTitle = "api 설정";
         }
 
         model.addAttribute("pageTitle", pageTitle);
