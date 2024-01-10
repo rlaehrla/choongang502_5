@@ -1,4 +1,4 @@
-package org.choongang.board.controllers.blog;
+package org.choongang.blog.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.Utils;

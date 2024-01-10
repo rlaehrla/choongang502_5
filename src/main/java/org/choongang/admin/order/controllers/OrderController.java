@@ -1,7 +1,7 @@
-package org.choongang.admin.order;
+package org.choongang.admin.order.controllers;
 
-import org.choongang.admin.menus.Menu;
-import org.choongang.admin.menus.MenuDetail;
+import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,7 +22,7 @@ public class OrderController {
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus() { // 서브 메뉴
-        return Menu.getMenus("order");
+        return AdminMenu.getMenus("order");
     }
 
     @GetMapping

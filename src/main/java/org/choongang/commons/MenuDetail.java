@@ -1,4 +1,4 @@
-package org.choongang.admin.menus;
+package org.choongang.commons;
 
 public record MenuDetail(
         String code, // 하위 메뉴 코드

@@ -1,7 +1,7 @@
-package org.choongang.admin.board;
+package org.choongang.admin.board.controllers;
 
-import org.choongang.admin.menus.Menu;
-import org.choongang.admin.menus.MenuDetail;
+import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.MenuDetail;
 import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class BoardController implements ExceptionProcessor {
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus() { // 서브 메뉴
-        return Menu.getMenus("board");
+        return AdminMenu.getMenus("board");
     }
 
     /**

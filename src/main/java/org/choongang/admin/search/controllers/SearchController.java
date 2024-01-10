@@ -1,7 +1,7 @@
-package org.choongang.admin.search;
+package org.choongang.admin.search.controllers;
 
-import org.choongang.admin.menus.Menu;
-import org.choongang.admin.menus.MenuDetail;
+import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller("adminSearchController")
@@ -22,7 +21,7 @@ public class SearchController {
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus() { // 서브 메뉴
-        return Menu.getMenus("search");
+        return AdminMenu.getMenus("search");
     }
 
     @GetMapping
