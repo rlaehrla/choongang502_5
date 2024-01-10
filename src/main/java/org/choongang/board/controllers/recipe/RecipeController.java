@@ -6,12 +6,15 @@ import org.choongang.board.entities.recipe.Ingredient;
 import org.choongang.board.entities.recipe.Recipe;
 import org.choongang.board.repositories.recipe.IngredientRepository;
 import org.choongang.board.repositories.recipe.RecipeRepository;
+import org.choongang.commons.ListData;
+import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -59,6 +62,7 @@ public class RecipeController {
         recipeRepository.save(new Recipe("작성자02", "볶음밥2"));
         recipeRepository.save(new Recipe("작성자03", "볶음밥3"));
         recipeRepository.save(new Recipe("작성자04", "볶음밥4"));
+
 
     }
 

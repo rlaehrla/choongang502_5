@@ -123,6 +123,18 @@ public class Utils {
     public String printThumb(long seq, int width, int height) {
         return  printThumb(seq, width, height, null);
     }
+    /**
+     * 0이하 정수 인 경우 1이상 정수로 대체
+     *
+     * @param num
+     * @param replace
+     * @return
+     */
+    public static int onlyPositiveNumber(int num, int replace) {
+        return num < 1 ? replace : num;
+    }
+
+
 
     /**
      * 알파벳, 숫자, 특수문자 조합 랜덤 문자열 생성
