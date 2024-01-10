@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/farm/manage/blog")
 @RequiredArgsConstructor
 public class BlogController {
-    private final Utils utils;
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "blog";
@@ -32,22 +31,22 @@ public class BlogController {
     @GetMapping
     public String intro(Model model){
         commonProcess("intro", model);
-        return utils.tpl("farmer/blog/farmIntroduction");
+        return "admin/farmer/blog/farmIntroduction";
     }
     @GetMapping("/sales")
     public String sales(Model model){
         commonProcess("sales", model);
-        return utils.tpl("farmer/blog/farmSales");
+        return "admin/farmer/blog/farmSales";
     }
     @GetMapping("/review")
     public String review(Model model){
         commonProcess("review", model);
-        return utils.tpl("farmer/blog/farmReview");
+        return "admin/farmer/blog/farmReview";
     }
     @GetMapping("/sns")
     public String sns(Model model){
         commonProcess("sns", model);
-        return utils.tpl("farmer/blog/farmSns");
+        return "admin/farmer/blog/farmSns";
     }
 
 
