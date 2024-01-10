@@ -194,6 +194,7 @@ public class Utils {
             return false;
         }
 
+        // API 요청 url
         String url = String.format("https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=%s", config.getPublicOpenApiKey());
 
         RestTemplate restTemplate = new RestTemplate();
@@ -213,7 +214,7 @@ public class Utils {
                 BusinessPermitData data = items.get(0);
 
                 String bStt = data.getB_stt();
-                return StringUtils.hasText(bStt) && bStt.equals("계속사업자");
+                return StringUtils.hasText(bStt) && bStt.equals("계속사업자");    // 사업자등록증의 상태가 "계속사업자"이어야 함
             }
             System.out.println(response);
         } catch (URISyntaxException e) {
