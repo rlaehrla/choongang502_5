@@ -8,7 +8,7 @@
             <!--img S-->
             <div class="imgBox">
                 <div class="bigImg">
-                    <img src="${사진링크1}" alt="제품이미지{seq}(seq=${시퀀스})">
+                    <img th:src="${사진링크1}" alt="제품이미지{seq}(seq=${시퀀스})">
                 </div>
                 <div class="pageNums">
                     <p>
@@ -21,7 +21,7 @@
                     <!-- 썸네일? 6개 반복-->
                     <div th:each="img : ${productImages}">
                         <button>
-                            <img src="${사진링크2}" alt="제품이미지{seq}(seq=${시퀀스})">
+                            <img th:src="${사진링크2}" alt="제품이미지{seq}(seq=${시퀀스})">
                         </button>
                     </div>
                 </div>
@@ -92,9 +92,9 @@
                 </div>
                 <!--옵션 E-->
                 <div class="flex">
-                      <button type="submit" th:text="#{장바구니}"></button>
-                      <button type="submit" th:text="#{선물하기}"></button>
-                      <button type="submit" th:text="#{구매하기}"></button>
+                    <button type="submit" th:text="#{장바구니}"></button>
+                    <button type="submit" th:text="#{선물하기}"></button>
+                    <button type="submit" th:text="#{구매하기}"></button>
                 </div>
             </div> <!-- textBox E-->
         </article>
@@ -114,11 +114,125 @@
                 </div>
             </div>
             <div class="grid">
-                <div class="flex">
+                <!--두개 반복-->
+                <div th:each="review : ${reviews}">
+                    <div class="flex">
+                        <div class="id" th:text="${id}"></div>
+                        <div class="star">
+                            <span th:each="star : ${stars}">
+                                <i class="xi-star"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <img th:src="${후기사진}"><!--없으면 텍스트만-->
+                    </div>
+                    <div>
+                        <p th:text="${reviewText}"></p>
+                        <p class="date">
+                            <th:block th:text="${createdAt}"></th:block>
+                            <th:block th:text="${구매상품명}"></th:block>
+                        </p>
+                    </div>
                 </div>
+            </div>
+            <div class="more">
+                <span>
+                   <th:block th:text="${후기갯수변수명}"></th:block>
+                   <th:block th:text="#{건_후기_모두_보기}"></th:block>
+                </span>
             </div>
         </article>
         <!--후기 E-->
+    </section>
+    <section>
+        <div class="sticky"> <!--top에 달라붙음-->
+            <div> <!--width값, 정렬-->
+                <div class="flex"> <!--margin 넣는 용-->
+                    <div class="flex">
+                        <div th:text="#{상품_설명}"></div>
+                        <div>
+                            <th:block th:text="#{후기}"></th:block>
+                            <th:block th:text="${후기갯수변수명}"></th:block>
+                        </div>
+                    </div>
+                    <button type="submit" th:text="구매하기"></button>
+                </div>
+            </div>
+        </div>
+        <!--article 한개만 보임 옆에서 날아오고 상품 설명이 후기 위에-->
+        <article class="detail">
+            <div class="goods-editor"></div>
+        </article>
+        <article class="review">
+            <div>
+                <th:block th:text="${후기갯수변수명}"></th:block>
+                <th:block th:text="#{건의_후기가_있어요!}"></th:block>
+            </div>
+            <div class="flex">
+                <div>
+                    <div th:text="#{평균_평점}"></div>
+                    <div>
+                        <th:block th:text="${평점}"></th:block>
+                        <span><th:block th:text="#{/5}"></th:block></span>
+                    </div>
+                    <div>
+                        <span th:each="star : ${stars}">
+                           <i class="star"></i>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div th:text="#{5점_비율}"></div>
+                    <div>
+                        <th:block th:text="${비율}"></th:block>
+                        <th:block th:text="#{%}"></th:block>
+                    </div>
+                    <div>
+                        <div style="width:${비율}"></div>
+                        <div>
+                            <span th:text="${후기갯수변수명}"></span>
+                            <span th:text="#{건}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="allReview">
+                <div>
+                    <div th:text="#{전체_후기}"></div>
+                    <div>
+                        <span th:text="#{사진_후기만_보기}"></span>
+                        <i class="xi-check"></i>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <ul class="dropbtn">
+                        <li th:text="#{추천순}"></li>
+                        <li th:text="#{최신순}"></li>
+                    </ul>
+                </div>
+                <div class="reviewMore">
+                    <div th:each="review : ${reviews}">
+                        <div class="flex">
+                            <div th:text="#{구매후기}"></div>
+                            <div class="star">
+                            <span th:each="star : ${stars}">
+                                <i class="xi-star"></i>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="id" th:text="${id}"></div>
+                        <th:block th:text="${구매상품명}"></th:block>
+                        <img th:src="${후기사진}"><!--없으면 텍스트만-->
+                        <p th:text="${reviewText}"></p>
+                        <p class="date">
+                            <th:block th:text="${createdAt}"></th:block>
+                            <a th:href="" th:text="#{신고}"></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
     </section>
 </main>
 </html>
