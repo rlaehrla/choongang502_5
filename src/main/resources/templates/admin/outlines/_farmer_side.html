@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="menus">
+    <a th:href="@{/farm/manage/sales}" th:classappend="${menuCode} == 'config' ? 'on'">
+        <i class="xi-cog"></i> 판매관리
+    </a>
+    <a th:href="@{/farm/manage/order}" th:classappend="${menuCode} == 'member' ? 'on'">
+        <i class="xi-users"></i> 주문관리
+    </a>
+    <a th:href="@{/farm/manage/blog}" th:classappend="${menuCode} == 'blog' ? 'on'">
+        <i class="xi-pen"></i> 블로그관리
+    </a>
+
+</aside>
+</html>

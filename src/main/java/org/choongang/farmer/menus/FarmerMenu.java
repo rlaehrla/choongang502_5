@@ -20,11 +20,11 @@ public class FarmerMenu {
            new MenuDetail("sns", "소식설정", "/farm/manage/blog/sns")
         ));
         farmerMenus.put("order", Arrays.asList(
-                new MenuDetail("order", "주문설정", "")
+                new MenuDetail("order", "주문설정", "/farm/manage/order")
         ));
         farmerMenus.put("sales", Arrays.asList(
-                new MenuDetail("status", "매출현황", ""),
-                new MenuDetail("product", "상품관리", "")
+                new MenuDetail("status", "매출현황", "/farm/manage/sales"),
+                new MenuDetail("product", "상품관리", "/farm/manage/sales/product")
         ));
     }
 
