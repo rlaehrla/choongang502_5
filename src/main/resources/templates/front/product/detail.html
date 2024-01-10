@@ -162,7 +162,29 @@
         </div>
         <!--article 한개만 보임 옆에서 날아오고 상품 설명이 후기 위에-->
         <article class="detail">
-            <div class="goods-editor"></div>
+            <div class="goods-editor">
+            </div>
+            <button th:text="#{상품_소개_펼치기}"></button>
+            <!--상품문의 버튼 S-->
+            <button class="flex">
+                <div>
+                    <div th:text="#{상품_문의}"></div>
+                    <div th:text="#{추가로_궁금하신_점은_채팅상담으로_빠르게_알려드릴게요!}"></div>
+                </div>
+                <div class="flex">
+                    <img th:src="">
+                    <i class="xi-angle-right"></i>
+                </div>
+            </button>
+            <!--상품문의 버튼 E-->
+            <!--사고 보상 정책 안내-->
+            <div>
+                <div class="flex">
+                    <div th:text="#{사고_보상_정책_안내}"></div>
+                    <i class="xi-angle-up"></i>
+                </div>
+
+            </div>
         </article>
         <article class="review">
             <div>
