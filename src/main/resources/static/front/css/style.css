@@ -18,3 +18,28 @@
 .footerBox2 {
     margin: 32px 32px 0px 200px;
     }
+.product_search { /* 검색창 */
+    margin: 20px 0 20px 0;
+    text-align: center;
+}
+.loginPlz{ /* 로그인 회원가입 장바구니 */
+    text-align: right;
+    padding: 0 500px 0 0;
+    font-size: 15px;
+}
+.loginPlz a:nth-child(1) {
+    margin-right: 10px; /* 회원가입창 */
+}
+.loginPlz a:nth-child(2) {
+    margin-right: 10px; /* 로그인창 */
+}
+a {
+ text-decoration: none; /* a 태그 밑줄 삭제 */
+}
+.cate_all {
+    text-align: center; /* 카테고리 */
+}
+.cate_all a {
+    display: inline-block; /* 카테고리 */
+    margin: 20px 50px 20px 0; /* 각 링크 사이의 간격 조절 */
+}
