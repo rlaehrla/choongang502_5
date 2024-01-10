@@ -30,6 +30,9 @@ public class Farmer extends Base {
     @Column(length=40, nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Long tel ;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "farmer", fetch = FetchType.LAZY)
     private List<Authorities> authorities = new ArrayList<>();

@@ -31,6 +31,9 @@ public class FarmerRequestJoin {
     private String name;
 
     @NotBlank
+    private Long tel ;
+
+    @NotBlank
     @Size(min=4)
     private String farmTitle ;
 
