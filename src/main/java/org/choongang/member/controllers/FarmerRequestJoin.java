@@ -1,9 +1,6 @@
 package org.choongang.member.controllers;
 
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.util.UUID;
@@ -30,11 +27,12 @@ public class FarmerRequestJoin {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private Long tel ;
+    @NotNull
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "{phone.number.invalid}")
+    private String tel ;
 
     @NotBlank
-    @Size(min=4)
+    @Size(min=2)
     private String farmTitle ;
 
     @NotBlank
