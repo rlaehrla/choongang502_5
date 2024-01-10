@@ -30,6 +30,9 @@ public class RequestJoin {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private Long tel ;
+
     @AssertTrue
     private boolean agree;
 

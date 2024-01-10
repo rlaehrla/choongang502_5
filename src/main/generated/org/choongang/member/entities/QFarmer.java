@@ -46,6 +46,8 @@ public class QFarmer extends EntityPathBase<Farmer> {
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
+    public final NumberPath<Long> tel = createNumber("tel", Long.class);
+
     public final StringPath userId = createString("userId");
 
     public QFarmer(String variable) {
