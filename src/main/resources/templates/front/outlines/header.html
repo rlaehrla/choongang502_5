@@ -15,6 +15,11 @@
         <!--검색창 폼-->
         <form name="serchFrm" th:action="@{/search/result(임시)}">
             <div class="product_search">
+                <select class="selectSearch" name="whichSearch">
+                    <option id="grain" value="grain">곡물</option>
+                    <option id="vegetable" value="vegetable">채소</option>
+                    <option id="fruit" value="fruit">과일</option>
+                </select>
                 <input type="text" name="search" placeholder="찾고 싶은 상품을 검색해보세요!" size="40">
                 <button type="submit">찾기</button>
             </div>

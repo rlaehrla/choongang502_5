@@ -40,3 +40,6 @@
     display: inline-block; /* 카테고리 */
     margin: 20px 50px 20px 0; /* 각 링크 사이의 간격 조절 */
 }
+.selectSearch { /* Select필드 */
+    width: 70px;
+}
