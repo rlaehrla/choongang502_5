@@ -35,11 +35,6 @@ public class BasicConfigController implements ExceptionProcessor {
         return Menu.getMenus("config");
     }
 
-    @ModelAttribute("pageTitle")
-    public String getPageTitle() {
-        return "config";
-    }
-
     @GetMapping
     public String index(Model model) {
 
@@ -65,6 +60,13 @@ public class BasicConfigController implements ExceptionProcessor {
         commonProcess("payment", model);
 
         return "admin/config/payment";
+    }
+
+    @GetMapping("/api")
+    public String api(Model model) {
+        commonProcess("api", model);
+
+        return "admin/config/api";
     }
 
     private void commonProcess(String mode, Model model) {
