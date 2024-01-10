@@ -46,6 +46,7 @@ public class JoinService {
         member.setPassword(hash);
         member.setUserId(form.getUserId());
         member.setGid(form.getGid());
+        member.setTel(form.getTel());
 
         process(member);
 
@@ -83,6 +84,8 @@ public class JoinService {
         farmer.setGid(form.getGid());
         farmer.setFarmTitle(form.getFarmTitle());
         farmer.setFarmAddress(form.getFarmAddress());
+        farmer.setTel(form.getTel());
+        farmer.setCertificateNo(form.getCertificateNo());
 
         farmerJoinProcess(farmer);
 
