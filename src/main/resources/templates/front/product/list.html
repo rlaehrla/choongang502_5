@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section name="contentBox sale" >
+    <section class="contentBox sale" >
         <div th:each="item : ${category}" th:object="${item}">
             <a th:href="@{/board/sale/goods{seq}(seq=${시퀀스})}">
                 <img th:src="${사진링크}">
@@ -14,17 +14,19 @@
                 <div>
                     <span th:text="${원가}"></span>
                     <span th:text="#{돈단위}"></span>
-                    <span th:text="${할인률 + '%'}"></span>
+                    <span>
+                       <th:block th:text="${할인률}"></th:block>
+                       <th:block th:text="#{%}"></th:block>
+                    </span>
                     <p th:text="${할인가격}"></p>
                     <img src="">
                 </div>
-                <div name="star flex">
+                <div class="star">
                     <img th:src="${별사진}" />
                     <span th:text="${평점}"></span>
                 </div>
             </a>
         </div>
-
     </section>
 </main >
 
