@@ -4,16 +4,16 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
     <h1>분류 관리</h1>
-    <h1>분류 등록</h1>
 
-    <form name="frmPs" method="post" th:action="@{/admin/product/category}" autocomplete="off" target="ifrmProcess" th:object="${requestCategory}">
+    <h2>분류 등록</h2>
+    <form name="frmPs" method="post" th:action="@{/admin/product/category}" target="ifrmProcess" autocomplete="off" th:object="${requestCategory}">
         <table class="table_cols">
             <tr>
-                <th>분류코드</th>
-                <td>
+                <th width="180">분류코드</th>
+                <td width="300">
                     <input type="text" name="cateCd" th:field="*{cateCd}">
                 </td>
-                <th>분류명</th>
+                <th width="180">분류명</th>
                 <td>
                     <input type="text" name="cateNm" th:field="*{cateNm}">
                 </td>
@@ -38,7 +38,9 @@
             <button type="submit" class="btn">등록하기</button>
         </div>
     </form>
+
     <h2>분류 목록</h2>
+
     <form name="frmList" method="post" th:action="@{/admin/product/category}" target="ifrmProcess" autocomplete="off">
         <input type="hidden" name="_method" value="PATCH">
         <table class="table_rows">
@@ -56,9 +58,8 @@
             </thead>
             <tbody>
             <tr th:if="${items != null && !items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
-
                 <td align="center">
-                    <input type="hidden" name="cateCd" th:value="*{cateCd}">
+                    <input type="hidden" th:name="${'cateCd_' + status.index}" th:value="*{cateCd}">
                     <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
                     <label th:for="${'chk_' + status.index}"></label>
                 </td>
@@ -72,12 +73,13 @@
                 <td align="center">
                     <input type="radio" th:name="${'active_' + status.index}" th:checked="*{active}" th:id="${'active_' + status.index}" value="true">
                     <label th:for="${'active_' + status.index}">사용</label>
+
                     <input type="radio" th:name="${'active_' + status.index}" th:checked="*{!active}" th:id="${'active_' + status.index}" value="false">
                     <label th:for="${'active_' + status.index}">미사용</label>
                 </td>
                 <td>
-                    <a th:href="@{/admin/product?cateCd={cateCd}(cateCd=*{cateCd})}" class="sbtn">상품 관리</a>
-                    <a th:href="@{/product/ {cateCd}(cateCd=*{cateCd})}" class="sbtn on" target="_blank">미리보기</a>
+                    <a th:href="@{/admin/product?cateCd={cateCd}(cateCd=*{cateCd})}" class="sbtn">상품관리</a>
+                    <a th:href="@{/product/{cateCd}(cateCd=*{cateCd})}" class="sbtn on" target="_blank">미리보기</a>
                 </td>
             </tr>
             <tr th:unless="${items != null && !items.isEmpty()}">
@@ -85,13 +87,12 @@
             </tr>
             </tbody>
         </table>
-        <div class="table-actions">
-            <button class="sbtn" type="button">선택 분류 삭제</button>
-            <button class="sbtn on" type="button">선택 분류 수정</button>
+        <div class="table_actions">
+            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 분류 삭제</button>
+
+            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 분류 수정</button>
         </div>
     </form>
 
-
-    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
 </html>

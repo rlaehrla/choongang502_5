@@ -15,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,6 +119,28 @@ public class ProductController implements ExceptionProcessor {
         //분류 추가가 완료되면 부모창 새로고침
         model.addAttribute("script", "parent.location.reload()");
 
+        return "common/_execute_script";
+    }
+
+    @PatchMapping("/category")
+    public String categoryEdit(@RequestParam("chk") List<Integer> chks, Model model){
+        commonProcess("category", model);
+
+        // 수정 완료 -> 새로고침
+        model.addAttribute("script", "parent.location.reload()");
+
+        return "common/_execute_script";
+    }
+
+
+
+    @DeleteMapping("/category")
+    public String categoryDelete(@RequestParam("chk") List<Integer> chks, Model model){
+
+        commonProcess("category", model);
+
+        // 삭제 완료 -> 새로고침
+        model.addAttribute("script", "parent.location.reload()");
         return "common/_execute_script";
     }
 
