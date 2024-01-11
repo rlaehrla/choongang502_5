@@ -44,12 +44,21 @@
     width: 70px;
 }
 
-.box1 {
+.box1 { /* 서비스 이용약관 */
     text-align: left;
     margin: 50px 500px 50px 500px;
 }
 
-.box2 {
+.box2 { /* 서비스 이용약관 */
+    text-align: center;
+}
+
+.box3 { /* 개인정보 처리방침 */
+    text-align: left;
+    margin: 50px 500px 50px 500px;
+}
+
+.box4 { /* 개인정보 처리방침 */
     text-align: center;
 }
 
