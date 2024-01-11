@@ -66,7 +66,7 @@ public class BasicConfigController implements ExceptionProcessor {
      */
     @GetMapping("/api")
     public String api(@ModelAttribute ApiConfig config, Model model) {
-
+        commonProcess("api", model);
         config = infoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
 
         model.addAttribute("apiConfig", config);
@@ -76,6 +76,7 @@ public class BasicConfigController implements ExceptionProcessor {
 
     @PostMapping("/api")
     public String apiSave(ApiConfig config, Model model) {
+
 
         saveService.save("apiConfig", config);
 
