@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/main}">
+<section layout:fragment="content">
+    <h1>분류 관리</h1>
+    <h1>분류 등록</h1>
+
+    <form name="frmPs" method="post" th:action="@{/admin/product/category}" autocomplete="off" target="ifrmProcess" th:object="${requestCategory}">
+        <table class="table_cols">
+            <tr>
+                <th>분류코드</th>
+                <td>
+                    <input type="text" name="cateCd" th:field="*{cateCd}">
+                </td>
+                <th>분류명</th>
+                <td>
+                    <input type="text" name="cateNm" th:field="*{cateNm}">
+                </td>
+            </tr>
+            <tr>
+                <th>진열가중치</th>
+                <td>
+                    <input type="number" name="listOrder" th:field="*{listOrder}">
+                </td>
+                <th>사용여부</th>
+                <td>
+                    <input type="radio" name="active" value="true" id="active_true" th:field="*{active}">
+                    <label for="active_true">사용</label>
+
+                    <input type="radio" name="active" value="false" id="active_false" th:field="*{active}">
+                    <label for="active_false">미사용</label>
+                </td>
+            </tr>
+        </table>
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">등록하기</button>
+        </div>
+    </form>
+
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</section>
+</html>
