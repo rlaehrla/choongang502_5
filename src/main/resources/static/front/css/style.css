@@ -44,11 +44,23 @@
     width: 70px;
 }
 
-.box1 {
-    text-align: center;
+.box1 { /* 서비스 이용약관 */
+    text-align: left;
     margin: 50px 500px 50px 500px;
 }
-/* 카카오 지도 S */
+
+.box2 { /* 서비스 이용약관 */
+    text-align: center;
+}
+
+.box3 { /* 개인정보 처리방침 */
+    text-align: left;
+    margin: 50px 500px 50px 500px;
+}
+.box4 { /* 개인정보 처리방침 */
+    text-align: center;
+}
+ /* 카카오 지도 S*/
 .kakao_map {
     float: right;
     margin: 20px 600px 20px 100px;
