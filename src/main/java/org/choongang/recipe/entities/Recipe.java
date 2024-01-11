@@ -1,6 +1,7 @@
-package org.choongang.board.entities.recipe;
+package org.choongang.recipe.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 레시피 모두 보기 test
@@ -9,14 +10,17 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
 public class Recipe {
     private Long id;
     private String userName;
-    private String RcpName;
+    private String rcpName;
+
+
 
     public Recipe(String userName, String rcpName) {
         this.userName = userName;
-        this.RcpName = rcpName;
+        this.rcpName = rcpName;
     }
 }
 
