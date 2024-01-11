@@ -7,6 +7,7 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
+import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
 import org.choongang.product.service.CategoryInfoService;
 import org.choongang.product.service.CategorySaveService;
@@ -165,8 +166,10 @@ public class ProductController implements ExceptionProcessor {
             addCommonScript.add("fileManager");
             addScript.add("product/form");
 
+
         } else if (mode.equals("category")) {
             pageTitle = "상품분류";
+            model.addAttribute("mainCategory", MainCategory.getList());
         }
 
         model.addAttribute("pageTitle", pageTitle);

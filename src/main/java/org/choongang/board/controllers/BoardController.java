@@ -29,5 +29,9 @@ public class BoardController {
         return utils.tpl("outlines/terms_of_service");
     }
 
+    @GetMapping("/policy/privacy") // 개인정보 처리방침 이동
+    public String privacy() {
+        return utils.tpl("outlines/privacy");
+    }
 
 }
