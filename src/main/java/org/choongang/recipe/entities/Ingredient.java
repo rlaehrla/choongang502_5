@@ -1,4 +1,4 @@
-package org.choongang.board.entities.recipe;
+package org.choongang.recipe.entities;
 
 import lombok.Data;
 
@@ -11,10 +11,10 @@ import lombok.Data;
 @Data
 public class Ingredient {
     private Long id;
-    private String IngName;
+    private String ingName;
 
     public Ingredient(String ingName) {
-        IngName = ingName;
+        ingName = ingName;
     }
 }
 

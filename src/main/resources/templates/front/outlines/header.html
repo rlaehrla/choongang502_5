@@ -3,7 +3,9 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <header th:fragment="common">
         <div>
-            <a th:href="@{/}">로고이미지</a>  <!--로고 링크-->
+            <a th:href="@{http://localhost:3000/}"> <!-- 메인 로고 부분-->
+                <img src="./image/title.jpg" height="100"/>
+            </a>
         </div>
         <div class="loginPlz">
             <th:block sec:authorize="isAnonymous()"> <!-- 미 로그인 상태 -->
