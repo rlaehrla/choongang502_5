@@ -60,7 +60,7 @@
     margin: 100px;
 }
 .main_best > li a {
-     display: block;
+     display: inline-block;
      margin-bottom: 20px;
 }
 .main_best > li {
