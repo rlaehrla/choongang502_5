@@ -13,7 +13,7 @@ import org.choongang.product.constants.MainCategory;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(indexes = @Index(name = "idx_category_listOrder", columnList = "llistOrder DESC, createdAt DESC"))
+@Table(indexes = @Index(name = "idx_category_listOrder", columnList = "listOrder DESC, createdAt DESC"))
 public class Category extends BaseMember {
     @Id
     @Column(length = 30)
