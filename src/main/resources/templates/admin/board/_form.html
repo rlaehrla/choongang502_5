@@ -2,20 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="form" th:object="${requestBoardConfig}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-
     <input type="hidden" name="gid" th:field="*{gid}">
-
     <h2>기본 설정</h2>
     <table class="table_cols mb30">
         <tr>
-            <th width="180">사용여부</th>
+            <th width="180">사용 여부</th>
             <td>
-                <input type="radio" name="active" value="true" id="active_true"
-                       th:field="*{active}">
+                <input type="radio" name="active" value="true" id="active_true" th:field="*{active}">
                 <label for="active_true">사용</label>
-
-                <input type="radio" name="active" value="false" id="active_false"
-                       th:field="*{active}">
+                <input type="radio" name="active" value="false" id="active_false" th:field="*{active}">
                 <label for="active_false">미사용</label>
             </td>
         </tr>
@@ -35,7 +30,6 @@
             <th>게시판 이름</th>
             <td>
                 <input type="text" name="bName" th:field="*{bName}">
-
                 <div class="error" th:each="err : ${#fields.errors('bName')}" th:text="${err}"></div>
             </td>
         </tr>
@@ -48,7 +42,7 @@
         <tr>
             <th>페이지 구간 갯수(PC)</th>
             <td>
-                <input type="number" name="rowsPerPage" min="1" th:field="*{rowsPerPage}">
+                <input type="number" name="pageCountPc" min="1" th:field="*{pageCountPc}">
             </td>
         </tr>
         <tr>
@@ -62,7 +56,6 @@
             <td>
                 <input type="radio" name="useReply" value="true" id="useReply_true" th:field="*{useReply}">
                 <label for="useReply_true">사용</label>
-
                 <input type="radio" name="useReply" value="false" id="useReply_false" th:field="*{useReply}">
                 <label for="useReply_false">미사용</label>
             </td>
@@ -72,44 +65,35 @@
             <td>
                 <input type="radio" name="useComment" value="true" id="useComment_true" th:field="*{useComment}">
                 <label for="useComment_true">사용</label>
-
                 <input type="radio" name="useComment" value="false" id="useComment_false" th:field="*{useComment}">
                 <label for="useComment_false">미사용</label>
             </td>
         </tr>
-
         <tr>
             <th>에디터</th>
             <td>
-                <input type="radio" name="useEditor" value="true" id="useEditor_true"
-                       th:field="*{useEditor}">
+                <input type="radio" name="useEditor" value="true" id="useEditor_true" th:field="*{useEditor}">
                 <label for="useEditor_true">사용</label>
-
-                <input type="radio" name="useEditor" value="false" id="useEditor_false"
-                       th:field="*{useEditor}">
+                <input type="radio" name="useEditor" value="false" id="useEditor_false" th:field="*{useEditor}">
                 <label for="useEditor_false">미사용</label>
             </td>
         </tr>
-
         <tr>
             <th>이미지 첨부</th>
             <td>
                 <input type="radio" name="useUploadImage" value="true" id="useUploadImage_true" th:field="*{useUploadImage}">
                 <label for="useUploadImage_true">사용</label>
-
                 <input type="radio" name="useUploadImage" value="false" id="useUploadImage_false" th:field="*{useUploadImage}">
                 <label for="useUploadImage_false">미사용</label>
             </td>
         </tr>
-
         <tr>
             <th>파일 첨부</th>
             <td>
                 <input type="radio" name="useUploadFile" value="true" id="useUploadFile_true" th:field="*{useUploadFile}">
                 <label for="useUploadFile_true">사용</label>
-
                 <input type="radio" name="useUploadFile" value="false" id="useUploadFile_false" th:field="*{useUploadFile}">
-                <label for="useUploadFile_false">사용</label>
+                <label for="useUploadFile_false">미사용</label>
             </td>
         </tr>
 
@@ -118,32 +102,26 @@
             <td>
                 <input type="radio" name="locationAfterWriting" value="list" id="locationAfterWriting_list" th:field="*{locationAfterWriting}">
                 <label for="locationAfterWriting_list">글목록</label>
-
                 <input type="radio" name="locationAfterWriting" value="view" id="locationAfterWriting_view" th:field="*{locationAfterWriting}">
                 <label for="locationAfterWriting_view">글보기</label>
             </td>
         </tr>
-
         <tr>
             <th>스킨</th>
             <td>
                 <input type="radio" name="skin" value="default" id="skin_default" th:field="*{skin}">
                 <label for="skin_default">기본(default)</label>
 
-                <input type="radio" name="skin" value="gallery" id="skin_gallery"
-                       th:field="*{skin}">
+                <input type="radio" name="skin" value="gallery" id="skin_gallery" th:field="*{skin}">
                 <label for="skin_gallery">갤러리(gallery)</label>
 
-                <input type="radio" name="skin" value="qna" id="skin_qna"
-                       th:field="*{skin}">
+                <input type="radio" name="skin" value="qna" id="skin_qna" th:field="*{skin}">
                 <label for="skin_qna">질문과 답변(QnA)</label>
 
-                <input type="radio" name="skin" value="review" id="skin_review"
-                       th:field="*{skin}">
+                <input type="radio" name="skin" value="review" id="skin_review" th:field="*{skin}">
                 <label for="skin_review">후기(review)</label>
 
-                <input type="radio" name="skin" value="blog" id="skin_blog"
-                       th:field="*{skin}">
+                <input type="radio" name="skin" value="blog" id="skin_blog" th:field="*{skin}">
                 <label for="skin_blog">블로그(blog)</label>
             </td>
         </tr>
@@ -166,7 +144,7 @@
             <td>
                 <th:block th:each="auth : ${authorities}">
                     <input type="radio" name="listAccessType" th:value="${auth[0]}" th:id="${'listAccessType_' + auth[0]}" th:field="*{listAccessType}">
-                    <label th:for="${'listAccessType_'} + auth[0]" th:text="${auth[1]}"></label>
+                    <label th:for="${'listAccessType_' + auth[0]}" th:text="${auth[1]}"></label>
                 </th:block>
             </td>
         </tr>
@@ -175,16 +153,16 @@
             <td>
                 <th:block th:each="auth : ${authorities}">
                     <input type="radio" name="viewAccessType" th:value="${auth[0]}" th:id="${'viewAccessType_' + auth[0]}" th:field="*{viewAccessType}">
-                    <label th:for="${'viewAccessType_'} + auth[0]" th:text="${auth[1]}"></label>
+                    <label th:for="${'viewAccessType_' + auth[0]}" th:text="${auth[1]}"></label>
                 </th:block>
             </td>
         </tr>
         <tr>
-            <th>글쓰기</th>
+            <th>글쓰기/수정</th>
             <td>
                 <th:block th:each="auth : ${authorities}">
                     <input type="radio" name="writeAccessType" th:value="${auth[0]}" th:id="${'writeAccessType_' + auth[0]}" th:field="*{writeAccessType}">
-                    <label th:for="${'writeAccessType_'} + auth[0]" th:text="${auth[1]}"></label>
+                    <label th:for="${'writeAccessType_' + auth[0]}" th:text="${auth[1]}"></label>
                 </th:block>
             </td>
         </tr>
@@ -193,7 +171,7 @@
             <td>
                 <th:block th:each="auth : ${authorities}">
                     <input type="radio" name="replyAccessType" th:value="${auth[0]}" th:id="${'replyAccessType_' + auth[0]}" th:field="*{replyAccessType}">
-                    <label th:for="${'replyAccessType_'} + auth[0]" th:text="${auth[1]}"></label>
+                    <label th:for="${'replyAccessType_' + auth[0]}" th:text="${auth[1]}"></label>
                 </th:block>
             </td>
         </tr>
@@ -202,7 +180,7 @@
             <td>
                 <th:block th:each="auth : ${authorities}">
                     <input type="radio" name="commentAccessType" th:value="${auth[0]}" th:id="${'commentAccessType_' + auth[0]}" th:field="*{commentAccessType}">
-                    <label th:for="${'commentAccessType_'} + auth[0]" th:text="${auth[1]}"></label>
+                    <label th:for="${'commentAccessType_' + auth[0]}" th:text="${auth[1]}"></label>
                 </th:block>
             </td>
         </tr>
@@ -213,12 +191,12 @@
         <tr>
             <th width="180">내용</th>
             <td>
-                <textarea id="html_top" name="htmlTop"
-                          th:field="*{htmlTop}"></textarea>
-
+                <textarea id="html_top" name="htmlTop" th:field="*{htmlTop}"></textarea>
                 <button type="button" class="upload_files sbtn"
-                    data-location="html_top" data-image-only="true"
-                >이미지 추가</button>
+                    data-location="html_top" data-image-only="true">
+                    <i class="xi-image"></i>
+                    이미지 추가
+                </button>
                 <div class="uploaded_files" id="uploaded_files_html_top"></div>
             </td>
         </tr>
@@ -229,9 +207,7 @@
         <tr>
             <th width="180">내용</th>
             <td>
-                <textarea id="html_bottom" name="htmlBottom"
-                          th:field="*{htmlBottom}"></textarea>
-
+                <textarea id="html_bottom" name="htmlBottom" th:field="*{htmlBottom}"></textarea>
                 <button type="button" class="upload_files sbtn"
                         data-location="html_bottom" data-image-only="true">
                 <i class="xi-image"></i>

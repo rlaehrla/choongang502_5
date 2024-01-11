@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.member.constants.Authority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -114,6 +115,8 @@ public class BoardController implements ExceptionProcessor {
             addCommonScript.add("fileManager");
 
             addScript.add("board/form");
+            model.addAttribute("authorities", Authority.getList());
+
         }
 
         model.addAttribute("pageTitle", pageTitle);

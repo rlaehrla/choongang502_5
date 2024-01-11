@@ -9,6 +9,15 @@
     <form name="frmPs" method="post" th:action="@{/admin/product/category}" target="ifrmProcess" autocomplete="off" th:object="${requestCategory}">
         <table class="table_cols">
             <tr>
+                <th width="180">대분류</th>
+                <td>
+                <th:block th:each="mainCate : ${mainCategory}">
+                    <input type="radio" name="mainCategory" th:value="${mainCate[0]}" th:id="${'mainCategory_' + mainCate[0]}" th:field="*{mainCategory}">
+                    <label th:for="${'mainCategory_' + mainCate[0]}" th:text="${mainCate[1]}"></label>
+                </th:block>
+                </td>
+            </tr>
+            <tr>
                 <th width="180">분류코드</th>
                 <td width="300">
                     <input type="text" name="cateCd" th:field="*{cateCd}">
