@@ -1,6 +1,7 @@
 package org.choongang.business;
 
 import org.choongang.commons.Utils;
+import org.choongang.member.service.BusinessVerifyService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class BusinessNoApiTest {
 
     @Autowired
-    private Utils utils ;
+    private BusinessVerifyService verifyService ;
 
     @Test
     @DisplayName("사업자등록 상태 확인 API 테스트")
@@ -46,7 +47,7 @@ public class BusinessNoApiTest {
     @Test
     @DisplayName("사업자 등록증 상태 체크 함수 테스트")
     void checkBusinessPermit() {
-        boolean result = utils.checkBusinessPermit("2208657343");
+        boolean result = verifyService.checkBusinessPermit("2208657343");
 
         assertTrue(result);
 
