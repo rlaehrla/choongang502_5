@@ -11,10 +11,10 @@
             <tr>
                 <th width="180">대분류</th>
                 <td>
-                <th:block th:each="mainCate : ${mainCategory}">
-                    <input type="radio" name="mainCategory" th:value="${mainCate[0]}" th:id="${'mainCategory_' + mainCate[0]}" th:field="*{mainCategory}">
-                    <label th:for="${'mainCategory_' + mainCate[0]}" th:text="${mainCate[1]}"></label>
-                </th:block>
+                    <th:block th:each="mainCate : ${mainCategory}">
+                        <input type="radio" name="mainCategory" th:value="${mainCate[0]}" th:id="${'mainCategory_' + mainCate[0]}" th:field="*{mainCategory}">
+                        <label th:for="${'mainCategory_' + mainCate[0]}" th:text="${mainCate[1]}"></label>
+                    </th:block>
                 </td>
             </tr>
             <tr>
@@ -58,6 +58,7 @@
                 <th width="40">
 
                 </th>
+                <th width="200">대분류</th>
                 <th width="200">분류코드</th>
                 <th width="300">분류명</th>
                 <th width="200">진열가중치</th>
@@ -72,6 +73,7 @@
                     <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
                     <label th:for="${'chk_' + status.index}"></label>
                 </td>
+                <td th:text="*{mainCategory}" align="center"></td>
                 <td th:text="*{cateCd}" align="center"></td>
                 <td>
                     <input type="text" th:name="${'cateNm_' + status.index}" th:value="*{cateNm}">
@@ -92,7 +94,7 @@
                 </td>
             </tr>
             <tr th:unless="${items != null && !items.isEmpty()}">
-                <td colspan="6" class="no_data">등록된 분류가 없습니다.</td>
+                <td colspan="7" class="no_data">등록된 분류가 없습니다.</td>
             </tr>
             </tbody>
         </table>
