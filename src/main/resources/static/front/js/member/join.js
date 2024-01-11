@@ -181,7 +181,6 @@ window.addEventListener("DOMContentLoaded", function() {
 
     let farmerFrm = document.getElementById('farmerFrm') ;
     let memberFrm = document.getElementById('memberFrm') ;
-console.log('farmerFrm display: none!') ;
     farmerFrm.classList.add('dn') ;
 
     // 일반회원인 경우
@@ -198,3 +197,49 @@ console.log('farmerFrm display: none!') ;
         farmerFrm.classList.remove('dn') ;
     });
 });
+
+/* 사업자등록증 상태 체크 S */
+window.addEventListener("DOMContentLoaded", function() {
+    const bNoVerifyEl = document.getElementById("bNoVerify") ;    // 확인하기 버튼
+    if (bNoVerifyEl) {
+        bNoVerifyEl.addEventListener("click", function() {
+            const bNumber = frmJoin.businessPermitNum.value.trim() ;   // 사업자번호
+            if (!bNumber) {
+                // 사업자등록 번호를 입력하지 않은 채 버튼 클릭한 경우
+                //console.log('사업자등록번호 미입력') ;
+                alert('⚠️사업자등록 번호를 입력하세요.') ;
+                frmJoin.businessPermitNum.focus() ;
+                return ;
+            }
+
+            const { ajaxLoad } = commonLib ;
+            const url = `/api/public/business_permit/${bNumber}`;
+
+            ajaxLoad("GET", url, null, "json")
+                    .then(data => {
+                        if (typeof callbackBNoVerify == 'function') {
+                            callbackBNoVerify(data) ;
+                        }
+                    })
+                    .catch(err => console.error(err));/**/
+        });
+    }
+});
+/* 사업자등록증 상태 체크 E */
+
+function callbackBNoVerify(data) {
+    if (data && data.success) {
+        // 사업자등록증 상태 체크 성공
+        alert('✅사업자등록 번호가 확인되었습니다.') ;
+
+        // 확인하기 버튼 비활성화
+        const bNoVerifyEl = document.getElementById("bNoVerify") ;
+        bNoVerifyEl.parentElement.removeChild(bNoVerifyEl);
+
+        // "✅사업자등록 번호가 확인되었습니다."라고 출력 처리
+        const bNoBoxEl = document.querySelector(".b_no_box");
+        bNoBoxEl.innerHTML += "<br><span class='confirmed'>✅사업자등록 번호가 확인되었습니다.</span>";
+    } else {
+        alert('❌유효하지 않은 사업자등록입니다. 다시 확인해주세요.') ;
+    }
+}
