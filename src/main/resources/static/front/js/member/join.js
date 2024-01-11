@@ -175,3 +175,24 @@ const autoHyphen = (target) => {
    .replace(/[^0-9]/g, '')
    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 }
+
+// join.html 일반회원과 농장주인 탭 전환 시 뷰에 노출할 부분 구별
+window.addEventListener("DOMContentLoaded", function() {
+
+    let farmerFrm = document.getElementById('farmerFrm') ;
+    let memberFrm = document.getElementById('memberFrm') ;
+
+    // 일반회원인 경우
+    let memberBtn = document.querySelector('#member').checked ;    // 체크되어 있으면 true
+    if (memberBtn) {
+        farmerFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
+        memberFrm.classList.remove('dn') ;
+    }
+
+    // 농장주인인 경우
+    let farmerBtn = document.querySelector('#farmer') ;
+    farmerBtn.addEventListener("click", function() {
+        memberFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
+        farmerFrm.classList.remove('dn') ;
+    });
+});

@@ -41,7 +41,7 @@ public class RequestJoin {
     @NotBlank
     private String tel ;
 
-    private String gender = Gender.FEMALE.name() ;    // 커맨드 객체는 문자열로, DB에는 Enum 클래스로
+    private String gender ;    // 커맨드 객체는 문자열로, DB에는 Enum 클래스로
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate ;    // 생년월일
