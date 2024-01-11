@@ -4,7 +4,7 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
     <section class="contentBox product" >
-        <div th:object="${item}">
+        <div th:each="item : ${category}" th:object="${item}">
             <a th:href="@{/product/goods{seq}(seq=${시퀀스})}">
                 <img th:src="${사진링크}" />
                 <div class="tag" th:each="tag : ${tags}">
