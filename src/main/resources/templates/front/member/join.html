@@ -5,12 +5,13 @@
 <main layout:fragment="content">
     <h1 th:text="#{회원가입}"></h1>
 
-    <input type="radio" name="memberType" id="member" checked="checked">
-    <label for="member">일반회원</label>
-    <input type="radio" name="memberType" id="farmer">
-    <label for="farmer">농장주인</label>
-
-    <form name="frmJoin" method="post" th:action="@{/member/join/farmer}" autocomplete="off" th:object="${requestJoin}">
+    <div>
+        <input type="radio" name="memberType" id="member" checked="checked">
+        <label for="member">일반회원</label>
+        <input type="radio" name="memberType" id="farmer">
+        <label for="farmer">농장주인</label>
+    </div>
+    <form name="frmJoin" method="post" th:action="@{/member/join}" autocomplete="off" th:object="${requestJoin}">
         <input type="hidden" name="gid" th:field="*{gid}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
@@ -90,11 +91,11 @@
             <dd>
                 <input type="text" name="zoneCode" th:field="*{zoneCode}" readonly th:placeholder="#{우편번호}">
                 <button type="button" class="search_address" th:text="#{주소_찾기}"></button><br>
-                <input type="text" name="farmAddress" th:field="*{address}" readonly  th:placeholder="#{주소}">
+                <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
 
+                <input type="text" name="farmAddress" th:field="*{address}" readonly  th:placeholder="#{주소}">
                 <input type="text" name="farmAddressSub" th:field="*{addressSub}"   th:placeholder="#{나머지_주소}">
 
-                <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
                 <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
                 <div class="error" th:each="err : ${#fields.errors('addressSub')}" th:text="${err}"></div>
             </dd>
