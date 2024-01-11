@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="banner">
-   <h2>배너존</h2>
-   <ul>
-      <li th:each="banner : ${배너들}">
-         <img th:src="${banner}">
-      </li>
-   </ul>
+   <div class="slider">
+      <div class="inner">
+         <a href="http://localhost:3000/"> <!-- 해당 레시피 글 주소 넣어야 함 -->
+            <img src="./image/1.jpeg" height="300" width="300"/> <!-- 이미지 파일 바꿔야함 -->
+         </a>
+      </div>
+      <div class="inner">
+         <a href="http://localhost:3000/">
+            <img src="./image/4.jpeg" height="300" width="300"/>
+         </a>
+      </div>
+      <div class="inner">
+         <a href="http://localhost:3000/">
+            <img src="./image/5.jpeg" height="300" width="300"/>
+         </a>
+      </div>
+   </div>
 </section>
 </html>

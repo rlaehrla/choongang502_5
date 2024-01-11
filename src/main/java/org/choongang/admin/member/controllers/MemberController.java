@@ -47,9 +47,22 @@ public class MemberController implements ExceptionProcessor {
         return "admin/member/list";
     }
 
+    @GetMapping("/authority")
+    public String authority(Model model){
+        commonProcess("authority", model);
+
+        return "admin/member/authorities";
+    }
+
+
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "list");
         String pageTitle = "회원 목록";
+
+        if(mode.equals("authority")){
+            pageTitle = "회원 권한";
+        }
+
 
         model.addAttribute("subMenuCode", mode);
         model.addAttribute("pageTitle", pageTitle);
