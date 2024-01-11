@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <section th:replace="~{front/outlines/_banner::banner}">
+    </section>
+<div>
+    <div class="imgRcp"> <!-- 왼쪽 -->
+        <img th:src="*{레시피썸네일}" th:text="#{썸네일}">
+    </div>
+    <div th:object="${detailRcp}">
+      <!--  [[${detailRcp}]]-->
+       <div>
+         <a th:href="@{작성자블로그}">
+             작성자 프로필
+             <input type="text" id="useName" name="userName" th:value="*{userName}" readonly>
+         </a>
+           <button>수정하기</button>
+       </div>
+
+        <div>
+           <input type="text" name="rcpName" th:value="*{rcpName}" readonly><br>
+
+            -------------------------------<br>
+            레시피 소개 <br><br>
+            #10분 요리 ...<br><br>
+            댓글1 좋아요1 <br>
+            -------------------------------<br>
+        </div>
+
+        <a href="#ing" th:text="#{재료}"></a> / <a href="#howTo" th:text="#{만드는 방법}"></a> <!-- 클릭 시 위치로 이동 -->
+        <br><br><br><br><br><br><br>
+        <a id="ing"><p th:text="#{재료} + ' ' + #{1인분 기준}"></p></a>
+        <h3 th:text="#{주재료}"></h3>
+        팽이버섯
+        반봉지
+        양파
+        반개
+        애호박
+        한개
+        마늘
+        두알
+        대파
+        반개
+        <h3 th:text="#{양념}"></h3>
+        소금
+        반큰술
+        고춧가루
+        한큰술
+        들기름
+        한큰술
+        통깨
+        반큰술
+
+
+
+        <br><br><br><br><br><br><br>
+
+
+
+        <a id="howTo"><p th:text="#{만드는 방법}"></p></a>
+
+        1
+
+        끓는 물에 잘게 찢은 팽이버섯과 채썬 양파를 데치고 찬물에 씻는다.<br>
+
+        2
+
+        물이 끓는 동안 기름을 두른 팬에 채썬 애호박을 썰다가 어슷썬 대파를 넣어 마저 볶는다.<br>
+
+        3
+
+        볶으면서 소금으로 간하고, 고춧가루를 뿌려 골고루 섞는다.<br>
+
+        4
+
+        불을 끄고 들기름을 두른 후 잔열을 활용하여 볶는다.<br>
+
+        5
+
+        데쳐서 식혀 둔 팽이버섯과 양파 위에 볶은 애호박을 얹고 깨를 뿌려 마무리한다.<br>
+
+        -------------------------------<br>
+        <br><br><br><br><br>
+        </div>
+    </div>
+
+    <div>
+        <p th:text="#{댓글} + ' ' + #{댓글_수}"></p>
+        <textarea name=""></textarea><br>
+            <i class="xi-camera-o"></i>
+        <button th:text="#{확인}"></button>
+    </div>
+    -------------------------------<br>
+    <br><br><br><br><br><br>
+    <div>
+        <!-- 댓글 -->
+        <img th:src="*{댓글작성자프로필}">작성자 내용 작성 날짜 <br>
+        <i class="xi-message-o"></i>
+        <i class="xi-heart-o"></i>
+
+
+    </div>
+
+
+
+</div>
+
+
+</main>
+
+</html>
