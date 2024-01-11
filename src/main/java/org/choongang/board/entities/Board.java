@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.choongang.commons.entities.BaseMember;
 import org.choongang.file.entities.FileInfo;
+import org.choongang.member.constants.Authority;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,11 +18,14 @@ import java.util.UUID;
 public class Board extends BaseMember {
     private String mode = "add";
 
+    @Column(length=65, nullable = false)
     private String gid = UUID.randomUUID().toString();
 
     @Id
+    @Column(length=30)
     private String bid; // 게시판 아이디
 
+    @Column(length=60, nullable = false)
     private String bName; // 게시판 이름
 
     private boolean active; // 사용 여부
@@ -51,15 +55,15 @@ public class Board extends BaseMember {
     @Lob
     private String category; // 게시판 분류
 
-    private String listAccessType = "ALL"; // 권한 설정 - 글목록
+    private Authority listAccessType =  Authority.ALL; // 권한 설정 - 글목록
 
-    private String viewAccessType = "ALL"; // 권한 설정 - 글보기
+    private Authority viewAccessType = Authority.ALL; // 권한 설정 - 글보기
 
-    private String writeAccessType = "ALL"; // 권한 설정 - 글쓰기
+    private Authority writeAccessType = Authority.ALL; // 권한 설정 - 글쓰기
 
-    private String replyAccessType = "ALL"; // 권한 설정 - 답글
+    private Authority replyAccessType = Authority.ALL; // 권한 설정 - 답글
 
-    private String commentAccessType = "ALL"; // 권한 설정 - 댓글
+    private Authority commentAccessType = Authority.ALL; // 권한 설정 - 댓글
 
     @Lob
     private String htmlTop; // 게시판 상단 HTML

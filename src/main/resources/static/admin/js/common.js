@@ -41,8 +41,5 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
-
-
     /* 전체 선택 토글 기능 E */
 });
