@@ -51,5 +51,18 @@
 
 .kakao_map { /* 카카오 지도 */
     float: right;
-    margin: 20px 500px 20px 0;
+    margin: 20px 600px 20px 100px;
+}
+
+.main_best { /* main - 지도 옆 best */
+    text-align: right;
+    font-size: 30px;
+    margin: 100px;
+}
+.main_best > li a {
+     display: block;
+     margin-bottom: 20px;
+}
+.main_best > li {
+    list-style-type: none;
 }
