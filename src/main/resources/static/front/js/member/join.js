@@ -181,13 +181,15 @@ window.addEventListener("DOMContentLoaded", function() {
 
     let farmerFrm = document.getElementById('farmerFrm') ;
     let memberFrm = document.getElementById('memberFrm') ;
+console.log('farmerFrm display: none!') ;
+    farmerFrm.classList.add('dn') ;
 
     // 일반회원인 경우
-    let memberBtn = document.querySelector('#member').checked ;    // 체크되어 있으면 true
-    if (memberBtn) {
+    let memberBtn = document.querySelector('#member') ;
+    memberBtn.addEventListener("click", function() {
         farmerFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
         memberFrm.classList.remove('dn') ;
-    }
+    });
 
     // 농장주인인 경우
     let farmerBtn = document.querySelector('#farmer') ;
