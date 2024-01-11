@@ -2,6 +2,7 @@ package org.choongang.member.repositories;
 
 import com.querydsl.core.BooleanBuilder;
 import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Member;
 import org.choongang.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<AbstractMember, Long>, QuerydslPredicateExecutor<AbstractMember> {
+public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<AbstractMember> {
 
     @EntityGraph(attributePaths = "authorities")
     Optional<AbstractMember> findByEmail(String email);
