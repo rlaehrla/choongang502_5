@@ -63,20 +63,21 @@ public class MemberController implements ExceptionProcessor {
         List<String> addCss = new ArrayList<>();
         List<String> addScript = new ArrayList<>();    // 프론트 자바스크립트
 
-        if (mode.equals("login")) {
+        if (mode.equals("login")) { // 로그인
             pageTitle = Utils.getMessage("로그인", "commons");
-        } else if (mode.equals("join")) {
+        } else if (mode.equals("join")) { // 회원가입
             // 공통 JS
+            addCommonScript.add("address");
             addCommonScript.add("fileManager");
             // 회원가입 페이지를 위한 CSS, JS
             addScript.add("member/join");
             addScript.add("member/form");
 
-        } else if (mode.equals("find_pw")) {
-            // 비밀번호 찾기
+        } else if (mode.equals("find_pw")) { // 비밀번호 찾기
             pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
         }
         model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("addCss", addCss);
         model.addAttribute("addScript", addScript);
         model.addAttribute("addCommonScript", addCommonScript);
     }

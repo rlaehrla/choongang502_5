@@ -90,7 +90,7 @@
             <dt th:text="#{주소}"></dt>
             <dd>
                 <input type="text" name="zoneCode" th:field="*{zoneCode}" readonly th:placeholder="#{우편번호}">
-                <button type="button" class="search_address" th:text="#{주소_찾기}"></button><br>
+                <button type="button" class="search_address" th:text="#{주소_찾기}" data-zonecode-id="zonecode" data-address-id="address"></button><br>
                 <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
 
                 <input type="text" name="farmAddress" th:field="*{address}" readonly  th:placeholder="#{주소}">
