@@ -48,13 +48,14 @@
     text-align: center;
     margin: 50px 500px 50px 500px;
 }
-
-.kakao_map { /* 카카오 지도 */
+/* 카카오 지도 S */
+.kakao_map {
     float: right;
     margin: 20px 600px 20px 100px;
 }
-
-.main_best { /* main - 지도 옆 best */
+/* 카카오 지도 E */
+/* main - 지도 옆 best S */
+.main_best {
     text-align: right;
     font-size: 30px;
     margin: 100px;
@@ -65,4 +66,12 @@
 }
 .main_best > li {
     list-style-type: none;
+}
+/* main - 지도 옆 best E */
+/* main - banner S */
+.slider {
+    text-align: center;
+}
+.inner {
+    display: inline-block
 }
