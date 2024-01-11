@@ -43,3 +43,8 @@
 .selectSearch { /* Select필드 */
     width: 70px;
 }
+
+.box1 {
+    text-align: center;
+    margin: 50px 500px 50px 500px;
+}
