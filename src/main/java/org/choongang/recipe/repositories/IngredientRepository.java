@@ -1,6 +1,6 @@
-package org.choongang.board.repositories.recipe;
+package org.choongang.recipe.repositories;
 
-import org.choongang.board.entities.recipe.Ingredient;
+import org.choongang.recipe.entities.Ingredient;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

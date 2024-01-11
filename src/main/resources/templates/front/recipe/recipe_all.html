@@ -7,11 +7,14 @@
     </section>
 <div>
     <h1>레시피 모두 보기</h1>
+
+    <!-- 임시 등록하기 --><!-- 유저 블로그에서 레시피 탭에서 등록 가능 ? -->
+    <a th:href="@{/recipe/create}">등록하기</a><br>
     <input type="text" name="searchRcp" placeholder="요리나 재료를 검색!">
     <button type="submit">검색</button>
     <div>
         <th:block th:each="ing : ${ingredients}">
-            <a href="@{재료 필터 검색}" th:text="${ing.IngName}"></a>
+            <a href="@{재료 필터 검색}" th:text="${ing.ingName}"></a>
         </th:block>
     </div>
 
@@ -19,8 +22,8 @@
         <div>
 
             <ul th:each="recipe : ${recipes}" th:object="${recipe}">
-                <a th:href="@{/recipe/{seq}}">
-                    <li th:text="*{RcpName}"></li>
+                <a th:href="@{/recipe/{seq}(seq=*{id})}">
+                    <li th:text="*{rcpName}"></li>
                     <li th:text="*{userName}"></li>
                 </a>
                 좋아요

@@ -1,0 +1,64 @@
+<!-- 유저 블로그에서 레시피 탭에서 등록 가능 ? -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <section th:replace="~{front/outlines/_banner::banner}">
+    </section>
+
+<div>
+    <h1>레시피 작성</h1>
+    <form name="rcpSave" th:action="@{/recipe/create}" method="post" autocomplete="off">
+        <input type="hidden" name="mode" value="add">
+        <button type="reset">다시입력</button>
+        <button type="submit">완료</button>
+    <div>
+        <a href="#">뒤로가기</a>레시피 작성
+
+    </div>
+        <!-- userName 테스트 -->
+    작성자 : <input type="text" id="userName" name="userName">
+    <div>
+        <p>업로드 완료시 포인트 300p</p>
+        *반복적이거나 성의 없는 콘텐츠는 관리자에 의해<br>
+        콘텐츠 삭제 후 적립금이 반환 될 수 있습니다.
+        <br><br>
+    </div>
+    <div>
+        대표 이미지 업로드<br>
+        <input type="text" id="rcpName" name="rcpName" placeholder="레시피의 이름이 무엇인가요?"><br>
+        <textarea placeholder="레시피에 대한 간단한 설명을 덧붙여주세요."></textarea>
+        <br><br>
+    </div>
+    <div>
+        <p>카테고리</p>
+        요리 분류 / 요리 종류
+        <br><br>
+    </div>
+    <div>
+        <p>해시태그</p>
+        <br><br>
+    </div>
+    <div>
+        <p>필수재료</p>
+        <input type="text" placeholder="예) 당근"><input type="text" placeholder="예) 1개"><br>
+        <button>추가</button><br>
+        <p>양념</p>
+        <input type="text" placeholder="예)소금"><input type="text" placeholder="예) 1큰술"><br>
+        <button>추가</button>
+    </div>
+    <div>
+        <h3>만드는 방법</h3>
+        <textarea placeholder="만드는 방법을 입력하세요."></textarea><br>
+        이미지 업로드(선택)<br>
+        단계 추가<br>
+        TIP 추가<br>
+
+    </div>
+
+    </form>
+
+</div>
+</main>
+</html>
