@@ -38,6 +38,59 @@
             <button type="submit" class="btn">등록하기</button>
         </div>
     </form>
+    <h2>분류 목록</h2>
+    <form name="frmList" method="post" th:action="@{/admin/product/category}" target="ifrmProcess" autocomplete="off">
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th width="40">
+
+                </th>
+                <th width="200">분류코드</th>
+                <th width="300">분류명</th>
+                <th width="200">진열가중치</th>
+                <th width="200">사용여부</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${items != null && !items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
+
+                <td align="center">
+                    <input type="hidden" name="cateCd" th:value="*{cateCd}">
+                    <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                    <label th:for="${'chk_' + status.index}"></label>
+                </td>
+                <td th:text="*{cateCd}" align="center"></td>
+                <td>
+                    <input type="text" th:name="${'cateNm_' + status.index}" th:value="*{cateNm}">
+                </td>
+                <td>
+                    <input type="number" th:name="${'listOrder_' + status.index}" th:value="*{listOrder}">
+                </td>
+                <td align="center">
+                    <input type="radio" th:name="${'active_' + status.index}" th:checked="*{active}" th:id="${'active_' + status.index}" value="true">
+                    <label th:for="${'active_' + status.index}">사용</label>
+                    <input type="radio" th:name="${'active_' + status.index}" th:checked="*{!active}" th:id="${'active_' + status.index}" value="false">
+                    <label th:for="${'active_' + status.index}">미사용</label>
+                </td>
+                <td>
+                    <a th:href="@{/admin/product?cateCd={cateCd}(cateCd=*{cateCd})}" class="sbtn">상품 관리</a>
+                    <a th:href="@{/product/ {cateCd}(cateCd=*{cateCd})}" class="sbtn on" target="_blank">미리보기</a>
+                </td>
+            </tr>
+            <tr th:unless="${items != null && !items.isEmpty()}">
+                <td colspan="6" class="no_data">등록된 분류가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <button class="sbtn" type="button">선택 분류 삭제</button>
+            <button class="sbtn on" type="button">선택 분류 수정</button>
+        </div>
+    </form>
+
 
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
