@@ -49,6 +49,7 @@ h2 { margin: 0 0 10px 0; font-size: 1.385rem; line-height: 1; }
 .table_rows thead th{ background: var(--main-color); color: #fff; font-weight: normal; padding: 7px 10px; }
 .table_rows thead th + th{ border-left: 1px solid #fff; }
 .table_rows tbody td{ border-bottom: 1px solid #ccc; padding: 7px 10px; }
+.table_actions{ background: #fff; padding: 7px 10px; border-bottom: 1px solid var(--main-color); }
 /*테이블 공통 E*/
 
 /* 입력 공통 S*/
