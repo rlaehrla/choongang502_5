@@ -181,20 +181,17 @@ const autoHyphen = (target) => {
 window.addEventListener("DOMContentLoaded", function() {
 
     let farmerFrm = document.getElementById('farmerFrm') ;
-    let memberFrm = document.getElementById('memberFrm') ;
     let memberBtn = document.querySelector('#member') ;
     let farmerBtn = document.querySelector('#farmer') ;
 
     // 일반회원인 경우에 회원가입 폼 view
     const memberView = function() {
         farmerFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
-        memberFrm.classList.remove('dn') ;
         sessionStorage.setItem('mType', 'M'); // 세션 등록
     }
 
     // 농장주인인 경우에 회원가입 폼 view
     const farmerView = function() {
-        memberFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
         farmerFrm.classList.remove('dn') ;
         sessionStorage.setItem('mType', 'F'); // 세션 등록
     }

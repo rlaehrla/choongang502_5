@@ -52,7 +52,6 @@ public class JoinService {
         member.setGid(form.getGid());
         member.setNickname(form.getNickname());
         member.setTel(form.getTel());
-        System.out.println("member : " + member);
 
         // mType에 따라 구별하여 처리
         if (mType.equals("F")) {
@@ -64,9 +63,6 @@ public class JoinService {
         } else {
             // 일반 회원
             Member _member = (Member) member;
-            _member.setGender(Gender.valueOf(form.getGender()));
-            _member.setBirthdate(form.getBirthdate());
-            System.out.println(_member);
 
             processMember(_member);
         }

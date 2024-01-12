@@ -27,15 +27,11 @@ public class QMember extends EntityPathBase<Member> {
     //inherited
     public final ListPath<Authorities, QAuthorities> authorities = _super.authorities;
 
-    public final DatePath<java.time.LocalDate> birthdate = createDate("birthdate", java.time.LocalDate.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     //inherited
     public final StringPath email = _super.email;
-
-    public final EnumPath<org.choongang.member.constants.Gender> gender = createEnum("gender", org.choongang.member.constants.Gender.class);
 
     //inherited
     public final StringPath gid = _super.gid;
