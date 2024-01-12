@@ -2,30 +2,167 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+<th:block layout:fragment="addScript">
+    <script th:src="@{/common/js/accordion.js}"></script>
+</th:block>
 <main layout:fragment="content">
     <div>
-        <h3 th:text="#{자주_묻는_질문}"></h3>
+        <div class="faq-top"><h2 th:text="#{자주_묻는_질문}"></h2></div>
         <hr>
-        <div class="faq_content">
-            <table class="faq_list">
-                <tr>
-                    <th>카테고리</th>
-                    <th>내용</th>
-                </tr>
-                <tr>
-                    <th>회원정보</th>
-                    <td href="/faq/detail">아이디 또는 비밀번호가 기억나지 않아요.</td>
-                </tr>
-                <tr>
-                    <th>회원정보</th>
-                    <td>회원정보 수정은 어디서 하나요?</td>
-                </tr>
-                <tr>
-                    <th>상품 문의</th>
-                    <td>판매 중인 상품은 어디서 확인 하나요?</td>
-                </tr>
-            </table>
+        <div class="faq-container toggle_action" data-button-class="faq-toggle" data-target-class="faq-text">
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 1</h3>
+
+                <p class="faq-text hidden">대답 1</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 2</h3>
+
+                <p class="faq-text hidden">대답 2</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 3</h3>
+
+                <p class="faq-text hidden">대답 3</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 4</h3>
+
+                <p class="faq-text hidden">대답 4</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 5</h3>
+
+                <p class="faq-text hidden">대답 5</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 6</h3>
+
+                <p class="faq-text hidden">대답 6</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 7</h3>
+
+                <p class="faq-text hidden">대답 7</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 8</h3>
+
+                <p class="faq-text hidden">대답 8</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 9</h3>
+
+                <p class="faq-text hidden">대답 9</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 10</h3>
+
+                <p class="faq-text hidden">대답 10</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 11</h3>
+
+                <p class="faq-text hidden">대답 11</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 12</h3>
+
+                <p class="faq-text hidden">대답 12</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 13</h3>
+
+                <p class="faq-text hidden">대답 13</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 14</h3>
+
+                <p class="faq-text hidden">대답 14</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="faq">
+                <h3 class="faq-title">자주 묻는 질문 15</h3>
+
+                <p class="faq-text hidden">대답 15</p>
+
+                <button class="faq-toggle">
+                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
     </div>
+
+
 </main>
 </html>
