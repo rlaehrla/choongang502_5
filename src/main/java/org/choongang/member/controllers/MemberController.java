@@ -65,32 +65,7 @@ public class MemberController implements ExceptionProcessor {
         return utils.tpl("member/login");
     }
 
-    private void commonProcess(String mode, Model model) {
-        mode = StringUtils.hasText(mode) ? mode : "join";
-        String pageTitle = Utils.getMessage("회원가입", "commons");
 
-        List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
-        List<String> addCss = new ArrayList<>();
-        List<String> addScript = new ArrayList<>();    // 프론트 자바스크립트
-
-        if (mode.equals("login")) { // 로그인
-            pageTitle = Utils.getMessage("로그인", "commons");
-        } else if (mode.equals("join")) { // 회원가입
-            // 공통 JS
-            addCommonScript.add("address");
-            addCommonScript.add("fileManager");
-            // 회원가입 페이지를 위한 CSS, JS
-            addScript.add("member/join");
-            addScript.add("member/form");
-
-        } else if (mode.equals("find_pw")) { // 비밀번호 찾기
-            pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
-        }
-        model.addAttribute("pageTitle", pageTitle);
-        model.addAttribute("addCss", addCss);
-        model.addAttribute("addScript", addScript);
-        model.addAttribute("addCommonScript", addCommonScript);
-    }
 
     /**
      * 비밀번호 찾기 양식
@@ -131,6 +106,52 @@ public class MemberController implements ExceptionProcessor {
 
         return utils.tpl("member/find_pw_done");
     }
+
+    /**
+     * 장바구니 이동 페이지
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/cart")
+    public String cart(Model model){
+        commonProcess("cart", model);
+
+        return utils.tpl("member/cart");
+
+    }
+
+    private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "join";
+        String pageTitle = Utils.getMessage("회원가입", "commons");
+
+        List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
+        List<String> addCss = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();    // 프론트 자바스크립트
+
+        if (mode.equals("login")) { // 로그인
+            pageTitle = Utils.getMessage("로그인", "commons");
+        } else if (mode.equals("join")) { // 회원가입
+            // 공통 JS
+            addCommonScript.add("address");
+            addCommonScript.add("fileManager");
+            // 회원가입 페이지를 위한 CSS, JS
+            addScript.add("member/join");
+            addScript.add("member/form");
+
+        } else if (mode.equals("find_pw")) { // 비밀번호 찾기
+            pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
+        } else if (mode.equals("cart")) {
+            // 장바구니
+            pageTitle = Utils.getMessage("장바구니", "commons");
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addScript);
+        model.addAttribute("addCommonScript", addCommonScript);
+    }
+
 
 
 }

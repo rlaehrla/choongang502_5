@@ -4,6 +4,88 @@
       layout:decorate="~{admin/layouts/main}">
 
 <th:block th:fragment="form">
+    <table class="table_cols">
+        <input type="hidden"><!-- gid -->
+        <tr>
+            <th>농장 선택</th>
+            <td>
+                <select>
+                    <th:block>
+                        <option>농장이름-농부이름</option>
+                    </th:block>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>상품 코드</th>
+            <td>
+                <input type="text">
+                <button class="sbtn" type="button">자동생성</button>
+            </td>
+        </tr>
+        <tr>
+            <th>상품 분류 코드</th>
+            <td>
+                <select>
+                    <optgroup label="곡물">
+                        <th:block>
+                            <!-- 대분류 곡물인 상품코드-->
+                            <option></option>
+                        </th:block>
+                    </optgroup>
+                    <optgroup label="채소">
+                        <th:block>
+                            <!-- 대분류 채소인 상품코드-->
+                            <option></option>
+                        </th:block>
+                    </optgroup>
+                    <optgroup label="과일">
+                        <th:block>
+                            <!-- 대분류 과일인 상품코드-->
+                            <option></option>
+                        </th:block>
+                    </optgroup>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>상품 등급</th>
+            <td>
+                <input type="radio" name="productGd" id="nice">
+                <label for="nice">예쁜거</label>
+                <input type="radio" name="productGd" id="ugly">
+                <label for="ugly">못난이</label>
+            </td>
+        </tr>
+        <tr>
+            <th>총 판매 수량</th>
+            <td>
+                <input type="number">
+            </td>
+        </tr>
+        <tr>
+            <th>판매 단위</th>
+            <td>
+                <input type="number">
+                <select><!-- 단위, kg, g-->
+                    <option>kg</option>
+                    <option>g</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>판매 단위당 판매가</th>
+            <td>
+                <input type="number">원
+            </td>
+        </tr>
+        <tr>
+            <th>상품 상세 사진등록</th>
+            <td>
+                <button type="button" class="sbtn">사진 업로드</button>
+            </td>
+        </tr>
+    </table>
 
 </th:block>
 </html>

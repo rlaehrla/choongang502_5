@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <h1 th:text="#{장바구니}"></h1>
+    <ul class="table_cols">
+        <li>
+            <input type="checkbox" id="chkAll">
+            <label for="chkAll">전체선택</label>
+            <button type="button">선택삭제</button>
+        </li>
+       <!-- <th:block th:each="농장 : ${장바구니목록}" th:object="farm">-->
+            <li>
+                <dl>
+                <!--th:each="item : ${농장당 상품}" th:object="item"-->
+                <dt th:text="#{농장이름}" ></dt>
+                    <dd>
+                        <span th:text="#{상품명}"></span>
+                        <img th:src="@{상품사진}">
+                        <span th:text="#{재고}"></span>
+                        <div>
+                        <!--<th:block th:if="옵션있으면" th:each="opt : ${options}">-->
+                           <span th:text="#{opt.name}"></span>
+                            :
+                            <span th:text="#{opt.value}"></span>
+                        <!--</th:block>-->
+                        </div>
+                        <button type="button">옵션변경</button>
+                        <input type="number"><!--수량 변경 -->
+                        <span th:text="#{상품항목 당 가격}"></span>
+                        <a> <!-- 클릭시 장바구니에서 상품 삭제 알람 -> 확인후 삭제-->
+                            <i class="xi-close-min"></i>
+                        </a>
+                        <textarea placeholder="주문 요청사항을 500자 내로 입력해주세요."></textarea>
+                    <dd>
+
+                    </dd>
+                </dl>
+            </li>
+        <!--</th:block>-->
+    </ul>
+
+    <h2 th:text="#{주문_예상_금액}"></h2>
+    <table class="table_cols">
+        <tr>
+            <th>총 금액</th>
+            <td th:text="${금액}"></td>
+        </tr>
+        <tr>
+            <th>총 배송비</th>
+            <td th:text="${배송비}"></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <button type="button">주문하기</button>
+            </td>
+        </tr>
+    </table>
+</main>
+</html>
