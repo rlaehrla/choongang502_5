@@ -1,5 +1,6 @@
 package org.choongang.member.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"EmailAuthVerified", "BusinessNoVerified"})    // model에 같은 속성명의 값이 있으면 세션에 저장하여 유지됨
+@SessionAttributes({"EmailAuthVerified", "BusinessNoVerified", "mType"})    // model에 같은 속성명의 값이 있으면 세션에 저장하여 유지됨
 public class MemberController implements ExceptionProcessor {
 
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final HttpServletRequest request ;
     private final HttpSession session ;
 
     @GetMapping("/join")
@@ -34,8 +36,7 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("join", model);
 
         String mType = "M" ;
-        model.addAttribute("mType", mType) ;
-        System.out.println("get방식 : " + mType);
+        session.setAttribute("mType", mType) ;
 
         // 이메일 인증과 사업자등록 번호 인증 여부 false --> 초기화
         model.addAttribute("EmailAuthVerified", false);
@@ -48,9 +49,6 @@ public class MemberController implements ExceptionProcessor {
     public String joinPs(@Valid RequestJoin form, Errors errors, Model model,
                          SessionStatus sessionStatus) {
         commonProcess("join", model);
-
-        String mType = (String) model.getAttribute("mType");
-        System.out.println("post방식 : " + mType);
 
         joinService.process(form, errors);
 

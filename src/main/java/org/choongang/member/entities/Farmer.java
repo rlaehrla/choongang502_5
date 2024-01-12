@@ -17,7 +17,7 @@ import java.util.List;
 @DiscriminatorValue("F")
 public class Farmer extends AbstractMember {
 
-    @Column(length = 90, nullable = false)
+    @Column(length = 90)
     private String farmTitle ;    // 농장 이름
 
     @Column(length = 15)

@@ -1,5 +1,6 @@
 package org.choongang.member.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.validators.PasswordValidator;
@@ -14,6 +15,7 @@ import org.springframework.validation.Validator;
 public class JoinValidator implements Validator, PasswordValidator {
 
     private final MemberRepository memberRepository;
+    private final HttpServletRequest request ;
     private final HttpSession session ;
 
     @Override
@@ -72,7 +74,7 @@ public class JoinValidator implements Validator, PasswordValidator {
          * 3. 농장이름 필수 체크
          */
         // mType값이 "F"인지 체크
-        String mType = (String) session.getAttribute("mType") ;
+        String mType = request.getParameter("mType") ;
         if (StringUtils.hasText(mType) && mType.equals("F")) {
             String businessPermitNum = form.getBusinessPermitNum() ;
             String farmTitle = form.getFarmTitle() ;
