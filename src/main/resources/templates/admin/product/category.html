@@ -75,7 +75,7 @@
                     <label th:for="${'chk_' + status.index}"></label>
                 </td>
                 <td th:text="*{mainCategory}" align="center"></td>
-                <td th:text="*{cateCd}" align="center"></td>
+                <td th:text="*{@productUtil.getCateCd(cateCd)}" align="center"></td>
                 <td>
                     <input type="text" th:name="${'cateNm_' + status.index}" th:value="*{cateNm}">
                 </td>
