@@ -1,5 +1,7 @@
 package org.choongang.member.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.constants.Authority;
@@ -28,6 +30,7 @@ public class JoinService {
     private final PasswordEncoder encoder;
     private final FileUploadService uploadService;
     private final AddressRepository addressRepository;
+    private final HttpServletRequest request ;
 
     public void process(RequestJoin form, Errors errors) {
         joinValidator.validate(form, errors);
@@ -38,7 +41,8 @@ public class JoinService {
         // 비밀번호 BCrypt로 해시화
         String hash = encoder.encode(form.getPassword());
 
-        String mType = form.getMtype();
+        String mType = request.getParameter("mType") ;
+
         // mType에 따라 회원 구분
         AbstractMember member = mType.equals("F") ? new Farmer() : new Member();
         member.setEmail(form.getEmail());
@@ -48,6 +52,7 @@ public class JoinService {
         member.setGid(form.getGid());
         member.setNickname(form.getNickname());
         member.setTel(form.getTel());
+        System.out.println("member : " + member);
 
         // mType에 따라 구별하여 처리
         if (mType.equals("F")) {
@@ -61,6 +66,7 @@ public class JoinService {
             Member _member = (Member) member;
             _member.setGender(Gender.valueOf(form.getGender()));
             _member.setBirthdate(form.getBirthdate());
+            System.out.println(_member);
 
             processMember(_member);
         }
