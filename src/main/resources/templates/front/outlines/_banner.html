@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="banner">
-   <div class="slider">
-      <div class="inner">
-         <a href="http://localhost:3000/"> <!-- 해당 레시피 글 주소 넣어야 함 -->
-            <img src="./image/1.jpeg" height="300" width="300"/> <!-- 이미지 파일 바꿔야함 -->
+   <div class="slide slide_wrap">
+      <div class="slide_item item1">
+         <a href="http://localhost:3000/">
+            <img src="./image/1.jpeg" height="300" width="300"/>
          </a>
       </div>
-      <div class="inner">
+      <div class="slide_item item2">
          <a href="http://localhost:3000/">
             <img src="./image/4.jpeg" height="300" width="300"/>
          </a>
       </div>
-      <div class="inner">
+      <div class="slide_item item3">
          <a href="http://localhost:3000/">
             <img src="./image/5.jpeg" height="300" width="300"/>
          </a>
       </div>
+      <div class="slide_item item4">
+         <a href="http://localhost:3000/">
+            <img src="./image/1.jpeg" height="300" width="300"/>
+         </a>
+      </div>
+      <div class="slide_item item5">
+         <a href="http://localhost:3000/">
+            <img src="./image/4.jpeg" height="300" width="300"/>
+         </a>
+      </div>
+      <div class="slide_prev_button slide_button">◀</div>
+      <div class="slide_next_button slide_button">▶</div>
+      <ul class="slide_pagination"></ul>
    </div>
 </section>
 </html>
