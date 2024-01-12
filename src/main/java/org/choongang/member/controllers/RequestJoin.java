@@ -17,7 +17,7 @@ public class RequestJoin {
 
     private String gid = UUID.randomUUID().toString();
 
-    private String mtype ;    // M : 일반회원 | F : 농장주
+    private String mType ;    // M : 일반회원 | F : 농장주
 
     @NotBlank @Email
     private String email;
