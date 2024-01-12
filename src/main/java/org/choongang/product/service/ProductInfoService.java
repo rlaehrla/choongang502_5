@@ -1,5 +1,7 @@
 package org.choongang.product.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ public class ProductInfoService {
 
     private final ProductRepository productRepository;
     private final MemberUtil memberUtil;
-    private final FarmerRepository farmerRepository;
+    private final HttpServletRequest request;
 
 
     public Product get(Long seq) {
@@ -62,11 +64,14 @@ public class ProductInfoService {
      * @param
      * @return
      */
-
-
-    /*public List<Product> getList(ProductStatus status, String userId){
-        Farmer farmer = farmerRepository.findByUserId(memberUtil.getMember().getUserId())
-                .orElseThrow(UnAuthorizedException::new);
+    /*public List<Product> getList(ProductStatus status){
+        String userId = null;
+        HttpSession session = request.getSession();
+        if(session.getAttribute("userId") != null){
+            userId = session.getAttribute("userId").toString();
+        }else {
+            throw new UnAuthorizedException();
+        }
 
         QProduct product = QProduct.product;
         BooleanBuilder andBuilder = new BooleanBuilder();
