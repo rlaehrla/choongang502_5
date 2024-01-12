@@ -17,7 +17,7 @@ public class RequestJoin {
 
     private String gid = UUID.randomUUID().toString();
 
-    private String mtype = "M" ;    // M : 일반회원 | F : 농장주
+    private String mtype ;    // M : 일반회원 | F : 농장주
 
     @NotBlank @Email
     private String email;
@@ -47,8 +47,8 @@ public class RequestJoin {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate ;    // 생년월일
 
-    @NotBlank
-    private String farmTitle ;
+//    @NotBlank
+    private String farmTitle ;    // --> Validator로 유효성 체크
 
     @NotBlank
     private String zoneCode; // 우편번호
@@ -58,8 +58,8 @@ public class RequestJoin {
 
     private String addressSub; // 나머지주소
 
-    @NotBlank
-    private String businessPermitNum ;
+//    @NotBlank
+    private String businessPermitNum ;    // --> Validator로 유효성 체크
 
     @AssertTrue
     private boolean agree;

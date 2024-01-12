@@ -177,24 +177,46 @@ const autoHyphen = (target) => {
 }
 
 // join.html 일반회원과 농장주인 탭 전환 시 뷰에 노출할 부분 구별
+// --> session에 mType 저장
 window.addEventListener("DOMContentLoaded", function() {
 
     let farmerFrm = document.getElementById('farmerFrm') ;
     let memberFrm = document.getElementById('memberFrm') ;
-    farmerFrm.classList.add('dn') ;
-
-    // 일반회원인 경우
     let memberBtn = document.querySelector('#member') ;
-    memberBtn.addEventListener("click", function() {
+    let farmerBtn = document.querySelector('#farmer') ;
+
+    // 일반회원인 경우에 회원가입 폼 view
+    const memberView = function() {
         farmerFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
         memberFrm.classList.remove('dn') ;
+        sessionStorage.setItem('mType', 'M'); // 세션 등록
+    }
+
+    // 농장주인인 경우에 회원가입 폼 view
+    const farmerView = function() {
+        memberFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
+        farmerFrm.classList.remove('dn') ;
+        sessionStorage.setItem('mType', 'F'); // 세션 등록
+    }
+
+    // 세션에서 mType 값 가져오기
+    let mType = sessionStorage.getItem('mType');
+    if (mType == 'M') {
+        memberBtn.checked = true ;
+        memberView() ;
+    } else {
+        farmerBtn.checked = true ;
+        farmerView() ;
+    }
+
+    // 일반회원인 경우
+    memberBtn.addEventListener("click", function() {
+        memberView() ;
     });
 
     // 농장주인인 경우
-    let farmerBtn = document.querySelector('#farmer') ;
     farmerBtn.addEventListener("click", function() {
-        memberFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
-        farmerFrm.classList.remove('dn') ;
+        farmerView() ;
     });
 });
 
