@@ -47,7 +47,6 @@ public class RequestJoin {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate ;    // 생년월일
 
-//    @NotBlank
     private String farmTitle ;    // --> Validator로 유효성 체크
 
     @NotBlank
@@ -58,7 +57,6 @@ public class RequestJoin {
 
     private String addressSub; // 나머지주소
 
-//    @NotBlank
     private String businessPermitNum ;    // --> Validator로 유효성 체크
 
     @AssertTrue
