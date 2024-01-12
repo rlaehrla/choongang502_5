@@ -53,24 +53,31 @@ public class JoinService {
         member.setNickname(form.getNickname());
         member.setTel(form.getTel());
 
+        Authorities authorities = new Authorities();
+
         // mType에 따라 구별하여 처리
         if (mType.equals("F")) {
             // 농장주 회원
             Farmer farmer = (Farmer) member;
             farmer.setFarmTitle(form.getFarmTitle());
+            farmer.setBusinessPermitNum(form.getBusinessPermitNum());
 
             processFarmer(farmer);
+
+            // 농부 회원 --> USER 권한 부여
+            authorities.setMember(farmer);
+            authorities.setAuthority(Authority.FARMER);
         } else {
             // 일반 회원
             Member _member = (Member) member;
 
             processMember(_member);
+
+            // 일반 회원 --> FARMER 권한 부여
+            authorities.setMember(_member);
+            authorities.setAuthority(Authority.USER);
         }
 
-        // 회원 가입시에는 일반 사용자 권한 부여(USER)
-        Authorities authorities = new Authorities();
-        authorities.setMember(member);
-        authorities.setAuthority(Authority.USER);
         authoritiesRepository.saveAndFlush(authorities);
 
         // 주소 처리
