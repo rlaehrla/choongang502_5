@@ -3,6 +3,7 @@ package org.choongang.recipe.controllers;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.file.service.FileUploadService;
 import org.choongang.recipe.entities.Ingredient;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
@@ -29,6 +30,9 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
     private final Utils utils;
+    private final FileUploadService uploadService;
+    private String gid;
+
 
     @GetMapping
     public String recipe(Model model) {
@@ -66,8 +70,11 @@ public class RecipeController implements ExceptionProcessor {
     // 레시피 등록 처리
     @PostMapping("/create")
     public String createRcp(@ModelAttribute("recipe") Recipe recipe, Model model) {
+        //gid = UUID.randomUUID().toString();
+        uploadService.processDone(recipe.getGid());
         recipeRepository.save(recipe);
-        commonProcess("createRcp", model);
+        //commonProcess("createRcp", model);
+
         // *수정필
         //return utils.tpl("redirect:/board/recipe" + recipe.getId());
         return utils.tpl("/recipe/recipe");
@@ -112,19 +119,17 @@ public class RecipeController implements ExceptionProcessor {
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
-        // 스위치 문으로 ??
+
         if (mode.equals("allRcp")) {
             pageTitle = "모든 레시피";
-            addCommonScript.add("fileManager");
         } else if (mode.equals("detailRcp")) {
             pageTitle = "레시피 상세보기";
-            addCommonScript.add("fileManager");
         } else if (mode.equals("createForm")) {
             pageTitle = "레시피 등록하기";
-            addCommonScript.add("fileManager");
         } else if (mode.equals("editRcp")) {
             pageTitle = "레시피 수정하기";
         }
+
         addScript.add("recipe/form");
         addCommonScript.add("fileManager");
         model.addAttribute("pageTitle", pageTitle);
@@ -141,10 +146,11 @@ public class RecipeController implements ExceptionProcessor {
         ingredientRepository.save(new Ingredient("사과"));
         ingredientRepository.save(new Ingredient("가지"));
 
-        recipeRepository.save(new Recipe("작성자01", "볶음밥1"));
-        recipeRepository.save(new Recipe("작성자02", "볶음밥2"));
-        recipeRepository.save(new Recipe("작성자03", "볶음밥3"));
-        recipeRepository.save(new Recipe("작성자04", "볶음밥4"));
+        recipeRepository.save(new Recipe("작성자01", "볶음밥1", "1"));
+        recipeRepository.save(new Recipe("작성자02", "볶음밥2", "2"));
+        recipeRepository.save(new Recipe("작성자03", "볶음밥3", "3"));
+        recipeRepository.save(new Recipe("작성자04", "볶음밥4", "4"));
+
 
 
     }
