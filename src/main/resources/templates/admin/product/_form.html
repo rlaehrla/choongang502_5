@@ -4,14 +4,21 @@
       layout:decorate="~{admin/layouts/main}">
 
 <th:block th:fragment="form">
-    <table class="table_cols">
-        <input type="hidden"><!-- gid -->
+    <table class="table_cols" th:object="${requestProduct}">
+        <input type="hidden" name="gid" value="testgid">
         <tr>
-            <th>농장 선택</th>
+            <th>판매자</th>
             <td>
-                <select>
-                    <th:block>
-                        <option>농장이름-농부이름</option>
+                <input type="hidden" name="farmer" th:value="*{farmer}">
+                <th:block th:if="*{farmer != null}" th:text="*{farmer}"></th:block> <!-- session.getUserId-->
+            </td>
+        </tr>
+        <tr>
+            <th>상품 분류 코드</th>
+            <td>
+                <select name="category">
+                    <th:block th:if="${items != null}" th:each="item : ${items}">
+                        <option th:value="${item.name}" th:text="${item.name}"></option>
                     </th:block>
                 </select>
             </td>
@@ -21,31 +28,6 @@
             <td>
                 <input type="text">
                 <button class="sbtn" type="button">자동생성</button>
-            </td>
-        </tr>
-        <tr>
-            <th>상품 분류 코드</th>
-            <td>
-                <select>
-                    <optgroup label="곡물">
-                        <th:block>
-                            <!-- 대분류 곡물인 상품코드-->
-                            <option></option>
-                        </th:block>
-                    </optgroup>
-                    <optgroup label="채소">
-                        <th:block>
-                            <!-- 대분류 채소인 상품코드-->
-                            <option></option>
-                        </th:block>
-                    </optgroup>
-                    <optgroup label="과일">
-                        <th:block>
-                            <!-- 대분류 과일인 상품코드-->
-                            <option></option>
-                        </th:block>
-                    </optgroup>
-                </select>
             </td>
         </tr>
         <tr>
