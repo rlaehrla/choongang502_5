@@ -1,5 +1,6 @@
 package org.choongang.member.service;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.controllers.ApiConfig;
 import org.choongang.admin.config.service.ConfigInfoService;
@@ -23,6 +24,7 @@ import java.util.List;
 public class BusinessVerifyService {
 
     private final ConfigInfoService infoService ;
+    private final HttpSession session;
 
     /**
      * 사업자 등록증 상태 체크
@@ -66,7 +68,11 @@ public class BusinessVerifyService {
                 BusinessPermitData data = items.get(0);
 
                 String bStt = data.getB_stt();
-                return StringUtils.hasText(bStt) && bStt.equals("계속사업자");    // 사업자등록증의 상태가 "계속사업자"이어야 함
+
+                boolean isVerified = StringUtils.hasText(bStt) && bStt.equals("계속사업자");    // 사업자등록증의 상태가 "계속사업자"이어야 함
+                session.setAttribute("BusinessNoVerified", isVerified);
+
+                return isVerified ;
             }
             System.out.println(response);
         } catch (URISyntaxException e) {
