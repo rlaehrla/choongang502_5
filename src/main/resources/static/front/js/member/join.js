@@ -201,6 +201,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // 세션에서 mType 값 가져오기
     let mType = sessionStorage.getItem('mType');
+    console.log(mType) ;
     if (mType == 'M') {
         memberBtn.checked = true ;
         memberView() ;

@@ -7,9 +7,9 @@
 
     <form name="frmJoin" method="post" th:action="@{/member/join}" autocomplete="off" th:object="${requestJoin}">
         <div>
-            <input type="radio" name="memberType" id="member">
+            <input type="radio" name="mType" id="member">
             <label for="member">일반회원</label>
-            <input type="radio" name="memberType" id="farmer">
+            <input type="radio" name="mType" id="farmer">
             <label for="farmer">농장주인</label>
         </div>
         <input type="hidden" name="gid" th:field="*{gid}">

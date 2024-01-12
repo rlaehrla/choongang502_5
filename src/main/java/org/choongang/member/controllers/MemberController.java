@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import java.io.FilterOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,9 @@ public class MemberController implements ExceptionProcessor {
     public String join(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
 
-        String mType = StringUtils.hasText(form.getMtype()) ? form.getMtype() : "M" ;
-        session.setAttribute("mType", mType);    // 세션에 mType 값 저장
+        String mType = "M" ;
+        model.addAttribute("mType", mType) ;
+        System.out.println("get방식 : " + mType);
 
         // 이메일 인증과 사업자등록 번호 인증 여부 false --> 초기화
         model.addAttribute("EmailAuthVerified", false);
@@ -43,8 +45,12 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors, Model model, SessionStatus sessionStatus) {
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model,
+                         SessionStatus sessionStatus) {
         commonProcess("join", model);
+
+        String mType = (String) model.getAttribute("mType");
+        System.out.println("post방식 : " + mType);
 
         joinService.process(form, errors);
 

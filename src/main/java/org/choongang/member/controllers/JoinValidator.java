@@ -24,6 +24,7 @@ public class JoinValidator implements Validator, PasswordValidator {
     @Override
     public void validate(Object target, Errors errors) {
         /**
+         * [공통 validator]
          * 1. 이메일, 아이디 중복 여부 체크
          * 2. 비밀번호 복잡성 체크 - 대소문자 1개 각각 포함, 숫자 1개 이상 포함, 특수문자도 1개 이상 포함
          * 3. 비밀번호, 비밀번호 확인 일치 여부 체크
@@ -64,12 +65,34 @@ public class JoinValidator implements Validator, PasswordValidator {
             errors.rejectValue("email", "Required.verified");
         }
 
-        // 농장주인일 경우,
-        // 사업자등록 번호 인증 필수 여부 체크
-        boolean BusinessNoverified = (boolean) session.getAttribute("BusinessNoVerified") ;
-        if (!BusinessNoverified) {
-            // 사업자등록 번호 인증이 안된 경우
-            errors.rejectValue("businessPermitNum", "Required.verified");
+        /**
+         * [농장주인일 때만 필요한 validator]
+         * 1. 사업자등록 번호 필수 체크
+         * 2. 사업자등록 번호 인증 필수 체크
+         * 3. 농장이름 필수 체크
+         */
+        // mType값이 "F"인지 체크
+        String mType = (String) session.getAttribute("mType") ;
+        if (StringUtils.hasText(mType) && mType.equals("F")) {
+            String businessPermitNum = form.getBusinessPermitNum() ;
+            String farmTitle = form.getFarmTitle() ;
+
+            // 1. 사업자등록 번호 필수 체크
+            if (!StringUtils.hasText(businessPermitNum) || businessPermitNum.isBlank()) {
+                errors.rejectValue("businessPermitNum", "NotBlank");
+            }
+
+            // 2. 사업자등록 번호 인증 필수 여부 체크
+            boolean BusinessNoverified = (boolean) session.getAttribute("BusinessNoVerified");
+            if (!BusinessNoverified) {
+                // 사업자등록 번호 인증이 안된 경우
+                errors.rejectValue("businessPermitNum", "Required.verified");
+            }
+
+            // 3. 농장이름 필수 체크
+            if (!StringUtils.hasText(farmTitle) || farmTitle.isBlank()) {
+                errors.rejectValue("farmTitle", "NotBlank");
+            }
         }
     }
 }
