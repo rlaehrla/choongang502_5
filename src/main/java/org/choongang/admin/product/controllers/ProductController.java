@@ -1,5 +1,7 @@
 package org.choongang.admin.product.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.AdminMenu;
@@ -7,10 +9,13 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
+import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
+import org.choongang.product.entities.Product;
 import org.choongang.product.service.CategoryInfoService;
 import org.choongang.product.service.CategorySaveService;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,9 +33,13 @@ import java.util.Objects;
 @RequestMapping("/admin/product")
 public class ProductController implements ExceptionProcessor {
 
+    private final HttpServletRequest request;
     private final CategoryValidator categoryValidator;
     private final CategorySaveService categorySaveService;
     private final CategoryInfoService categoryInfoService;
+
+    private final ProductInfoService productInfoService;
+    private final FarmerRepository farmerRepository;
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "product";
@@ -62,9 +71,23 @@ public class ProductController implements ExceptionProcessor {
      */
 
     @GetMapping("/add")
-    public String add(Model model){
+    public String add(@ModelAttribute RequestProduct form, Model model){
+        HttpSession session = request.getSession();
+        String farmer = "";
+        session.setAttribute("userId", "농부1");
+        if(session.getAttribute("userId") != null){
+            farmer = session.getAttribute("userId").toString();
+        }
+
 
         commonProcess("add", model);
+
+
+        if(StringUtils.hasText(farmer)){
+            form.setFarmer(farmer);
+        }
+        //List<Product> items = productInfoService.getList();
+        //model.addAttribute("items", items);
 
         return "admin/product/add";
     }
@@ -77,6 +100,7 @@ public class ProductController implements ExceptionProcessor {
     @PostMapping("/add")
     public String save(Model model){
 
+
         return "redirect:/admin/product";
 
     }
@@ -87,6 +111,7 @@ public class ProductController implements ExceptionProcessor {
         commonProcess("category", model);
 
         List<Category> items = categoryInfoService.getList(true);
+
 
         model.addAttribute("items", items);
 
@@ -169,9 +194,9 @@ public class ProductController implements ExceptionProcessor {
 
         } else if (mode.equals("category")) {
             pageTitle = "상품분류";
-            model.addAttribute("mainCategory", MainCategory.getList());
         }
 
+        model.addAttribute("mainCategory", MainCategory.getList());
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);

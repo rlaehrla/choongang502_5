@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "MEMBER")
+@Table(name = "ABSTRACT_MEMBER")
 @DiscriminatorColumn(name = "MTYPE")    // 엔터티 상속, 회원 구분
 public abstract class AbstractMember extends Base {
     @Id @GeneratedValue

@@ -6,16 +6,17 @@
     <h1 th:text="#{장바구니}"></h1>
     <ul class="table_cols">
         <li>
-            <input type="checkbox" id="chkAll">
-            <label for="chkAll">전체선택</label>
+            <input type="checkbox" data-target-name="chk" id="checkall" class="checkall">
+            <label for="checkall">전체선택</label>
             <button type="button">선택삭제</button>
         </li>
        <!-- <th:block th:each="농장 : ${장바구니목록}" th:object="farm">-->
             <li>
                 <dl>
-                <!--th:each="item : ${농장당 상품}" th:object="item"-->
+                <!--th:each="item, status : ${농장당 상품}" th:object="item"-->
                 <dt th:text="#{농장이름}" ></dt>
                     <dd>
+                        <input type="checkbox" name="chk" th:id="*{'chk_' + status.index}">
                         <span th:text="#{상품명}"></span>
                         <img th:src="@{상품사진}">
                         <span th:text="#{재고}"></span>
