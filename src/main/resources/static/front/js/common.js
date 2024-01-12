@@ -1,4 +1,3 @@
-
 // 슬라이크 전체 크기(width 구하기)
 document.addEventListener('DOMContentLoaded', function() {
 const slide = document.querySelector(".slide");
