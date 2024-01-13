@@ -19,6 +19,12 @@ commonLib.fileManager = {
             }
 
 
+            if (singleFile) { // 단일 파일 업로드 -> 첫번째 업로드 파일로 한정
+               files = [files[0]];
+            }
+
+
+
             // gid
             const gidEl = document.querySelector("[name='gid']");
             if (!gidEl || !gidEl.value.trim()) {
@@ -78,7 +84,25 @@ commonLib.fileManager = {
             alert(err.message);
             console.error(err);
         }
-    }
+    },
+    /**
+    * 파일 삭제
+    *
+    * @param seq : 파일 등록 번호
+    */
+    delete(seq) {
+        const { ajaxLoad } = commonLib;
+
+        ajaxLoad('DELETE', `/api/file/${seq}`, null, "json")
+            .then(res => {
+                if (res.success) {
+                    if (typeof parent.callbackFileDelete == 'function') {
+                            parent.callbackFileDelete(res.data);
+                    }
+                }
+            })
+            .catch(err => console.error(err));
+        }
 };
 
 // 이벤트 처리
@@ -114,5 +138,23 @@ window.addEventListener("DOMContentLoaded", function() {
             fileEl.click();
         });
     }
+    /* 드래그 앤 드롭 파일 업로드 처리 S */  /* 업로드될 곳 */
+         const dragndropUploads = document.getElementsByClassName("dragndrop_uploads");
+         for (const el of dragndropUploads) {
+             el.addEventListener("dragover", function(e) {
+                 e.preventDefault(); // 기본 동작 차단
+             });
+
+             el.addEventListener("drop", function(e) {
+                 e.preventDefault(); // 기본 동작 차단
+
+                 const dataset = this.dataset;
+                 const files = e.dataTransfer.files;
+
+                 commonLib.fileManager.upload(files, dataset.location, dataset.imageOnly, dataset.singleFile);
+
+             });
+         }
+         /* 드래그 앤 드롭 파일 업로드 처리 E */
 
 });
