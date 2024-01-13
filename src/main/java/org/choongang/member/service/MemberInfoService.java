@@ -14,10 +14,7 @@ import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
-import org.choongang.member.entities.Authorities;
-import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Member;
-import org.choongang.member.entities.QMember;
+import org.choongang.member.entities.*;
 import org.choongang.member.repositories.MemberRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,18 +69,18 @@ public class MemberInfoService implements UserDetailsService {
     /**
      * 회원 목록 반환
      */
-    public ListData<Member> getList(MemberSearch search) {
+    public ListData<AbstractMember> getList(MemberSearch search) {
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1) ;    // 현재 페이지 번호
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20) ;    // 한 페이지 당 노출할 레코드 개수
         int offset = (page - 1) * limit ;    // 레코드 시작 위치 번호
 
         BooleanBuilder andBuilder = new BooleanBuilder() ;
-        QMember member = QMember.member ;
+        QAbstractMember member = QAbstractMember.abstractMember;
 
         PathBuilder<Member> pathBuilder = new PathBuilder<>(Member.class, "member") ;
 
-        List<Member> items = new JPAQueryFactory(em)
+        List<AbstractMember> items = new JPAQueryFactory(em)
                 .selectFrom(member)
                 .leftJoin(member.authorities)
                 .fetchJoin()
