@@ -240,7 +240,7 @@ window.addEventListener("DOMContentLoaded", function() {
                             callbackBNoVerify(data) ;
                         }
                     })
-                    .catch(err => console.error(err));/**/
+                    .catch(err => console.error(err));
         });
     }
 });
@@ -255,9 +255,11 @@ function callbackBNoVerify(data) {
         const bNoVerifyEl = document.getElementById("bNoVerify") ;
         bNoVerifyEl.parentElement.removeChild(bNoVerifyEl);
 
+        frmJoin.businessPermitNum.readonly = true ;
+
         // "✅사업자등록 번호가 확인되었습니다."라고 출력 처리
-        const bNoBoxEl = document.querySelector(".b_no_box");
-        bNoBoxEl.innerHTML += "<br><span class='confirmed'>✅사업자등록 번호가 확인되었습니다.</span>";
+        const bNoOkEl = document.querySelector(".b_no_ok");
+        bNoOkEl.innerHTML += "<span class='confirmed'>✅사업자등록 번호가 확인되었습니다.</span>";
     } else {
         alert('❌유효하지 않은 사업자등록입니다. 다시 확인해주세요.') ;
     }

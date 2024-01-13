@@ -16,8 +16,10 @@
                 <div class="b_no_box">
                     <input type="text" name="businessPermitNum" th:field="*{businessPermitNum}">
                     <button type="button" th:text="#{확인하기}" id="bNoVerify"></button>
-                    <div class="error" th:each="err : ${#fields.errors('businessPermitNum')}" th:text="${err}"></div>
                 </div>
+                <div class="b_no_ok"></div>
+
+                <div class="error" th:each="err : ${#fields.errors('businessPermitNum')}" th:text="${err}"></div>
 
                 <div>
                     <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"

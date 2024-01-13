@@ -1,3 +1,4 @@
+
 // 슬라이크 전체 크기(width 구하기)
 document.addEventListener('DOMContentLoaded', function() {
 const slide = document.querySelector(".slide");
@@ -206,3 +207,20 @@ slide.addEventListener("mouseout", () => {
   }, 3000);
 });
 });
+
+
+window.addEventListener("DOMContentLoaded", function() {
+    /* 전체 선택 토글 기능 S */
+    const checkAlls = document.getElementsByClassName("checkall");
+    for(const el of checkAlls){
+        el.addEventListener("click", function(){
+            const targetName = this.dataset.targetName;
+            const chks = document.getElementsByName(targetName);
+            for(const el of chks){
+                el.checked =this.checked;
+            }
+        });
+    }
+    /* 전체 선택 토글 기능 E */
+});
+
