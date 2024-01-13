@@ -8,7 +8,10 @@ import org.choongang.admin.config.controllers.BasicConfig;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.commons.api.BusinessPermit;
 import org.choongang.commons.api.BusinessPermitData;
+import org.choongang.configs.FileProperties;
+import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -170,5 +173,20 @@ public class Utils {
 
         return chars.stream().limit(length).collect(Collectors.joining());
     }
+
+
+    public String backgroundStyle(FileInfo file) {
+
+        String imageUrl = file.getFileUrl();
+        List<String> thumbsUrl = file.getThumbsUrl();
+        if (thumbsUrl != null && !thumbsUrl.isEmpty()) {
+            imageUrl = thumbsUrl.get(thumbsUrl.size() - 1);
+        }
+
+        String style = String.format("background:url('%s') no-repeat center center; background-size:cover;", imageUrl);
+
+        return style;
+    }
+
 
 }
