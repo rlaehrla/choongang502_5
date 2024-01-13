@@ -16,6 +16,7 @@ import java.util.UUID;
 @Data @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class Board extends BaseMember {
+    @Transient
     private String mode = "add";
 
     @Column(length=65, nullable = false)
