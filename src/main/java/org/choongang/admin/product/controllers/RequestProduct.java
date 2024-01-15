@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @Data
 public class RequestProduct {
+    private String mode = "add";
 
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 

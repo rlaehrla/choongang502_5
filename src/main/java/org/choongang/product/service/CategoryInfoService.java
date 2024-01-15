@@ -51,17 +51,21 @@ public class CategoryInfoService {
         QCategory category = QCategory.category;
         BooleanBuilder builder = new BooleanBuilder();
 
+
         if(!isAll){
             // 사용중인 분류만 조회
             builder.and(category.active.eq(true));
         }
+        /*if(!memberUtil.isAdmin()){
+            builder.and(category.farmer.userId.eq(memberUtil.getMember().getUserId()));
+        }*/
 
         List<Category> items = (List<Category>) repository.findAll(builder, Sort.by(desc("listOrder"), desc("createdAt")));
 
         return items;
     }
 
-    public List<Category> getlist(){
+    public List<Category> getList(){
         // 사용중인 목룍만 조회
         return getList(false);
     }
