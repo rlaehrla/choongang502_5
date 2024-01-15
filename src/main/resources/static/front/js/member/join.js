@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", function() {
                         frmJoin.email.focus();
                     } else { // 중복이메일이 아닌 경우
                         sendEmailVerify(email); // 이메일 인증 코드 전송
-                        this.disabled = frmJoin.email.readonly = true;
+                        this.disabled = frmJoin.email.readOnly = true;
 
                          /* 인증코드 재전송 처리 S */
                          if (emailReVerifyEl) {
@@ -101,7 +101,7 @@ function callbackEmailVerifyCheck(data) {
         emailVerifyEl.parentElement.removeChild(emailVerifyEl);
 
         // 3. 이메일 입력 항목 readonly 속성으로 변경
-        frmJoin.email.readonly = true;
+        frmJoin.email.readOnly = true;
 
         // 4. 인증 성공시 인증코드 입력 영역 제거, 5. 인증 코드 입력 영역에 "확인된 이메일 입니다."라고 출력 처리
         const authBoxEl = document.querySelector(".auth_box");
@@ -140,7 +140,7 @@ const authCount = {
                 const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
                 const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
                 emailConfirmEl.disabled = emailReVerifyEl.disabled = true;
-                emailVerifyEl.disabled = frmJoin.email.readonly = false;
+                emailVerifyEl.disabled = frmJoin.email.readOnly = false;
                 return;
             }
 
@@ -161,7 +161,7 @@ const authCount = {
         const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
         const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
         emailConfirmEl.disabled = emailReVerifyEl.disabled = false;
-        emailVerifyEl.disabled = frmJoin.email.readonly = true;
+        emailVerifyEl.disabled = frmJoin.email.readOnly = true;
 
         this.count = 60 * 3;
         if (this.intervalId) clearInterval(this.intervalId);
@@ -217,6 +217,54 @@ window.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+/**
+* 아이디 중복 확인
+*/
+window.addEventListener("DOMContentLoaded", function() {
+    const idDupCheckBtn = document.querySelector('#userId_dup_check') ;
+    if (idDupCheckBtn) {
+        idDupCheckBtn.addEventListener("click", function() {
+            const userId = frmJoin.userId.value.trim();
+            const { ajaxLoad } = commonLib ;
+
+            ajaxLoad("GET", `/api/member/userId_dup_check?userId=${userId}`, null, "json")
+                .then(data => {
+                    if (data.success) {
+                        alert("❌이미 존재하는 아이디입니다.") ;
+                        frmJoin.userId.focus() ;
+                    } else {
+                        alert("✅사용 가능한 아이디입니다.") ;
+                        idDupCheckBtn.insertAdjacentHTML('afterend', "<div class='confirmed'>✅사용 가능한 아이디입니다.</div>");
+                    }
+                })
+        });
+    }
+});
+
+/**
+* 닉네임 중복 확인
+*/
+window.addEventListener("DOMContentLoaded", function() {
+    const nickDupCheckBtn = document.querySelector('#nickname_dup_check') ;
+    if (nickDupCheckBtn) {
+        nickDupCheckBtn.addEventListener("click", function() {
+            const nickname = frmJoin.nickname.value.trim();
+            const { ajaxLoad } = commonLib ;
+
+            ajaxLoad("GET", `/api/member/nickname_dup_check?nickname=${nickname}`, null, "json")
+                .then(data => {
+                    if (data.success) {
+                        alert("❌이미 존재하는 닉네임입니다.") ;
+                        frmJoin.nickname.focus() ;
+                    } else {
+                        alert("✅사용 가능한 닉네임입니다.") ;
+                        nickDupCheckBtn.insertAdjacentHTML('afterend', "<div class='confirmed'>✅사용 가능한 닉네임입니다.</div>");
+                    }
+                })
+        });
+    }
+});
+
 /* 사업자등록증 상태 체크 S */
 window.addEventListener("DOMContentLoaded", function() {
     const bNoVerifyEl = document.getElementById("bNoVerify") ;    // 확인하기 버튼
@@ -255,7 +303,7 @@ function callbackBNoVerify(data) {
         const bNoVerifyEl = document.getElementById("bNoVerify") ;
         bNoVerifyEl.parentElement.removeChild(bNoVerifyEl);
 
-        frmJoin.businessPermitNum.readonly = true ;
+        frmJoin.businessPermitNum.readOnly = true ;
 
         // "✅사업자등록 번호가 확인되었습니다."라고 출력 처리
         const bNoOkEl = document.querySelector(".b_no_ok");

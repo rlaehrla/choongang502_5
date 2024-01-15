@@ -24,7 +24,7 @@ class ProjectApplicationTests {
 		AbstractMember member = memberRepository.findByUserId("user01").orElse(null);
 
 		Authorities authorities = new Authorities();
-		authorities.setMember(member);
+//		authorities.setMember(member);
 		authorities.setAuthority(Authority.ADMIN);
 
 		authoritiesRepository.saveAndFlush(authorities);
