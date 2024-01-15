@@ -32,7 +32,7 @@ public abstract class AbstractMember extends Base {
     @Column(length=40, nullable = false)
     private String username;
 
-    @Column(length = 40, nullable = false)
+    @Column(length = 40, nullable = false, unique = true)
     private String nickname ;
 
     @Column(length = 40, nullable = false)

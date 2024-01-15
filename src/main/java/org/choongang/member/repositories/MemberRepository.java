@@ -29,6 +29,12 @@ public interface MemberRepository extends JpaRepository<AbstractMember, Long>, Q
         return exists(member.userId.eq(userId));
     }
 
+    default boolean existsByNickname(String nickname) {
+        QAbstractMember member = QAbstractMember.abstractMember ;
+
+        return exists(member.nickname.eq(nickname)) ;
+    }
+
     /**
      * 이메일과 회원명으로 조회되는지 체크
      */
