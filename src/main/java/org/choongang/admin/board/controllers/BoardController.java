@@ -74,7 +74,7 @@ public class BoardController implements ExceptionProcessor {
 
         configSaveService.saveList(chks); // 업데이트할 수 있게 넣어준다.
 
-        model.addAttribute("script", "parent.location.reload();");
+        model.addAttribute("script", "parent.location.reload()");
 
         return "common/_execute_script";
     }
@@ -83,7 +83,6 @@ public class BoardController implements ExceptionProcessor {
     public String deleteList(@RequestParam("chk") List<Integer> chks, Model model) {
         commonProcess("list", model);
 
-        configDeleteService.deleteList(chks);
 
         model.addAttribute("script", "parent.location.reload();");
 

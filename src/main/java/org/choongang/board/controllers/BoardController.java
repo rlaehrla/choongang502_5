@@ -1,5 +1,6 @@
 package org.choongang.board.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.entities.Board;
 import org.choongang.board.entities.BoardData;
@@ -7,10 +8,16 @@ import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Member;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,7 +29,11 @@ import java.util.List;
 public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigInfoService configInfoService; // 게시판 설정 조회 서비스
+    private final FileInfoService fileInfoService; // 파일 정보 조회
 
+    private final BoardFormValidator boardFormValidator;
+
+    private final MemberUtil memberUtil;
     private final Utils utils;
 
     private Board board; // 게시판 설정
@@ -76,8 +87,14 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model) {
+    public String write(@PathVariable("bid") String bid,
+                        @ModelAttribute RequestBoard form, Model model ) {
         commonPrecess(bid, "write", model);
+
+        if (memberUtil.isLogin()) {
+            AbstractMember member = memberUtil.getMember();
+            form.setPoster(member.getUsername());
+        }
 
         return utils.tpl("board/write");
     }
@@ -102,9 +119,30 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @PatchMapping("/save")
-    public String save(Model model) {
+    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+        String bid = form.getBid();
+        String mode = form.getMode();
+        commonPrecess(bid, mode, model);
 
-        return null;
+        boardFormValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            String gid = form.getGid();
+            List<FileInfo> editorFiles = fileInfoService.getList(gid, "editor");
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
+            form.setEditorFiles(editorFiles);
+            form.setAttachFiles(attachFiles);
+
+            return utils.tpl("board/" + mode);
+        }
+
+        Long seq = 0L; // 임시
+
+        String redirectURL = "/board/";
+        redirectURL += board.getLocationAfterWriting() == "view" ? "view/" + seq : "list/" + form.getBid(); // 글 작성후 이동 장소  - 게시글 상세 : 게시글 목록
+
+        return redirectURL;
     }
 
     /**
