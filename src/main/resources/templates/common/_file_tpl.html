@@ -9,7 +9,7 @@
     </div>
 </script>
 
-<script type="text/html" id="attach_tpl" th:fragment="attach_tpl">
+<script type="text/html" id="attach_tpl" th:fragment="attach_tpl"> <!--attach_tpl : 첨부파일-->
     <span class="file_tpl_box" id="file_[seq]">
         <a th:href="@{/file/download/[seq]}">[fileName]</a>
           <a th:href="@{/file/delete/[seq]}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
