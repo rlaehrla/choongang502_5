@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<AbstractMember, Long>, QuerydslPredicateExecutor<AbstractMember> {
 
-    @EntityGraph(attributePaths = "authorities")
+    @EntityGraph(attributePaths = { "authorities" })
     Optional<AbstractMember> findByEmail(String email);
 
-    @EntityGraph(attributePaths = "authorities")
+    @EntityGraph(attributePaths = { "authorities" })
     Optional<AbstractMember> findByUserId(String userId);
 
     default boolean existsByEmail(String email) {
@@ -23,6 +23,7 @@ public interface MemberRepository extends JpaRepository<AbstractMember, Long>, Q
         return exists(member.email.eq(email));
     }
 
+   @EntityGraph(attributePaths = { "authorities" })
     default boolean existsByUserId(String userId) {
         QAbstractMember member = QAbstractMember.abstractMember;
 

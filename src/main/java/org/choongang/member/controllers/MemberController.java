@@ -9,6 +9,7 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.member.service.FindPwService;
 import org.choongang.member.service.JoinService;
+import org.choongang.member.service.MemberInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -84,7 +85,17 @@ public class MemberController implements ExceptionProcessor {
         return utils.tpl("member/login");
     }
 
+    @GetMapping("/info")
+    public String memberInfo(Model model) {
+        commonProcess("memberInfo", model);
 
+        return utils.tpl("member/info") ;
+    }
+
+    @PostMapping("/info")
+    public String memberInfoSave(@Valid RequestJoin form, Errors errors, Model model) {
+        return "redirect:/member/info" ;
+    }
 
     /**
      * 비밀번호 찾기 양식
@@ -163,6 +174,8 @@ public class MemberController implements ExceptionProcessor {
         } else if (mode.equals("cart")) {
             // 장바구니
             pageTitle = Utils.getMessage("장바구니", "commons");
+        } else if (mode.equals("memberInfo")) {
+            pageTitle = Utils.getMessage("회원정보_수정", "commons") ;
         }
 
         model.addAttribute("pageTitle", pageTitle);

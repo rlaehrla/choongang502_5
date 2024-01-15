@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <h1>회원정보 수정</h1>
+
+    <th:block sec:authorize="isAuthenticated()">
+            <th:block th:text="${session.member.address}"></th:block>
+            <form name="frmInfo" th:object="${session.member}">
+                <dl>
+                    <dt th:text="#{이메일}"></dt>
+                    <dd>
+                        <div>
+                            <input type="text" name="email" th:value="*{email}" readonly>
+                        </div>
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{아이디}"></dt>
+                    <dd>
+                        <input type="text" name="userId" th:value="*{userId}" readonly>
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{비밀번호}"></dt>
+                    <dd>
+                        <input type="password" name="password" th:value="*{password}">
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{비밀번호_확인}"></dt>
+                    <dd>
+                        <input type="password" name="confirmPassword" th:value="*{password}">
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{회원명}"></dt>
+                    <dd>
+                        <input type="text" name="username" th:value="*{username}">
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{전화번호}"></dt>
+                    <dd>
+                        <input type="tel" name="tel" th:value="*{tel}" oninput="autoHyphen(this)" maxlength="13">
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{주소}"></dt>
+                    <dd>
+                        <th:block th:text="*{address}"></th:block>
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{프로필_이미지}"></dt>
+                    <dd>
+                        <div id="profile_image"></div>
+                        <button type="button" class="upload_files"
+                                th:text="#{이미지_업로드}" data-image-only="true"
+                                data-single-file="true"></button>
+                    </dd>
+                </dl>
+
+                <!--        추가 항목을 분리
+                       <th:block th:replace="~{front/member/_join_farmer::member}"></th:block>-->
+                <th:block th:text="${session.member.authorities}">
+                    <h1>농장주인</h1>
+                    <!-- <dl>
+                        <dt th:text="#{농장이름}"></dt>
+                        <dd>
+                            <input type="text" name="farmTitle" th:value="*{farmTitle}">
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt th:text="#{사업자_번호}"></dt>
+                        <dd>
+                            <div class="b_no_box">
+                                <input type="text" name="businessPermitNum" th:value="*{businessPermitNum}" readonly>
+                            </div>
+
+                            <div>
+                                <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"
+                                        data-location="business_permit"></button>
+                            </div>
+                        </dd>
+                    </dl>-->
+                </th:block>
+
+                <button type="button">취소</button>
+                <button type="submit">저장</button>
+
+                <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+
+            </form>
+    </th:block>
+</main>
+</html>
