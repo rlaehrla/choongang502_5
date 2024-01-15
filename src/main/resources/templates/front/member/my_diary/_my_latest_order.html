@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="latest_order">
+    <div>
+        <div>
+            <th:block th:text="#{최신_주문내역(최근3개월)}"></th:block>
+            <table class="table_cols mb30">
+                <tr>
+                    <th th:text="#{주문번호}"></th>
+                    <th th:text="#{주문일}"></th>
+                    <th th:text="#{종류}"></th>
+                    <th th:text="#{가격}"></th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+
+            </table>
+        </div>
+        <a th:href="@{/mypage/allorders}" th:text="#{전체_주문내역}"></a>
+    </div>
+</th:block>
+</html>
