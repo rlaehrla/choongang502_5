@@ -64,7 +64,7 @@ public class JoinService {
 
             processFarmer(farmer);
 
-            // 농부 회원 --> USER 권한 부여
+            // 농부 회원 --> FARMER 권한 부여
             authorities.setFarmer(farmer);
             authorities.setAuthority(Authority.FARMER);
         } else {
@@ -73,7 +73,7 @@ public class JoinService {
 
             processMember(_member);
 
-            // 일반 회원 --> FARMER 권한 부여
+            // 일반 회원 --> USER 권한 부여
             authorities.setMember(_member);
             authorities.setAuthority(Authority.USER);
         }

@@ -20,6 +20,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         /* 회원 정보 조회 편의 구현 */
         MemberInfo memberInfo = (MemberInfo) authentication.getPrincipal();
+        session.setAttribute("memberInfo", memberInfo);
         AbstractMember member = memberInfo.getMember();
         session.setAttribute("member", member);
 
