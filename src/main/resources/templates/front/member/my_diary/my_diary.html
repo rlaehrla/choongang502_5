@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content" >
+    <h1>마이 다이어리</h1>
+    <div>
+        <div th:object="${requestMemberInfo}">
+            <input type="hidden" name="gid" value="testgid">
+            <input type="text" name="userId" th:field="*{userId}"><br>
+            프로필메세지<br>
+            <div id="profile_image"></div>
+
+        </div>
+        <div>
+            <a th:href="@{/member/info}" th:text="#{프로필 수정}"></a>
+            <button><i class="xi-heart-o"></i></button>
+        </div>
+        <div class="widget_tab">
+            <ul class="tabs">
+                <li>
+                    <input type="radio" name="tab" class="tab" value="/mypage/diary/content/my_diary_bookmark" id="widget_tab1" checked>
+                    <label for="widget_tab1">북마크</label>
+                </li>
+                <li>
+                    <input type="radio" name="tab" class="tab" value="/mypage/diary/content/my_diary_recipe" id="widget_tab2">
+                    <label for="widget_tab2">레시피</label>
+
+                </li>
+            </ul>
+
+            <div class="tab_content">
+                <!-- 갤러리 ? -->
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+</main>
+<script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+
+</html>
