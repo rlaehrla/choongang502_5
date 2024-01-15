@@ -68,10 +68,7 @@ commonLib.fileManager = {
                     if (res && res.success) { // 파일 업로드 성공시
 
                         if (typeof parent.callbackFileUpload == 'function') {
-                            console.log(res);
-                            console.log("여기1");
                             parent.callbackFileUpload(res.data);
-                            console.log("여기3");
                         }
 
                     } else { // 파일 업로드 실패시

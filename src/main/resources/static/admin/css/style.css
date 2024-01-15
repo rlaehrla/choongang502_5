@@ -91,7 +91,7 @@ select { border: 1px solid #d5d5d5; height: 35px; }
 /* 페이징 공통 E */
 
 /* 파일 공통 S */
-.file_tpl_box { display: inline-block; padding: 7px 10px; border: 1px solid #222; border-radius: 3px; margin: 5px 2px 0 0; background: #fff; }
+.file_tpl_box { display: inline-block; padding: 7px 10px; border-radius: 3px; margin: 5px 2px 0 0; }
 
 .file_tpl_box a:not(.remove) { text-decoration: underline; }
 .file_tpl_box i { padding: 0 5px; cursor: pointer; }
