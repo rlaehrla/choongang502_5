@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.board.entities.Board;
+import org.choongang.board.service.config.BoardConfigDeleteService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.config.BoardConfigSaveService;
 import org.choongang.commons.ListData;
@@ -27,6 +28,8 @@ public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigSaveService configSaveService;
     private final BoardConfigInfoService configInfoService;
+    private final BoardConfigDeleteService configDeleteService;
+
     private final BoardConfigValidator configValidator;
 
     @ModelAttribute("menuCode")
@@ -57,6 +60,34 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("pagination", pagination);
 
         return "admin/board/list";
+    }
+
+    /**
+     * 게시판 목록 - 수정
+     *
+     * @param chks
+     * @return
+     */
+    @PatchMapping
+    public String editList(@RequestParam("chk") List<Integer> chks, Model model) {
+        commonProcess("list", model);
+
+        configSaveService.saveList(chks); // 업데이트할 수 있게 넣어준다.
+
+        model.addAttribute("script", "parent.location.reload();");
+
+        return "common/_execute_script";
+    }
+
+    @DeleteMapping
+    public String deleteList(@RequestParam("chk") List<Integer> chks, Model model) {
+        commonProcess("list", model);
+
+        configDeleteService.deleteList(chks);
+
+        model.addAttribute("script", "parent.location.reload();");
+
+        return "common/_execute_script";
     }
 
     /**
