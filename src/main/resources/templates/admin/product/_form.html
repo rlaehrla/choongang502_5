@@ -7,13 +7,14 @@
     <h2>기본 정보</h2>
     <table class="table_cols mb30">
         <input type="hidden" name="gid" value="testgid">
+        <input type="hidden" name="mode" value="add">
         <tr>
             <th>판매자</th>
             <td>
                 <th:block th:if="${@memberUtil.isAdmin()}">
                     <select>
                         <th:block th:each="farmer : ${farmers}">
-                            <option th:value="${farmer.username}"></option> <!-- 농장 고를수 있도록-->
+                            <option th:value="${farmer.username}" th:text="${farmer.username}"></option>
                         </th:block>
                     </select>
                 </th:block>
@@ -63,19 +64,19 @@
         <tr>
             <th>소비자가</th>
             <td>
-                <input type="number" name="consumerPrice" th:field="*{consumerPrice}">
+                <input type="number" name="consumerPrice" th:field="*{consumerPrice}" min="0">
             </td>
         </tr>
         <tr>
             <th>판매가</th>
             <td>
-                <input type="number" name="salePrice" th:field="*{salePrice}">
+                <input type="number" name="salePrice" th:field="*{salePrice}" min="0">
             </td>
         </tr>
         <tr>
             <th>상품할인</th>
             <td>
-                <input type="number" name="discount" th:field="*{discount}">
+                <input type="number" name="discount" th:field="*{discount}" min="0">
                 <select name="discountType" th:field="*{discountType}">
                     <option value="PERCENT">%</option>
                     <option value="PRICE">원</option>
@@ -94,7 +95,7 @@
         <tr>
             <th>배송비</th>
             <td>
-                <input type="number" name="deliveryPrice" th:field="*{deliveryPrice}">
+                <input type="number" name="deliveryPrice" th:field="*{deliveryPrice}" min="0">
             </td>
         </tr>
         <tr>
@@ -104,7 +105,7 @@
                     <option value="true">사용</option>
                     <option value="false">미사용</option>
                 </select>
-                <input type="number" name="stock" th:field="*{stock}">
+                <input type="number" name="stock" th:field="*{stock}" min="0">
             </td>
         </tr>
     </table>
@@ -115,6 +116,7 @@
         <tr>
             <th>메인이미지</th>
             <td>
+
                 <div class="uploaded_files" id="uploaded_files_product_main">
                     <th:block th:each="item : *{mainImages}">
                         <span th:replace="~{common/_editor_file::item}"></span>
@@ -193,6 +195,6 @@
         </div>
     </div>
     <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
-
+    <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
 </th:block>
 </html>

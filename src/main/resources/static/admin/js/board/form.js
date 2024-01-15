@@ -141,6 +141,5 @@ function insertImage(editor, source) {
 */
 function callbackFileDelete(seq) {
     const fileBox = document.getElementById(`file_${seq}`);
-    fileBox.classList.remove('uploaded');
-    fileBox.style.backgroundImage = fileBox.style.backgroundPosition = fileBox.style.backgroundSize = null;
+    fileBox.parentElement.removeChild(fileBox);
 }

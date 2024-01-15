@@ -9,6 +9,7 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.repositories.FarmerRepository;
@@ -80,6 +81,10 @@ public class ProductController implements ExceptionProcessor {
     public String add(@ModelAttribute RequestProduct form, Model model){
         commonProcess("add", model);
         HttpSession session = request.getSession();
+
+        if(!memberUtil.isAdmin() && !memberUtil.isFarmer()){
+            throw new UnAuthorizedException();
+        }
 
         if(memberUtil.isFarmer()){
             form.setFarmer(memberUtil.getMember().getUserId());

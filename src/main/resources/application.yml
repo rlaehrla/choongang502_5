@@ -73,4 +73,4 @@ logging:
 file:
   upload:
     path: C:/uploads/
-    url: /uploads/
+    url: /upload/

@@ -1,22 +1,15 @@
 window.addEventListener("DOMContentLoaded", function() {
     const { loadEditor } = commonLib;
 
-
     loadEditor("description")
-        .then(editor => window.editor1 = editor)
+        .then(editor => window.editor = editor)
         .catch(err => console.error(err));
 
 
     /* 이미지 본문 추가 이벤트 처리 S */
     const insertImages = document.getElementsByClassName("insert_image");
     for (const el of insertImages) {
-        el.addEventListener("click", function() {
-            const parentId = this.parentElement.parentElement.id;
-            const editor = editor1;
-            const url = this.dataset.url;
-
-            insertImage(editor, url);
-        });
+        el.addEventListener("click", (e) => insertImage(e.currentTarget.dataset.url));
     }
     /* 이미지 본문 추가 이벤트 처리 E */
 
@@ -32,34 +25,51 @@ function callbackFileUpload(files) {
     }
 
     const tpl = document.getElementById("editor_tpl").innerHTML;
+    const tpl2 = document.getElementById("image1_tpl").innerHTML;
+
     const domParser = new DOMParser();
-    const target = document.getElementById("uploaded_files_description");
+    const targetMain = document.getElementById("uploaded_files_product_main");
+    const targetList = document.getElementById("uploaded_files_product_list");
+    const targetDesc = document.getElementById("uploaded_files_description");
 
+    const imageUrls = [];
     for (const file of files) {
-
-       const editor = editor1;
-
-        insertImage(editor, file.fileUrl); // 에디터에 이미지 추가
+        let target, html;
+        const location = file.location;
+        if(location == 'product_main'){
+            target = targetMain;
+            html = tpl2;
+        }
+        else if(location == 'product_list'){
+            target = targetList;
+            html = tpl2;
+        }
+        else{
+            html = tpl;
+            target = targetDesc;
+            imageUrls.push(file.fileUrl);
+        }
 
        /* 템플릿 데이터 치환 S */
-        let html = tpl;
+
         html = html.replace(/\[seq\]/g, file.seq)
                     .replace(/\[fileName\]/g, file.fileName)
                     .replace(/\[imageUrl\]/g, file.fileUrl);
 
         const dom = domParser.parseFromString(html, "text/html");
-        const fileBox = dom.querySelector(".file_tpl_box");
+        const fileBox = location == 'description' ? dom.querySelector(".file_tpl_box") : dom.querySelector(".image1_tpl_box");
         target.appendChild(fileBox);
 
 
         const el = fileBox.querySelector(".insert_image")
         if (el) {
             // 이미지 본문 추가 이벤트
-            el.addEventListener("click", () => insertImage(editor, file.fileUrl));
+            el.addEventListener("click", () => insertImage(file.fileUrl));
         }
-
        /* 템플릿 데이터 치환 E */
     }
+
+    insertImage(imageUrls);
 
 }
 
@@ -69,7 +79,7 @@ function callbackFileUpload(files) {
 * 에디터에 이미지 추가
 *
 */
-function insertImage(editor, source) {
+function insertImage(source) {
     editor.execute('insertImage', { source });
 }
 
@@ -79,7 +89,6 @@ function insertImage(editor, source) {
 * @param seq : 파일 등록 번호
 */
 function callbackFileDelete(seq) {
-    const fileBox = document.getElementById(`file_${seq}`);
-    fileBox.classList.remove('uploaded');
-    fileBox.style.backgroundImage = fileBox.style.backgroundPosition = fileBox.style.backgroundSize = null;
+   const fileBox = document.getElementById(`file_${seq}`);
+       fileBox.parentElement.removeChild(fileBox);
 }
