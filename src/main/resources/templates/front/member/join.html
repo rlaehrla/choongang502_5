@@ -41,6 +41,7 @@
             <dt th:text="#{아이디}"></dt>
             <dd>
                 <input type="text" name="userId" th:field="*{userId}">
+                <button type="button" id="userId_dup_check" th:text="#{중복_확인}"></button>
                 <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -82,6 +83,7 @@
             <dt th:text="#{닉네임}"></dt>
             <dd>
                 <input type="text" name="nickname" th:field="*{nickname}">
+                <button type="button" id="nickname_dup_check" th:text="#{중복_확인}"></button>
                 <div class="error" th:each="err : ${#fields.errors('nickname')}" th:text="${err}"></div>
             </dd>
         </dl>

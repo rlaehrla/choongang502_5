@@ -1,6 +1,7 @@
 package org.choongang.member.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
-    private final HttpServletRequest request ;
+    private final HttpServletResponse response;
     private final HttpSession session ;
 
     @GetMapping("/join")
@@ -58,6 +61,18 @@ public class MemberController implements ExceptionProcessor {
 
         // 세션값 비우기 --> 이메일 인증과 사업자등록번호 인증 초기화
         sessionStatus.setComplete();
+
+        // 회원가입 완료 메세지 띄우기
+        try {
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter writer = response.getWriter() ;
+            writer.write("<script>alert('회원가입을 완료했습니다!😊'); " +
+                    "location.href='/member/login'</script>");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return "redirect:/member/login";
     }

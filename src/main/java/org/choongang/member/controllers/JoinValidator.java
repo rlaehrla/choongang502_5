@@ -36,16 +36,21 @@ public class JoinValidator implements Validator, PasswordValidator {
         RequestJoin form = (RequestJoin)target;
         String email = form.getEmail();
         String userId = form.getUserId();
+        String nickname = form.getNickname() ;
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
 
-        // 1. 이메일, 아이디 중복 여부 체크
+        // 1. 이메일, 아이디, 닉네임 중복 여부 체크
         if (StringUtils.hasText(email) && memberRepository.existsByEmail(email)) {
             errors.rejectValue("email", "Duplicated");
         }
 
         if (StringUtils.hasText(userId) && memberRepository.existsByUserId(userId)) {
             errors.rejectValue("userId", "Duplicated");
+        }
+
+        if (StringUtils.hasText(nickname) && memberRepository.existsByNickname(nickname)) {
+            errors.rejectValue("nickname", "Duplicated");
         }
 
         // 2. 비밀번호 복잡성 체크 - 대소문자 1개 각각 포함, 숫자 1개 이상 포함, 특수문자도 1개 이상 포함
