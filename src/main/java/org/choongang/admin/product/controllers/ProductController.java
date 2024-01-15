@@ -9,13 +9,17 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Farmer;
 import org.choongang.member.repositories.FarmerRepository;
+import org.choongang.member.service.MemberInfoService;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
 import org.choongang.product.service.CategoryInfoService;
 import org.choongang.product.service.CategorySaveService;
 import org.choongang.product.service.ProductInfoService;
+import org.choongang.product.service.ProductSaveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,9 +41,11 @@ public class ProductController implements ExceptionProcessor {
     private final CategoryValidator categoryValidator;
     private final CategorySaveService categorySaveService;
     private final CategoryInfoService categoryInfoService;
+    private final ProductValidator productValidator;
+    private final ProductSaveService productSaveService;
+    private final MemberUtil memberUtil;
+    private final MemberInfoService memberInfoService;
 
-    private final ProductInfoService productInfoService;
-    private final FarmerRepository farmerRepository;
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "product";
@@ -72,22 +78,26 @@ public class ProductController implements ExceptionProcessor {
 
     @GetMapping("/add")
     public String add(@ModelAttribute RequestProduct form, Model model){
+        commonProcess("add", model);
         HttpSession session = request.getSession();
-        String farmer = "";
+
+        String user = "";
         session.setAttribute("userId", "농부1");
         if(session.getAttribute("userId") != null){
-            farmer = session.getAttribute("userId").toString();
+            user = session.getAttribute("userId").toString();
         }
 
+        /*if(memberUtil.isAdmin()){
+            List<Farmer> farmers = memberInfoService.getFarmerList();
+            model.addAttribute("farmers", farmers);
+        }*/
 
-        commonProcess("add", model);
 
-
-        if(StringUtils.hasText(farmer)){
-            form.setFarmer(farmer);
+        if(StringUtils.hasText(user)){
+            form.setFarmer(user);
         }
-        //List<Product> items = productInfoService.getList();
-        //model.addAttribute("items", items);
+        List<Category> categories = categoryInfoService.getList();
+        model.addAttribute("categories", categories); // 사용가능한 category들 추가
 
         return "admin/product/add";
     }
@@ -97,9 +107,18 @@ public class ProductController implements ExceptionProcessor {
      * @param model
      * @return
      */
-    @PostMapping("/add")
-    public String save(Model model){
+    @PostMapping("/save")
+    public String save(@Valid RequestProduct form, Errors errors, Model model){
+        String mode = form.getMode();
+        commonProcess(mode, model);
 
+        productValidator.validate(form, errors);
+
+        if(errors.hasErrors()){
+            return "admin/product/" + mode;
+        }
+
+        productSaveService.save(form);
 
         return "redirect:/admin/product";
 

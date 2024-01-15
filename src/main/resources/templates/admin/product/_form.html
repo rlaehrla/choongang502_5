@@ -3,71 +3,195 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 
-<th:block th:fragment="form">
-    <table class="table_cols" th:object="${requestProduct}">
+<th:block th:fragment="form" th:object="${requestProduct}">
+    <h2>기본 정보</h2>
+    <table class="table_cols mb30">
         <input type="hidden" name="gid" value="testgid">
         <tr>
             <th>판매자</th>
             <td>
-                <input type="hidden" name="farmer" th:value="*{farmer}">
-                <th:block th:if="*{farmer != null}" th:text="*{farmer}"></th:block> <!-- session.getUserId-->
+                <!--<th:block th:if="${@memberUtils.isAdmin()}">
+                    <select>
+                        <th:block th:each="farmer : ${farmers}">
+                            <option th:value="${farmer.username}"></option> &lt;!&ndash; 농장 고를수 있도록&ndash;&gt;
+                        </th:block>
+                    </select>
+                </th:block>-->
+                <!--<th:block th:unless="${@memberUtils.isAdmin()}">-->
+                    <input type="hidden" name="farmer" th:value="*{farmer}">
+                    <th:block th:if="*{farmer != null}" th:text="*{farmer}"></th:block>
+                <!--</th:block>-->
             </td>
         </tr>
         <tr>
-            <th>상품 분류 코드</th>
+            <th>노출여부</th>
+            <td>
+                <input type="radio" name="active" value="true" th:field="*{active}" id="active_true">
+                <label for="active_true">노출</label>
+                <input type="radio" name="active" value="false" th:field="*{active}" id="active_false">
+                <label for="active_false">미노출</label>
+            </td>
+        </tr>
+        <tr>
+            <th>상품상태</th>
+            <td>
+                <input type="radio" name="status" value="SALES" th:field="*{status}" id="status_sales">
+                <label for="status_sales">판매중</label>
+                <input type="radio" name="status" value="OUT_OF_STUCK" th:field="*{status}" id="status_out_of_stuck">
+                <label for="status_out_of_stuck">품절</label>
+                <input type="radio" name="status" value="PREPARE" th:field="*{status}" id="status_prepare">
+                <label for="status_prepare">상품준비중</label>
+            </td>
+        </tr>
+        <tr>
+            <th>분류코드</th>
             <td>
                 <select name="category">
-                    <th:block th:if="${items != null}" th:each="item : ${items}">
-                        <option th:value="${item.name}" th:text="${item.name}"></option>
+                    <th:block th:if="${categories != null}" th:each="category : ${categories}">
+                        <option th:value="${category.cateNm}" th:text="${category.cateNm}" th:field="*{category}"></option>
                     </th:block>
                 </select>
             </td>
         </tr>
         <tr>
-            <th>상품 코드</th>
+            <th>상품명</th>
             <td>
-                <input type="text">
-                <button class="sbtn" type="button">자동생성</button>
+                <input type="text" name="name" th:feild="*{name}">
             </td>
         </tr>
         <tr>
-            <th>상품 등급</th>
+            <th>소비자가</th>
             <td>
-                <input type="radio" name="productGd" id="nice">
-                <label for="nice">예쁜거</label>
-                <input type="radio" name="productGd" id="ugly">
-                <label for="ugly">못난이</label>
+                <input type="number" name="consumerPrice" th:field="*{consumerPrice}">
             </td>
         </tr>
         <tr>
-            <th>총 판매 수량</th>
+            <th>판매가</th>
             <td>
-                <input type="number">
+                <input type="number" name="salePrice" th:field="*{salePrice}">
             </td>
         </tr>
         <tr>
-            <th>판매 단위</th>
+            <th>상품할인</th>
             <td>
-                <input type="number">
-                <select><!-- 단위, kg, g-->
-                    <option>kg</option>
-                    <option>g</option>
+                <input type="number" name="discount" th:field="*{discount}">
+                <select name="discountType" th:field="*{discountType}">
+                    <option value="PERCENT">%</option>
+                    <option value="PRICE">원</option>
                 </select>
             </td>
         </tr>
         <tr>
-            <th>판매 단위당 판매가</th>
+            <th>묶음배송</th>
             <td>
-                <input type="number">원
+                <input type="radio" name="packageDelivery" value="true" id="packageDelivery_true" th:field="*{packageDelivery}">
+                <label for="packageDelivery_true">사용</label>
+                <input type="radio" name="packageDelivery" value="false" id="packageDelivery_false" th:field="*{packageDelivery}">
+                <label for="packageDelivery_false">미사용</label>
             </td>
         </tr>
         <tr>
-            <th>상품 상세 사진등록</th>
+            <th>배송비</th>
             <td>
-                <button type="button" class="sbtn">사진 업로드</button>
+                <input type="number" name="deliveryPrice" th:field="*{deliveryPrice}">
+            </td>
+        </tr>
+        <tr>
+            <th>재고</th>
+            <td>
+                <select name="useStock" th:field="*{useStock}">
+                    <option value="true">사용</option>
+                    <option value="false">미사용</option>
+                </select>
+                <input type="number" name="stock" th:field="*{stock}">
             </td>
         </tr>
     </table>
+
+
+    <h2>상품 이미지</h2>
+    <table class="table_cols mb30">
+        <tr>
+            <th>메인이미지</th>
+            <td>
+                <div class="uploaded_files" id="uploaded_files_product_main">
+                    <th:block th:each="item : *{mainImages}">
+                        <span th:replace="~{common/_editor_file::item}"></span>
+                    </th:block>
+                </div>
+                <button type="button" class="upload_files sbtn"
+                        data-location="product_main" data-image-only="true">
+                    <i class="xi-image"></i>
+                    이미지 추가
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <th>목록이미지</th>
+            <td>
+                <div class="uploaded_files" id="uploaded_files_product_list">
+                    <th:block th:each="item : *{listImages}">
+                        <span th:replace="~{common/_editor_file::item}"></span>
+                    </th:block>
+                </div>
+                <button type="button" class="upload_files sbtn"
+                        data-location="product_list" data-image-only="true">
+                    <i class="xi-image"></i>
+                    이미지 추가
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <h2>추가정보</h2>
+    <table class="table_cols mb30">
+        <tr>
+            <th>내용(JSON)</th>
+            <td>
+                <textarea name="extraInfo" th:field="*{extraInfo}">
+
+                </textarea>
+            </td>
+        </tr>
+    </table>
+
+    <h2>옵션 정보</h2>
+    <table class="table_cols mb30">
+        <tr>
+            <th>사용여부</th>
+            <td>
+                <input type="radio" name="useOption" value="true" id="useOption_true" th:field="*{useOption}">
+                <label for="useOption_true">사용</label>
+                <input type="radio" name="useOption" value="false" id="useOption_false" th:field="*{useOption}">
+                <label for="useOption_false">미사용</label>
+            </td>
+        </tr>
+        <tr>
+            <th>옵션명</th>
+            <td>
+                <input type="text" name="optionName" th:field="*{optionName}">
+            </td>
+        </tr>
+        <tr>
+            <th>옵션목록</th>
+        </tr>
+    </table>
+
+    <h2>상세 설명</h2>
+    <div>
+        <textarea id="description" name="description" th:field="*{description}"></textarea>
+        <button type="button" class="upload_files sbtn"
+                data-location="description" data-image-only="true">
+            <i class="xi-image"></i>
+            이미지 추가
+        </button>
+        <div class="uploaded_files" id="uploaded_files_description">
+            <th:block th:each="item : *{description}">
+                <span th:replace="~{common/_editor_file::item}"></span>
+            </th:block>
+        </div>
+    </div>
+    <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
 
 </th:block>
 </html>
