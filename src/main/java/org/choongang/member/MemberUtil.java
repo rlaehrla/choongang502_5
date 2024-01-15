@@ -24,6 +24,18 @@ public class MemberUtil {
         return false;
     }
 
+    public boolean isFarmer(){
+
+        if(isLogin()){
+            return getMember().getAuthorities()
+                    .stream().map(Authorities::getAuthority)
+                    .anyMatch(a -> a == Authority.FARMER);
+        }
+
+        return false;
+    }
+
+
     public boolean isLogin() {
         return getMember() != null;
     }
