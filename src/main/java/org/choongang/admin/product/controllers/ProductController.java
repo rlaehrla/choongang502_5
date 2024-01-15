@@ -81,21 +81,15 @@ public class ProductController implements ExceptionProcessor {
         commonProcess("add", model);
         HttpSession session = request.getSession();
 
-        String user = "";
-        session.setAttribute("userId", "농부1");
-        if(session.getAttribute("userId") != null){
-            user = session.getAttribute("userId").toString();
+        if(memberUtil.isFarmer()){
+            form.setFarmer(memberUtil.getMember().getUserId());
         }
 
-        /*if(memberUtil.isAdmin()){
+        if(memberUtil.isAdmin()){
             List<Farmer> farmers = memberInfoService.getFarmerList();
             model.addAttribute("farmers", farmers);
-        }*/
-
-
-        if(StringUtils.hasText(user)){
-            form.setFarmer(user);
         }
+
         List<Category> categories = categoryInfoService.getList();
         model.addAttribute("categories", categories); // 사용가능한 category들 추가
 
