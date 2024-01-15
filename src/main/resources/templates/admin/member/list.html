@@ -3,7 +3,58 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
+    <h1>회원목록</h1>
 
+    <h2>회원검색</h2>
+
+    <h2>회원목록</h2>
+    <form name="frmList" method="post" th:action="@{/admin/member}" target="ifrmProcess" autocomplete="off">
+        <table class="table_rows">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="checkall" id="checkall">
+                        <label for="checkall"></label>
+                    </th>
+                    <th>아이디</th>
+                    <th>이메일</th>
+                    <th>회원명</th>
+                    <th>닉네임</th>
+                    <th>회원구분</th>
+                    <th>주소</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${items != null && !items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
+                    <td>
+                        <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                        <label th:for="${'chk_' + status.index}"></label>
+                    </td>
+                    <td th:text="*{userId}"></td>
+                    <td th:text="*{email}"></td>
+                    <td th:text="*{username}"></td>
+                    <td th:text="*{nickname}"></td>
+                    <td></td>
+                    <td th:unless="*{address != null && !address.isEmpty()}"></td>
+                    <td th:if="*{address != null && !address.isEmpty()} ">
+                        <th:block th:text="*{'(' + address[0].zoneCode + ')'}"></th:block>
+                        <th:block th:text="*{address[0].address}"></th:block>
+                        <th:block th:text="*{address[0].addressSub}"></th:block>
+                        <button type="button" class="sbtn">주소관리</button>
+                    </td>
+                    <td>
+                        <a th:href="@{/admin/member/edit/{seq}(seq=*{seq})}" class="sbtn on" target="ifrmProcess">
+                            <i class="xi-pen"></i> 회원정보 수정
+                        </a>
+                    </td>
+                </tr>
+                <tr th:unless="${items != null && !items.isEmpty()}">
+                    <td colspan="8" class="no_data">조회된 회원이 없습니다.</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 
 
