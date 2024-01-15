@@ -10,17 +10,18 @@
         <tr>
             <th>판매자</th>
             <td>
-                <!--<th:block th:if="${@memberUtils.isAdmin()}">
+                <th:block th:if="${@memberUtil.isAdmin()}">
                     <select>
                         <th:block th:each="farmer : ${farmers}">
-                            <option th:value="${farmer.username}"></option> &lt;!&ndash; 농장 고를수 있도록&ndash;&gt;
+                            <option th:value="${farmer.username}"></option> <!-- 농장 고를수 있도록-->
                         </th:block>
                     </select>
-                </th:block>-->
-                <!--<th:block th:unless="${@memberUtils.isAdmin()}">-->
-                    <input type="hidden" name="farmer" th:value="*{farmer}">
+                </th:block>
+                <th:block th:unless="${@memberUtil.isAdmin()}">
+                    <input type="hidden" name="farmer" th:value="${session.member.username}">
                     <th:block th:if="*{farmer != null}" th:text="*{farmer}"></th:block>
-                <!--</th:block>-->
+                    <th:block th:if="*{farmer == null}" th:text="${session.member.username}"></th:block>
+                </th:block>
             </td>
         </tr>
         <tr>
