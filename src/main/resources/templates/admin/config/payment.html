@@ -3,6 +3,27 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
+    <h1 th:text="${pageTitle}">결제 설정</h1>
 
+    <form th:action="@{/admin/config/payment}" th:object="${paymentConfig}" method="post">
+        <label for="paymentProvider">결제 공급자:</label>
+        <input type="text" id="paymentProvider" th:field="*{paymentProvider}" />
+
+        <label for="apiKey">API 키:</label>
+        <input type="text" id="apiKey" th:field="*{apiKey}" />
+
+        <label for="apiSecret">API 비밀키:</label>
+        <input type="text" id="apiSecret" th:field="*{apiSecret}" />
+
+        <label>결제 수단:</label>
+        <label><input type="checkbox" th:field="*{creditCardEnabled}" /> 신용카드</label>
+        <label><input type="checkbox" th:field="*{bankTransferEnabled}" /> 계좌이체</label>
+
+        <!-- 추가적인 결제 설정 필드들을 필요에 따라 추가 -->
+
+        <button type="submit">저장</button>
+    </form>
+
+    <p th:text="${message}"></p>
 </section>
 </html>

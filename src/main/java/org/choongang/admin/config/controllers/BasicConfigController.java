@@ -58,6 +58,21 @@ public class BasicConfigController implements ExceptionProcessor {
     public String payment(Model model) {
         commonProcess("payment", model);
 
+        // 결제 설정 정보를 조회하고, 없으면 새로운 객체 생성
+        PaymentConfig paymentConfig = infoService.get("paymentConfig", PaymentConfig.class).orElseGet(PaymentConfig::new);
+
+        model.addAttribute("paymentConfig", paymentConfig);
+
+        return "admin/config/payment";
+    }
+
+    @PostMapping("/payment")
+    public String paymentSave(PaymentConfig paymentConfig, Model model) {
+        // 결제 설정 정보를 저장
+        saveService.save("paymentConfig", paymentConfig);
+
+        model.addAttribute("message", "결제 설정이 저장되었습니다.");
+
         return "admin/config/payment";
     }
 
