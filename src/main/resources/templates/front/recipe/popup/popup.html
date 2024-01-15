@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+
+    <input type="text" id="sdate">
+
+    <script>
+        const { popup } = commonLib;
+        <!-- 임시 - 회원가입 팝업 -->
+        sdate.onfocus = () => popup.open('/member/join', 350, 400);
+    </script>
+</main>
+</html>

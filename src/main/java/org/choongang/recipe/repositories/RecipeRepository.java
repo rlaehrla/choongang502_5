@@ -1,6 +1,8 @@
 package org.choongang.recipe.repositories;
 
 import org.choongang.recipe.entities.Recipe;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,9 +13,8 @@ import java.util.Map;
 /**
  * 레시피 모두 보기 test
  */
-@Repository
-public class RecipeRepository {
-    private static final Map<Long, Recipe> store = new HashMap<>();
+public interface RecipeRepository extends JpaRepository<Recipe, Long>, QuerydslPredicateExecutor<Recipe> {
+/*    private static final Map<Long, Recipe> store = new HashMap<>();
     private static long sequence = 0L;
 
     public Recipe save(Recipe recipe) {
@@ -28,6 +29,6 @@ public class RecipeRepository {
 
     public Recipe findById(long seq){
         return store.get(seq);
-    }
+    }*/
 
 }

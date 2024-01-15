@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 /**
@@ -53,7 +54,8 @@ public class RecipeController implements ExceptionProcessor {
     // 레시피 상세 보기
     @GetMapping("/{seq}")
     public String detailRcp(@PathVariable("seq") Long seq, Model model) {
-        Recipe detailRcp = recipeRepository.findById(seq);
+        //Recipe detailRcp = recipeRepository.findById(seq);
+        Optional<Recipe> detailRcp = recipeRepository.findById(seq);
         model.addAttribute("detailRcp", detailRcp);
         commonProcess("detailRcp", model);
 
@@ -79,15 +81,24 @@ public class RecipeController implements ExceptionProcessor {
         //return utils.tpl("redirect:/board/recipe" + recipe.getId());
         return utils.tpl("/recipe/recipe");
     }
-/*    // 레시피 수정하기
+
+    @GetMapping("/rcpCate")
+    public String rcpCate(@ModelAttribute("recipe") Recipe recipe, Model model) {
+        //commonProcess("createRcp", model);
+        // *수정필
+        //return utils.tpl("redirect:/board/recipe" + recipe.getId());
+        return utils.tpl("/recipe/popup/rcpCate");
+    }
+
+    // 레시피 수정하기
     @GetMapping("/{seq}/edit")
     public String editRcp(@PathVariable("seq") Long seq, Model model) {
-        Recipe editRcp = recipeRepository.findById(seq);
+        Optional<Recipe> editRcp = recipeRepository.findById(seq);
         model.addAttribute("editRcp", editRcp);
 
         return utils.tpl("board/recipe_edit");
 
-    }*/
+    }
 
 /*    // 관리자 - 레시피 관리
     @GetMapping("/category")
@@ -141,7 +152,7 @@ public class RecipeController implements ExceptionProcessor {
 
     @PostConstruct // 생성자 호출 -> 의존성 주입 -> @PostConstruct
     public void init() {
-        ingredientRepository.save(new Ingredient("당근"));
+/*        ingredientRepository.save(new Ingredient("당근"));
         ingredientRepository.save(new Ingredient("오이"));
         ingredientRepository.save(new Ingredient("사과"));
         ingredientRepository.save(new Ingredient("가지"));
@@ -149,7 +160,7 @@ public class RecipeController implements ExceptionProcessor {
         recipeRepository.save(new Recipe("작성자01", "볶음밥1", "1"));
         recipeRepository.save(new Recipe("작성자02", "볶음밥2", "2"));
         recipeRepository.save(new Recipe("작성자03", "볶음밥3", "3"));
-        recipeRepository.save(new Recipe("작성자04", "볶음밥4", "4"));
+        recipeRepository.save(new Recipe("작성자04", "볶음밥4", "4"));*/
 
 
 

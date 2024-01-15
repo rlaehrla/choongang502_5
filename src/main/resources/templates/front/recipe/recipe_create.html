@@ -38,12 +38,15 @@
             </div>
             <div>
                 <p>카테고리</p>
-                요리 분류 / 요리 종류
+                <input type="text" id="rcpCate" name="rcpCate">
                 <br><br>
             </div>
             <div>
                 <p>해시태그</p>
-                <br><br>
+                <div>
+                    <input type="checkbox">..
+                </div>
+                해시태그 직접입력<input type="text" id="tag" name="tag">
             </div>
             <div>
                 <p>필수재료</p>
@@ -71,6 +74,14 @@
         </form>
 
         <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+        <!-- 완료 후 공통 스크립트 만들기-->
+        <script>
+            const { popup } = commonLib;
+            <!-- 임시 - 레시피 팝업 for문으로 ..-->
+            rcpCate.onfocus = () => popup.open('/recipe/rcpCate', 350, 400);
+            tag.onfocus = () => popup.open('/recipe/rcpCate', 350, 400);
+
+        </script>
 
     </div>
 </main>
