@@ -14,7 +14,7 @@ public class Authorities {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="member_seq")
-    private AbstractMember member;    // 일반회원
+    private Member member;    // 일반회원
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="farmer_seq")
