@@ -24,10 +24,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberInfoService implements UserDetailsService {
 
@@ -60,7 +62,7 @@ public class MemberInfoService implements UserDetailsService {
         }
 
         /* 프로필 이미지 처리 */
-
+        System.out.println(member.getAddress());
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .userId(member.getUserId())

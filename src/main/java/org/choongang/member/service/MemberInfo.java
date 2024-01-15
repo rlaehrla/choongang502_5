@@ -20,10 +20,6 @@ public class MemberInfo implements UserDetails {
     private String email;
     private String userId;
     private String password;
-    private String username;
-    private String nickname ;
-    private String tel ;
-    private List<Address> address ;
     private AbstractMember member;
 
     private Collection<? extends GrantedAuthority> authorities;
@@ -40,7 +36,7 @@ public class MemberInfo implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return userId;
     }
 
     @Override
