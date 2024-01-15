@@ -11,10 +11,13 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.*;
+import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.repositories.MemberRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,9 +32,11 @@ import java.util.List;
 public class MemberInfoService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final FarmerRepository farmerRepository;
     private final FileInfoService fileInfoService;
     private final EntityManager em ;
     private final HttpServletRequest request ;
+    private final MemberUtil memberUtil;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,6 +70,25 @@ public class MemberInfoService implements UserDetailsService {
                 .build();
     }
 
+    /**
+     * 농부목록 반환
+     * @return
+     */
+    public List<Farmer> getFarmerList(){
+        if(!memberUtil.isAdmin()){
+            throw new UnAuthorizedException();
+        }
+        QFarmer farmer = QFarmer.farmer;
+        PathBuilder pathBuilder = new PathBuilder(Farmer.class, "farmer");
+
+        List<Farmer> farmers = new JPAQueryFactory(em)
+                .selectFrom(farmer)
+                .orderBy(new OrderSpecifier(Order.ASC, pathBuilder.get("username")))    // 정렬
+                .fetch() ;
+
+        return farmers;
+
+    }
 
     /**
      * 회원 목록 반환

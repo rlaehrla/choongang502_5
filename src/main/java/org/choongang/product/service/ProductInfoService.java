@@ -1,8 +1,16 @@
 package org.choongang.product.service;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.member.constants.Authority;
+import org.choongang.member.entities.Authorities;
+import org.choongang.member.service.MemberInfoService;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
@@ -31,6 +39,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
@@ -39,7 +48,9 @@ public class ProductInfoService {
 
     private final ProductRepository productRepository;
     private final MemberUtil memberUtil;
+    private final EntityManager em ;
     private final HttpServletRequest request;
+    private final MemberInfoService memberInfoService;
 
 
     public Product get(Long seq) {
@@ -64,7 +75,7 @@ public class ProductInfoService {
      * @param
      * @return
      */
-    /*public List<Product> getList(ProductStatus status){
+    public List<Product> getList(ProductStatus status){
         String userId = null;
         HttpSession session = request.getSession();
         if(session.getAttribute("userId") != null){
@@ -74,6 +85,7 @@ public class ProductInfoService {
         }
 
         QProduct product = QProduct.product;
+        PathBuilder<Product> pathBuilder = new PathBuilder<>(Product.class, "product");
         BooleanBuilder andBuilder = new BooleanBuilder();
         andBuilder.and(product.farmer.userId.eq(userId));
 
@@ -81,13 +93,17 @@ public class ProductInfoService {
             andBuilder.and(product.status.eq(status));
         }
 
+        List<Product> items = new JPAQueryFactory(em)
+                .selectFrom(product)
+                .where(andBuilder)
+                .orderBy(new OrderSpecifier(Order.ASC, pathBuilder.get("createdAt")))
+                .fetch();
 
-
-        return null;
+        return items;
 
     }
 
     public List<Product> getList() {
         return getList(null);
-    }*/
+    }
 }
