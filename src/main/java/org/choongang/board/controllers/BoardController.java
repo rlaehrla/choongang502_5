@@ -34,21 +34,6 @@ public class BoardController implements ExceptionProcessor {
 
     private Board board; // 게시판 설정
 
-    @GetMapping("/") // 메인 페이지 이동
-    public String main(){
-        return utils.tpl("board/index");
-    }
-
-    @GetMapping("/policy/terms_of_service") // 서비스 이용약관 이동
-    public String service() {
-        return utils.tpl("outlines/terms_of_service");
-    }
-
-    @GetMapping("/policy/privacy") // 개인정보 처리방침 이동
-    public String privacy() {
-        return utils.tpl("outlines/privacy");
-    }
-
     /**
      * 게시판 목록
      * @param bid : 게시판 아이디
