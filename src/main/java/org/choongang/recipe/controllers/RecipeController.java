@@ -26,6 +26,7 @@ import java.util.Optional;
 @Controller("recipeController")
 @RequestMapping("/recipe")
 @RequiredArgsConstructor
+//@SessionAttributes("mType")
 public class RecipeController implements ExceptionProcessor {
 
     private final RecipeRepository recipeRepository;
@@ -66,6 +67,7 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/create")
     public String createForm(Model model) {
         commonProcess("add", model);
+
         return utils.tpl("recipe/recipe_create");
     }
 
