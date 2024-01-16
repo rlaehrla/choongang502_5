@@ -3,27 +3,41 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
-    <h1 th:text="${pageTitle}">결제 설정</h1>
+    <div th:replace="~{admin/commons/_message::message}"></div>
+    <h1>결제 설정</h1>
 
     <form th:action="@{/admin/config/payment}" th:object="${paymentConfig}" method="post">
-        <label for="paymentProvider">결제 공급자:</label>
-        <input type="text" id="paymentProvider" th:field="*{paymentProvider}" />
-
-        <label for="apiKey">API 키:</label>
-        <input type="text" id="apiKey" th:field="*{apiKey}" />
-
-        <label for="apiSecret">API 비밀키:</label>
-        <input type="text" id="apiSecret" th:field="*{apiSecret}" />
-
-        <label>결제 수단:</label>
-        <label><input type="checkbox" th:field="*{creditCardEnabled}" /> 신용카드</label>
-        <label><input type="checkbox" th:field="*{bankTransferEnabled}" /> 계좌이체</label>
-
-        <!-- 추가적인 결제 설정 필드들을 필요에 따라 추가 -->
-
-        <button type="submit">저장</button>
+        <table class="table_cols mb30">
+            <tr>
+                <th>결제 공급자</th>
+                <td>
+                    <input type="text" id="paymentProvider" th:field="*{paymentProvider}">
+                </td>
+            </tr>
+            <tr>
+                <th>API 키</th>
+                <td>
+                    <input type="text" id="apiKey" th:field="*{apiKey}">
+                </td>
+            </tr>
+            <tr>
+                <th>API 비밀키</th>
+                <td>
+                    <input type="text" id="apiSecret" th:field="*{apiSecret}" />
+                </td>
+            </tr>
+            <tr>
+                <th>결제 수단</th>
+                <td>
+                    <label><input type="checkbox" th:field="*{creditCardEnabled}" /> 신용카드</label>
+                    <label><input type="checkbox" th:field="*{bankTransferEnabled}" /> 계좌이체</label>
+                </td>
+            </tr>
+            <!-- 추가적인 결제 설정 필드들을 필요에 따라 추가 -->
+        </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">저장</button>
+        </div>
     </form>
-
-    <p th:text="${message}"></p>
 </section>
 </html>
