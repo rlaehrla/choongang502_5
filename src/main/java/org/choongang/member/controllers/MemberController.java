@@ -7,13 +7,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Farmer;
-import org.choongang.member.service.FindPwService;
-import org.choongang.member.service.InfoSaveService;
-import org.choongang.member.service.JoinService;
-import org.choongang.member.service.MemberInfo;
+import org.choongang.member.entities.Member;
+import org.choongang.member.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -36,6 +35,8 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final MemberUtil memberUtil ;
+    private final MemberInfoService memberInfoService ;
     private final InfoSaveService infoSaveService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
@@ -94,24 +95,15 @@ public class MemberController implements ExceptionProcessor {
      * 회원정보 페이지로
      */
     @GetMapping("/info")
-    public String info(@ModelAttribute RequestMemberInfo form, Model model) {
+    public String info(Model model) {
         commonProcess("memberInfo", model);
-        AbstractMember user = (AbstractMember) session.getAttribute("member") ;
-        form.setPassword(user.getPassword());
-        form.setConfirmPassword(user.getPassword());
-        form.setUsername(user.getUsername());
-        form.setTel(user.getTel());
-        form.setZoneCode(user.getAddress().get(0).getZoneCode());
-        form.setAddress(user.getAddress().get(0).getAddress());
-        form.setAddressSub(user.getAddress().get(0).getAddressSub());
-        form.setProfileImage(user.getProfileImage());
 
-        if (user instanceof Farmer) {
-            Farmer farmer = (Farmer) user ;
-            form.setFarmTitle(farmer.getFarmTitle());
-            form.setBusinessPermitNum(farmer.getBusinessPermitNum());
+        if (!memberUtil.isLogin()) {
+            throw new UnAuthorizedException("로그인이 필요한 페이지입니다.") ;
         }
-        System.out.println(form);
+
+        RequestMemberInfo form = memberInfoService.getMemberInfo() ;
+        model.addAttribute("requestMemberInfo", form) ;
 
         return utils.tpl("member/info");
     }
@@ -222,6 +214,8 @@ public class MemberController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("장바구니", "commons");
         } else if (mode.equals("memberInfo")) {
             pageTitle = Utils.getMessage("회원정보_수정", "commons") ;
+            addScript.add("member/info") ;
+            addCommonScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);
