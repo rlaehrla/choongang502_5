@@ -259,7 +259,7 @@ li {
 }
 
 .faq-toggle {
-  background-color: lightgreen;
+  background: transparent;
   border: 0;
   border-radius: 50%;
   cursor: pointer;
@@ -279,16 +279,12 @@ li {
   outline: 0;
 }
 
-.faq-toggle .fa-times {
-  display: none;
+
+.faq > .faq-toggle > .xi-angle-down{
+    display: block;
 }
 
-.faq.active .faq-toggle .fa-times {
-  color: #fff;
-  display: block;
-}
-
-.faq.active .faq-toggle .fa-chevron-down {
+.faq.active .faq-toggle .xi-angle-down {
   display: none;
 }
 
