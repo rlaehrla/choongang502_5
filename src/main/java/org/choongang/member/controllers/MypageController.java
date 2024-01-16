@@ -86,7 +86,7 @@ public class MypageController { //implements ExceptionProcessor {
      * @param model
      * @return
      */
-    @GetMapping("/info")
+/*    @GetMapping("/info")
     public String info(@ModelAttribute RequestMemberInfo form, Model model, Errors errors) {
         commonProcess("info", model);
         if(memberUtil.isLogin()) {
@@ -98,7 +98,7 @@ public class MypageController { //implements ExceptionProcessor {
             form.setProfileImage(member.getProfileImage());
         }
         return utils.tpl("member/my_diary/my_info");
-    }
+    }*/
     @PostMapping("/info")
     public String infoPs(@ModelAttribute RequestMemberInfo form, Model model, Errors errors) {
         commonProcess("info", model);

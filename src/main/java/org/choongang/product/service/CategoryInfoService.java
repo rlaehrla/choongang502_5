@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
@@ -36,57 +37,23 @@ public class CategoryInfoService {
      */
     public Category get(String cateCd) {
 
-        Category category = null;
+        Category category = (Category) repository.findById(cateCd).orElseThrow(CategoryNotFoundException::new);
 
-
-
-        if(memberUtil.isAdmin()){
-            category = (Category) repository.findById(cateCd).orElseThrow(CategoryNotFoundException::new);
-        }
-
-        if(memberUtil.isFarmer()){
-            String userId = memberUtil.getMember().getUserId();
-            Farmer farmer = farmerRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new);
-
-            category = (Category) repository.findByFarmer(farmer).orElseThrow(CategoryNotFoundException::new);
-        }
 
         // 관리자가 아니고 미사용중인 경우 접근 불가능
-        if((!memberUtil.isAdmin() && !memberUtil.isFarmer()) && !category.isActive()){
+        if((!memberUtil.isAdmin() && !memberUtil.isFarmer())){
             throw new UnAuthorizedException(Utils.getMessage("UnAuthorized", "errors"));
         }
 
         return category;
     }
 
-    /**
-     * 분류 목록
-     *
-     * @param isAll : true - 미사용, 사용 전부 목록으로 조회(관리자)
-     *                  false - 사용중인 목록만 조회(프론트)
-     * @return
-     */
-    public List<Category> getList(boolean isAll){
+    public List<Category> getList(){
         QCategory category = QCategory.category;
 
-        BooleanBuilder builder = new BooleanBuilder();
-
-
-        if(!isAll){
-            // 사용중인 분류만 조회
-            builder.and(category.active.eq(true));
-        }
-        if(memberUtil.isFarmer() && !memberUtil.isAdmin()){
-            builder.and(category.farmer.userId.eq(memberUtil.getMember().getUserId()));
-        }
-
-        List<Category> items = (List<Category>) repository.findAll(builder, Sort.by(desc("listOrder"), desc("createdAt")));
+        List<Category> items = (List<Category>) repository.findAll(Sort.by(asc("cateCd"), desc("createdAt")));
 
         return items;
     }
 
-    public List<Category> getList(){
-        // 사용중인 목룍만 조회
-        return getList(false);
-    }
 }
