@@ -34,7 +34,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input type="checkbox" class="checkall" id="checkall">
+                        <input type="checkbox" class="checkall" data-target-name="chk" id="checkall">
                         <label for="checkall"></label>
                     </th>
                     <th>아이디</th>
@@ -48,7 +48,7 @@
             </thead>
             <tbody>
                 <tr th:if="${items != null && !items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
-                    <td>
+                    <td width="40">
                         <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
                         <label th:for="${'chk_' + status.index}"></label>
                     </td>
@@ -62,10 +62,9 @@
                         <th:block th:text="*{'(' + address[0].zoneCode + ')'}"></th:block>
                         <th:block th:text="*{address[0].address}"></th:block>
                         <th:block th:text="*{address[0].addressSub}"></th:block>
-                        <button type="button" class="sbtn">주소관리</button>
                     </td>
                     <td>
-                        <a th:href="@{/admin/member/edit/{seq}(seq=*{seq})}" class="sbtn on" target="ifrmProcess">
+                        <a th:href="@{/admin/member/edit/{userId}(userId=*{userId})}" class="sbtn on">
                             <i class="xi-pen"></i> 회원정보 수정
                         </a>
                     </td>
