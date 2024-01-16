@@ -7,7 +7,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.FindPwService;
+import org.choongang.member.service.InfoSaveService;
 import org.choongang.member.service.JoinService;
 import org.choongang.member.service.MemberInfo;
 import org.springframework.stereotype.Controller;
@@ -32,6 +36,7 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final InfoSaveService infoSaveService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
 
@@ -85,16 +90,57 @@ public class MemberController implements ExceptionProcessor {
         return utils.tpl("member/login");
     }
 
+    /**
+     * 회원정보 페이지로
+     */
     @GetMapping("/info")
-    public String memberInfo(Model model) {
+    public String info(@ModelAttribute RequestMemberInfo form, Model model) {
         commonProcess("memberInfo", model);
+        AbstractMember user = (AbstractMember) session.getAttribute("member") ;
+        form.setPassword(user.getPassword());
+        form.setConfirmPassword(user.getPassword());
+        form.setUsername(user.getUsername());
+        form.setTel(user.getTel());
+        form.setZoneCode(user.getAddress().get(0).getZoneCode());
+        form.setAddress(user.getAddress().get(0).getAddress());
+        form.setAddressSub(user.getAddress().get(0).getAddressSub());
+        form.setProfileImage(user.getProfileImage());
 
-        return utils.tpl("member/info") ;
+        if (user instanceof Farmer) {
+            Farmer farmer = (Farmer) user ;
+            form.setFarmTitle(farmer.getFarmTitle());
+            form.setBusinessPermitNum(farmer.getBusinessPermitNum());
+        }
+        System.out.println(form);
+
+        return utils.tpl("member/info");
     }
 
+    /**
+     * 회원정보 수정
+     */
     @PostMapping("/info")
-    public String memberInfoSave(@Valid RequestJoin form, Errors errors, Model model) {
-        return "redirect:/member/info" ;
+    public String infoSave(@Valid RequestMemberInfo form, Errors errors, Model model) {
+        commonProcess("memberInfo", model);
+
+        infoSaveService.saveInfo(form, errors);
+
+        if (errors.hasErrors()) {
+            return utils.tpl("member/info");
+        }
+
+        try {
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter writer = response.getWriter() ;
+            writer.write("<script>alert('회원정보를 수정했습니다!😊'); " +
+                    "location.href='/member/info'</script>");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return utils.tpl("member/info");
     }
 
     /**

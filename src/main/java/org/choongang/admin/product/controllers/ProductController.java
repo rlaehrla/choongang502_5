@@ -148,6 +148,9 @@ public class ProductController implements ExceptionProcessor {
 
         List<Category> items = categoryInfoService.getList(true);
 
+        if(memberUtil.isFarmer() && !memberUtil.isAdmin()){
+            form.setFarmerSeq(memberUtil.getMember().getSeq());
+        }
 
         model.addAttribute("items", items);
 

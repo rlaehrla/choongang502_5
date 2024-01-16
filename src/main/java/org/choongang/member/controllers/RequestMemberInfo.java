@@ -17,11 +17,9 @@ public class RequestMemberInfo {
 
     private String mType ;    // M : 일반회원 | F : 농장주
 
-    @NotBlank
     @Email
     private String email;
 
-    @NotBlank
     @Size(min=6)
     private String userId;
 
@@ -35,7 +33,6 @@ public class RequestMemberInfo {
     @NotBlank
     private String username;
 
-    @NotBlank
     private String nickname ;
 
     @NotBlank
@@ -56,9 +53,9 @@ public class RequestMemberInfo {
 
     private String addressSub; // 나머지주소
 
-    private String businessPermitNum ;    // --> Validator로 유효성 체크
+    private String businessPermitNum ;
+
     @Transient
     private FileInfo profileImage;
-
 
 }

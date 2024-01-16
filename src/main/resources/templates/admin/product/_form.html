@@ -48,7 +48,7 @@
             <td>
                 <select name="category" th:field="*{cateCd}">
                     <th:block th:if="${categories != null}" th:each="category : ${categories}">
-                        <option th:value="${category.cateCd}" th:text="${category.cateCd}"></option>
+                        <option th:value="${category.cateCd}" th:text="${category.cateNm}"></option>
                     </th:block>
                 </select>
             </td>

@@ -12,7 +12,7 @@ public class ProductUtil {
     private final MemberUtil memberUtil;
 
     public String getCateCd(String cateCd) {
-        if (memberUtil.isLogin()) {
+        if (memberUtil.isLogin() && !memberUtil.isAdmin()) {
             AbstractMember member = memberUtil.getMember();
             String userId = member.getUserId();
             cateCd = cateCd.replace(userId + "_", "");
