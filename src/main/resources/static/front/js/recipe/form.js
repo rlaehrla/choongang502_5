@@ -1,4 +1,3 @@
-form.js
 
 function callbackFileUpload(files) {
      if (!files || files.length == 0) {
@@ -31,10 +30,11 @@ function callbackFileUpload(files) {
         /*howTo_image.appendChild(imageTplEl);*/
 }
 
-*
+/*
 * 파일 삭제 후 후속처리 함수
 *
 * @param seq : 파일 등록 번호
+*/
 
 function callbackFileDelete(seq) {
     const fileEl = document.getElementById(`file_${seq}`);
