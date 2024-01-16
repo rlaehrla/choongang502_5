@@ -215,6 +215,7 @@ public class MemberController implements ExceptionProcessor {
         } else if (mode.equals("memberInfo")) {
             pageTitle = Utils.getMessage("회원정보_수정", "commons") ;
             addScript.add("member/info") ;
+            addCommonScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);
