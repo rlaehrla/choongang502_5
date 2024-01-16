@@ -8,9 +8,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.product.controllers.ProductSearch;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.service.MemberInfoService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
@@ -36,6 +40,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +57,7 @@ public class ProductInfoService {
     private final MemberUtil memberUtil;
     private final EntityManager em ;
     private final HttpServletRequest request;
-    private final MemberInfoService memberInfoService;
+    private final FileInfoService fileInfoService;
 
 
     public Product get(Long seq) {
@@ -68,42 +75,114 @@ public class ProductInfoService {
     }
 
     /**
-     * 상품 목록
-     *     SALE - 판매중
-     *     OUT_OF_STOCK - 품절
-     *     PREPARE -상품 준비중
-     * @param
+     * 상품 목록 조회
+     *
+     * @param search
+     * @param isAll : true - 미노출 상품도 모두 보이게
+     *
      * @return
      */
-    public List<Product> getList(ProductStatus status){
-        String userId = null;
-        HttpSession session = request.getSession();
-        if(session.getAttribute("userId") != null){
-            userId = session.getAttribute("userId").toString();
-        }else {
+
+    public ListData<Product> getList(ProductSearch search, boolean isAll){
+
+        int page = Utils.onlyPositiveNumber(search.getPage(), 1);
+        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
+
+        QProduct product = QProduct.product;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+        // 관리자/농부가 아닐 경우 접근 제한
+        if(!memberUtil.isAdmin() && !memberUtil.isFarmer()){
             throw new UnAuthorizedException();
         }
 
-        QProduct product = QProduct.product;
-        PathBuilder<Product> pathBuilder = new PathBuilder<>(Product.class, "product");
-        BooleanBuilder andBuilder = new BooleanBuilder();
-        andBuilder.and(product.farmer.userId.eq(userId));
+        /* 검색 조건 처리 S */
 
-        if(status != null){
-            andBuilder.and(product.status.eq(status));
+        // 농부는 본인의 상품만 볼 수 있도록
+        if(memberUtil.isFarmer() && !memberUtil.isAdmin()){
+            String userId = memberUtil.getMember().getUserId();
+            andBuilder.and(product.farmer.userId.eq(userId));
         }
 
-        List<Product> items = new JPAQueryFactory(em)
-                .selectFrom(product)
-                .where(andBuilder)
-                .orderBy(new OrderSpecifier(Order.ASC, pathBuilder.get("createdAt")))
-                .fetch();
+        List<String> cateCd = search.getCateCd();
+        List<Long> seq = search.getSeq();
+        List<String> status = search.getStatuses();
+        LocalDate sdate = search.getSdate();
+        LocalDate edate = search.getEdate();
+        String name = search.getName();
 
-        return items;
+        if(cateCd != null && !cateCd.isEmpty()){
+            andBuilder.and(product.category.cateCd.in(cateCd));
+        }
+
+        if (seq != null && !seq.isEmpty()){
+            andBuilder.and(product.seq.in(seq));
+        }
+
+        if(status != null && !status.isEmpty()){
+            List<ProductStatus> _statuses = status.stream().map(ProductStatus::valueOf).toList();
+            andBuilder.and(product.status.in(_statuses));
+        }
+
+        if(sdate != null){
+            andBuilder.and(product.createdAt.goe(LocalDateTime.of(sdate, LocalTime.of(0, 0, 0))));
+        }
+
+        if (edate != null){
+            andBuilder.and(product.createdAt.loe(LocalDateTime.of(edate, LocalTime.of(23, 59, 59))));
+        }
+
+        if(StringUtils.hasText(name)){
+            andBuilder.and(product.name.contains(name.trim()));
+        }
+
+        if(!isAll){
+            andBuilder.and(product.active.eq(true));
+        }
+
+        /* 검색 조건 처리 E */
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+
+        Page<Product> data = productRepository.findAll(andBuilder, pageable);
+
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
+
+        List<Product> items = data.getContent();
+        items.forEach(this::addProductInfo);
+
+
+        return new ListData<>(items, pagination);
 
     }
 
-    public List<Product> getList() {
-        return getList(null);
+    /**
+     * isAll 입력 안하면 노출 상품만 보이게
+     * @param search
+     * @return
+     */
+    public ListData<Product> getList(ProductSearch search){
+        return getList(search, false);
     }
+
+    /**
+     * file 저장
+     * @param product
+     */
+
+    public void addProductInfo(Product product){
+       String gid = product.getGid();
+
+       List<FileInfo> editorImages = fileInfoService.getListDone(gid, "description");
+       List<FileInfo> mainImages = fileInfoService.getListDone(gid, "product_main");
+       List<FileInfo> listImages = fileInfoService.getListDone(gid, "product_list");
+
+       product.setEditorImages(editorImages);
+       product.setMainImages(mainImages);
+       product.setListImages(listImages);
+
+
+    }
+
+
 }

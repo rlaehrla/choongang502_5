@@ -3,7 +3,48 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
+    <h1>상품 관리</h1>
+    <h2>상품 검색</h2>
 
+    <h2>상품 목록</h2>
+    <form name="frmList" method="post" th:action="@{/admin/product}" target="ifrmProcess" autocomplete="off">
+        <table class="table_rows">
+            <thead>
+                <tr>
+                    <th width="40">
+                        <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
+                        <label for="checkall"></label>
+                    </th>
+                    <th width="150">상품번호</th>
+                    <th nowrap colspan="2">상품명</th>
+                    <th width="150">노출여부</th>
+                    <th width="150">진열가중치</th>
+                    <th width="250"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${items == null || items.isEmpty()}">
+                    <td colspan="7" class="no_data">조회된 상품이 없습니다.</td>
+                </tr>
+                <tr th:unless="${items == null || items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
+                    <td>
+                        <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
+                        <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                        <label th:for="${'chk_' + status.index}"></label>
+                    </td>
+                    <td th:text="*{seq}"></td>
+                    <td width="80">이미지</td>
+                    <td th:text="*{name}"></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a th:href="@{/admin/product/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
+                        <a th:href="@{/product/detail/{seq}(seq=*{seq})}" class="sbtn on">미리보기</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
 </html>

@@ -76,7 +76,7 @@ public class CategoryInfoService {
             // 사용중인 분류만 조회
             builder.and(category.active.eq(true));
         }
-        if(memberUtil.isFarmer()){
+        if(memberUtil.isFarmer() && !memberUtil.isAdmin()){
             builder.and(category.farmer.userId.eq(memberUtil.getMember().getUserId()));
         }
 
