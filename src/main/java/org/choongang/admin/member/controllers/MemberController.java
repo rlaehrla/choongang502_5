@@ -10,6 +10,7 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.service.MemberInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,10 +40,16 @@ public class MemberController implements ExceptionProcessor {
     public String list(@ModelAttribute MemberSearch search, Model model) {
         commonProcess("list", model);
 
-        ListData<AbstractMember> data = infoService.getList(search);
-
-        model.addAttribute("items", data.getItems()); // 목록
-        model.addAttribute("pagination", data.getPagination()); // 페이징
+        if (search != null && StringUtils.hasText(search.getSopt()) && StringUtils.hasText(search.getSkey())) {
+            // 검색 조건이 존재하면 검색 수행
+            List<AbstractMember> searchResults = infoService.searchMembers(search);
+            model.addAttribute("items", searchResults);
+        } else {
+            // 검색 조건이 없으면 전체 목록 조회
+            ListData<AbstractMember> data = infoService.getList(search);
+            model.addAttribute("items", data.getItems()); // 목록
+            model.addAttribute("pagination", data.getPagination()); // 페이징
+        }
 
         return "admin/member/list";
     }

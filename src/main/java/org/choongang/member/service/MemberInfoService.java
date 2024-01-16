@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -115,6 +116,19 @@ public class MemberInfoService implements UserDetailsService {
         BooleanBuilder andBuilder = new BooleanBuilder() ;
         QAbstractMember member = QAbstractMember.abstractMember;
 
+        if (StringUtils.hasText(search.getUserId())) {
+            andBuilder.and(member.userId.like("%" + search.getUserId() + "%"));
+        }
+        if (StringUtils.hasText(search.getEmail())) {
+            andBuilder.and(member.email.like("%" + search.getEmail() + "%"));
+        }
+        if (StringUtils.hasText(search.getUserName())) {
+            andBuilder.and(member.username.like("%" + search.getUserName() + "%"));
+        }
+        if (StringUtils.hasText(search.getNickName())) {
+            andBuilder.and(member.nickname.like("%" + search.getNickName() + "%"));
+        }
+
         PathBuilder<Member> pathBuilder = new PathBuilder<>(Member.class, "member") ;
 
         List<AbstractMember> items = new JPAQueryFactory(em)
@@ -134,4 +148,36 @@ public class MemberInfoService implements UserDetailsService {
 
         return new ListData<>(items, pagination) ;
     }
+
+    /**
+     * 회원 검색
+     */
+    public List<AbstractMember> searchMembers(MemberSearch search) {
+        BooleanBuilder builder = new BooleanBuilder();
+        QAbstractMember member = QAbstractMember.abstractMember;
+
+        if ("userId".equals(search.getSopt())) {
+            builder.and(member.userId.like("%" + search.getSkey() + "%"));
+        } else if ("email".equals(search.getSopt())) {
+            builder.and(member.email.like("%" + search.getSkey() + "%"));
+        } else if ("userName".equals(search.getSopt())) {
+            builder.and(member.username.like("%" + search.getSkey() + "%"));
+        } else if ("nickName".equals(search.getSopt())) {
+            builder.and(member.nickname.like("%" + search.getSkey() + "%"));
+        } else if ("ALL".equals(search.getSopt())) {
+            // 통합 검색
+            builder.or(member.userId.like("%" + search.getSkey() + "%"))
+                    .or(member.email.like("%" + search.getSkey() + "%"))
+                    .or(member.username.like("%" + search.getSkey() + "%"))
+                    .or(member.nickname.like("%" + search.getSkey() + "%"));
+        }
+
+        return new JPAQueryFactory(em)
+                .selectFrom(member)
+                .leftJoin(member.authorities)
+                .fetchJoin()
+                .where(builder)
+                .fetch();
+    }
+
 }
