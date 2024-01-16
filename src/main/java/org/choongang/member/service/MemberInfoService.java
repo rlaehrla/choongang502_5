@@ -50,8 +50,12 @@ public class MemberInfoService implements UserDetailsService {
         // 회원 유형에 따라 member 형 변환 처리
         String mType = request.getParameter("mType") ;
         member = mType.equals("M") ? (Member)member : (Farmer)member ;
-        boolean res = member instanceof Farmer ;
-        System.out.println(res);
+
+        if (member instanceof Farmer) {
+            member = farmerRepository.findByEmail(username)
+                    .orElseGet(() -> farmerRepository.findByUserId(username)
+                            .orElseThrow(() -> new UsernameNotFoundException(username))) ;
+        }
 
         List<SimpleGrantedAuthority> authorities = null;
         List<Authorities> tmp = member.getAuthorities();
