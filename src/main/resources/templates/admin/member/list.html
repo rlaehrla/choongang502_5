@@ -6,7 +6,26 @@
     <h1>회원목록</h1>
 
     <h2>회원검색</h2>
-
+    <form name="frmSearch" method="post" th:action="@{/admin/member}" autocomplete="off" th:object="${memberSearch}">
+        <table class="table_cols md30">
+            <tr>
+                <th>키워드</th>
+                <td>
+                    <div class="input_grp">
+                        <select name="sopt" th:field="*{sopt}">
+                            <option value="ALL">통합검색</option>
+                            <option value="mName">회원명</option>
+                            <option value="mid">회원 ID</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
     <h2>회원목록</h2>
     <form name="frmList" method="post" th:action="@{/admin/member}" target="ifrmProcess" autocomplete="off">
         <table class="table_rows">
