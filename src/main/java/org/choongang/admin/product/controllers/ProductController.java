@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
@@ -46,6 +47,7 @@ public class ProductController implements ExceptionProcessor {
     private final ProductSaveService productSaveService;
     private final MemberUtil memberUtil;
     private final MemberInfoService memberInfoService;
+    private final ProductInfoService productInfoService;
 
     @ModelAttribute("menuCode")
     public String getMenuCode(){
@@ -63,10 +65,14 @@ public class ProductController implements ExceptionProcessor {
      * @return
      */
     @GetMapping
-    public String list(Model model){
+    public String list(@ModelAttribute ProductSearch form ,Model model){
 
         commonProcess("list", model);
 
+        ListData<Product> data = productInfoService.getList(form);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagenation", data.getPagination());
 
         return "admin/product/list";
     }
