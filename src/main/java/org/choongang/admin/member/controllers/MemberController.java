@@ -1,19 +1,21 @@
 package org.choongang.admin.member.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -59,6 +61,21 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("authority", model);
 
         return "admin/member/authorities";
+    }
+    @GetMapping("/edit/{userId}")
+    public String edit(@PathVariable("userId") String userId, @ModelAttribute MemberForm form, Model model) {
+        MemberInfo memberInfo = (MemberInfo)infoService.loadUserByUsername(userId);
+        AbstractMember member = memberInfo.getMember();
+
+
+
+        return "admin/member/edit";
+    }
+
+    @PostMapping("/save")
+    public String save(@Valid MemberForm form, Errors errors, Model model) {
+
+        return "redirect:/admin/member";
     }
 
 
