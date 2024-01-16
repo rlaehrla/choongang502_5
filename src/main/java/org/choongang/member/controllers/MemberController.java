@@ -7,9 +7,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
-import org.choongang.member.service.FindPwService;
-import org.choongang.member.service.JoinService;
-import org.choongang.member.service.MemberInfo;
+import org.choongang.commons.exceptions.UnAuthorizedException;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Farmer;
+import org.choongang.member.entities.Member;
+import org.choongang.member.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -32,6 +35,9 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final MemberUtil memberUtil ;
+    private final MemberInfoService memberInfoService ;
+    private final InfoSaveService infoSaveService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
 
@@ -85,16 +91,48 @@ public class MemberController implements ExceptionProcessor {
         return utils.tpl("member/login");
     }
 
+    /**
+     * 회원정보 페이지로
+     */
     @GetMapping("/info")
-    public String memberInfo(Model model) {
+    public String info(Model model) {
         commonProcess("memberInfo", model);
 
-        return utils.tpl("member/info") ;
+        if (!memberUtil.isLogin()) {
+            throw new UnAuthorizedException("로그인이 필요한 페이지입니다.") ;
+        }
+
+        RequestMemberInfo form = memberInfoService.getMemberInfo() ;
+        model.addAttribute("requestMemberInfo", form) ;
+
+        return utils.tpl("member/info");
     }
 
+    /**
+     * 회원정보 수정
+     */
     @PostMapping("/info")
-    public String memberInfoSave(@Valid RequestJoin form, Errors errors, Model model) {
-        return "redirect:/member/info" ;
+    public String infoSave(@Valid RequestMemberInfo form, Errors errors, Model model) {
+        commonProcess("memberInfo", model);
+
+        infoSaveService.saveInfo(form, errors);
+
+        if (errors.hasErrors()) {
+            return utils.tpl("member/info");
+        }
+
+        try {
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter writer = response.getWriter() ;
+            writer.write("<script>alert('회원정보를 수정했습니다!😊'); " +
+                    "location.href='/member/info'</script>");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return utils.tpl("member/info");
     }
 
     /**
@@ -176,6 +214,8 @@ public class MemberController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("장바구니", "commons");
         } else if (mode.equals("memberInfo")) {
             pageTitle = Utils.getMessage("회원정보_수정", "commons") ;
+            addScript.add("member/info") ;
+            addCommonScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);

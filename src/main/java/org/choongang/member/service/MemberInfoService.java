@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
@@ -16,6 +17,7 @@ import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.controllers.MemberSearch;
+import org.choongang.member.controllers.RequestMemberInfo;
 import org.choongang.member.entities.*;
 import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.repositories.MemberRepository;
@@ -82,6 +84,35 @@ public class MemberInfoService implements UserDetailsService {
                 .member(member)
                 .authorities(authorities)
                 .build();
+    }
+
+    /**
+     * 회원 아이디로 회원정보 조회
+     */
+    public RequestMemberInfo getMemberInfo() {
+        HttpSession session = request.getSession();
+        RequestMemberInfo form = new RequestMemberInfo() ;
+
+        AbstractMember user = (AbstractMember) session.getAttribute("member") ;
+        form.setGid(user.getGid());
+        form.setEmail(user.getEmail());
+        form.setUserId(user.getUserId());
+        form.setPassword(user.getPassword());
+        form.setConfirmPassword(user.getPassword());
+        form.setUsername(user.getUsername());
+        form.setTel(user.getTel());
+        form.setZoneCode(user.getAddress().get(0).getZoneCode());
+        form.setAddress(user.getAddress().get(0).getAddress());
+        form.setAddressSub(user.getAddress().get(0).getAddressSub());
+        form.setProfileImage(user.getProfileImage());
+
+        if (user instanceof Farmer) {
+            Farmer farmer = (Farmer) user ;
+            form.setFarmTitle(farmer.getFarmTitle());
+            form.setBusinessPermitNum(farmer.getBusinessPermitNum());
+        }
+        System.out.println(form);
+        return form ;
     }
 
     /**

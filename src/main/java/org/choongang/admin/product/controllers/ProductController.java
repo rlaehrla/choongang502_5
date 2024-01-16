@@ -28,9 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller("adminProductController")
 @RequiredArgsConstructor
@@ -57,6 +55,38 @@ public class ProductController implements ExceptionProcessor {
         return AdminMenu.getMenus("product");
     }
 
+
+    @GetMapping("/select")
+    public String selectCate(Model model){
+        List<Category> categories = categoryInfoService.getList();
+
+        List<String> items = new ArrayList<>();
+        for (Category cate : categories){
+            String mainCate;
+            if(cate.getMainCategory() == MainCategory.GRAIN){
+                mainCate = "gr";
+            } else if (cate.getMainCategory() == MainCategory.VEGETABLE) {
+                mainCate = "ve";
+            }else{
+                mainCate = "fr";
+            }
+
+            String html = "<li data-filter=\"" + mainCate + "\" value=\"" + cate.getCateCd() + "\">"+ cate.getCateNm() + "</li>";
+            items.add(html);
+        }
+
+        List<String> addCss = new ArrayList<>();
+        addCss.add("product/select");
+        List<String> addJs = new ArrayList<>();
+        addJs.add("product/select");
+
+        model.addAttribute("items", items);
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addJs);
+
+        return "admin/product/select_category";
+    }
+
     /**
      * 상품 목록
      * @param model
@@ -69,10 +99,13 @@ public class ProductController implements ExceptionProcessor {
 
         ListData<Product> data = productInfoService.getList(form, true);
         List<String> cateCd = categoryInfoService.getList().stream().map(s -> s.getCateCd()).toList();
+        List<String> addCss = new ArrayList<>();
+
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagenation", data.getPagination());
         model.addAttribute("cateCd", cateCd);
+
         return "admin/product/list";
     }
 
@@ -146,8 +179,11 @@ public class ProductController implements ExceptionProcessor {
     public String category(@ModelAttribute RequestCategory form, Model model){
         commonProcess("category", model);
 
-        List<Category> items = categoryInfoService.getList(true);
-
+       /* if(!memberUtil.isAdmin()){
+            throw new UnAuthorizedException();
+        }
+*/
+        List<Category> items = categoryInfoService.getList();
 
         model.addAttribute("items", items);
 

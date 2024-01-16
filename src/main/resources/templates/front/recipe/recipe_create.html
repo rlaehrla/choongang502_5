@@ -2,14 +2,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
     <section th:replace="~{front/outlines/_banner::banner}">
     </section>
 
     <div>
+        <th:block sec:authorize="isAuthenticated()">
         <h1>레시피 작성</h1>
-        <form name="rcpSave" th:action="@{/recipe/create}" method="post" autocomplete="off"> <!--th:object="${recipe}">-->
+        <form name="rcpSave" th:action="@{/recipe/create}" method="post" autocomplete="off"
+              th:object="${session.member}">
             <input type="hidden" name="gid" value="6">
             <input type="hidden" name="mode" value="add">
             <button type="reset">다시입력</button>
@@ -18,8 +21,8 @@
                 <a href="#">뒤로가기</a>레시피 작성
 
             </div>
-            <!-- userName 테스트 -->
-            작성자 : <input type="text" id="userName" name="userName">
+            <!-- 닉네임 테스트 -->
+            작성자 : <input type="text" th:value="*{nickname}">
             <div>
                 <p>업로드 완료시 포인트 300p</p>
                 *반복적이거나 성의 없는 콘텐츠는 관리자에 의해<br>
@@ -58,16 +61,21 @@
             </div>
             <div>
                 <h3>만드는 방법</h3>
-                <textarea id="html_bottom" placeholder="만드는 방법을 입력하세요."></textarea><br>
+                <div id="howTo_box">
+                    <textarea placeholder="만드는 방법을 입력하세요."></textarea><br>
+                </div>
                 <div id="howTo_image"></div>
+
                 <button type="button" data-location="html_bottom" class="upload_files"
                         th:text="#{이미지_업로드(선택)}" data-image-only="true"
                         data-single-file="true"></button>
                 <button type="button" class="upload_files"
                         th:text="#{이미지_업로드(선택)}" data-image-only="true"
-                        data-single-file="true"></button>
-                단계 추가<button>+</button><br>
-                TIP 추가<button>+</button><br>
+                        data-single-file="true"></button><br>
+
+                <input type="button" th:text="#{단계_추가}" id="stageAdd" onclick="add_textbox(this)"><br>
+                <div id="tip_box"></div>
+                <input type="button" th:text="#{TIP_추가}" id="tipAdd" onclick="add_textbox(this)"><br>
 
             </div>
 
@@ -81,8 +89,33 @@
             rcpCate.onfocus = () => popup.open('/recipe/rcpCate', 350, 400);
             tag.onfocus = () => popup.open('/recipe/rcpCate', 350, 400);
 
-        </script>
 
+            // 요소 추가하기
+            const add_textbox = (el) => {
+
+            const box = el.id === 'stageAdd' ? document.getElementById('howTo_box')
+             : document.getElementById('tip_box');
+
+                const newP = document.createElement('p');
+                newP.innerHTML = "<textarea placeholder='만드는 방법을 입력하세요.'></textarea> <input type='button' value='삭제' onclick='remove(this)'>";
+                box.appendChild(newP);
+            }
+            // 요소 삭제하기
+            const remove = (obj) => {
+            console.log(obj.id);
+
+
+            const how = obj.closest("#howTo_box");
+            const tip = obj.closest("#tip_box");
+
+            const box = how != null ? document.getElementById('howTo_box')
+             : document.getElementById('tip_box');
+             box.removeChild(obj.parentNode);
+
+            }
+
+        </script>
+        </th:block>
     </div>
 </main>
 </html>

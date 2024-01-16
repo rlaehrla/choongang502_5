@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/main}">
+<section layout:fragment="content">
+
+    <div class="category_container" data-filter-id="category">
+        <div class="category_header">카테고리</div>
+        <div class="category_button_area">
+            <ul>
+                <li><button type="button" data-filter="all" class="active">전체</button></li>
+                <li><button type="button" data-filter="gr">곡물</button></li>
+                <li><button type="button" data-filter="ve">채소</button></li>
+                <li><button type="button" data-filter="fr">과일</button></li>
+            </ul>
+        </div>
+        <div class="category_list">
+            <ul>
+                <th:block th:if="${items != null}" th:each="item : ${items}">
+                    <th:block th:utext="${item}"></th:block>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</section>
+</html>
+
