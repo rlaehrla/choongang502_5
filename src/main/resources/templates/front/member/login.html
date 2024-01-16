@@ -7,6 +7,12 @@
     <form name="frmLogin" method="post" th:action="@{/member/login}" autocomplete="off">
         <input type="hidden" name="redirectURL"
                th:if="${param.redirectURL != null}" th:value="${param.redirectURL}">
+
+        <input type="radio" name="mType" id="member" value="M" checked>
+        <label for="member">일반회원</label>
+        <input type="radio" name="mType" id="farmer" value="F">
+        <label for="farmer">농장주인 회원</label>
+
         <dl>
             <dt th:text="#{아이디}"></dt>
             <dd>
