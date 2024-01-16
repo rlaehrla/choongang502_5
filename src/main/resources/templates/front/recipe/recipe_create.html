@@ -5,16 +5,16 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section th:replace="~{front/outlines/_banner::banner}">
-    </section>
+
 
     <div>
         <th:block sec:authorize="isAuthenticated()">
         <h1>레시피 작성</h1>
         <form name="rcpSave" th:action="@{/recipe/create}" method="post" autocomplete="off"
-              th:object="${session.member}">
-            <input type="hidden" name="gid" value="6">
-            <input type="hidden" name="mode" value="add">
+              th:object="${requestRecipe}">
+            <input type="hidden" name="rid" th:field="*{rid}">
+            <input type="hidden" name="gid" th:field="*{gid}">
+            <input type="hidden" name="mode" value="write">
             <button type="reset">다시입력</button>
             <button type="submit">완료</button>
             <div>
@@ -22,7 +22,7 @@
 
             </div>
             <!-- 닉네임 테스트 -->
-            작성자 : <input type="text" th:value="*{nickname}">
+            작성자 : <input type="text" th:value="${session.member.nickname}">
             <div>
                 <p>업로드 완료시 포인트 300p</p>
                 *반복적이거나 성의 없는 콘텐츠는 관리자에 의해<br>
