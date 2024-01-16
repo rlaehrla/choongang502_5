@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * 레시피 모두 보기 test
  */
-
 @Repository
 public class IngredientRepository {
     private static final Map<Long, Ingredient> ingStore = new HashMap<>();
