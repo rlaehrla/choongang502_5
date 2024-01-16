@@ -47,6 +47,12 @@ public class MemberInfoService implements UserDetailsService {
                 .orElseGet(() -> memberRepository.findByUserId(username) // 아이디로 조회
                         .orElseThrow(() -> new UsernameNotFoundException(username)));
 
+        // 회원 유형에 따라 member 형 변환 처리
+        String mType = request.getParameter("mType") ;
+        member = mType.equals("M") ? (Member)member : (Farmer)member ;
+        boolean res = member instanceof Farmer ;
+        System.out.println(res);
+
         List<SimpleGrantedAuthority> authorities = null;
         List<Authorities> tmp = member.getAuthorities();
         if (tmp != null) {
@@ -63,6 +69,7 @@ public class MemberInfoService implements UserDetailsService {
 
         /* 프로필 이미지 처리 */
         System.out.println(member.getAddress());
+        System.out.println(member.getClass().getSimpleName());
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .userId(member.getUserId())

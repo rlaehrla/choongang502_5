@@ -7,7 +7,6 @@
     <h1>회원정보 수정</h1>
 
     <th:block sec:authorize="isAuthenticated()">
-            <th:block th:text="${session.member.address}"></th:block>
             <form name="frmInfo" th:object="${session.member}">
                 <dl>
                     <dt th:text="#{이메일}"></dt>
@@ -70,11 +69,9 @@
                     </dd>
                 </dl>
 
-                <!--        추가 항목을 분리
-                       <th:block th:replace="~{front/member/_join_farmer::member}"></th:block>-->
-                <th:block th:text="${session.member.authorities}">
-                    <h1>농장주인</h1>
-                    <!-- <dl>
+                <!--농장 주인 회원인 경우-->
+                <th:block th:if="*{class.simpleName == 'Farmer'}">
+                     <dl>
                         <dt th:text="#{농장이름}"></dt>
                         <dd>
                             <input type="text" name="farmTitle" th:value="*{farmTitle}">
@@ -93,7 +90,7 @@
                                         data-location="business_permit"></button>
                             </div>
                         </dd>
-                    </dl>-->
+                    </dl>
                 </th:block>
 
                 <button type="button">취소</button>
