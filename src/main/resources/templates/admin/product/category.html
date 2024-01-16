@@ -27,20 +27,6 @@
                     <input type="text" name="cateNm" th:field="*{cateNm}">
                 </td>
             </tr>
-            <tr>
-                <th>진열가중치</th>
-                <td>
-                    <input type="number" name="listOrder" th:field="*{listOrder}">
-                </td>
-                <th>사용여부</th>
-                <td>
-                    <input type="radio" name="active" value="true" id="active_true" th:field="*{active}">
-                    <label for="active_true">사용</label>
-
-                    <input type="radio" name="active" value="false" id="active_false" th:field="*{active}">
-                    <label for="active_false">미사용</label>
-                </td>
-            </tr>
         </table>
         <div class="submit_btns">
             <button type="reset" class="btn">다시입력</button>
@@ -62,8 +48,6 @@
                 <th width="200">대분류</th>
                 <th width="200">분류코드</th>
                 <th width="300">분류명</th>
-                <th width="200">진열가중치</th>
-                <th width="200">사용여부</th>
                 <th></th>
             </tr>
             </thead>
@@ -75,19 +59,9 @@
                     <label th:for="${'chk_' + status.index}"></label>
                 </td>
                 <td th:text="*{mainCategory}" align="center"></td>
-                <td th:text="*{@productUtil.getCateCd(cateCd)}" align="center"></td>
+                <td th:text="*{cateCd}" align="center"></td>
                 <td>
                     <input type="text" th:name="${'cateNm_' + status.index}" th:value="*{cateNm}">
-                </td>
-                <td>
-                    <input type="number" th:name="${'listOrder_' + status.index}" th:value="*{listOrder}">
-                </td>
-                <td align="center">
-                    <input type="radio" th:name="${'active_' + status.index}" th:checked="*{active}" th:id="${'active_' + status.index}" value="true">
-                    <label th:for="${'active_' + status.index}">사용</label>
-
-                    <input type="radio" th:name="${'active_' + status.index}" th:checked="*{!active}" th:id="${'active_' + status.index}" value="false">
-                    <label th:for="${'active_' + status.index}">미사용</label>
                 </td>
                 <td>
                     <a th:href="@{/admin/product?cateCd={cateCd}(cateCd=*{cateCd})}" class="sbtn">상품관리</a>
@@ -95,7 +69,7 @@
                 </td>
             </tr>
             <tr th:unless="${items != null && !items.isEmpty()}">
-                <td colspan="7" class="no_data">등록된 분류가 없습니다.</td>
+                <td colspan="5" class="no_data">등록된 분류가 없습니다.</td>
             </tr>
             </tbody>
         </table>
