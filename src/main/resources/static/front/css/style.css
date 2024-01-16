@@ -3,6 +3,18 @@
 :root{
     --main-color: #596b99;
 }
+html { font-size: 13px; }
+body { margin: 0; }
+a { text-decoration: none; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+dl, dt, dd { margin: 0; padding: 0; }
+img { border: 0; }
+
+.layout_width {
+    max-width : 1300px;
+    min-width : 1000px;
+    margin : 0 auto;
+}
 .footerInfoSect {
     display: flex;
     width: 1400px;

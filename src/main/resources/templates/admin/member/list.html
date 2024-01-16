@@ -6,7 +6,7 @@
     <h1>회원목록</h1>
 
     <h2>회원검색</h2>
-    <form name="frmSearch" method="post" th:action="@{/admin/member}" autocomplete="off" th:object="${memberSearch}">
+    <form name="frmSearch" method="get" th:action="@{/admin/member}" autocomplete="off" th:object="${memberSearch}">
         <table class="table_cols md30">
             <tr>
                 <th>키워드</th>
@@ -14,8 +14,10 @@
                     <div class="input_grp">
                         <select name="sopt" th:field="*{sopt}">
                             <option value="ALL">통합검색</option>
-                            <option value="mName">회원명</option>
-                            <option value="mid">회원 ID</option>
+                            <option value="userId">아이디</option>
+                            <option value="email">이메일</option>
+                            <option value="userName">회원명</option>
+                            <option value="nickName">닉네임</option>
                         </select>
                         <input type="text" name="skey" th:field="*{skey}">
                     </div>
