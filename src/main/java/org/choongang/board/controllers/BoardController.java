@@ -3,8 +3,6 @@ package org.choongang.board.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.entities.Board;
-import org.choongang.board.entities.BoardData;
-import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
@@ -12,8 +10,6 @@ import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Member;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -37,21 +33,6 @@ public class BoardController implements ExceptionProcessor {
     private final Utils utils;
 
     private Board board; // 게시판 설정
-
-    @GetMapping("/") // 메인 페이지 이동
-    public String main(){
-        return utils.tpl("board/index");
-    }
-
-    @GetMapping("/policy/terms_of_service") // 서비스 이용약관 이동
-    public String service() {
-        return utils.tpl("outlines/terms_of_service");
-    }
-
-    @GetMapping("/policy/privacy") // 개인정보 처리방침 이동
-    public String privacy() {
-        return utils.tpl("outlines/privacy");
-    }
 
     /**
      * 게시판 목록
