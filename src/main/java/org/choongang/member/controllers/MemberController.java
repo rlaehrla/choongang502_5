@@ -7,9 +7,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Farmer;
+import org.choongang.member.entities.Member;
 import org.choongang.member.service.FindPwService;
 import org.choongang.member.service.InfoSaveService;
 import org.choongang.member.service.JoinService;
@@ -36,6 +38,7 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final MemberUtil memberUtil ;
     private final InfoSaveService infoSaveService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
@@ -96,6 +99,11 @@ public class MemberController implements ExceptionProcessor {
     @GetMapping("/info")
     public String info(@ModelAttribute RequestMemberInfo form, Model model) {
         commonProcess("memberInfo", model);
+
+        if (!memberUtil.isLogin()) {
+            throw new UnAuthorizedException("로그인이 필요한 페이지입니다.") ;
+        }
+
         AbstractMember user = (AbstractMember) session.getAttribute("member") ;
         form.setPassword(user.getPassword());
         form.setConfirmPassword(user.getPassword());
@@ -222,6 +230,7 @@ public class MemberController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("장바구니", "commons");
         } else if (mode.equals("memberInfo")) {
             pageTitle = Utils.getMessage("회원정보_수정", "commons") ;
+            addScript.add("member/info") ;
         }
 
         model.addAttribute("pageTitle", pageTitle);
