@@ -7,12 +7,12 @@
     <h1>회원정보 수정</h1>
 
     <th:block sec:authorize="isAuthenticated()">
-            <form name="frmInfo" th:object="${session.member}">
+            <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}">
                 <dl>
                     <dt th:text="#{이메일}"></dt>
                     <dd>
                         <div>
-                            <input type="text" name="email" th:value="*{email}" readonly>
+                            <input type="text" name="email" th:value="${session.member.email}" readonly>
                         </div>
                     </dd>
                 </dl>
@@ -20,7 +20,7 @@
                 <dl>
                     <dt th:text="#{아이디}"></dt>
                     <dd>
-                        <input type="text" name="userId" th:value="*{userId}" readonly>
+                        <input type="text" name="userId" th:value="${session.member.userId}" readonly>
                     </dd>
                 </dl>
 
@@ -28,34 +28,39 @@
                     <dt th:text="#{비밀번호}"></dt>
                     <dd>
                         <input type="password" name="password" th:value="*{password}">
+                        <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}">></div>
                     </dd>
                 </dl>
 
                 <dl>
                     <dt th:text="#{비밀번호_확인}"></dt>
                     <dd>
-                        <input type="password" name="confirmPassword" th:value="*{password}">
+                        <input type="password" name="confirmPassword" th:value="*{confirmPassword}">
+                        <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}">></div>
                     </dd>
                 </dl>
 
                 <dl>
                     <dt th:text="#{회원명}"></dt>
                     <dd>
-                        <input type="text" name="username" th:value="*{username}">
+                        <input type="text" name="username" th:field="*{username}">
+                        <div class="error" th:each="err : ${#fields.errors('username')}" th:text="${err}">></div>
                     </dd>
                 </dl>
 
                 <dl>
                     <dt th:text="#{전화번호}"></dt>
                     <dd>
-                        <input type="tel" name="tel" th:value="*{tel}" oninput="autoHyphen(this)" maxlength="13">
+                        <input type="tel" name="tel" th:field="*{tel}" oninput="autoHyphen(this)" maxlength="13">
                     </dd>
                 </dl>
 
                 <dl>
                     <dt th:text="#{주소}"></dt>
                     <dd>
-                        <th:block th:text="*{address}"></th:block>
+                        <input type="text" name="zoneCode" th:field="*{zoneCode}"><br>
+                        <input type="text" name="address" th:field="*{address}">
+                        <input type="text" name="addressSub" th:field="*{addressSub}">
                     </dd>
                 </dl>
 
@@ -70,11 +75,12 @@
                 </dl>
 
                 <!--농장 주인 회원인 경우-->
-                <th:block th:if="*{class.simpleName == 'Farmer'}">
+                <th:block th:if="${session.member.class.simpleName == 'Farmer'}">
                      <dl>
                         <dt th:text="#{농장이름}"></dt>
                         <dd>
-                            <input type="text" name="farmTitle" th:value="*{farmTitle}">
+                            <input type="text" name="farmTitle" th:field="*{farmTitle}">
+                            <div class="error" th:each="err : ${#fields.errors('farmTitle')}" th:text="${err}">></div>
                         </dd>
                     </dl>
 
@@ -82,7 +88,7 @@
                         <dt th:text="#{사업자_번호}"></dt>
                         <dd>
                             <div class="b_no_box">
-                                <input type="text" name="businessPermitNum" th:value="*{businessPermitNum}" readonly>
+                                <input type="text" name="businessPermitNum" th:value="${session.member.businessPermitNum}" readonly>
                             </div>
 
                             <div>
