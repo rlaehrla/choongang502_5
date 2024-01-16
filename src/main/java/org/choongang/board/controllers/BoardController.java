@@ -3,6 +3,9 @@ package org.choongang.board.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.entities.Board;
+import org.choongang.board.entities.BoardData;
+import org.choongang.board.service.BoardInfoService;
+import org.choongang.board.service.BoardSaveService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
@@ -28,11 +31,14 @@ public class BoardController implements ExceptionProcessor {
     private final FileInfoService fileInfoService; // 파일 정보 조회
 
     private final BoardFormValidator boardFormValidator;
+    private final BoardSaveService boardSaveService; // 게시글 저장 서비스
+    private final BoardInfoService boardInfoService;
 
     private final MemberUtil memberUtil;
     private final Utils utils;
 
     private Board board; // 게시판 설정
+    private BoardData boardData; // 게시글 개별 조회?
 
     /**
      * 게시판 목록
@@ -99,7 +105,7 @@ public class BoardController implements ExceptionProcessor {
      * @param model
      * @return
      */
-    @PatchMapping("/save")
+    @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String bid = form.getBid();
         String mode = form.getMode();
@@ -109,6 +115,7 @@ public class BoardController implements ExceptionProcessor {
 
         if (errors.hasErrors()) {
             String gid = form.getGid();
+
             List<FileInfo> editorFiles = fileInfoService.getList(gid, "editor");
             List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
 
@@ -118,10 +125,11 @@ public class BoardController implements ExceptionProcessor {
             return utils.tpl("board/" + mode);
         }
 
-        Long seq = 0L; // 임시
+        // 게시글 저장 처리
+        BoardData boardData = boardSaveService.save(form);
 
-        String redirectURL = "/board/";
-        redirectURL += board.getLocationAfterWriting() == "view" ? "view/" + seq : "list/" + form.getBid(); // 글 작성후 이동 장소  - 게시글 상세 : 게시글 목록
+        String redirectURL = "redirect:/board/";
+        redirectURL += board.getLocationAfterWriting().equals("view") ? "view/" + boardData.getSeq() : "list/" + form.getBid(); // 글 작성후 이동 장소  - 게시글 상세 : 게시글 목록
 
         return redirectURL;
     }
@@ -172,6 +180,9 @@ public class BoardController implements ExceptionProcessor {
 
             pageTitle += " ";
             pageTitle += mode.equals("update") ?  Utils.getMessage("글수정", "commons") :  Utils.getMessage("글쓰기", "commons");
+        } else if (mode.equals("view")) {
+            // pageTitle - 글 제목 - 게시판 명
+            pageTitle = String.format("%s | %s", boardData.getSubject(), board.getBName());
         }
 
         model.addAttribute("addCommonCss", addCommonCss);
@@ -184,12 +195,18 @@ public class BoardController implements ExceptionProcessor {
     /**
      * 게시판 공통 처리 : 게시글 보기, 게시글 수정 - 게시글 번호가 있는 경우
      *              - 게시글 조회 -> 게시판 설정
-     * @param seq
+     *
+     * @param seq : 게시글 번호
      * @param mode
      * @param model
      */
     private void commonProcess(Long seq, String mode, Model model) {
+        boardData = boardInfoService.get(seq);
 
+        String bid = boardData.getBoard().getBid();
+        commonPrecess(bid, mode, model);
+
+        model.addAttribute("boardData", boardData);
     }
 
 }
