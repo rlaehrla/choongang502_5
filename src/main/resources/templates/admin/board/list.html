@@ -57,10 +57,10 @@
                 <td th:text="*{bid}" align="center"></td>
                 <td th:text="*{bName}" align="center"></td>
                 <td align="center">
-                    <input type="radio" th:name="${'active_' + status.index}" value="true" th:checked="*{active}" th:id="${'active_true_' + status.index}">
+                    <input type="radio" th:name="${'active_' + status.index}" value="true" th:checked="*{active}" th:id="${'active_true_' + status.index}" onclick="return(false);">
                     <label th:for="${'active_true_' + status.index}">사용</label>
 
-                    <input type="radio" th:name="${'active_' + status.index}" value="false" th:checked="*{!active}" th:id="${'active_false_' + status.index}">
+                    <input type="radio" th:name="${'active_' + status.index}" value="false" th:checked="*{!active}" th:id="${'active_false_' + status.index}" onclick="return(false);">
                     <label th:for="${'active_false_' + status.index}">미사용</label>
                 </td>
                 <td>
