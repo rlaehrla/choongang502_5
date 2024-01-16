@@ -18,9 +18,8 @@
                     </select>
                 </th:block>
                 <th:block th:unless="${@memberUtil.isAdmin()}">
-                    <input type="hidden" name="farmer" th:value="${session.member.userId}" th:field="*{farmer}">
-                    <th:block th:if="*{farmer != null}" th:text="*{farmer}"></th:block>
-                    <th:block th:if="*{farmer == null}" th:text="${session.member.username}"></th:block>
+                    <input type="hidden" name="farmer" th:value="${session.member.userId}">
+                    <th:block th:text="${session.member.username}"></th:block>
                 </th:block>
             </td>
         </tr>
