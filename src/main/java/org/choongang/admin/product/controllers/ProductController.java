@@ -4,15 +4,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
-import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
@@ -24,12 +25,10 @@ import org.choongang.product.service.ProductSaveService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +45,7 @@ public class ProductController implements ExceptionProcessor {
     private final ProductSaveService productSaveService;
     private final MemberUtil memberUtil;
     private final MemberInfoService memberInfoService;
+    private final ProductInfoService productInfoService;
 
     @ModelAttribute("menuCode")
     public String getMenuCode(){
@@ -63,11 +63,16 @@ public class ProductController implements ExceptionProcessor {
      * @return
      */
     @GetMapping
-    public String list(Model model){
+    public String list(@ModelAttribute ProductSearch form ,Model model){
 
         commonProcess("list", model);
 
+        ListData<Product> data = productInfoService.getList(form, true);
+        List<String> cateCd = categoryInfoService.getList().stream().map(s -> s.getCateCd()).toList();
 
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagenation", data.getPagination());
+        model.addAttribute("cateCd", cateCd);
         return "admin/product/list";
     }
 
@@ -87,7 +92,7 @@ public class ProductController implements ExceptionProcessor {
         }
 
         if(memberUtil.isFarmer()){
-            form.setFarmer(memberUtil.getMember().getUserId());
+            form.setFarmer_seq(memberUtil.getMember().getUserId());
         }
 
         if(memberUtil.isAdmin()){
@@ -100,6 +105,19 @@ public class ProductController implements ExceptionProcessor {
 
         return "admin/product/add";
     }
+
+    @GetMapping("/edit/{seq}")
+    public String edit(@PathVariable("seq") Long seq, Model model){
+
+        commonProcess("edit", model);
+
+        RequestProduct form = productInfoService.getForm(seq);
+        model.addAttribute("requestProduct", form);
+
+        return "admin/product/edit";
+    }
+
+
 
     /**
      * 상품 등록, 수정처리

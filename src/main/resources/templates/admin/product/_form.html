@@ -6,20 +6,19 @@
 <th:block th:fragment="form" th:object="${requestProduct}">
     <h2>기본 정보</h2>
     <table class="table_cols mb30">
-        <input type="hidden" name="gid" value="testgid">
-        <input type="hidden" name="mode" value="add">
+        <input type="hidden" name="gid" th:value="*{gid}">
         <tr>
             <th>판매자</th>
             <td>
                 <th:block th:if="${@memberUtil.isAdmin()}">
-                    <select>
+                    <select name="farmer" th:field="*{farmer_seq}">
                         <th:block th:each="farmer : ${farmers}">
-                            <option th:value="${farmer.username}" th:text="${farmer.username}"></option>
+                            <option th:value="${farmer.seq}" th:text="${farmer.userId}"></option>
                         </th:block>
                     </select>
                 </th:block>
                 <th:block th:unless="${@memberUtil.isAdmin()}">
-                    <input type="hidden" name="farmer" th:value="${session.member.username}">
+                    <input type="hidden" name="farmer" th:value="${session.member.userId}" th:field="*{farmer}">
                     <th:block th:if="*{farmer != null}" th:text="*{farmer}"></th:block>
                     <th:block th:if="*{farmer == null}" th:text="${session.member.username}"></th:block>
                 </th:block>
@@ -48,9 +47,9 @@
         <tr>
             <th>분류코드</th>
             <td>
-                <select name="category">
+                <select name="category" th:field="*{cateCd}">
                     <th:block th:if="${categories != null}" th:each="category : ${categories}">
-                        <option th:value="${category.cateNm}" th:text="${category.cateNm}" th:field="*{category}"></option>
+                        <option th:value="${category.cateCd}" th:text="${category.cateCd}"></option>
                     </th:block>
                 </select>
             </td>
