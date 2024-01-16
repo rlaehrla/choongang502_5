@@ -8,12 +8,15 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.admin.product.controllers.ProductSearch;
+import org.choongang.admin.product.controllers.RequestProduct;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.service.MemberInfoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +69,7 @@ public class ProductInfoService {
                 .orElseThrow(ProductNotFoundException::new);
 
 
-        if(!StringUtils.hasText(farmer) || (StringUtils.hasText(farmer) && !farmer.equals(product.getFarmer()))){
+        if(!StringUtils.hasText(farmer) || (!memberUtil.isAdmin() && StringUtils.hasText(farmer) && !farmer.equals(product.getFarmer()))){
             throw new UnAuthorizedException(Utils.getMessage("UnAuthorized", "errors"));
         }
 
@@ -133,10 +136,12 @@ public class ProductInfoService {
         }
 
         if(StringUtils.hasText(name)){
+
             andBuilder.and(product.name.contains(name.trim()));
         }
 
         if(!isAll){
+
             andBuilder.and(product.active.eq(true));
         }
 
@@ -157,12 +162,12 @@ public class ProductInfoService {
     }
 
     /**
-     * isAll 입력 안하면 노출 상품만 보이게
+     * isAll 입력 안하면 모든 상품 보이게
      * @param search
      * @return
      */
     public ListData<Product> getList(ProductSearch search){
-        return getList(search, false);
+        return getList(search, true);
     }
 
     /**
@@ -182,6 +187,20 @@ public class ProductInfoService {
        product.setListImages(listImages);
 
 
+    }
+
+    public RequestProduct getForm(Long seq){
+
+        Product product = get(seq);
+
+        RequestProduct form = new ModelMapper().map(product, RequestProduct.class);
+
+        System.out.println(form);
+
+        form.setMode("edit");
+
+
+        return form;
     }
 
 

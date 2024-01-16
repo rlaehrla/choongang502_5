@@ -4,7 +4,55 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
     <h1>상품 관리</h1>
+
     <h2>상품 검색</h2>
+    <form name="frmSearch" method="get" th:action="@{/admin/product}" autocomplete="off" th:object="${productSearch}">
+        <table class="table_cols mb30">
+            <tr>
+                <th>카테고리</th>
+                <td>
+                    <th:block th:each="cate : ${cateCd}">
+                        <input type="checkbox" name="cateCd" th:value="${cate}" th:id="${cate}" th:field="*{cateCd}">
+                        <label th:for="${cate}" th:text="${cate}"></label>
+                    </th:block>
+                </td>
+            </tr>
+            <tr>
+                <th>상품번호</th>
+                <td>
+                    <input type="number" name="seq" min="0" th:field="*{seq}">
+                </td>
+            </tr>
+            <tr>
+                <th>상품명</th>
+                <td>
+                    <input type="text" name="name" th:field="*{name}">
+                </td>
+            </tr>
+            <tr>
+                <th>상품상태</th>
+                <td>
+                    <input type="checkbox" name="statuses" value="SALE" th:field="*{statuses}" id="status_sale">
+                    <label for="status_sale">판매중</label>
+                    <input type="checkbox" name="statuses" value="OUT_OF_STOCK" th:field="*{statuses}" id="status_out_of_stock">
+                    <label for="status_out_of_stock">품절</label>
+                    <input type="checkbox" name="statuses" value="PREPARE" th:field="*{statuses}" id="status_prepare">
+                    <label for="status_prepare">상품준비중</label>
+                </td>
+            </tr>
+            <tr>
+                <th>상품 등록일</th>
+                <td>
+                    <input type="date" name="sdate" th:field="*{sdate}">
+                    ~
+                    <input type="date" name="edate" th:field="*{edate}">
+                </td>
+            </tr>
+        </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
 
     <h2>상품 목록</h2>
     <form name="frmList" method="post" th:action="@{/admin/product}" target="ifrmProcess" autocomplete="off">
@@ -18,13 +66,12 @@
                     <th width="150">상품번호</th>
                     <th nowrap colspan="2">상품명</th>
                     <th width="150">노출여부</th>
-                    <th width="150">진열가중치</th>
                     <th width="250"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:if="${items == null || items.isEmpty()}">
-                    <td colspan="7" class="no_data">조회된 상품이 없습니다.</td>
+                    <td colspan="6" class="no_data">조회된 상품이 없습니다.</td>
                 </tr>
                 <tr th:unless="${items == null || items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
                     <td>
@@ -33,10 +80,27 @@
                         <label th:for="${'chk_' + status.index}"></label>
                     </td>
                     <td th:text="*{seq}"></td>
-                    <td width="80">이미지</td>
+                    <th:block th:if="${item.mainImages != null && !item.mainImages.isEmpty()}">
+                        <td width="80" th:utext="${@utils.printThumb(item.mainImages[0].seq, 80, 80, 'product_main')}"></td>
+                    </th:block>
+                    <th:block th:unless="${item.mainImages != null && !item.mainImages.isEmpty()}">
+                        <td></td>
+                    </th:block>
                     <td th:text="*{name}"></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <th:block th:if="${item.active}">
+                            <input type="radio" th:name="${'active_' + status.index}" value="true" th:id="${'active_true_' +status.index}" checked onclick="return(false);">
+                            <label th:for="${'active_true_' +status.index}">노출</label>
+                            <input type="radio" th:name="${'active_' + status.index}" value="false" th:id="${'active_false_' +status.index}" onclick="return(false);">
+                            <label th:for="${'active_false_' +status.index}">미노출</label>
+                        </th:block>
+                        <th:block th:unless="${item.active}">
+                            <input type="radio" th:name="${'active_' + status.index}" value="true" th:id="${'active_true_' +status.index}" onclick="return(false);">
+                            <label th:for="${'active_true_' +status.index}">노출</label>
+                            <input type="radio" th:name="${'active_' + status.index}" value="false" th:id="${'active_false_' +status.index}" checked onclick="return(false);">
+                            <label th:for="${'active_false_' +status.index}">미노출</label>
+                        </th:block>
+                    </td>
                     <td>
                         <a th:href="@{/admin/product/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
                         <a th:href="@{/product/detail/{seq}(seq=*{seq})}" class="sbtn on">미리보기</a>

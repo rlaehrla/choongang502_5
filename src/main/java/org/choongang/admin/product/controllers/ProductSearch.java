@@ -16,6 +16,6 @@ public class ProductSearch {
 
     private List<String> statuses;
 
-    private LocalDate sdate;
+    private LocalDate sdate; // 등록일 기준 날짜 검색
     private LocalDate edate;
 }

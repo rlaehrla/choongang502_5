@@ -17,9 +17,9 @@ public class RequestProduct {
 
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 
-    private String category; // 상품 분류
+    private String cateCd; // 상품 분류
 
-    private String farmer; // 판매 농장주
+    private String farmer_seq; // 판매 농장주
 
     private String name; // 상품명
 
