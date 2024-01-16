@@ -1,9 +1,12 @@
 package org.choongang.recipe.controllers;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.file.service.FileUploadService;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.recipe.entities.Ingredient;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
@@ -12,6 +15,7 @@ import org.choongang.recipe.repositories.RecipeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
     private final Utils utils;
+    private final MemberUtil memberUtil;
     private final FileUploadService uploadService;
     private String gid;
 
@@ -64,20 +69,31 @@ public class RecipeController implements ExceptionProcessor {
     }
 
     // 레시피 등록 폼
-    @GetMapping("/create")
-    public String createForm(Model model) {
+    @GetMapping("/write/{bid}")
+    public String write(@PathVariable("bid") String bid,
+                        @ModelAttribute RequestRecipe form, Model model) {
         commonProcess("add", model);
+        // commonProcess(bid, "add", model);
+
+        if (memberUtil.isLogin()) {
+            AbstractMember member = memberUtil.getMember();
+            form.setPoster(member.getUsername());
+        }
 
         return utils.tpl("recipe/recipe_create");
     }
 
     // 레시피 등록 처리
-    @PostMapping("/create")
-    public String createRcp(@ModelAttribute("recipe") Recipe recipe, Model model) {
-        //gid = UUID.randomUUID().toString();
-        uploadService.processDone(recipe.getGid());
-        recipeRepository.save(recipe);
-        //commonProcess("createRcp", model);
+    @PostMapping("/save")
+    public String createRcp(@Valid RequestRecipe form, Errors errors, Model model) {
+        //uploadService.processDone(recipe.getGid());
+        String bid = form.getRid();
+        String mode = form.getMode();
+        //commonProcess(bid, mode, model);
+        commonProcess(mode, model);
+
+
+        commonProcess("createRcp", model);
 
         // *수정필
         //return utils.tpl("redirect:/board/recipe" + recipe.getId());
