@@ -234,7 +234,8 @@ window.addEventListener("DOMContentLoaded", function() {
                         frmJoin.userId.focus() ;
                     } else {
                         alert("✅사용 가능한 아이디입니다.") ;
-                        idDupCheckBtn.insertAdjacentHTML('afterend', "<div class='confirmed'>✅사용 가능한 아이디입니다.</div>");
+                        const idOkEl = document.querySelector(".id_check_ok");
+                        idOkEl.innerHTML = "<span class='confirmed'>✅사용 가능한 아이디입니다.</span>";
                     }
                 })
         });
@@ -258,7 +259,8 @@ window.addEventListener("DOMContentLoaded", function() {
                         frmJoin.nickname.focus() ;
                     } else {
                         alert("✅사용 가능한 닉네임입니다.") ;
-                        nickDupCheckBtn.insertAdjacentHTML('afterend', "<div class='confirmed'>✅사용 가능한 닉네임입니다.</div>");
+                        const nickOkEl = document.querySelector(".nick_check_ok");
+                        nickOkEl.innerHTML = "<span class='confirmed'>✅사용 가능한 닉네임입니다.</span>";
                     }
                 })
         });
