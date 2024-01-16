@@ -1,10 +1,12 @@
 package org.choongang.member.controllers;
 
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.choongang.file.entities.FileInfo;
 import org.choongang.member.constants.Gender;
 import org.choongang.member.entities.Address;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -58,6 +60,9 @@ public class RequestJoin {
     private String addressSub; // 나머지주소
 
     private String businessPermitNum ;    // --> Validator로 유효성 체크
+
+    @Transient
+    private FileInfo profileImage;
 
     @AssertTrue
     private boolean agree;
