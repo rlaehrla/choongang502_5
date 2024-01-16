@@ -32,7 +32,7 @@ public interface ExceptionProcessor {
             }
 
             model.addAttribute("script", script);
-            return "common/_excute_script";
+            return "common/_execute_script";
         }
 
 
