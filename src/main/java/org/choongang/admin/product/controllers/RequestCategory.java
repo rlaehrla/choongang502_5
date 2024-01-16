@@ -15,9 +15,4 @@ public class RequestCategory {
 
     @NotBlank
     private String cateNm; // 분류명
-
-    private Long farmerSeq; // 농부 시퀀스
-
-    private int listOrder; // 진열가중치 - 내림차순 정렬 우선순위
-    private boolean active; // 사용여부
 }

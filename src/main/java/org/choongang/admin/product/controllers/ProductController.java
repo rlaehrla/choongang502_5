@@ -146,11 +146,11 @@ public class ProductController implements ExceptionProcessor {
     public String category(@ModelAttribute RequestCategory form, Model model){
         commonProcess("category", model);
 
-        List<Category> items = categoryInfoService.getList(true);
-
-        if(memberUtil.isFarmer() && !memberUtil.isAdmin()){
-            form.setFarmerSeq(memberUtil.getMember().getSeq());
+       /* if(!memberUtil.isAdmin()){
+            throw new UnAuthorizedException();
         }
+*/
+        List<Category> items = categoryInfoService.getList();
 
         model.addAttribute("items", items);
 

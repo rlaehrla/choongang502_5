@@ -18,15 +18,18 @@ public class CategoryValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        /* cateCd 중복 여부 체크 */
+        /* cateCd, cateNm 중복 여부 체크 */
         RequestCategory form = (RequestCategory) target;
         String cateCd = form.getCateCd();
+        String cateNm = form.getCateNm();
 
         if(StringUtils.hasText(cateCd) && repository.existsById(cateCd)){
             errors.rejectValue("cateCd", "Duplicated");
         }
 
-
+        if(StringUtils.hasText(cateNm) && repository.existsByCateNm(cateNm)){
+            errors.rejectValue("cateNm", "Duplicated");
+        }
 
     }
 }

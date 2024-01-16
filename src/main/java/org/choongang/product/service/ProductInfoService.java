@@ -58,7 +58,6 @@ public class ProductInfoService {
 
     private final ProductRepository productRepository;
     private final MemberUtil memberUtil;
-    private final EntityManager em ;
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
 
