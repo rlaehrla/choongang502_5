@@ -1,6 +1,7 @@
 package org.choongang.admin.customer.controllers;
 
 import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Controller("adminCustomerController")
 @RequestMapping("/admin/customer")
-public class CustomerController {
+public class CustomerController implements ExceptionProcessor {
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
         return "customer";
