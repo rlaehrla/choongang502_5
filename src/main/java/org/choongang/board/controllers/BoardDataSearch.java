@@ -18,10 +18,12 @@ public class BoardDataSearch {
      * poster : 작성자명 + 아이디 + 회원 이름 (OR)
      * ALL : 다 포함해서
      */
-    private String spot; // 검색 옵션
+    private String sopt; // 검색 옵션
     private String skey; // 검색 키워드
 
     private List<String> bid; // 게시판 ID
 
     private String userId;
+
+    private String category; // 게시판 분류
 }

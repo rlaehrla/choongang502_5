@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.choongang.commons.entities.Base;
 import org.choongang.file.entities.FileInfo;
+import org.choongang.member.entities.AbstractMember;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,11 +29,13 @@ public class Recipe extends Base {
     @GeneratedValue
     private Long seq;
 
-    // 임시
-    @Column
-    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberSeq")
+    private AbstractMember member;
 
-    @Column(length = 65)
+    private String rid; // ?
+
+    @Column(length=65, nullable = false)
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 
     @Column(length = 20, nullable = false)
@@ -41,52 +45,37 @@ public class Recipe extends Base {
     @Column(length = 240)
     private String rcpInfo;
 
-    @Column(length = 10, nullable = false)
-    private String EstimatedT;
+    @Column(nullable = false)
+    private int EstimatedT;
 
     @Column(length = 20,nullable = false)
-    private String rcpCate;
+    private String category;
+    private String subCategory;
 
-    @Column(length = 20)
-    private List<String> tag;
+
+    //@ManyToMany
+    //private List<String> tags = new ArrayList<>();
 
     @Column(nullable = false)
     private int amount;
 
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "requiredIng")*/
-    @Column(length = 20, nullable = false)
+    //@Column(length = 20, nullable = false)
     //private List<Ingredient> requiredIng; // 필수재료
-    private List<String> requiredIng; // 필수재료
+    //private List<String> requiredIng; // 필수재료
 
-    @Column(length = 150, nullable = false)
-    private String howTo; // 만드는 방법
+    @Lob
+    private String requiredIng; // JSON
+
+    @Lob
+    private String subIng; // 부재료 JSON
+
+    @Lob
+    private String condiments; // 양념 JSON
 
     @Transient
-    private FileInfo mainImage; // 대표 이미지
+    private FileInfo mainImage; // 대표 이미지, null X
 
-    @Transient
-    private List<FileInfo> howToImages; // 목록 이미지
 
 }
 
 
-
-/*@Data
-@NoArgsConstructor
-//@Entity
-public class Recipe {
-
-    private Long id;
-    private String userName;
-    private String rcpName;
-    private String gid;
-    @Transient
-    private FileInfo mainImage; // 파일path, 파일 url 포함됨
-
-    public Recipe(String userName, String rcpName, String gid) {
-        this.userName = userName;
-        this.rcpName = rcpName;
-        this.gid = gid;
-    }
-}*/
