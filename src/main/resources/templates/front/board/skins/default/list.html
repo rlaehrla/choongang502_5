@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="default">
-    기본 스킨 목록
+    <th:block th:replace="~{front/board/skins/default/_list_items::default}"></th:block>
 </th:block>
 </html>

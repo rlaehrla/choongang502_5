@@ -18,10 +18,7 @@ import org.choongang.member.service.MemberInfoService;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
-import org.choongang.product.service.CategoryInfoService;
-import org.choongang.product.service.CategorySaveService;
-import org.choongang.product.service.ProductInfoService;
-import org.choongang.product.service.ProductSaveService;
+import org.choongang.product.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +41,7 @@ public class ProductController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final MemberInfoService memberInfoService;
     private final ProductInfoService productInfoService;
-
+    private final ProductDeleteService productDeleteService;
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "product";
@@ -60,27 +57,11 @@ public class ProductController implements ExceptionProcessor {
     public String selectCate(Model model){
         List<Category> categories = categoryInfoService.getList();
 
-        List<String> items = new ArrayList<>();
-        for (Category cate : categories){
-            String mainCate;
-            if(cate.getMainCategory() == MainCategory.GRAIN){
-                mainCate = "gr";
-            } else if (cate.getMainCategory() == MainCategory.VEGETABLE) {
-                mainCate = "ve";
-            }else{
-                mainCate = "fr";
-            }
-
-            String html = "<li data-filter=\"" + mainCate + "\" value=\"" + cate.getCateCd() + "\">"+ cate.getCateNm() + "</li>";
-            items.add(html);
-        }
-
         List<String> addCss = new ArrayList<>();
         addCss.add("product/select");
         List<String> addJs = new ArrayList<>();
         addJs.add("product/select");
 
-        model.addAttribute("items", items);
         model.addAttribute("addCss", addCss);
         model.addAttribute("addScript", addJs);
 
@@ -118,14 +99,9 @@ public class ProductController implements ExceptionProcessor {
     @GetMapping("/add")
     public String add(@ModelAttribute RequestProduct form, Model model){
         commonProcess("add", model);
-        HttpSession session = request.getSession();
 
         if(!memberUtil.isAdmin() && !memberUtil.isFarmer()){
             throw new UnAuthorizedException();
-        }
-
-        if(memberUtil.isFarmer()){
-            form.setFarmer_seq(memberUtil.getMember().getUserId());
         }
 
         if(memberUtil.isAdmin()){
@@ -145,9 +121,31 @@ public class ProductController implements ExceptionProcessor {
         commonProcess("edit", model);
 
         RequestProduct form = productInfoService.getForm(seq);
+        form.setMode("edit");
         model.addAttribute("requestProduct", form);
-
+        System.out.println(form);
         return "admin/product/edit";
+    }
+
+    @PatchMapping
+    public String editList(@RequestParam("chk") List<Integer> chks, Model model){
+
+        commonProcess("list", model);
+        productSaveService.saveList(chks);
+
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
+    }
+
+    @DeleteMapping
+    public String deleteList(@RequestParam("chk") List<Integer> chks, Model model){
+        commonProcess("list", model);
+
+        System.out.println("chks : " + chks);
+
+        productDeleteService.deleteList(chks);
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
     }
 
 

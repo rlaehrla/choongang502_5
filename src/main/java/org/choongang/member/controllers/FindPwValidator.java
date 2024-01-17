@@ -1,6 +1,7 @@
 package org.choongang.member.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.validation.Validator;
 public class FindPwValidator implements Validator {
 
     private final MemberRepository memberRepository;
+    private final FarmerRepository farmerRepository ;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -31,6 +33,8 @@ public class FindPwValidator implements Validator {
         String name = form.name();
 
         if (StringUtils.hasText(email) && StringUtils.hasText(name) && !memberRepository.existsByEmailAndName(email, name)) {
+            errors.reject("NotFound.member");
+        } else if (StringUtils.hasText(email) && StringUtils.hasText(name) && !farmerRepository.existsByEmailAndName(email, name)) {
             errors.reject("NotFound.member");
         }
     }

@@ -19,11 +19,14 @@ import java.beans.Encoder;
 @RequiredArgsConstructor
 public class BoardSaveService {
 
+    private final BoardAuthService boardAuthService;
     private final BoardRepository boardRepository;
     private final BoardDataRepository boardDataRepository;
     private final FileUploadService fileUploadService;
     private final MemberUtil memberUtil;
     private final HttpServletRequest request;
+
+
     private final PasswordEncoder encoder;
 
     public BoardData save(RequestBoard form) {
@@ -32,6 +35,11 @@ public class BoardSaveService {
         mode = StringUtils.hasText(mode) ? mode : "write";
 
         Long seq = form.getSeq();
+
+        // 수정 권한 체크
+        if (mode.equals("update")) {
+            boardAuthService.check(mode, seq);
+        }
 
         BoardData data = null;
         if (seq != null && mode.equals("update")) { // 글 수정
@@ -86,4 +94,5 @@ public class BoardSaveService {
 
         return data;
     }
+
 }

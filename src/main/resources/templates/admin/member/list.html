@@ -4,7 +4,6 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
     <h1>회원목록</h1>
-
     <h2>회원검색</h2>
     <form name="frmSearch" method="get" th:action="@{/admin/member}" autocomplete="off" th:object="${memberSearch}">
         <table class="table_cols md30">
@@ -42,6 +41,7 @@
                     <th>회원명</th>
                     <th>닉네임</th>
                     <th>회원구분</th>
+                    <th>전화번호</th>
                     <th>주소</th>
                     <th></th>
                 </tr>
@@ -56,7 +56,8 @@
                     <td th:text="*{email}"></td>
                     <td th:text="*{username}"></td>
                     <td th:text="*{nickname}"></td>
-                    <td></td>
+                    <td th:text="*{authorities[0].authority}"></td>
+                    <td th:text="*{tel}"></td>
                     <td th:unless="*{address != null && !address.isEmpty()}"></td>
                     <td th:if="*{address != null && !address.isEmpty()} ">
                         <th:block th:text="*{'(' + address[0].zoneCode + ')'}"></th:block>
@@ -65,7 +66,7 @@
                     </td>
                     <td>
                         <a th:href="@{/admin/member/edit/{userId}(userId=*{userId})}" class="sbtn on">
-                            <i class="xi-pen"></i> 회원정보 수정
+                            <i class="xi-pen"></i> 회원정보 / 권한 수정
                         </a>
                     </td>
                 </tr>

@@ -13,9 +13,21 @@
                 <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
                 <a th:href="@{/member/cart}">장바구니</a>
             </th:block>
+            <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->
+
+                <th:block th:if="${session.member.profileImage != null}"
+                          th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
+                </th:block>
+
+                <span th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></span>
+                <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
+                <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
+
+                <a sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin}" th:text="#{사이트_관리}"></a>
+            </th:block>
         </div>
         <!--검색창 폼-->
-        <form name="serchFrm" th:action="@{/search/result(임시)}">
+        <form name="searchFrm" th:action="@{/search/result(임시)}">
             <div class="product_search">
                 <select class="selectSearch" name="whichSearch">
                     <option id="grain" value="grain">곡물</option>
@@ -26,17 +38,5 @@
                 <button type="submit">찾기</button>
             </div>
         </form>
-            <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->
-
-            <th:block th:if="${session.member.profileImage != null}"
-                th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
-            </th:block>
-
-            <span th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></span>
-            <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
-            <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
-
-            <a sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin}" th:text="#{사이트_관리}"></a>
-        </th:block>
     </header>
 </html>

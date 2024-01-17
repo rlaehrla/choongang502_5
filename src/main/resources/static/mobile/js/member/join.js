@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", function() {
-    /* 인증 코드 전송 S */
+
+    /* 이메일 인증 코드 전송 */
     const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
     const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
     const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
@@ -22,7 +23,7 @@ window.addEventListener("DOMContentLoaded", function() {
                         frmJoin.email.focus();
                     } else { // 중복이메일이 아닌 경우
                         sendEmailVerify(email); // 이메일 인증 코드 전송
-                        this.disabled = frmJoin.email.readonly = true;
+                        this.disabled = frmJoin.email.readOnly = true;
 
                          /* 인증코드 재전송 처리 S */
                          if (emailReVerifyEl) {
@@ -100,7 +101,7 @@ function callbackEmailVerifyCheck(data) {
         emailVerifyEl.parentElement.removeChild(emailVerifyEl);
 
         // 3. 이메일 입력 항목 readonly 속성으로 변경
-        frmJoin.email.readonly = true;
+        frmJoin.email.readOnly = true;
 
         // 4. 인증 성공시 인증코드 입력 영역 제거, 5. 인증 코드 입력 영역에 "확인된 이메일 입니다."라고 출력 처리
         const authBoxEl = document.querySelector(".auth_box");
@@ -139,7 +140,7 @@ const authCount = {
                 const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
                 const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
                 emailConfirmEl.disabled = emailReVerifyEl.disabled = true;
-                emailVerifyEl.disabled = frmJoin.email.readonly = false;
+                emailVerifyEl.disabled = frmJoin.email.readOnly = false;
                 return;
             }
 
@@ -160,10 +161,169 @@ const authCount = {
         const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
         const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
         emailConfirmEl.disabled = emailReVerifyEl.disabled = false;
-        emailVerifyEl.disabled = frmJoin.email.readonly = true;
+        emailVerifyEl.disabled = frmJoin.email.readOnly = true;
 
         this.count = 60 * 3;
         if (this.intervalId) clearInterval(this.intervalId);
         countEl.innerHTML = "03:00";
     }
 };
+
+// 핸드폰 ###-####-#### 자동 하이픈 생성 코드
+const autoHyphen = (target) => {
+ target.value = target.value
+   .replace(/[^0-9]/g, '')
+   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+}
+
+// join.html 일반회원과 농장주인 탭 전환 시 뷰에 노출할 부분 구별
+// --> session에 mType 저장
+window.addEventListener("DOMContentLoaded", function() {
+
+    let farmerFrm = document.getElementById('farmerFrm') ;
+    let memberBtn = document.querySelector('#member') ;
+    let farmerBtn = document.querySelector('#farmer') ;
+
+    // 일반회원인 경우에 회원가입 폼 view
+    const memberView = function() {
+        farmerFrm.classList.add('dn') ;    // 클래스 속성에 dn(display: none)값 추가하여 안 보이게 처리
+        sessionStorage.setItem('mType', 'M'); // 세션 등록
+    }
+
+    // 농장주인인 경우에 회원가입 폼 view
+    const farmerView = function() {
+        farmerFrm.classList.remove('dn') ;
+        sessionStorage.setItem('mType', 'F'); // 세션 등록
+    }
+
+    // 세션에서 mType 값 가져오기
+    let mType = sessionStorage.getItem('mType');
+    if (mType == 'M') {
+        memberBtn.checked = true ;
+        memberView() ;
+    } else {
+        farmerBtn.checked = true ;
+        farmerView() ;
+    }
+
+    // 일반회원인 경우
+    memberBtn.addEventListener("click", function() {
+        memberView() ;
+    });
+
+    // 농장주인인 경우
+    farmerBtn.addEventListener("click", function() {
+        farmerView() ;
+    });
+});
+
+/**
+* 아이디 중복 확인
+*/
+window.addEventListener("DOMContentLoaded", function() {
+    const idDupCheckBtn = document.querySelector('#userId_dup_check') ;
+    if (idDupCheckBtn) {
+        idDupCheckBtn.addEventListener("click", function() {
+            const idOkEl = document.querySelector(".id_check_ok");
+            idOkEl.innerHTML = "" ;
+
+            const userId = frmJoin.userId.value.replace(/(\s*)/g, "");
+            console.log(userId) ;
+            if (userId.length >= 6) {
+                const { ajaxLoad } = commonLib ;
+
+                ajaxLoad("GET", `/api/member/userId_dup_check?userId=${userId}`, null, "json")
+                    .then(data => {
+                        if (data.success) {
+                            alert("❌이미 존재하는 아이디입니다.") ;
+                            frmJoin.userId.focus() ;
+                        } else {
+                            alert("✅사용 가능한 아이디입니다.") ;
+                            idOkEl.innerHTML = "<span class='confirmed'>✅사용 가능한 아이디입니다.</span>";
+                        }
+                    })
+            } else {
+                alert("⚠️아이디를 6자 이상 입력하세요.") ;
+            }
+        });
+    }
+});
+
+/**
+* 닉네임 중복 확인
+*/
+window.addEventListener("DOMContentLoaded", function() {
+    const nickDupCheckBtn = document.querySelector('#nickname_dup_check') ;
+    if (nickDupCheckBtn) {
+        nickDupCheckBtn.addEventListener("click", function() {
+            const nickOkEl = document.querySelector(".nick_check_ok");
+            nickOkEl.innerHTML = "";
+
+            const nickname = frmJoin.nickname.value.replace(/(\s*)/g, "");
+            if (nickname) {
+                const { ajaxLoad } = commonLib ;
+
+                ajaxLoad("GET", `/api/member/nickname_dup_check?nickname=${nickname}`, null, "json")
+                    .then(data => {
+                        if (data.success) {
+                            alert("❌이미 존재하는 닉네임입니다.") ;
+                            frmJoin.nickname.focus() ;
+                        } else {
+                            alert("✅사용 가능한 닉네임입니다.") ;
+                            nickOkEl.innerHTML = "<span class='confirmed'>✅사용 가능한 닉네임입니다.</span>";
+                        }
+                    })
+            } else {
+                alert("⚠️닉네임을 입력하세요.") ;
+            }
+        });
+    }
+});
+
+/* 사업자등록증 상태 체크 S */
+window.addEventListener("DOMContentLoaded", function() {
+    const bNoVerifyEl = document.getElementById("bNoVerify") ;    // 확인하기 버튼
+    if (bNoVerifyEl) {
+        bNoVerifyEl.addEventListener("click", function() {
+            const bNumber = frmJoin.businessPermitNum.value.trim() ;   // 사업자번호
+            if (!bNumber) {
+                // 사업자등록 번호를 입력하지 않은 채 버튼 클릭한 경우
+                //console.log('사업자등록번호 미입력') ;
+                alert('⚠️사업자등록 번호를 입력하세요.') ;
+                frmJoin.businessPermitNum.focus() ;
+                return ;
+            }
+
+            const { ajaxLoad } = commonLib ;
+            const url = `/api/public/business_permit/${bNumber}`;
+
+            ajaxLoad("GET", url, null, "json")
+                    .then(data => {
+                        if (typeof callbackBNoVerify == 'function') {
+                            callbackBNoVerify(data) ;
+                        }
+                    })
+                    .catch(err => console.error(err));
+        });
+    }
+});
+/* 사업자등록증 상태 체크 E */
+
+function callbackBNoVerify(data) {
+    if (data && data.success) {
+        // 사업자등록증 상태 체크 성공
+        alert('✅사업자등록 번호가 확인되었습니다.') ;
+
+        // 확인하기 버튼 비활성화
+        const bNoVerifyEl = document.getElementById("bNoVerify") ;
+        bNoVerifyEl.parentElement.removeChild(bNoVerifyEl);
+
+        frmJoin.businessPermitNum.readOnly = true ;
+
+        // "✅사업자등록 번호가 확인되었습니다."라고 출력 처리
+        const bNoOkEl = document.querySelector(".b_no_ok");
+        bNoOkEl.innerHTML += "<span class='confirmed'>✅사업자등록 번호가 확인되었습니다.</span>";
+    } else {
+        alert('❌유효하지 않은 사업자등록입니다. 다시 확인해주세요.') ;
+    }
+}

@@ -20,8 +20,7 @@ public class AdminMenu {
                 new MenuDetail("api", "API 설정", "/admin/config/api")
         ));
         adminMenus.put("member", Arrays.asList(
-            new MenuDetail("list", "회원목록", "/admin/member"),
-            new MenuDetail("authority", "회원권한", "/admin/member/authority")
+            new MenuDetail("list", "회원목록", "/admin/member")
         ));
 
         adminMenus.put("board", Arrays.asList(

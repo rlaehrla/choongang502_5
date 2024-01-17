@@ -1,3 +1,10 @@
+:root{
+    --main-color: #596b99;
+}
+ul, li{
+    list-style: none;
+}
+
 .category_container {
     background-color: #fff;
     width: 500px;
@@ -54,6 +61,8 @@
 }
 
 .category_button_area ul li button {
+    font-size: 1.1rem;
+    font-weight: 300;
     background-color: transparent;
     border: none;
     background: #eee;
@@ -63,6 +72,19 @@
 }
 
 .category_button_area ul li button.active {
-    background: #222;
+    font-size: 1.2rem;
+    font-weight: 300;
+    background: var(--main-color);
     color: #fff;
 }
+.category_list input[type='radio'] { display: none; }
+.category_list input[type='radio']+label {
+    display: inline-block;
+    border-radius: 5px;
+    background: #fff;
+    color: #222;
+    padding: 10px 15px; }
+.category_list input[type='radio']:checked+label {
+    background: var(--main-color);
+    color: #fff;
+    }

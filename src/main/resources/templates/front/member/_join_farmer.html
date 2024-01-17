@@ -22,6 +22,7 @@
                 <div class="error" th:each="err : ${#fields.errors('businessPermitNum')}" th:text="${err}"></div>
 
                 <div>
+                    <div id="attached_file"></div>
                     <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"
                             data-location="business_permit"></button>
                 </div>
@@ -29,5 +30,8 @@
         </dl>
 
     </div>
+
+
+    <script th:replace="~{common/_file_tpl::attach_tpl}"></script>
 </th:block>
 </html>

@@ -52,13 +52,14 @@ public class MemberInfoService implements UserDetailsService {
 
         // 회원 유형에 따라 member 형 변환 처리
         String mType = request.getParameter("mType") ;
-        member = mType.equals("M") ? (Member)member : (Farmer)member ;
+        member = "M".equals(mType) ? (Member)member : (Farmer)member ;
 
         if (member instanceof Farmer) {
             member = farmerRepository.findByEmail(username)
                     .orElseGet(() -> farmerRepository.findByUserId(username)
                             .orElseThrow(() -> new UsernameNotFoundException(username))) ;
         }
+
 
         List<SimpleGrantedAuthority> authorities = null;
         List<Authorities> tmp = member.getAuthorities();
@@ -69,12 +70,20 @@ public class MemberInfoService implements UserDetailsService {
         }
 
         /* 프로필 이미지 처리 */
-        List<FileInfo> files = fileInfoService.getListDone(member.getGid());
+        List<FileInfo> files = fileInfoService.getListDone(member.getGid(), "profile_img");
         if (files != null && !files.isEmpty()) {
             member.setProfileImage(files.get(0));
         }
 
         /* 프로필 이미지 처리 */
+
+        /* 사업자등록증 첨부 파일 처리 S */
+        List<FileInfo> businessPermitFiles = fileInfoService.getListDone(member.getGid(), "business_permit");
+        if (businessPermitFiles != null && !businessPermitFiles.isEmpty()) {
+            member.setBusinessPermitFiles(businessPermitFiles);
+        }
+        /* 사업자등록증 첨부 파일 처리 E */
+
         System.out.println(member.getAddress());
         System.out.println(member.getClass().getSimpleName());
         return MemberInfo.builder()
@@ -110,6 +119,7 @@ public class MemberInfoService implements UserDetailsService {
             Farmer farmer = (Farmer) user ;
             form.setFarmTitle(farmer.getFarmTitle());
             form.setBusinessPermitNum(farmer.getBusinessPermitNum());
+            form.setBusinessPermitFiles(farmer.getBusinessPermitFiles());
         }
         System.out.println(form);
         return form ;
@@ -210,5 +220,21 @@ public class MemberInfoService implements UserDetailsService {
                 .where(builder)
                 .fetch();
     }
+
+    /**
+     * 아이디로 회원 조회
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    public UserDetails findByUserId(String username) throws UsernameNotFoundException {
+        AbstractMember member = memberRepository.findByUserId(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        return MemberInfo.builder()
+                .member(member)
+                .build();
+    }
+
 
 }

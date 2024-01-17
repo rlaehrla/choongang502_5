@@ -7,8 +7,9 @@
     <h1>회원정보 수정</h1>
 
     <th:block sec:authorize="isAuthenticated()">
-            <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}">
+            <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}" target="ifrmProcess">
                 <input type="hidden" name="gid" th:value="*{gid}">
+                <input type="hidden" name="_method" value="PATCH">
                 <dl>
                     <dt th:text="#{이메일}"></dt>
                     <dd>
@@ -59,7 +60,10 @@
                 <dl>
                     <dt th:text="#{주소}"></dt>
                     <dd>
-                        <input type="text" name="zoneCode" th:field="*{zoneCode}"><br>
+                        <input type="text" name="zoneCode" th:field="*{zoneCode}">
+                        <button type="button" class="search_address" th:text="#{주소_찾기}" data-zonecode-id="zoneCode" data-address-id="address"></button><br>
+                        <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
+
                         <input type="text" name="address" th:field="*{address}">
                         <input type="text" name="addressSub" th:field="*{addressSub}">
                     </dd>
@@ -68,9 +72,19 @@
                 <dl>
                     <dt th:text="#{프로필_이미지}"></dt>
                     <dd>
-                        <div id="profile_image"></div>
+                        <div id="profile_image">
+                            <th:block th:if="*{profileImage != null}">
+                                <div class="image1_tpl_box" th:id="*{'file_' + profileImage.seq}">
+                                    <a th:href="@{/file/delete/{seq}(seq=*{profileImage.seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
+                                        <i class="xi-close"></i>
+                                    </a>
+                                    <div class="inner" th:style="*{@utils.backgroundStyle(profileImage)}"></div>
+                                </div>
+                            </th:block>
+
+                        </div>
                         <button type="button" class="upload_files"
-                                th:text="#{이미지_업로드}" data-image-only="true"
+                                th:text="#{이미지_업로드}" data-image-only="true" data-location="profile_img"
                                 data-single-file="true"></button>
                     </dd>
                 </dl>
@@ -93,6 +107,18 @@
                             </div>
 
                             <div>
+                                <div id="attached_file">
+                                    <th:block th:if="${session.member.businessPermitFiles != null}">
+                                        <th:block th:each="file : ${session.member.businessPermitFiles}">
+                                            <span class="file_tpl_box" th:id="${'file_' + file.seq}">
+                                                <a th:href="@{/file/download/{seq}(seq=${file.seq})}" th:text="${file.fileName}"></a>
+                                                  <a th:href="@{/file/delete/{seq}(seq=${file.seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
+                                                    <i class="xi-close"></i>
+                                                </a>
+                                            </span>
+                                        </th:block>
+                                    </th:block>
+                                </div>
                                 <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"
                                         data-location="business_permit"></button>
                             </div>
@@ -104,6 +130,7 @@
                 <button type="submit" id="saveBtn">저장</button>
 
                 <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+                <script th:replace="~{common/_file_tpl::attach_tpl}"></script>
 
             </form>
     </th:block>

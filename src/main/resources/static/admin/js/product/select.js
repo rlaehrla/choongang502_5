@@ -51,42 +51,12 @@ window.addEventListener("DOMContentLoaded", function() {
 
         });
     }
+    /*// 선택 완료 버튼 클릭시
+    const select_done = document.querySelector("#select_done");
+    select_done.addEventListener("click", function(){
 
-    // 처음 로딩되면 첫번쨰 탭(전체) 클릭
+    });*/
+
+    // 처음 로딩되면 첫번째 탭(전체) 클릭
     buttons[0].click();
 });
-
-
-function callbackCategorySelect(data) {
-    console.log(data);
-}
-/*
-const filterMenuInit = () => {
-        const filters = document.querySelectorAll('[data-filter-id]');
-
-        filters.forEach(filter => {
-            const filterBtns = [...filter.querySelectorAll('[data-filter]')].filter(el => el.nodeName === 'BUTTON');
-            const filterLists = [...filter.querySelectorAll('[data-filter]')].filter(el => el.nodeName === 'LI');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const filterType = btn.getAttribute('data-filter');
-
-                    filterBtns.forEach(btn => btn.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    filterLists.forEach(list => {
-                        if (filterType === 'all'){
-                            list.style.display = 'list-item';
-                            return;
-                        }
-
-                        list.style.display = list.getAttribute('data-filter') === filterType ? 'list-item' : 'none';
-                    })
-                });
-            })
-        })
-    };
-
-    filterMenuInit();
-*/

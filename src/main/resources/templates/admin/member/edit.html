@@ -3,12 +3,73 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
-    <h1>회원정보 수정</h1>
+
     <form name="frmSave" method="post" th:action="@{/admin/member/save}" autocomplete="off">
+
+    <h1>회원 권한 설정</h1>
+        <div class="mb30">
+            <input type="radio" name="authority" th:text="#{일반_권한_부여}" checked="${member.authority == 'USER'}">
+            <input type="radio" name="authority" th:text="#{관리자_권한_부여}" checked="${member.authority == 'ADMIN'}">
+        </div>
+    <h1>활동 여부 설정</h1>
+        <div class="mb30">
+            <input type="radio" name="activity" th:text="#{계정_활동_가능}" checked="${member.activity == true}">
+            <input type="radio" name="activity" th:text="#{계정_활동_중지}" checked="${member.activity == false}">
+        </div>
+    <h1>회원 정보 설정</h1>
         <input type="hidden" name="mode" value="edit">
+        <dl>
+            <dt th:text="#{아이디}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="userId" th:value="${member.userId}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{아이디}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="email" th:value="${member.email}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{회원명}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="username" th:value="${member.username}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{닉네임}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="nickname" th:value="${member.nickname}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{전화번호}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="tel" th:value="${member.tel}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{주소}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="address" th:if="${address != null}" th:value="${'(' + address[0].zoneCode + ')' + address[0].address}">
+                    <input type="text" name="addressSub" th:if="${address != null and address[0].addressSub != null}" th:value="${address[0].addressSub}">
+                </div>
+            </dd>
+        </dl>
 
         <div class="submit_btns">
-            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn" onclick="history.go(-1);">뒤로가기</button>
             <button type="submit" class="btn">수정하기</button>
         </div>
     </form>

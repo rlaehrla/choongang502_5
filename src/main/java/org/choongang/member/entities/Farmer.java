@@ -24,5 +24,5 @@ public class Farmer extends AbstractMember {
     private String businessPermitNum ;    // 사업자등록 번호
 
     @Transient    // 가공될 데이터
-    private FileInfo businessPermit ;    // 사업자등록증 파일
+    private List<FileInfo> businessPermitFiles ;    // 사업자등록증 파일
 }

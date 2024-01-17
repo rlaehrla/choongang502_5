@@ -9,6 +9,7 @@ import org.choongang.member.controllers.FindPwValidator;
 import org.choongang.member.controllers.RequestFindPw;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
+import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.repositories.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,8 @@ import java.util.Map;
 public class FindPwService {
 
     private final FindPwValidator validator;
-    private final MemberRepository repository;
+    private final MemberRepository memberRepository;
+    private final FarmerRepository farmerRepository ;
     private final EmailSendService sendService;
     private final PasswordEncoder encoder;
     private final Utils utils;
@@ -44,12 +46,12 @@ public class FindPwService {
 
     public void reset(String email) {
         /* 비밀번호 초기화 S */
-        Member member = (Member) repository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        AbstractMember member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
         String newPassword = utils.randomChars(12); // 초기화 비밀번호는 12자로 생성
         member.setPassword(encoder.encode(newPassword));
 
-        repository.saveAndFlush(member);
+        memberRepository.saveAndFlush(member);
 
         /* 비밀번호 초기화 E */
         EmailMessage emailMessage = new EmailMessage(email, Utils.getMessage("Email.password.reset", "commons"),

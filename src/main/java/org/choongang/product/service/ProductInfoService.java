@@ -16,6 +16,7 @@ import org.choongang.file.service.FileInfoService;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.service.MemberInfoService;
+import org.choongang.product.entities.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -60,17 +61,14 @@ public class ProductInfoService {
     private final MemberUtil memberUtil;
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
+    private final CategoryInfoService categoryInfoService;
 
 
     public Product get(Long seq) {
-        String farmer = memberUtil.getMember().getUserId();
         Product product = productRepository.findById(seq)
                 .orElseThrow(ProductNotFoundException::new);
 
-
-        if(!StringUtils.hasText(farmer) || (!memberUtil.isAdmin() && StringUtils.hasText(farmer) && !farmer.equals(product.getFarmer()))){
-            throw new UnAuthorizedException(Utils.getMessage("UnAuthorized", "errors"));
-        }
+        addProductInfo(product);
 
         return product;
 
@@ -191,10 +189,10 @@ public class ProductInfoService {
     public RequestProduct getForm(Long seq){
 
         Product product = get(seq);
-
         RequestProduct form = new ModelMapper().map(product, RequestProduct.class);
 
-        System.out.println(form);
+        form.setFarmer(product.getFarmer().getUserId());
+        form.setCateCd(product.getCategory().getCateCd());
 
         form.setMode("edit");
 

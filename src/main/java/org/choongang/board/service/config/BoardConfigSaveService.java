@@ -45,6 +45,7 @@ public class BoardConfigSaveService {
         board.setUseUploadImage(form.isUseUploadImage());
         board.setUseUploadFile(form.isUseUploadFile());
         board.setLocationAfterWriting(form.getLocationAfterWriting());
+        board.setShowListBelowView(form.isShowListBelowView());
         board.setSkin(form.getSkin());
         board.setCategory(form.getCategory());
 
@@ -56,6 +57,8 @@ public class BoardConfigSaveService {
 
         board.setHtmlTop(form.getHtmlTop());
         board.setHtmlBottom(form.getHtmlBottom());
+
+        board.setListOrder(form.getListOrder());
 
         boardRepository.saveAndFlush(board);
 
@@ -76,6 +79,9 @@ public class BoardConfigSaveService {
 
             boolean active =Boolean.parseBoolean( utils.getParam("active_" + chk));
             board.setActive(active);
+
+            int listOrder = Integer.parseInt(utils.getParam("listOrder_" + chk));
+            board.setListOrder(listOrder);
         }
 
         boardRepository.flush();

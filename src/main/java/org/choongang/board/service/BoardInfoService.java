@@ -8,22 +8,26 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.controllers.BoardDataSearch;
-import org.choongang.board.entities.Board;
-import org.choongang.board.entities.BoardData;
-import org.choongang.board.entities.QBoardData;
+import org.choongang.board.controllers.RequestBoard;
+import org.choongang.board.entities.*;
 import org.choongang.board.repositories.BoardDataRepository;
+import org.choongang.board.repositories.BoardViewRepository;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Member;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -33,11 +37,13 @@ public class BoardInfoService {
 
     private final EntityManager em;
     private final BoardDataRepository boardDataRepository;
+    private final BoardViewRepository boardViewRepository;
     private final BoardConfigInfoService configInfoService; // 게시판 설정
 
     private final FileInfoService fileInfoService;
     private final HttpServletRequest request;
 
+    private final MemberUtil memberUtil;
     private final Utils utils;
 
     /**
@@ -52,6 +58,29 @@ public class BoardInfoService {
         addBoardData(boardData);
         
         return boardData;
+    }
+
+    /**
+     * BoardData -> RequestBoard
+     *
+     * @param data : 게시글 데이터(BoardData), 게시글 번호(Long)
+     * @return
+     */
+    public RequestBoard getForm(Object data) {
+        BoardData boardData = null;
+        if (data instanceof BoardData) {
+            boardData = (BoardData) data;
+        } else {
+            Long seq = (Long) data;
+            boardData = get(seq);
+        }
+
+        RequestBoard form = new ModelMapper().map(boardData, RequestBoard.class);
+        form.setMode("update");
+
+        form.setBid(boardData.getBoard().getBid());
+
+        return form;
     }
 
     /**
@@ -77,7 +106,7 @@ public class BoardInfoService {
 
         /* 검색 조건 처리 S */
 
-        String sopt = search.getSpot();
+        String sopt = search.getSopt();
         String skey = search.getSkey();
 
         sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
@@ -121,6 +150,13 @@ public class BoardInfoService {
             andBuilder.and(boardData.member.userId.eq(userId));
         }
 
+        // 게시글 분류 조회
+        String category = search.getCategory();
+        if (StringUtils.hasText(category)) {
+            category = category.trim();
+            andBuilder.and(boardData.category.eq(category));
+        }
+
         /* 검색 조건 처리 E */
 
         PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
@@ -132,7 +168,7 @@ public class BoardInfoService {
                 .limit(limit)
                 .where(andBuilder)
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("notice")),
-                        new OrderSpecifier(Order.DESC, pathBuilder.get("createAt")))
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 공지사항, 최신게시글 순서로 정렬
                 .fetch();
 
@@ -151,6 +187,7 @@ public class BoardInfoService {
      */
     private void addBoardData(BoardData boardData) {
 
+        /* 파일 정보 추가 S */
         String gid = boardData.getGid();
 
         List<FileInfo> editorFiles = fileInfoService.getListDone(gid, "editor");
@@ -158,6 +195,83 @@ public class BoardInfoService {
 
         boardData.setEditorFiles(editorFiles);
         boardData.setAttachFiles(attachFiles);
+        /* 파일 정보 추가 E */
+
+        /* 수정, 삭제 권한 정보 처리 S */
+        boolean editable = false, deletable = false, mine = false;
+        AbstractMember _member = boardData.getMember(); // null - 비회원, X null -> 회원
+
+        // 관리자 -> 삭제, 수정 모두 가능
+        if (memberUtil.isAdmin()) {
+            editable = true;
+            deletable = true;
+        }
+
+        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
+        AbstractMember member = memberUtil.getMember();
+        if (_member != null && memberUtil.isLogin() && _member.getUserId().equals(_member.getUserId())) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        // 비회원 -> 비회원 비밀번호가 확인된 경우 삭제, 수정 가능
+        // 비회원 비밀번호 인증 여부 세션에 있는 guest_confirmed_게시글번호 true -> 인증
+        HttpSession session = request.getSession();
+        String key = "guest_confirmed_" + boardData.getSeq();
+        Boolean guestConfirmed = (Boolean)session.getAttribute(key);
+        if (_member == null && guestConfirmed != null && guestConfirmed) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        boardData.setEditable(editable);
+        boardData.setDeletable(deletable);
+        boardData.setMine(mine);
+
+        // 수정 버튼 노출 여부
+        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
+        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
+        boolean showDeleteButton = showEditButton;
+
+        boardData.setShowEditButton(showEditButton);
+        boardData.setShowDeleteButton(showDeleteButton);
+
+        /* 수정, 삭제 권한 정보 처리 E */
+    }
+
+
+    /**
+     * 게시글 조회수 업데이트
+     *
+     * @param seq : 게시글 번호
+     */
+    public void updateViewCount(Long seq) {
+
+        BoardData data = boardDataRepository.findById(seq).orElse(null);
+        if (data == null) return;
+
+        try {
+            AbstractMember member = memberUtil.getMember();
+            int uid = memberUtil.isLogin() ?
+                    memberUtil.getMember().getSeq().intValue() : utils.guestUid();
+
+            BoardView boardView = new BoardView(seq, uid);
+
+            boardViewRepository.saveAndFlush(boardView);
+
+        } catch (Exception e) {}
+
+        // 조회수 카운팅 -> 게시글에 업데이트
+        QBoardView bv = QBoardView.boardView;
+        int viewCount = (int)boardViewRepository.count(bv.seq.eq(seq));
+
+        data.setViewCount(viewCount);
+
+        boardViewRepository.flush();
+
+
     }
 
 }

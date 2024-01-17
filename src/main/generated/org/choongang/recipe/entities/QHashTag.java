@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -19,8 +18,6 @@ public class QHashTag extends EntityPathBase<HashTag> {
     private static final long serialVersionUID = 742356451L;
 
     public static final QHashTag hashTag = new QHashTag("hashTag");
-
-    public final ListPath<Recipe, QRecipe> recipes = this.<Recipe, QRecipe>createList("recipes", Recipe.class, QRecipe.class, PathInits.DIRECT2);
 
     public final StringPath tag = createString("tag");
 
