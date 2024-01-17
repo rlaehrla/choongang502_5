@@ -18,10 +18,7 @@ import org.choongang.member.service.MemberInfoService;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
-import org.choongang.product.service.CategoryInfoService;
-import org.choongang.product.service.CategorySaveService;
-import org.choongang.product.service.ProductInfoService;
-import org.choongang.product.service.ProductSaveService;
+import org.choongang.product.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +41,7 @@ public class ProductController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final MemberInfoService memberInfoService;
     private final ProductInfoService productInfoService;
-
+    private final ProductDeleteService productDeleteService;
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "product";
@@ -125,9 +122,29 @@ public class ProductController implements ExceptionProcessor {
         commonProcess("edit", model);
 
         RequestProduct form = productInfoService.getForm(seq);
+        form.setMode("edit");
         model.addAttribute("requestProduct", form);
-
+        System.out.println(form);
         return "admin/product/edit";
+    }
+
+    @PatchMapping
+    public String editList(@ModelAttribute("chk") List<Integer> chks, Model model){
+
+        commonProcess("list", model);
+        productSaveService.saveList(chks);
+
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
+    }
+
+    @DeleteMapping
+    public String deleteList(@ModelAttribute("chk") List<Integer> chks, Model model){
+        commonProcess("list", model);
+
+        productDeleteService.deleteList(chks);
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
     }
 
 

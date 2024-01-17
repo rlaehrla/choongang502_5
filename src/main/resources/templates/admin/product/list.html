@@ -56,6 +56,7 @@
 
     <h2>상품 목록</h2>
     <form name="frmList" method="post" th:action="@{/admin/product}" target="ifrmProcess" autocomplete="off">
+        <input type="hidden" name="_method" value="PATCH">
         <table class="table_rows">
             <thead>
                 <tr>
@@ -88,18 +89,10 @@
                     </th:block>
                     <td th:text="*{name}"></td>
                     <td>
-                        <th:block th:if="${item.active}">
-                            <input type="radio" th:name="${'active_' + status.index}" value="true" th:id="${'active_true_' +status.index}" checked onclick="return(false);">
-                            <label th:for="${'active_true_' +status.index}">노출</label>
-                            <input type="radio" th:name="${'active_' + status.index}" value="false" th:id="${'active_false_' +status.index}" onclick="return(false);">
-                            <label th:for="${'active_false_' +status.index}">미노출</label>
-                        </th:block>
-                        <th:block th:unless="${item.active}">
-                            <input type="radio" th:name="${'active_' + status.index}" value="true" th:id="${'active_true_' +status.index}" onclick="return(false);">
-                            <label th:for="${'active_true_' +status.index}">노출</label>
-                            <input type="radio" th:name="${'active_' + status.index}" value="false" th:id="${'active_false_' +status.index}" checked onclick="return(false);">
-                            <label th:for="${'active_false_' +status.index}">미노출</label>
-                        </th:block>
+                        <select th:name="${'active_' + status.index}">
+                            <option value="true" th:selected="*{active}">노출</option>
+                            <option value="false" th:selected="*{!active}">미노출</option>
+                        </select>
                     </td>
                     <td>
                         <a th:href="@{/admin/product/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
@@ -108,6 +101,10 @@
                 </tr>
             </tbody>
         </table>
+        <div class="table_actions">
+            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 상품 삭제하기</button>
+            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 상품 수정하기</button>
+        </div>
     </form>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
