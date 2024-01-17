@@ -111,7 +111,7 @@ public class MemberController implements ExceptionProcessor {
     /**
      * 회원정보 수정
      */
-    @PostMapping("/info")
+    @PatchMapping("/info")
     public String infoSave(@Valid RequestMemberInfo form, Errors errors, Model model) {
         commonProcess("memberInfo", model);
 
@@ -121,18 +121,10 @@ public class MemberController implements ExceptionProcessor {
             return utils.tpl("member/info");
         }
 
-        try {
-            response.setContentType("text/html; charset=utf-8");
-            PrintWriter writer = response.getWriter() ;
-            writer.write("<script>alert('회원정보를 수정했습니다!😊'); " +
-                    "location.href='/member/info'</script>");
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
+        model.addAttribute("script", script);
 
-        return utils.tpl("member/info");
+        return "common/_execute_script";
     }
 
     /**
@@ -215,8 +207,9 @@ public class MemberController implements ExceptionProcessor {
         } else if (mode.equals("memberInfo")) {
             pageTitle = Utils.getMessage("회원정보_수정", "commons") ;
             addScript.add("member/info") ;
-            addCommonScript.add("fileManager");
             addScript.add("member/form");
+            addCommonScript.add("address");
+            addCommonScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);
