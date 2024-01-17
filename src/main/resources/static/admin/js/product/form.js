@@ -98,3 +98,14 @@ function callbackFileDelete(seq) {
 *
 * @param data : 선택한 데이터
 */
+function callbackCategorySelect(data) {
+
+    const cate_select = document.querySelector("#cate_select");
+    const cateCd = document.querySelector("#cateCd");
+
+    if(data != null){
+        cateCd.value = data.cateCd;
+        cate_select.innerText = data.cateNm;
+        cate_select.classList.add("on");
+    }
+}

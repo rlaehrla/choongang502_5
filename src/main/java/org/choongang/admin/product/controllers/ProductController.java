@@ -99,7 +99,6 @@ public class ProductController implements ExceptionProcessor {
     @GetMapping("/add")
     public String add(@ModelAttribute RequestProduct form, Model model){
         commonProcess("add", model);
-        HttpSession session = request.getSession();
 
         if(!memberUtil.isAdmin() && !memberUtil.isFarmer()){
             throw new UnAuthorizedException();
@@ -129,7 +128,7 @@ public class ProductController implements ExceptionProcessor {
     }
 
     @PatchMapping
-    public String editList(@ModelAttribute("chk") List<Integer> chks, Model model){
+    public String editList(@RequestParam("chk") List<Integer> chks, Model model){
 
         commonProcess("list", model);
         productSaveService.saveList(chks);
@@ -139,8 +138,10 @@ public class ProductController implements ExceptionProcessor {
     }
 
     @DeleteMapping
-    public String deleteList(@ModelAttribute("chk") List<Integer> chks, Model model){
+    public String deleteList(@RequestParam("chk") List<Integer> chks, Model model){
         commonProcess("list", model);
+
+        System.out.println("chks : " + chks);
 
         productDeleteService.deleteList(chks);
         model.addAttribute("script", "parent.location.reload();");
