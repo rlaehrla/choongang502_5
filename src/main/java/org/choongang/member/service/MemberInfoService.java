@@ -221,4 +221,20 @@ public class MemberInfoService implements UserDetailsService {
                 .fetch();
     }
 
+    /**
+     * 아이디로 회원 조회
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    public UserDetails findByUserId(String username) throws UsernameNotFoundException {
+        AbstractMember member = memberRepository.findByUserId(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        return MemberInfo.builder()
+                .member(member)
+                .build();
+    }
+
+
 }
