@@ -60,27 +60,11 @@ public class ProductController implements ExceptionProcessor {
     public String selectCate(Model model){
         List<Category> categories = categoryInfoService.getList();
 
-        List<String> items = new ArrayList<>();
-        for (Category cate : categories){
-            String mainCate;
-            if(cate.getMainCategory() == MainCategory.GRAIN){
-                mainCate = "gr";
-            } else if (cate.getMainCategory() == MainCategory.VEGETABLE) {
-                mainCate = "ve";
-            }else{
-                mainCate = "fr";
-            }
-
-            String html = "<li data-filter=\"" + mainCate + "\" value=\"" + cate.getCateCd() + "\">"+ cate.getCateNm() + "</li>";
-            items.add(html);
-        }
-
         List<String> addCss = new ArrayList<>();
         addCss.add("product/select");
         List<String> addJs = new ArrayList<>();
         addJs.add("product/select");
 
-        model.addAttribute("items", items);
         model.addAttribute("addCss", addCss);
         model.addAttribute("addScript", addJs);
 

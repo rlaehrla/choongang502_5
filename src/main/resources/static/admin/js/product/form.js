@@ -92,3 +92,9 @@ function callbackFileDelete(seq) {
    const fileBox = document.getElementById(`file_${seq}`);
        fileBox.parentElement.removeChild(fileBox);
 }
+/**
+*
+* 카테고리 선택 후 후속 처리
+*
+* @param data : 선택한 데이터
+*/

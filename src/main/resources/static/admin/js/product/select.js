@@ -51,8 +51,17 @@ window.addEventListener("DOMContentLoaded", function() {
 
         });
     }
+    // 선택 완료 버튼 클릭시
+    const select_done = document.querySelector("#select_done");
+    select_done.addEventListener("click", function(){
+        // 상위 파일에 선택사항 넘김
 
-    // 처음 로딩되면 첫번쨰 탭(전체) 클릭
+        // 창 닫기
+
+
+    });
+
+    // 처음 로딩되면 첫번째 탭(전체) 클릭
     buttons[0].click();
 });
 
