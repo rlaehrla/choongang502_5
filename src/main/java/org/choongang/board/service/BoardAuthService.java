@@ -92,7 +92,7 @@ public class BoardAuthService {
       }
 
      // 비밀번호 인증 성공 처리
-     session.setAttribute(key, true);
+     session.setAttribute(key,true);
 
      session.removeAttribute("mode");
      session.removeAttribute("seq");
@@ -112,6 +112,10 @@ public class BoardAuthService {
 
         if (memberUtil.isAdmin()) { // 관리자는 체크 불필요
             return;
+        }
+
+        if (!board.isActive()) {  // 미노출 게시판
+            throw new UnAuthorizedException();
         }
 
         boolean accessible = false;

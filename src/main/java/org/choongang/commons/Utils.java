@@ -134,6 +134,7 @@ public class Utils {
                 return image;
             }
         } catch (Exception e) {}
+
         return "";
     }
 

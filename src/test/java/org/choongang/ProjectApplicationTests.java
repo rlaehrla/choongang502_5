@@ -16,25 +16,22 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(properties = "spring.profiles.active=dev")
 class ProjectApplicationTests {
 
-
 	@Autowired
 	private AuthoritiesRepository authoritiesRepository;
 
 	@Autowired
 	private MemberRepository memberRepository;
 
-	@Test
+	@Test @Disabled
 	void contextLoads() {
 		AbstractMember member = memberRepository.findByUserId("user01").orElse(null);
 
 		Authorities authorities = new Authorities();
 		authorities.setMember(member);
 		authorities.setAuthority(Authority.ADMIN);
-		System.out.println("member" + member);
+
 		authoritiesRepository.saveAndFlush(authorities);
 	}
-
-
 }
 
 
