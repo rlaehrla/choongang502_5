@@ -2,306 +2,210 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content">
-    <section>
-        <article class="grid">
-            <!--img S-->
-            <div class="imgBox">
-                <div class="bigImg">
-                    <img th:src="${사진링크1}" alt="제품이미지{seq}(seq=${시퀀스})">
-                </div>
-                <div class="pageNums">
-                    <p>
-                        <span class="pageNum" th:text="${페이지번호}"></span>
-                        <span th:text="#{/}"></span>
-                        <span th:text="#{6}"></span>
-                    </p>
-                </div>
-                <div class="thumbBox flex">
-                    <!-- 썸네일? 6개 반복-->
-                    <div th:each="img : ${productImages}">
-                        <button>
-                            <img th:src="${사진링크2}" alt="제품이미지{seq}(seq=${시퀀스})">
-                        </button>
-                    </div>
-                </div>
+<main layout:fragment="content" class="product_detail layout_width" th:object="${product}">
+    <section class="product_main">
+        <div class="product_images">
+            <div class="main_image">
+                <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
             </div>
-            <!--img E-->
-            <div class="textBox">
-                <button class="flex"> <!-- 누르면 후기로 내려간다.-->
-                    <i class="xi-star"></i>
-                    <span th:text="${평점}"></span>
-                    <span>
-                       <th:block th:text="${후기갯수변수명}"></th:block>
-                       <th:block th:text="#{건_후기_모두_보기}"></th:block>
-                    </span>
-                    <i class="xi-angle-right-thin"></i>
-                </button>
-                <div>
-                    <h3 th:text="${상품명}"></h3>
-                    <div>
-                        <span>
-                           <th:block th:text="${할인율}"></th:block>
-                           <th:block th:text="#{%}"></th:block>
+            <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
+                <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}" class='thumb' th:data-url="${thumb.fileUrl}"></div>
+            </div>
+            <!--// main_image -->
+        </div>
+        <div class="product_info">
+            <form name="frmSave" method="post" th:action="@{/cart/save}" autocomplete="off" target="ifrmProcess">
+                <input type="hidden" name="mode" value="cart">
+                <input type="hidden" name="seq" th:value="*{seq}">
+                <div th:text="*{name}"></div>
+
+                <dl th:if="*{consumerPrice > 0}">
+                    <dt th:text="#{소비자가}"></dt>
+                    <dd>
+                        <del>
+                            <th:block th:text="*{consumerPrice >= 1000 ? #numbers.formatInteger(consumerPrice, 3, 'COMMA') : consumerPrice}"></th:block>
+                            <th:block th:text="#{원}"></th:block>
+                        </del>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{판매가}"></dt>
+                    <dd>
+                        <th:block th:text="*{salePrice >= 1000 ? #numbers.formatInteger(salePrice, 3, 'COMMA') : salePrice}"></th:block>
+                        <th:block th:text="#{원}"></th:block>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{할인가}"></dt>
+                    <dd></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{배송}"></dt>
+                    <dd th:if="*{packageDelivery}" th:text="#{묶음배송}"></dd>
+                    <dd th:unless="*{packageDelivery}" th:text="#{개별배송}"></dd>
+                </dl>
+                <dl>
+                    <dt th:text="#{배송비}"></dt>
+                    <dd th:if="*{deliveryPrice > 0}">
+                        <th:block th:text="*{deliveryPrice >= 1000 ? #numbers.formatInteger(deliveryPrice, 3, 'COMMA') : deliveryPrice}"></th:block>
+                        <th:block th:text="#{원}"></th:block>
+                    </dd>
+                    <dd th:unless="*{deliveryPrice > 0}" th:text="#{무료배송}"></dd>
+                </dl>
+
+                <div class="summary">
+                    <div class="tit" th:text="#{총_상품금액}"></div>
+                    <div class="info">
+                        <span class="total_price" th:text="*{salePrice >= 1000 ? #numbers.formatInteger(salePrice, 3, 'COMMA') : salePrice}">
                         </span>
-                        <span>
-                           <th:block th:text="${할인가}"></th:block>
-                           <th:block th:text="#{원}"></th:block>
-                        </span>
+                        <th:block th:text="#{원}"></th:block>
                     </div>
                 </div>
-                <hr style="margin: 32px 0;">
-                <div class="flex">
-                    <span th:text="${태그}"></span>
-                    <span th:text="${태그}"></span>
+                <!--// summary -->
+                <div class="btns">
+                    <button type="button" th:text="#{찜하기}" class="product_action" data-mode="wish"></button>
+                    <button type="button" th:text="#{장바구니}" class="product_action" data-mode="cart"></button>
+                    <button type="button" th:text="#{구매하기}" class="product_action"  data-mode="order"></button>
                 </div>
-                <div class="flex">
-                    <div class="grid">
-                        <span>
-                            <span th:text="#{생산지}"></span>
-                        </span>
-                        <div>
-                            <p th:text="${생산지}"></p>
-                        </div>
-                    </div>
-                    <div class="grid">
-                        <span>
-                            <span th:text="#{배송비}"></span>
-                        </span>
-                        <div>
-                            <p th:text="${배송비}"></p>
-                        </div>
-                    </div>
-                </div>
-                <!--옵션 S-->
-                <div class="option">
-                    <div class="flex">
-                        <span th:text="#{옵션 선택}"></span>
-                        <button><i class="xi-caret-down-min"></i></button>
-                    </div>
-                    <div class="overflow-hidden">
-                        <ul>
-                            <li class="flex">
-                                <span th:each="option : ${options}">
-                                   <th:block th:text="${옵션}"></th:block>
-                                   <th:block th:text="#{옵션가격}"></th:block>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!--옵션 E-->
-                <div class="flex">
-                    <button type="submit" th:text="#{장바구니}"></button>
-                    <button type="submit" th:text="#{선물하기}"></button>
-                    <button type="submit" th:text="#{구매하기}"></button>
-                </div>
-            </div> <!-- textBox E-->
-        </article>
-        <!--후기 S-->
-        <article class="review">
-            <div>
-                <th:block  th:text="#{후기}"></th:block>
-                <th:block th:text="${후기갯수변수명}"></th:block>
-            </div>
-            <div class="flex">
-                <div th:text="#{평균_만족도}"></div>
-                <div>
-                    <span>
-                        <th:block  th:text="${평점}"></th:block>
-                        <th:block  th:text="#{/ 5}"></th:block>
-                    </span>
-                </div>
-            </div>
-            <div class="grid">
-                <!--두개 반복-->
-                <div th:each="review : ${reviews}">
-                    <div class="flex">
-                        <div class="id" th:text="${id}"></div>
-                        <div class="star">
-                            <span th:each="star : ${stars}">
-                                <i class="xi-star"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <img th:src="${후기사진}"><!--없으면 텍스트만-->
-                    </div>
-                    <div>
-                        <p th:text="${reviewText}"></p>
-                        <p class="date">
-                            <th:block th:text="${createdAt}"></th:block>
-                            <th:block th:text="${구매상품명}"></th:block>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="more">
-                <span>
-                   <th:block th:text="${후기갯수변수명}"></th:block>
-                   <th:block th:text="#{건_후기_모두_보기}"></th:block>
-                </span>
-            </div>
-        </article>
-        <!--후기 E-->
+            </form>
+        </div>
     </section>
+
+    <section class="product_desc">
+        <!-- 상세 설명 S -->
+        <ul class="tabs">
+            <li class="tab on">
+                <a href="#description"th:text="#{상세}"></a>
+            </li>
+            <li class="tab">
+                <a href="#review"th:text="#{후기}"></a>
+            </li>
+            <li class="tab">
+                <a href="#qna"th:text="#{문의}"></a>
+            </li>
+            <li class="tab">
+                <a href="#qna"th:text="#{배송_교환반품}"></a>
+            </li>
+        </ul>
+        <div id="description" class='desc_content' th:utext="*{description}"></div>
+        <!-- 상세 설명 E -->
+
+        <!-- 후기 영역 S -->
+        <ul class="tabs">
+            <li class="tab">
+                <a href="#description"th:text="#{상세}"></a>
+            </li>
+            <li class="tab on">
+                <a href="#review"th:text="#{후기}"></a>
+            </li>
+            <li class="tab">
+                <a href="#qna"th:text="#{문의}"></a>
+            </li>
+            <li class="tab">
+                <a href="#qna"th:text="#{배송_교환반품}"></a>
+            </li>
+        </ul>
+        <div id="review" class='desc_content'>
+            후기 영역...
+        </div>
+        <!-- 후기 영역 E -->
+
+        <!-- 문의 영역 S -->
+        <ul class="tabs">
+            <li class="tab">
+                <a href="#description"th:text="#{상세}"></a>
+            </li>
+            <li class="tab">
+                <a href="#review"th:text="#{후기}"></a>
+            </li>
+            <li class="tab on">
+                <a href="#qna"th:text="#{문의}"></a>
+            </li>
+            <li class="tab">
+                <a href="#qna"th:text="#{배송_교환반품}"></a>
+            </li>
+        </ul>
+        <div id="qna" class='desc_content'>
+            문의 영역...
+        </div>
+        <!-- 문의 영역 E -->
+
+        <!-- 배송/교환반품 영역 S -->
+        <ul class="tabs">
+            <li class="tab">
+                <a href="#description"th:text="#{상세}"></a>
+            </li>
+            <li class="tab">
+                <a href="#review"th:text="#{후기}"></a>
+            </li>
+            <li class="tab">
+                <a href="#qna"th:text="#{문의}"></a>
+            </li>
+            <li class="tab on">
+                <a href="#"th:text="#{배송_교환반품}"></a>
+            </li>
+        </ul>
+        <div id="guide" class='desc_content'>
+            배송/교환반품 영역...
+        </div>
+        <!-- 배송/교환반품 영역 E -->
+    </section>
+    <!--사고 보상 정책 안내 S-->
     <section>
-        <div class="sticky"> <!--top에 달라붙음-->
-            <div> <!--width값, 정렬-->
-                <div class="flex"> <!--margin 넣는 용-->
-                    <div class="flex">
-                        <div th:text="#{상품_설명}"></div>
-                        <div>
-                            <th:block th:text="#{후기}"></th:block>
-                            <th:block th:text="${후기갯수변수명}"></th:block>
-                        </div>
-                    </div>
-                    <button type="submit" th:text="구매하기"></button>
-                </div>
+        <div>
+            <div class="flex">
+                <div th:text="#{사고_보상_정책_안내}"></div>
+                <i class="xi-angle-up"></i>
+            </div>
+            <p>받아보신 상품에 이상이 있으셨나요? 아래 절차를 따라 요청을 남겨주시면 빠르게 도와드리겠습니다.</p>
+        </div>
+        <div class="flex list_style">
+            <div>
+                <div>사고 보상 요청 방법</div>
+                <ol>
+                    <li>
+                        <p>
+                            상품을 받으신 직후 상태를 확인해주세요.<br>
+                            이상이 있는 부분이 있다면 사진을 촬영해주세요.
+                        </p>
+                        <ul>
+                            <li>수령 후 1일 이내에 접수가 가능합니다.</li>
+                            <li>파손 사고 시 배송 송장 사진도 함께 촬영해주세요.</li>
+                            <li>문제 부분을 확인할 수 있도록 3~4장 이상 촬영해주세요.</li>
+                            <li>사진은 이상이 있는 부분과 없는 부분 전체를 확인할 수 있어야 해요.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>홈페이지 로그인 후 마이페이지에서 사진과 함께 접수해주세요.</p>
+                        <ul>
+                            <li>마이페이지 ➡️ 최신 주문 내역 ➡️ [반품요청]을 통해 접수가 가능합니다.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>검토 후 처리 결과를 홈페이지 및 알림톡으로 알려드려요.</p>
+                        <ul>
+                            <li>접수 완료 후 1~3일 내 처리하여 알림톡과 홈페이지를 통해 알려드려요.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            <div>
+                <div>사고 보상이 불가한 경우</div>
+                <ol>
+                    <li>수령 후 단순 변심, 기호 등에 의한 요청인 경우</li>
+                    <li>수령 후 1일 이상 경과, 제품의 30%이상 섭취 한 경우</li>
+                    <li>접수 내용에 사진이 첨부되지 않아 품질 문제를 확인하기 어려운 경우</li>
+                    <li>고객의 책임 사유(지연 개봉, 부적절한 보관 방법 등)로 상품이 손실 또는 훼손 된 경우</li>
+                    <li>수령 후 시간이 지나 상품 가치가 현저히 감소한 경우</li>
+                    <li>연락처 및 주소를 잘못 기입하여 배송 사고가 일어난 경우</li>
+                    <li>상품 상세 페이지에 안내되어 있는 내용인 경우</li>
+                    <li>택배사 배송 완료 후 상품이 분실된 경우</li>
+                </ol>
             </div>
         </div>
-        <!--article 한개만 보임 옆에서 날아오고 상품 설명이 후기 위에-->
-        <article class="detail">
-            <div class="goods-editor">
-            </div>
-            <button th:text="#{상품_소개_펼치기}"></button>
-            <!--상품문의 버튼 S-->
-            <button class="flex">
-                <div>
-                    <div th:text="#{상품_문의}"></div>
-                    <div th:text="#{추가로_궁금하신_점은_채팅상담으로_빠르게_알려드릴게요!}"></div>
-                </div>
-                <div class="flex">
-                    <!--<img th:src="">-->
-                    <i class="xi-angle-right"></i>
-                </div>
-            </button>
-            <!--상품문의 버튼 E-->
-            <!--사고 보상 정책 안내 S-->
-            <div>
-                <div>
-                    <div class="flex">
-                        <div th:text="#{사고_보상_정책_안내}"></div>
-                        <i class="xi-angle-up"></i>
-                    </div>
-                    <p>받아보신 상품에 이상이 있으셨나요? 아래 절차를 따라 요청을 남겨주시면 빠르게 도와드리겠습니다.</p>
-                </div>
-                <div class="flex list_style">
-                    <div>
-                        <div>사고 보상 요청 방법</div>
-                        <ol>
-                            <li>
-                                <p>
-                                    상품을 받으신 직후 상태를 확인해주세요.<br>
-                                    이상이 있는 부분이 있다면 사진을 촬영해주세요.
-                                </p>
-                                <ul>
-                                    <li>수령 후 1일 이내에 접수가 가능합니다.</li>
-                                    <li>파손 사고 시 배송 송장 사진도 함께 촬영해주세요.</li>
-                                    <li>문제 부분을 확인할 수 있도록 3~4장 이상 촬영해주세요.</li>
-                                    <li>사진은 이상이 있는 부분과 없는 부분 전체를 확인할 수 있어야 해요.</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <p>홈페이지 로그인 후 마이페이지에서 사진과 함께 접수해주세요.</p>
-                                <ul>
-                                    <li>마이페이지 ➡️ 최신 주문 내역 ➡️ [반품요청]을 통해 접수가 가능합니다.</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <p>검토 후 처리 결과를 홈페이지 및 알림톡으로 알려드려요.</p>
-                                <ul>
-                                    <li>접수 완료 후 1~3일 내 처리하여 알림톡과 홈페이지를 통해 알려드려요.</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                    <div>
-                        <div>사고 보상이 불가한 경우</div>
-                        <ol>
-                            <li>수령 후 단순 변심, 기호 등에 의한 요청인 경우</li>
-                            <li>수령 후 1일 이상 경과, 제품의 30%이상 섭취 한 경우</li>
-                            <li>접수 내용에 사진이 첨부되지 않아 품질 문제를 확인하기 어려운 경우</li>
-                            <li>고객의 책임 사유(지연 개봉, 부적절한 보관 방법 등)로 상품이 손실 또는 훼손 된 경우</li>
-                            <li>수령 후 시간이 지나 상품 가치가 현저히 감소한 경우</li>
-                            <li>연락처 및 주소를 잘못 기입하여 배송 사고가 일어난 경우</li>
-                            <li>상품 상세 페이지에 안내되어 있는 내용인 경우</li>
-                            <li>택배사 배송 완료 후 상품이 분실된 경우</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <!--사고 보상 정책 안내 E-->
-        </article>
-        <article class="review">
-            <div>
-                <th:block th:text="${후기갯수변수명}"></th:block>
-                <th:block th:text="#{건의_후기가_있어요!}"></th:block>
-            </div>
-            <div class="flex">
-                <div>
-                    <div th:text="#{평균_평점}"></div>
-                    <div>
-                        <th:block th:text="${평점}"></th:block>
-                        <span><th:block th:text="#{/5}"></th:block></span>
-                    </div>
-                    <div>
-                        <span th:each="star : ${stars}">
-                           <i class="star"></i>
-                        </span>
-                    </div>
-                </div>
-                <div>
-                    <div th:text="#{5점_비율}"></div>
-                    <div>
-                        <th:block th:text="${비율}"></th:block>
-                        <th:block th:text="#{%}"></th:block>
-                    </div>
-                    <div>
-                        <div style="width:${비율}"></div>
-                        <div>
-                            <span th:text="${후기갯수변수명}"></span>
-                            <span th:text="#{건}"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="allReview">
-                <div>
-                    <div th:text="#{전체_후기}"></div>
-                    <div>
-                        <span th:text="#{사진_후기만_보기}"></span>
-                        <i class="xi-check"></i>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <ul class="dropbtn">
-                        <li th:text="#{추천순}"></li>
-                        <li th:text="#{최신순}"></li>
-                    </ul>
-                </div>
-                <div class="reviewMore">
-                    <div th:each="review : ${reviews}">
-                        <div class="flex">
-                            <div th:text="#{구매후기}"></div>
-                            <div class="star">
-                            <span th:each="star : ${stars}">
-                                <i class="xi-star"></i>
-                            </span>
-                            </div>
-                        </div>
-                        <div class="id" th:text="${id}"></div>
-                        <th:block th:text="${구매상품명}"></th:block>
-                        <img th:src="${후기사진}"><!--없으면 텍스트만-->
-                        <p th:text="${reviewText}"></p>
-                        <p class="date">
-                            <th:block th:text="${createdAt}"></th:block>
-                            <a th:href="" th:text="#{신고}"></a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </article>
     </section>
+    <!--사고 보상 정책 안내 E-->
 </main>
 </html>
+
+

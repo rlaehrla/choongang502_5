@@ -67,12 +67,8 @@ public class ProductInfoService {
     public Product get(Long seq) {
         Product product = productRepository.findById(seq)
                 .orElseThrow(ProductNotFoundException::new);
-        String farmer = memberUtil.getMember().getUserId();
 
-
-        if(!StringUtils.hasText(farmer) || (!memberUtil.isAdmin() && StringUtils.hasText(farmer) && !farmer.equals(product.getFarmer().getUserId()))){
-            throw new UnAuthorizedException(Utils.getMessage("UnAuthorized", "errors"));
-        }
+        addProductInfo(product);
 
         return product;
 

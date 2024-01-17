@@ -1,6 +1,7 @@
 package org.choongang.admin.search.controllers;
 
 import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Controller("adminSearchController")
 @RequestMapping("/admin/search")
-public class SearchController {
+public class SearchController implements ExceptionProcessor {
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
         return "search";

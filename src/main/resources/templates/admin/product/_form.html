@@ -34,7 +34,7 @@
         <tr>
             <th>상품상태</th>
             <td>
-                <input type="radio" name="status" value="SALES" th:field="*{status}" id="status_sales">
+                <input type="radio" name="status" value="SALE" th:field="*{status}" id="status_sales">
                 <label for="status_sales">판매중</label>
                 <input type="radio" name="status" value="OUT_OF_STUCK" th:field="*{status}" id="status_out_of_stuck">
                 <label for="status_out_of_stuck">품절</label>
@@ -64,7 +64,7 @@
         <tr>
             <th>소비자가</th>
             <td>
-                <input type="number" name="consumerPrice" th:field="*{consumerPrice}">
+                <input type="number" name="consumerPrice" th:field="*{consumerPrice}" min="0">
                 <div class="error" th:each="err : ${#fields.errors('consumerPrice')}" th:text="${err}"></div>
 
             </td>
