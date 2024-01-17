@@ -48,4 +48,7 @@ public abstract class AbstractMember extends Base {
 
     @Transient
     private FileInfo profileImage;
+
+    @Transient
+    private List<FileInfo> businessPermitFiles;
 }

@@ -68,9 +68,19 @@
                 <dl>
                     <dt th:text="#{프로필_이미지}"></dt>
                     <dd>
-                        <div id="profile_image"></div>
+                        <div id="profile_image">
+                            <th:block th:if="*{profileImage != null}">
+                                <div class="image1_tpl_box" th:id="*{'file_' + profileImage.seq}">
+                                    <a th:href="@{/file/delete/{seq}(seq=*{profileImage.seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
+                                        <i class="xi-close"></i>
+                                    </a>
+                                    <div class="inner" th:style="*{@utils.backgroundStyle(profileImage)}"></div>
+                                </div>
+                            </th:block>
+
+                        </div>
                         <button type="button" class="upload_files"
-                                th:text="#{이미지_업로드}" data-image-only="true"
+                                th:text="#{이미지_업로드}" data-image-only="true" data-location="profile_img"
                                 data-single-file="true"></button>
                     </dd>
                 </dl>
@@ -93,6 +103,18 @@
                             </div>
 
                             <div>
+                                <div id="attached_file">
+                                    <th:block th:if="*{businessPermitFiles != null}">
+                                        <th:block th:each="file : *{businessPermitFiles}">
+                                            <span class="file_tpl_box" id="${'file_' + file.seq}">
+                                                <a th:href="@{/file/download/{seq}(seq=${file.seq})}" th:text="${file.fileName}"></a>
+                                                  <a th:href="@{/file/delete/{seq}(seq=${file.seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
+                                                    <i class="xi-close"></i>
+                                                </a>
+                                            </span>
+                                        </th:block>
+                                    </th:block>
+                                </div>
                                 <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"
                                         data-location="business_permit"></button>
                             </div>
@@ -104,6 +126,7 @@
                 <button type="submit" id="saveBtn">저장</button>
 
                 <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+                <script th:replace="~{common/_file_tpl::attach_tpl}"></script>
 
             </form>
     </th:block>

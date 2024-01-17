@@ -70,12 +70,20 @@ public class MemberInfoService implements UserDetailsService {
         }
 
         /* 프로필 이미지 처리 */
-        List<FileInfo> files = fileInfoService.getListDone(member.getGid());
+        List<FileInfo> files = fileInfoService.getListDone(member.getGid(), "profile_img");
         if (files != null && !files.isEmpty()) {
             member.setProfileImage(files.get(0));
         }
 
         /* 프로필 이미지 처리 */
+
+        /* 사업자등록증 첨부 파일 처리 S */
+        List<FileInfo> businessPermitFiles = fileInfoService.getListDone(member.getGid(), "business_permit");
+        if (businessPermitFiles != null && !businessPermitFiles.isEmpty()) {
+            member.setBusinessPermitFiles(businessPermitFiles);
+        }
+        /* 사업자등록증 첨부 파일 처리 E */
+
         System.out.println(member.getAddress());
         System.out.println(member.getClass().getSimpleName());
         return MemberInfo.builder()
@@ -111,6 +119,7 @@ public class MemberInfoService implements UserDetailsService {
             Farmer farmer = (Farmer) user ;
             form.setFarmTitle(farmer.getFarmTitle());
             form.setBusinessPermitNum(farmer.getBusinessPermitNum());
+            form.setBusinessPermitFiles(farmer.getBusinessPermitFiles());
         }
         System.out.println(form);
         return form ;
