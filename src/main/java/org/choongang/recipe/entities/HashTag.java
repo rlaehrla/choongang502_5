@@ -14,6 +14,7 @@ public class HashTag {
     @Id
     private String tag;
 
-   // @ManyToMany(mappedBy = "tags")
-   // private List<Recipe> recipes = new ArrayList<>();
+
+    //@ManyToMany(mappedBy = "tags")
+    //private List<Recipe> recipes = new ArrayList<>();
 }

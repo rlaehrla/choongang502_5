@@ -124,10 +124,6 @@ public class ProductController implements ExceptionProcessor {
             throw new UnAuthorizedException();
         }
 
-        if(memberUtil.isFarmer()){
-            form.setFarmer_seq(memberUtil.getMember().getUserId());
-        }
-
         if(memberUtil.isAdmin()){
             List<Farmer> farmers = memberInfoService.getFarmerList();
             model.addAttribute("farmers", farmers);
