@@ -24,6 +24,7 @@ public class ProductOption extends Base {
     private boolean userStock; // false : 무제한, true: 재고 0 -> 품절
     private int stock; // 옵션별 재고
 
+
     private int listOrder; // 진열 가중치, 번호가 클수록 앞에 진열
 
     @ManyToOne(fetch = FetchType.LAZY)

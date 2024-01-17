@@ -15,6 +15,15 @@ img { border: 0; }
     min-width : 1000px;
     margin : 0 auto;
 }
+
+
+/* 페이징 공통 S */
+.pagination { text-align: center; margin: 30px 0; }
+.pagination .page { border: 1px solid var(--main-color); color: var(--main-color); display: inline-block; padding: 5px 10px; border-radius: 3px; background: #fff; }
+.pagination .page.on { background: var(--main-color); color: #fff; }
+.pagination .page + .page { margin-left: 3px; }
+/* 페이징 공통 E */
+
 .footerInfoSect {
     display: flex;
     width: 1400px;

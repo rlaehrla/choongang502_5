@@ -17,3 +17,8 @@
 #layer_popup { position: fixed; z-index: 101; background: #fff; border-radius: 5px; overflow: hidden; }
 #layer_popup iframe { border: 0; }
 /* 팝업 공통 E */
+
+/* flex 공통 */
+.flex { display: flex;}
+.flex.sb { justify-content: space-between;}
+.flex.a { align-items: center;}
