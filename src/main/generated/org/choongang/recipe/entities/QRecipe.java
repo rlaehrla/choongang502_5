@@ -18,48 +18,63 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     private static final long serialVersionUID = 1421836407L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QRecipe recipe = new QRecipe("recipe");
 
     public final org.choongang.commons.entities.QBase _super = new org.choongang.commons.entities.QBase(this);
 
     public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
 
+    public final StringPath category = createString("category");
+
+    public final StringPath condiments = createString("condiments");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath EstimatedT = createString("EstimatedT");
+    public final NumberPath<Integer> EstimatedT = createNumber("EstimatedT", Integer.class);
 
     public final StringPath gid = createString("gid");
 
-    public final StringPath howTo = createString("howTo");
-
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final org.choongang.member.entities.QAbstractMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
-
-    public final StringPath rcpCate = createString("rcpCate");
 
     public final StringPath rcpInfo = createString("rcpInfo");
 
     public final StringPath rcpName = createString("rcpName");
 
-    public final ListPath<String, StringPath> requiredIng = this.<String, StringPath>createList("requiredIng", String.class, StringPath.class, PathInits.DIRECT2);
+    public final StringPath requiredIng = createString("requiredIng");
+
+    public final StringPath rid = createString("rid");
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
-    public final ListPath<String, StringPath> tag = this.<String, StringPath>createList("tag", String.class, StringPath.class, PathInits.DIRECT2);
+    public final StringPath subCategory = createString("subCategory");
+
+    public final StringPath subIng = createString("subIng");
 
     public QRecipe(String variable) {
-        super(Recipe.class, forVariable(variable));
+        this(Recipe.class, forVariable(variable), INITS);
     }
 
     public QRecipe(Path<? extends Recipe> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QRecipe(PathMetadata metadata) {
-        super(Recipe.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QRecipe(PathMetadata metadata, PathInits inits) {
+        this(Recipe.class, metadata, inits);
+    }
+
+    public QRecipe(Class<? extends Recipe> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.member = inits.isInitialized("member") ? new org.choongang.member.entities.QAbstractMember(forProperty("member")) : null;
     }
 
 }
