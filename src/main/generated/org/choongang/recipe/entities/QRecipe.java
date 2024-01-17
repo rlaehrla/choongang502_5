@@ -48,8 +48,6 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final StringPath requiredIng = createString("requiredIng");
 
-    public final StringPath rid = createString("rid");
-
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final StringPath subCategory = createString("subCategory");
