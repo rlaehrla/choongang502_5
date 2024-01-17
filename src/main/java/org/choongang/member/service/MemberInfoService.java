@@ -44,19 +44,23 @@ public class MemberInfoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        AbstractMember member = memberRepository.findByEmail(username) // 이메일 조회
-                .orElseGet(() -> memberRepository.findByUserId(username) // 아이디로 조회
-                        .orElseThrow(() -> new UsernameNotFoundException(username)));
+
 
         // 회원 유형에 따라 member 형 변환 처리
         String mType = request.getParameter("mType") ;
-        member = mType.equals("M") ? (Member)member : (Farmer)member ;
 
-        if (member instanceof Farmer) {
-            member = farmerRepository.findByEmail(username)
-                    .orElseGet(() -> farmerRepository.findByUserId(username)
-                            .orElseThrow(() -> new UsernameNotFoundException(username))) ;
+
+        AbstractMember member = null;
+        if (mType.equals("M")) {
+            member = memberRepository.findByEmail(username) // 이메일 조회
+                    .orElseGet(() -> memberRepository.findByUserId(username) // 아이디로 조회
+                            .orElseThrow(() -> new UsernameNotFoundException(username)));
+        } else {
+            member = farmerRepository.findByEmail(username) // 이메일 조회
+                    .orElseGet(() -> farmerRepository.findByUserId(username) // 아이디로 조회
+                            .orElseThrow(() -> new UsernameNotFoundException(username)));
         }
+
 
         List<SimpleGrantedAuthority> authorities = null;
         List<Authorities> tmp = member.getAuthorities();
