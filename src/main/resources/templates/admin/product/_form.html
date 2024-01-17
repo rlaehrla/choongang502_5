@@ -40,6 +40,7 @@
         <tr>
             <th>분류코드</th>
             <td>
+                <button type="button" name="cate_select" id="cate_select" class="sbtn">분류코드 선택</button>
                 <select name="category" th:field="*{cateCd}">
                     <th:block th:if="${categories != null}" th:each="category : ${categories}">
                         <option th:value="${category.cateCd}" th:text="${category.cateNm}"></option>
@@ -186,7 +187,13 @@
             </th:block>
         </div>
     </div>
+    <script>
+        const { popup } = commonLib;
+        const cate_select = document.getElementById("cate_select");
+        cate_select.onclick = () => popup.open('/admin/product/select', 450, 450);
+    </script>
     <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
     <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
+
 </th:block>
 </html>

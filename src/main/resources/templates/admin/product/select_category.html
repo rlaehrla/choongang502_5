@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{admin/layouts/main}">
-<section layout:fragment="content">
-
-    <div class="category_container" data-filter-id="category">
-        <div class="category_header">카테고리</div>
-        <div class="category_button_area">
-            <ul>
-                <li><button type="button" data-filter="all">전체</button></li>
-                <li><button type="button" data-filter="GRAIN">곡물</button></li>
-                <li><button type="button" data-filter="VEGETABLE">채소</button></li>
-                <li><button type="button" data-filter="FRUIT">과일</button></li>
-            </ul>
-        </div>
-        <div class="category_list">
-            <ul>
-
-            </ul>
-        </div>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">  <!--csrf 토큰 추가-->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/product/select.css?v={v}(v=${siteConfig.cssJsVersion})}">
+    <script th:each="jsFile : ${addScript}"
+            th:src="@{/admin/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+    <script th:each="jsFile : ${addCommonScript}"
+            th:src="@{/common/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+    <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+</head>
+<body>
+<div class="category_container" data-filter-id="category">
+    <div class="category_header">카테고리</div>
+    <div class="category_button_area">
+        <ul>
+            <li><button type="button" data-filter="all">전체</button></li>
+            <li><button type="button" data-filter="GRAIN">곡물</button></li>
+            <li><button type="button" data-filter="VEGETABLE">채소</button></li>
+            <li><button type="button" data-filter="FRUIT">과일</button></li>
+        </ul>
     </div>
-    <script type="text/html" id="tpl">
-        <li>
-            <input type="radio" name="cateCd" class="cateCd" value="[cateCd]" id="cateCd_[cateCd]" data-cate-nm="[cateNm]">
-            <label for="cateCd_[cateCd]">[cateNm]</label>
-        </li>
-    </script>
-    <style>
-        .category_list input[type='radio'] { display: none; }
-        .category_list input[type='radio']+label { display: inline-block; border: 1px solid #222; background: #fff; padding: 10px 15px; }
-        .category_list input[type='radio']:checked+label { background: #222; color: #fff; }
-    </style>
-</section>
+    <div class="category_list">
+        <ul>
+
+        </ul>
+    </div>
+    <button type="button" class="sbtn" id="select_done">선택완료</button>
+</div>
+<script type="text/html" id="tpl">
+    <li>
+        <input type="radio" name="cateCd" class="cateCd" value="[cateCd]" id="cateCd_[cateCd]" data-cate-nm="[cateNm]">
+        <label for="cateCd_[cateCd]">[cateNm]</label>
+    </li>
+</script>
+</body>
 </html>
+
 
