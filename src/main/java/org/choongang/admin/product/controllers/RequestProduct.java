@@ -19,7 +19,7 @@ public class RequestProduct {
 
     private String cateCd; // 상품 분류
 
-    private String farmer_seq; // 판매 농장주
+    private String farmer; // 판매 농장주
 
     private String name; // 상품명
 

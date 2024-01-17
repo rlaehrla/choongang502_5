@@ -7,20 +7,14 @@
     <h2>기본 정보</h2>
     <table class="table_cols mb30">
         <input type="hidden" name="gid" th:value="*{gid}">
-        <tr>
+        <tr th:if="${@memberUtil.isAdmin()}">
             <th>판매자</th>
             <td>
-                <th:block th:if="${@memberUtil.isAdmin()}">
-                    <select name="farmer" th:field="*{farmer_seq}">
-                        <th:block th:each="farmer : ${farmers}">
-                            <option th:value="${farmer.seq}" th:text="${farmer.userId}"></option>
-                        </th:block>
-                    </select>
-                </th:block>
-                <th:block th:unless="${@memberUtil.isAdmin()}">
-                    <input type="hidden" name="farmer" th:value="${session.member.userId}">
-                    <th:block th:text="${session.member.username}"></th:block>
-                </th:block>
+                <select name="farmer" th:field="*{farmer}">
+                    <th:block th:each="farmer : ${farmers}">
+                        <option th:value="${farmer.userId}" th:text="${farmer.userId}"></option>
+                    </th:block>
+                </select>
             </td>
         </tr>
         <tr>
