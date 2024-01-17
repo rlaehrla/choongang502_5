@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/product")
 @RequiredArgsConstructor
@@ -31,11 +34,46 @@ public class productController {
     }
 
     @GetMapping("/detail/{seq}")
-    public String productDetail(@PathVariable("seq") Long seq, Model model) {
+    public String productView(@PathVariable("seq") Long seq, Model model) {
         Product product = productInfoService.get(seq);
 
-        model.addAttribute("product", product);
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addCommonCss = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
 
-        return utils.tpl("product/detail");
+        addCommonScript.add("tab");
+        addCommonCss.add("tab");
+        addCss.add("product/style");
+
+        model.addAttribute("product", product);
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonCss", addCommonCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        return utils.tpl("product/view");
+    }
+
+
+    @GetMapping("/detail/{seq}/detail")
+    public String productDetail(@PathVariable("seq") Long seq, Model model){
+
+        return utils.tpl("product/detail_sub/_detail");
+    }
+
+    @GetMapping("/detail/{seq}/review")
+    public String productReview(@PathVariable("seq") Long seq, Model model){
+
+        return utils.tpl("product/detail_sub/_review");
+    }
+
+    @GetMapping("/detail/{seq}/ask")
+    public String productAsk(@PathVariable("seq") Long seq, Model model){
+
+        return utils.tpl("product/detail_sub/_ask");
+    }
+
+    @GetMapping("/detail/{seq}/exchange")
+    public String productExchange(@PathVariable("seq") Long seq, Model model){
+
+        return utils.tpl("product/detail_sub/_exchange");
     }
 }
