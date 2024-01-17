@@ -9,6 +9,7 @@ import org.choongang.file.entities.FileInfo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -57,5 +58,8 @@ public class RequestMemberInfo {
 
     @Transient
     private FileInfo profileImage;
+
+    @Transient
+    private List<FileInfo> businessPermitFiles;
 
 }
