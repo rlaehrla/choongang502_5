@@ -1,6 +1,8 @@
 package org.choongang.admin.product.controllers;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.member.entities.Farmer;
@@ -17,13 +19,18 @@ public class RequestProduct {
 
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 
+    @NotBlank
     private String cateCd; // 상품 분류
 
     private String farmer; // 판매 농장주
 
+    @NotBlank
     private String name; // 상품명
 
+    @NotBlank
     private int consumerPrice; // 소비자가(보이는 금액)
+
+    @NotBlank
     private int salePrice; // 판매가(결제 기준 금액)
 
     private boolean useStock; // 재고 사용 여부 - true : 재고 차감
@@ -50,6 +57,7 @@ public class RequestProduct {
     private String optionName; // 옵션명
 
     @Transient
+    @NotNull
     private List<FileInfo> mainImages; // 메인 이미지
 
     @Transient
