@@ -53,8 +53,8 @@ public class Recipe extends Base {
     private String subCategory;
 
 
-    @ManyToMany
-    private List<String> tags = new ArrayList<>();
+    //@ManyToMany
+    //private List<String> tags = new ArrayList<>();
 
     @Column(nullable = false)
     private int amount;
