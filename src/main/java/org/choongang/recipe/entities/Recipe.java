@@ -33,8 +33,6 @@ public class Recipe extends Base {
     @JoinColumn(name = "memberSeq")
     private AbstractMember member;
 
-    private String rid; // ?
-
     @Column(length=65, nullable = false)
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 
@@ -58,10 +56,6 @@ public class Recipe extends Base {
 
     @Column(nullable = false)
     private int amount;
-
-    //@Column(length = 20, nullable = false)
-    //private List<Ingredient> requiredIng; // 필수재료
-    //private List<String> requiredIng; // 필수재료
 
     @Lob
     private String requiredIng; // JSON

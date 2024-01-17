@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <form name="frmSave" method="post" th:action="@{/recipe/save}" autocomplete="off">
+        <input type="hidden" name="mode" value="edit">
+        <th:block th:replace="~{front/recipe/_form::form}"></th:block>
+        <button type="submit" th:text="#{완료}"></button>
+
+    </form>
+
+
+</main>
+</html>
