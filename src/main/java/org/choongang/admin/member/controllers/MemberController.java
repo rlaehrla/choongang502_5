@@ -2,13 +2,13 @@ package org.choongang.admin.member.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Address;
 import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
 import org.springframework.stereotype.Controller;
@@ -49,6 +49,8 @@ public class MemberController implements ExceptionProcessor {
         } else {
             // 검색 조건이 없으면 전체 목록 조회
             ListData<AbstractMember> data = infoService.getList(search);
+
+
             model.addAttribute("items", data.getItems()); // 목록
             model.addAttribute("pagination", data.getPagination()); // 페이징
         }
@@ -63,11 +65,13 @@ public class MemberController implements ExceptionProcessor {
         return "admin/member/authorities";
     }
     @GetMapping("/edit/{userId}")
-    public String edit(@PathVariable("userId") String userId, @ModelAttribute MemberForm form, Model model) {
+    public String edit(@PathVariable("userId") String userId, Model model) {
         MemberInfo memberInfo = (MemberInfo)infoService.loadUserByUsername(userId);
         AbstractMember member = memberInfo.getMember();
+        List<Address> addressList = member.getAddress();
 
-
+        model.addAttribute("member", member);
+        model.addAttribute("address", addressList);
 
         return "admin/member/edit";
     }

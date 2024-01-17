@@ -6,9 +6,60 @@
     <h1>회원정보 수정</h1>
     <form name="frmSave" method="post" th:action="@{/admin/member/save}" autocomplete="off">
         <input type="hidden" name="mode" value="edit">
+        <dl>
+            <dt th:text="#{아이디}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="userId" th:value="${member.userId}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{아이디}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="email" th:value="${member.email}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{회원명}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="username" th:value="${member.username}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{닉네임}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="nickname" th:value="${member.nickname}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{전화번호}"></dt>
+            <dd>
+                <div>
+                    <input type="text" name="tel" th:value="${member.tel}">
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{주소}"></dt>
+            <dd>
+                <div th:if="${address != null and address[0].addressSub != null}">
+                    <input type="text" name="address" th:value="${'(' + address[0].zoneCode + ')' + address[0].address + address[0].addressSub}">
+                </div>
+                <div th:if="${address != null and address[0].addressSub == null}">
+                    <input type="text" name="address" th:value="${'(' + address[0].zoneCode + ')' + address[0].address + ''}">
+                </div>
+            </dd>
+        </dl>
 
         <div class="submit_btns">
-            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">뒤로가기</button>
             <button type="submit" class="btn">수정하기</button>
         </div>
     </form>
