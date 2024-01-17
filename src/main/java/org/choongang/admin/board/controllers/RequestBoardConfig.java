@@ -15,6 +15,8 @@ public class RequestBoardConfig {
 
     private String gid = UUID.randomUUID().toString();
 
+    private int listOrder; // 진열 가중치
+
     @NotBlank
     private String bid; // 게시판 아이디
 

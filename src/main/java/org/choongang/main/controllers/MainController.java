@@ -1,20 +1,27 @@
-package org.choongang.commons.controller;
+package org.choongang.main.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
-//@Controller
+@Controller
 @RequiredArgsConstructor
-public class MainController {
+public class MainController implements ExceptionProcessor {
 
     private final Utils utils;
 
+    @ModelAttribute("addCss")
+    public String[] addCss() {
+        return new String[] { "main/style" };
+    }
 
-    @GetMapping("/") // 메인 페이지 이동
-    public String main(){
-        return utils.tpl("board/index");
+    @GetMapping("/")
+    public String index() {
+
+        return utils.tpl("main/index");
     }
 
     @GetMapping("/policy/terms_of_service") // 서비스 이용약관 이동

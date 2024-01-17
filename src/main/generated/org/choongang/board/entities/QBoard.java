@@ -45,6 +45,8 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final EnumPath<org.choongang.member.constants.Authority> listAccessType = createEnum("listAccessType", org.choongang.member.constants.Authority.class);
 
+    public final NumberPath<Integer> listOrder = createNumber("listOrder", Integer.class);
+
     public final StringPath locationAfterWriting = createString("locationAfterWriting");
 
     //inherited
