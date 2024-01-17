@@ -1,6 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <footer th:fragment="common">
-        <h1>푸터</h1>
-    </footer>
+<footer th:fragment="common">
+    <section class="footerInfoSect">
+        <div class="footerBox1">
+            <h3>(주)여름지기</h3>
+            <p>상호명 : 주식회사 여름지기 | 대표 : 김중앙 | 사업자등록번호: 123-45-67890 | 소재지 : 서울특별시 마포구 신촌로 176 5층<br>
+                통신판매업 신고번호 : 2024-0107 | 제휴 및 사업 문의 : yeoreum@choongang.org</p>
+            <a href="/policy/terms_of_service">서비스 이용약관</a> |
+            <a href="/policy/privacy">개인정보 처리방침</a>
+            <p>Copyright ⓒ 2024 주식회사 여름지기 All rights reserved.</p>
+        </div>
+        <div>
+            <div class="footerBox2">
+                <h3>고객센터 070-1234-5678</h3>
+                <table>
+                    <tr>
+                        <td>평일 09:00 ~ 18:00 / 토, 일요일, 공휴일 휴무</td>
+                    </tr>
+                    <tr>
+                        <td>점심시간 12:00 ~ 13:00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a th:href="@{/question}" th:text="#{문의하기}"></a>
+                            <a th:href="@{/board/faq}" th:text="#{자주_묻는_질문}">자주 묻는 질문</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</footer>
 </html>

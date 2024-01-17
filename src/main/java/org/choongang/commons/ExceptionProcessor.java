@@ -2,6 +2,7 @@ package org.choongang.commons;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.choongang.board.service.GuestPasswordCheckException;
 import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.CommonException;
@@ -33,8 +34,8 @@ public interface ExceptionProcessor {
 
             model.addAttribute("script", script);
             return "common/_execute_script";
-        }
 
+        }
 
         model.addAttribute("status", status.value());
         model.addAttribute("path", request.getRequestURI());
