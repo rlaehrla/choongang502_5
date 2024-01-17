@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 
-<th:block th:fragment="form" th:object="${requestProduct}">
+<th:block th:fragment="form">
     <h2>기본 정보</h2>
     <table class="table_cols mb30">
-        <input type="hidden" name="gid" th:value="*{gid}">
-        <tr th:if="${@memberUtil.isAdmin()}">
+        <input type="hidden" name="gid" th:field="*{gid}">
+        <tr th:if="${@memberUtil.isAdmin()&&requestProduct.mode.equals('add')}">
             <th>판매자</th>
             <td>
                 <select name="farmer" th:field="*{farmer}">
@@ -41,7 +41,7 @@
             <th>분류코드</th>
             <td>
                 <button type="button" name="cate_select" id="cate_select" class="sbtn">분류코드 선택</button>
-                <select name="category" th:field="*{cateCd}">
+                <select name="cateCd" th:field="*{cateCd}">
                     <th:block th:if="${categories != null}" th:each="category : ${categories}">
                         <option th:value="${category.cateCd}" th:text="${category.cateNm}"></option>
                     </th:block>
@@ -51,7 +51,7 @@
         <tr>
             <th>상품명</th>
             <td>
-                <input type="text" name="name" th:feild="*{name}">
+                <input type="text" name="name" th:field="*{name}">
             </td>
         </tr>
         <tr>
@@ -181,8 +181,9 @@
             <i class="xi-image"></i>
             이미지 추가
         </button>
-        <div class="uploaded_files" id="uploaded_files_description">
-            <th:block th:each="item : *{description}">
+
+        <div class="uploaded_files" id="editor_files">
+            <th:block th:each="item : *{editorImages}">
                 <span th:replace="~{common/_editor_file::item}"></span>
             </th:block>
         </div>

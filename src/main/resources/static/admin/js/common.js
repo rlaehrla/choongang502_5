@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
             const formEl = document[formName];
            formEl._method.value = mode == 'delete' ? 'DELETE' : 'PATCH';
-
+            console.log("form method 출력 ", formEl._method.value);
            const modeTitle = mode == 'delete' ? '삭제' : '수정';
 
            const chks = formEl.querySelectorAll("input[name='chk']:checked");
