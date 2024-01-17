@@ -2,17 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="farm">
     <div th:each="farm : farmRank" th:object="${farmRank}">
-        <img class="rank-img" th:src="랭킹사진링크">
+        <!--<img class="rank-img" th:src="랭킹사진링크">-->
         <a th:href="@{농장링크}">
             <div>
-                <strong th:field="*{총판매량}"></strong>
-                <p th:field="*{한줄소개}"></p>
+                <strong th:text="#{총판매량}"></strong>
+                <p th:text="#{한줄소개}"></p>
             </div>
-            <p th:field="*{찜}"></p>
-            <img th:src="*{프로필사진링크}">
-            <p th:field="*{농장이름}"></p>
+            <p th:text="#{찜}"></p>
+            <img th:src="#{프로필사진링크}">
+            <p th:text="#{농장이름}"></p>
         </a>
     </div>
     <!-- 지도 영역 : th:block th:if로 처리 -->
+    <div class="kakao_map" id="map" style="width:550px;height:550px;"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30c3d31753d6d4b0cc09566b021bca87"></script>
+    <script>
+        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(35.57369961857038, 128.90045742636414), //지도의 중심좌표.
+            level: 13 //지도의 레벨(확대, 축소 정도)
+        };
+        var map = new kakao.maps.Map(container, options);
+    </script>
+    <div class="main_best">
+        <h2>BEST</h2>
+        <li><a href="http://localhost:3000/" th:text="#{전체}"></a></li> <!-- 경로 - 지도와 맵핑 해야함 -->
+        <li><a href="http://localhost:3000/" th:text="#{곡물}"></a></li>
+        <li><a href="http://localhost:3000/" th:text="#{채소}"></a></li>
+        <li><a href="http://localhost:3000/" th:text="#{과일}"></a></li>
+    </div>
 </section>
 </html>

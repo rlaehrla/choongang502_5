@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="all_categories" class="category_container hidden" data-filter-id="category">
+    <div>
+        <div>
+            <div>
+                <div>
+                    <div>
+                        <div class="CategoryParentItem">
+                            <div>베스트</div>
+                        </div>
+                        <div class="CategoryParentItem">
+                            <div>곡물</div>
+                        </div>
+                        <div class="CategoryParentItem">
+                            <div>채소</div> <!---->
+                        </div>
+                        <div class="CategoryParentItem">
+                            <div>과일</div> <!---->
+                        </div>
+                        <div class="CategoryParentItem">
+                            <div>레시피</div> <!---->
+                        </div>
+                    </div>
+                    <div class="CategoryChildList">
+                        <a th:href="@{/best}" class="CategoryChildList__categoryShop">
+                            <img src="best사진" class="CategoryChildList__shopImage">
+                            best 바로가기
+                        </a>
+                        <div class="CategoryChildList__categories">
+                            <div class="CategoryChildList__categoryColumn">
+                                <span class="CategoryChildList__categoryColumn__name"></span>
+                                <a href="/v2/category/1068" class="CategoryChildList__categoryColumn__child">
+                                    농장 best
+                                </a>
+                                <a data-v-a552a7be="" href="/v2/category/1069" class="CategoryChildList__categoryColumn__child">
+                                    레시피 best
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
