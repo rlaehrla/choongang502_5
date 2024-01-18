@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@Controller("adminOrderController")
 @RequestMapping({"/admin/order", "/farmer/order"})
 public class OrderController implements ExceptionProcessor {
     @ModelAttribute("menuCode")
