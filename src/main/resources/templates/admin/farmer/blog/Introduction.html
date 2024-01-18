@@ -4,5 +4,7 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
 <h1>소개글..</h1>
+    <button type="button">글수정</button>
+    <div th:replace="~{/blog/_blog_intro :: intro_main}"></div>
 </section>
 </html>
