@@ -45,20 +45,31 @@
         </select>
     </div>
     <div class="rows">
-        <div th:text="#{기준량}"></div>
-        <input type="number" name="amount" min="1">
-        <button type="button"><i class="xi-plus"></i></button>
-        <th:block th:text="#{인분}"></th:block>
+        <div class="stit" th:text="#{기준량}"></div>
+        <div class="amount_box">
+            <button type="button"><i class="xi-minus"></i></button>
+            <input type="number" name="amount" min="1">
+            <button type="button"><i class="xi-plus"></i></button>
+            <th:block th:text="#{인분}"></th:block>
+        </div>
     </div>
     <div class="rows">
-        <div th:text="#{필수재료}"></div>
+        <div class="stit" th:text="#{필수재료}"></div>
 
+        <div class="input_item_box" id="requiredIng"></div>
+        <button type="button" th:text="#{추가}" data-id="requiredIng" data-name="requiredIng" class="add_input_item"></button>
     </div>
     <div class="rows">
-        <div th:text="#{부재료}"></div>
+        <div class="stit" th:text="#{부재료}"></div>
+
+        <div class="input_item_box" id="subIng"></div>
+        <button type="button" th:text="#{추가}" data-id="subIng" data-name="subIng" class="add_input_item"></button>
     </div>
     <div class="rows">
-        <div th:text="#{양념}"></div>
+        <div class="stit" th:text="#{양념}"></div>
+
+        <div class="input_item_box" id="condiments"></div>
+        <button type="button" th:text="#{추가}" data-id="condiments" data-name="condiments" class="add_input_item"></button>
     </div>
     <th:block th:replace="~{common/_file_tpl::image1_tpl}"></th:block>
 </th:block>
