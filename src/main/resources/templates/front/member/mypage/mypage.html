@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <h1 th:text="#{마이페이지}"></h1>
+    <div class="row">
+        <a th:href="@{/mypage/diary}" th:text="#{마이_다이어리}"></a>
+    </div>
+    <div class="row">
+        <th:block th:replace="~{front/member/mypage/_latest_order::latest}"></th:block>
+    </div>
+    <div class="row">
+        <th:block th:text="#{마이_포인트}"></th:block><br>
+        포인트<a th:href="@{/mypage/point}" th:text="#{1,000P}"></a><br>
+
+    </div>
+    <div class="row">
+        <a th:href="@{/member/info}" th:text="#{회원_정보}"></a>
+    </div>
+    <div class="row">
+        <a th:href="@{/mypage/recentlyview}" th:text="#{최근_본_상품}"></a>
+    </div>
+    <div class="row">
+        <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
+    </div>
+</main>
+
+</html>

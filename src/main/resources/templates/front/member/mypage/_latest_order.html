@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="latest_order">
+<th:block th:fragment="latest">
     <div>
         <div>
             <th:block th:text="#{최신_주문내역(최근3개월)}"></th:block>
@@ -20,7 +20,7 @@
 
             </table>
         </div>
-        <a th:href="@{/mypage/allorders}" th:text="#{전체_주문내역}"></a>
+        <a th:href="@{/mypage/orders}" th:text="#{전체_주문내역}"></a>
     </div>
 </th:block>
 </html>
