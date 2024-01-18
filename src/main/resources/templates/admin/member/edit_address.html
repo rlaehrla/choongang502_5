@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">  <!--csrf 토큰 추가-->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/product/select.css?v={v}(v=${siteConfig.cssJsVersion})}">
+    <script th:each="jsFile : ${addScript}"
+            th:src="@{/admin/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+    <script th:each="jsFile : ${addCommonScript}"
+            th:src="@{/common/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+    <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+</head>
+<body>
+    <form name="addressFrm" method="post" th:object="${requestAddress}">
+        <input type="hidden" name="seq" th:value="*{seq}">
+        <input type="text" name="zoneCode" readonly th:placeholder="#{우편번호}" id="zoneCode" th:field="*{zoneCode}">
+        <button type="button" class="search_address sbtn" th:text="#{주소_찾기}" data-zonecode-id="zoneCode" data-address-id="address"></button><br>
+
+        <input type="text" name="address" readonly  th:placeholder="#{주소}" id="address" th:field="*{address}">
+        <input type="text" name="addressSub" th:placeholder="#{나머지_주소}" *{addressSub}>
+
+        <div class="submit_btns">
+            <button type="submit" class="btn">등록하기</button>
+        </div>
+    </form>
+
+</body>
+</html>
+
+
