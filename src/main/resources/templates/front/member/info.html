@@ -9,7 +9,6 @@
     <th:block sec:authorize="isAuthenticated()">
             <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}">
                 <input type="hidden" name="gid" th:value="*{gid}">
-                <input type="hidden" name="_method" value="PATCH">
                 <dl>
                     <dt th:text="#{이메일}"></dt>
                     <dd>

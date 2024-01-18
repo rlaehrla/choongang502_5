@@ -4,7 +4,6 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
     <h1>회원목록</h1>
-
     <h2>회원검색</h2>
     <form name="frmSearch" method="get" th:action="@{/admin/member}" autocomplete="off" th:object="${memberSearch}">
         <table class="table_cols md30">
@@ -67,7 +66,7 @@
                     </td>
                     <td>
                         <a th:href="@{/admin/member/edit/{userId}(userId=*{userId})}" class="sbtn on">
-                            <i class="xi-pen"></i> 회원정보 수정
+                            <i class="xi-pen"></i> 회원정보 / 권한 수정
                         </a>
                     </td>
                 </tr>

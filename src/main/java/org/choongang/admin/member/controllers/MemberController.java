@@ -58,15 +58,9 @@ public class MemberController implements ExceptionProcessor {
         return "admin/member/list";
     }
 
-    @GetMapping("/authority")
-    public String authority(Model model){
-        commonProcess("authority", model);
-
-        return "admin/member/authorities";
-    }
     @GetMapping("/edit/{userId}")
     public String edit(@PathVariable("userId") String userId, Model model) {
-        MemberInfo memberInfo = (MemberInfo)infoService.loadUserByUsername(userId);
+        MemberInfo memberInfo = (MemberInfo)infoService.findByUserId(userId);
         AbstractMember member = memberInfo.getMember();
         List<Address> addressList = member.getAddress();
 
@@ -78,6 +72,8 @@ public class MemberController implements ExceptionProcessor {
 
     @PostMapping("/save")
     public String save(@Valid MemberForm form, Errors errors, Model model) {
+
+
 
         return "redirect:/admin/member";
     }

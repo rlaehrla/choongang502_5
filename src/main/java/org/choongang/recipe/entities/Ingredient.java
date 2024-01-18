@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor*/
-@Data
+/*@Data
 public class Ingredient {
     @Id
     @GeneratedValue
@@ -36,9 +36,9 @@ public class Ingredient {
     }
 
 
-/*    public Ingredient(String ingName, Long howTocnt) {
+*//*    public Ingredient(String ingName, Long howTocnt) {
         this.ingName = ingName;
         this.howTocnt = howTocnt;
-    }*/
-}
+    }*//*
+}*/
 

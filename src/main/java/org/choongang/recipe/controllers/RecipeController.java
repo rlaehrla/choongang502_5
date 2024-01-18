@@ -7,14 +7,12 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
-import org.choongang.recipe.entities.Ingredient;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
-import org.choongang.recipe.repositories.IngredientRepository;
+
 import org.choongang.recipe.repositories.RecipeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +21,55 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Controller
+@RequestMapping("/recipe")
+@RequiredArgsConstructor
+public class RecipeController implements ExceptionProcessor {
+    private final Utils utils;
+
+    @GetMapping("/write")
+    public String write(@ModelAttribute RequestRecipe form, Model model) {
+        commonProcess("add", model);
+        return utils.tpl("recipe/add");
+    }
+    
+    @PostMapping("/save")
+    public String save(@Valid RequestRecipe form, Errors errors, Model model) {
+        String mode = form.getMode();
+        commonProcess(mode, model);
+        if(errors.hasErrors()) {
+            return utils.tpl("recipe/" + mode);
+        }
+        return "redirect:/recipe"; // 레시피 목록
+    }
+    
+    private void commonProcess(String mode, Model model) {
+        
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
 레시피 모두 보기, 상세보기 test
  */
+
+
+/*
 @Controller("recipeController")
 @RequestMapping("/recipe")
 @RequiredArgsConstructor
@@ -34,7 +77,6 @@ import java.util.Optional;
 public class RecipeController implements ExceptionProcessor {
 
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final FileUploadService uploadService;
@@ -50,9 +92,13 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/recipe_all")
     public String allRcp(Model model) {
         List<Recipe> recipes = recipeRepository.findAll();
-        List<Ingredient> ingredients = ingredientRepository.findAll();
+     */
+/*   List<Ingredient> ingredients = ingredientRepository.findAll();*//*
+
         model.addAttribute("recipes", recipes);
-        model.addAttribute("ingredients", ingredients);
+      */
+/*  model.addAttribute("ingredients", ingredients);*//*
+
         commonProcess("allRcp", model);
 
         return utils.tpl("recipe/recipe_all");
@@ -118,6 +164,7 @@ public class RecipeController implements ExceptionProcessor {
 
     }
 
+*/
 /*    // 관리자 - 레시피 관리
     @GetMapping("/category")
     private String category(Model model) {
@@ -133,14 +180,17 @@ public class RecipeController implements ExceptionProcessor {
         commonProcess("category", model);
         return "recipe/admin/category";
 
-    }*/
+    }*//*
 
 
-    /**
+
+    */
+/**
      * 공통 처리 부분
      * @param mode
      * @param model
-     */
+     *//*
+
 
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNull(mode, "recipe");
@@ -164,25 +214,10 @@ public class RecipeController implements ExceptionProcessor {
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-
     }
 
 
-    @PostConstruct // 생성자 호출 -> 의존성 주입 -> @PostConstruct
-    public void init() {
-/*        ingredientRepository.save(new Ingredient("당근"));
-        ingredientRepository.save(new Ingredient("오이"));
-        ingredientRepository.save(new Ingredient("사과"));
-        ingredientRepository.save(new Ingredient("가지"));
-
-        recipeRepository.save(new Recipe("작성자01", "볶음밥1", "1"));
-        recipeRepository.save(new Recipe("작성자02", "볶음밥2", "2"));
-        recipeRepository.save(new Recipe("작성자03", "볶음밥3", "3"));
-        recipeRepository.save(new Recipe("작성자04", "볶음밥4", "4"));*/
-
-
-
-    }
 
 }
 
+*/
