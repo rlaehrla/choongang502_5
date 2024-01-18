@@ -9,7 +9,7 @@
     <form th:action="@{/admin/config/payment}" th:object="${paymentConfig}" method="post">
         <table class="table_cols mb30">
             <tr>
-                <th>결제 공급자</th>
+                <th width="180">결제 공급자</th>
                 <td>
                     <input type="text" id="paymentProvider" th:field="*{paymentProvider}">
                 </td>
@@ -34,6 +34,21 @@
                 </td>
             </tr>
             <!-- 추가적인 결제 설정 필드들을 필요에 따라 추가 -->
+        </table>
+        <table class="table_cols">
+            <h2>결제 약관 설정</h2>
+            <tr>
+                <th width="180">결제내용 동의</th>
+                <td>
+                    <textarea name="paymentAgree" th:field="*{paymentAgree}"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>결제대행 서비스 이용 위한 <br />개인정보 제3자 제공 위탁 동의</th>
+                <td>
+                    <textarea name="personalInfoEntrust" th:field="*{personalInfoEntrust}"></textarea>
+                </td>
+            </tr>
         </table>
         <div class="submit_btns">
             <button type="submit" class="btn">저장</button>
