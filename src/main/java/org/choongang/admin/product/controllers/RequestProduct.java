@@ -17,6 +17,8 @@ import java.util.UUID;
 public class RequestProduct {
     private String mode;
 
+    private Long seq; // 상품 번호
+
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 
     @NotBlank

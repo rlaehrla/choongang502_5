@@ -8,16 +8,27 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <h2>기본 정보</h2>
     <table class="table_cols mb30">
+        <tr th:if="*{mode == 'edit' && seq != null}">
+            <th width="180">상품번호</th>
+            <td>
+                <input type="hidden" name="seq" th:field="*{seq}">
+                <th:block th:text="*{seq}"></th:block>
+            </td>
+        </tr>
         <tr th:if="${@memberUtil.isAdmin()}">
             <th>판매자</th>
             <td>
-                <select name="farmer" th:field="*{farmer}">
-                    <th:block th:each="farmer : ${farmers}">
-                        <option th:value="${farmer.userId}" th:text="${farmer.userId}"></option>
-                        <div class="error" th:each="err : ${#fields.errors('farmer')}" th:text="${err}"></div>
-
-                    </th:block>
-                </select>
+                <th:block th:if="*{mode == 'add'}">
+                    <select name="farmer" th:field="*{farmer}">
+                        <th:block th:each="farmer : ${farmers}">
+                            <option th:value="${farmer.userId}" th:text="${farmer.userId}"></option>
+                            <div class="error" th:each="err : ${#fields.errors('farmer')}" th:text="${err}"></div>
+                        </th:block>
+                    </select>
+                </th:block>
+                <th:block th:unless="*{mode == 'add'}">
+                    <th:block th:text="*{farmer}"></th:block>
+                </th:block>
             </td>
         </tr>
         <tr>

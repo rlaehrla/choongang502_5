@@ -5,7 +5,7 @@
 <section layout:fragment="content">
     <h1>상품 등록</h1>
     <form name="frmSave" method="post" th:action="@{/admin/product/save}" autocomplete="off"  th:object="${requestProduct}">
-        <input type="hidden" name="mode" value="add">
+        <input type="hidden" name="mode" value="add" id="mode">
         <th:block th:replace="~{admin/product/_form::form}"></th:block>
         <div class="submit_btns">
             <button type="reset" class="btn">다시입력</button>
