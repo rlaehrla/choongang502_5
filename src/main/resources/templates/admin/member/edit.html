@@ -61,35 +61,40 @@
         <table class="table_rows">
             <thead>
                 <tr>
-                    <th>기본배송지 여부</th>
+                    <th>
+                        <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
+                        <label for="checkall"></label>
+                    </th>
+                    <th>기본배송지</th>
                     <th>별칭</th>
                     <th>우편번호</th>
                     <th>주소</th>
                     <th>상세주소</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <th:block th:if="*{address != null && !address.isEmpty()}" th:each="add, status : *{address}">
-                    <tr>
-                        <td>
-                            <input type="hidden" th:name="${'seq_' + status.index}" th:value="${add.seq}">
-                            <input type="radio" th:name="${'default_true_' + status.index}" value="true" th:id="${'default_true_' + status.index}" th:checked="${add.defaultAddress}">
-                            <label th:for="${'default_true_' + status.index}"></label>
-                        </td>
-                        <td>
-                            <input type="text" th:name="${'title_' + status.index}" th:value="${add.title}">
-                        </td>
-                        <td>
-                            <input type="text" th:name="${'zoneCode_' + status.index}" th:value="${add.zoneCode}">
-                        </td>
-                        <td>
-                            <input type="text" th:name="${'address_' + status.index}" th:value="${add.address}">
-                        </td>
-                        <td>
-                            <input type="text" th:name="${'addressSub_' + status.index}" th:value="${add.addressSub}">
-                        </td>
-                    </tr>
-                </th:block>
+                <tr th:if="*{address != null && !address.isEmpty()}" th:each="add, status : *{address}">
+                    <td>
+                        <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                        <input type="hidden" th:name="${'seq_' + status.index}" th:value="${add.seq}">
+                        <label th:for="${'chk_' + status.index}"></label>
+                    </td>
+                    <td>
+                        <input type="radio" name="default" value="true" th:id="${'default_true_' + status.index}" th:checked="${add.defaultAddress}">
+                        <label th:for="${'default_true_' + status.index}"></label>
+                    </td>
+                    <td th:text="${add.title}"></td>
+                    <td th:text="${add.zoneCode}"></td>
+                    <td th:text="${add.address}"></td>
+                    <td th:text="${add.addressSub}"></td>
+                    <td>
+                        <a th:href="@{/admin/member/address/{seq}(seq=${add.seq})}" class="sbtn">수정하기</a>
+                    </td>
+                </tr>
+                <tr th:unless="*{address != null && !address.isEmpty()}">
+                    <td colspan="6" class="no_data">조회된 주소가 없습니다.</td>
+                </tr>
             </tbody>
         </table>
 
@@ -98,5 +103,10 @@
             <button type="submit" class="btn">수정하기</button>
         </div>
     </form>
+<script>
+    const { popup } = commonLib;
+    const editAdd = document.getElementById("editAdd");
+    editAdd.onclick = () => popup.open('/admin/member/address', 450, 450);
+</script>
 </section>
 </html>

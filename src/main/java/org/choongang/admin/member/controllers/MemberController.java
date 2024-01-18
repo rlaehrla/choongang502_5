@@ -7,17 +7,12 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.exceptions.AlertBackException;
-import org.choongang.member.constants.Authority;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Address;
-import org.choongang.member.entities.Authorities;
+import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.MemberRepository;
 import org.choongang.member.service.MemberEditService;
-import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
-import org.choongang.member.service.MemberNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +33,7 @@ public class MemberController implements ExceptionProcessor {
     private final MemberRepository memberRepository;
     private final MemberFormValidator validator;
     private final MemberEditService editService;
+    private final AddressRepository addressRepository;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -96,18 +93,36 @@ public class MemberController implements ExceptionProcessor {
         return "redirect:/admin/member";
     }
 
+    @GetMapping("/address/{seq}")
+    public String address(@PathVariable("seq") Long seq, Model model){
+/*
+        Address address = addressRepository.findById(seq).orElse(null);
+        System.out.println("seq"+seq);
+
+        List<String> addCommonScript = new ArrayList<>();
+
+        addCommonScript.add("address");
+
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("requestAddress", form);*/
+        return "admin/member/edit_address";
+    }
+
 
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "list");
         String pageTitle = "회원 목록";
 
+        List<String> addCommonScript = new ArrayList<>();
+
         if(mode.equals("authority")){
             pageTitle = "회원 권한";
         } else if (model.equals("edit")) {
             pageTitle = "회원정보 수정";
+            addCommonScript.add("layer");
         }
 
-
+        model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("subMenuCode", mode);
         model.addAttribute("pageTitle", pageTitle);
     }

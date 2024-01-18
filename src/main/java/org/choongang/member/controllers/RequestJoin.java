@@ -8,8 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.choongang.commons.AddressAssist;
 import org.choongang.file.entities.FileInfo;
-import org.choongang.member.constants.Gender;
-import org.choongang.member.entities.Address;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
