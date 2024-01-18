@@ -1,48 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="form" th:object="${requestRecipe}">
-    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+
+    <input type="hidden" name="gid" th:field="*{gid}">
+    <div class="main_image_box">
+        <div class="upload_files" id="main_images" data-image-only="true">
+            <i class="xi-plus"></i>
+            <div class="txt" th:text="#{대표_이미지_업로드}"></div>
+        </div>
+        <div class="thumbs"></div>
     </div>
-    <input type="hidden" name="gid">
-    <div class="upload_files" data-image-only="true">
-        <i class="xi-plus"></i>
-        <div class="txt" th:text="#{대표_이미지_업로드}"></div>
+    <!--// main_image_box -->
+
+    <div class="rows recipe_name">
+        <input type="text" name="rcpName" th:placeholder="#{레서피의_이름이_무엇인가요?}" th:field="*{rcpName}">
+        <div class="error" th:each="err : ${#fields.errors('rcpName')}" th:text="${err}"></div>
+    </div>
+    <div class="rows">
+        <textarea name="rcpInfo" th:placeholder="#{레시피에_대한_간단한_설명을_덧붙여주세요.}"></textarea>
     </div>
 
-    <div class="rows">
-        <input type="text" name="rcpName" th:placeholder="#{레서피의_이름이_무엇인가요?}"
-        th:field="*{rcpName}">
-        <div class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
-    </div>
-    <div class="rows">
-        <textarea name="rcpInfo" th:placeholder="#{레시피에_간단한_설명을_덧붙여주세요.}"></textarea>
-    </div>
-    <div th:text="#{예상_소요_시간}"></div>
-    <div class="rows">
+    <div class="stit" th:text="#{예상_소요_시간}"></div>
+    <div class="rows estimate_times">
         <input type="radio" name="estimatedT" value="15" id="estimatedT_15">
         <label for="estimatedT_15" th:text="#{15분_컷}"></label>
+
         <input type="radio" name="estimatedT" value="30" id="estimatedT_30">
         <label for="estimatedT_30" th:text="#{30분_컷}"></label>
+
         <input type="radio" name="estimatedT" value="45" id="estimatedT_45">
         <label for="estimatedT_45" th:text="#{45분_컷}"></label>
+
         <input type="radio" name="estimatedT" value="46" id="estimatedT_46">
         <label for="estimatedT_46" th:text="#{46분_컷}"></label>
     </div>
-    <div class="row">
+    <div class="rows">
+        <div class="stit" th:text="#{카테고리}"></div>
+        <select name="category">
+            <option value="" th:text="#{요리_분류}"></option>
+        </select>
+        <select name="subCategory">
+            <option value="" th:text="#{요리_종류}"></option>
+        </select>
+    </div>
+    <div class="rows">
         <div th:text="#{기준량}"></div>
         <input type="number" name="amount" min="1">
         <button type="button"><i class="xi-plus"></i></button>
         <th:block th:text="#{인분}"></th:block>
     </div>
-    <div class="row">
+    <div class="rows">
         <div th:text="#{필수재료}"></div>
+
     </div>
-    <div class="row">
+    <div class="rows">
         <div th:text="#{부재료}"></div>
     </div>
-    <div class="row">
+    <div class="rows">
         <div th:text="#{양념}"></div>
     </div>
-    </div>
+    <th:block th:replace="~{common/_file_tpl::image1_tpl}"></th:block>
 </th:block>
 </html>
