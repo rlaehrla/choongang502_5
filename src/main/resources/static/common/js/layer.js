@@ -39,7 +39,7 @@ commonLib.popup = {
         const centerX = Math.round((window.innerWidth - width) / 2);
         const centerY = Math.round((window.innerHeight - height) / 2);
         popupEl.style.top = centerY + "px";
-        popupEl.style.top = centerX + "px";
+        popupEl.style.left = centerX + "px";
         /* 레이어 팝업 가운데 배치 좌표 구하기 E */
 
         const layerDimEl = document.createElement("div"); // 레이어 배경
