@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="menus">
+    <a th:href="@{/farmer}" th:classappend="${menuCode} == 'dashboard' ? 'on'">
+        <i class="xi-pen"></i> 대시보드
+    </a>
+    <a th:href="@{/farmer/myFarmBlog}" th:classappend="${menuCode} == 'blog' ? 'on'">
+        <i class="xi-pen"></i> 블로그관리
+    </a>
+    <a th:href="@{/farmer/product}" th:classappend="${menuCode} == 'product' ? 'on'">
+        <i class="xi-pen"></i> 상품관리
+    </a>
+    <a th:href="@{/farmer/order}" th:classappend="${menuCode} == 'order' ? 'on'">
+        <i class="xi-pen"></i> 주문관리
+    </a>
+</aside>
+</html>

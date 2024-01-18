@@ -41,11 +41,23 @@
     <header th:replace="~{admin/outlines/header::common}"></header>
 
     <main>
-        <aside th:replace="~{admin/outlines/_side::menus}"></aside>
-        <section>
-            <nav th:replace="~{admin/outlines/_submenu::submenus}"></nav>
-            <section layout:fragment="content"></section>
-        </section>
+        <th:block th:if="${@memberUtil.isFarmer()}">
+            <aside th:replace="~{admin/farmer/menu/_side::menus}"></aside>
+
+            <section>
+                <nav th:replace="~{admin/farmer/menu/_submenu::submenus}"></nav>
+                <section layout:fragment="content"></section>
+            </section>
+        </th:block>
+
+        <th:block th:unless="${@memberUtil.isFarmer()}">
+            <aside th:replace="~{admin/outlines/_side::menus}"></aside>
+
+            <section>
+                <nav th:replace="~{admin/outlines/_submenu::submenus}"></nav>
+                <section layout:fragment="content"></section>
+            </section>
+        </th:block>
     </main>
     <iframe name="ifrmProcess" class="dn"></iframe>
 </body>
