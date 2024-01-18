@@ -93,15 +93,15 @@
         <dl>
             <dt th:text="#{주소}"></dt>
             <dd>
-                <input type="text" name="zoneCode" th:field="*{zoneCode}" readonly th:placeholder="#{우편번호}" id="zoneCode">
+                <input type="text" name="addr.zoneCode" th:field="*{addr.zoneCode}" readonly th:placeholder="#{우편번호}" id="zoneCode">
                 <button type="button" class="search_address" th:text="#{주소_찾기}" data-zonecode-id="zoneCode" data-address-id="address"></button><br>
-                <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
+                <div class="error" th:each="err : ${#fields.errors('addr.zoneCode')}" th:text="${err}"></div>
 
-                <input type="text" name="farmAddress" th:field="*{address}" readonly  th:placeholder="#{주소}" id="address">
-                <input type="text" name="farmAddressSub" th:field="*{addressSub}"   th:placeholder="#{나머지_주소}">
+                <input type="text" name="addr.address" th:field="*{addr.address}" readonly  th:placeholder="#{주소}" id="address">
+                <input type="text" name="addr.addressSub" th:field="*{addr.addressSub}"   th:placeholder="#{나머지_주소}">
 
-                <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
-                <div class="error" th:each="err : ${#fields.errors('addressSub')}" th:text="${err}"></div>
+                <div class="error" th:each="err : ${#fields.errors('addr.address')}" th:text="${err}"></div>
+                <div class="error" th:each="err : ${#fields.errors('addr.addressSub')}" th:text="${err}"></div>
             </dd>
         </dl>
 

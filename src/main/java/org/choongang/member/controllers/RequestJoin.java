@@ -60,4 +60,6 @@ public class RequestJoin extends AddressAssist {
     @AssertTrue
     private boolean agree;
 
+    private AddressAssist addr;
+
 }
