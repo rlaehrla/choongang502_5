@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.Sort.Order.asc;
 
@@ -36,10 +37,18 @@ public class CartInfoService {
      *               DIRECT : 바로구매 상품
      * @return
      */
-    public List<CartInfo> getList(CartType mode) {
+    public List<CartInfo> getList(CartType mode, List<Long> seq) {
         QCartInfo cartInfo = QCartInfo.cartInfo;
         BooleanBuilder andBuilder = new BooleanBuilder();
-        andBuilder.and(cartInfo.mode.eq(mode));
+
+        if (mode != null) {
+            andBuilder.and(cartInfo.mode.eq(mode));
+        }
+
+        // 장바구니 번호로 상품 조회
+        if (seq != null && !seq.isEmpty()) {
+            andBuilder.and(cartInfo.seq.in(seq));
+        }
 
         if (memberUtil.isLogin()) { // 회원
             andBuilder.and(cartInfo.member.eq((Member)memberUtil.getMember()));
@@ -52,6 +61,14 @@ public class CartInfoService {
         items.forEach(this::addItemInfo);
 
         return items;
+    }
+
+    public List<CartInfo> getList(CartType mode) {
+        return getList(mode, null);
+    }
+
+    public List<CartInfo> getList(List<Long> seq) {
+        return getList(null, seq);
     }
 
     /**
@@ -97,13 +114,13 @@ public class CartInfoService {
      * @param mode
      * @return
      */
-    public CartData getCartInfo(CartType mode) {
+    public CartData getCartInfo(CartType mode, List<Long> seq) {
 
         int totalPrice = 0, totalDiscount = 0, totalDeliveryPrice = 0, payPrice = 0;
         int totalPackageDeliveryPrice = 0; // 묶음 배송 비용  - 가장 비싼 배송비
         int totalEachDeliveryPrice = 0; // 개별 배송 비용
 
-        List<CartInfo> items = getList(mode);
+        List<CartInfo> items = getList(mode, seq);
         for (CartInfo item : items) {
             Product product = item.getProduct();
             int salePrice = product.getSalePrice(); // 상품 판매가
@@ -142,5 +159,27 @@ public class CartInfoService {
                 .build();
 
         return data;
+    }
+
+    public CartData getCartInfo(CartType mode) {
+        return getCartInfo(mode, null);
+    }
+
+    public CartData getCartInfo(List<Long> seq) {
+        return getCartInfo(null, seq);
+    }
+
+    /**
+     * 장바구니 -> 주문서
+     *
+     * @param chks
+     * @return
+     */
+    public String getOrderUrl(List<Integer> chks) {
+        String qs = chks.stream()
+                .map(chk -> utils.getParam("seq_" + chk))
+                .map(s -> "seq=" + s).collect(Collectors.joining("&"));
+
+        return "/order?" + qs;
     }
 }
