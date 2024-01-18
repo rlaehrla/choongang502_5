@@ -6,11 +6,19 @@ import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
+import org.choongang.commons.exceptions.AlertBackException;
+import org.choongang.member.constants.Authority;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Authorities;
+import org.choongang.member.repositories.MemberRepository;
+import org.choongang.member.service.MemberEditService;
 import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
+import org.choongang.member.service.MemberNotFoundException;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,6 +34,9 @@ import java.util.Objects;
 public class MemberController implements ExceptionProcessor {
 
     private final MemberInfoService infoService;
+    private final MemberRepository memberRepository;
+    private final MemberFormValidator validator;
+    private final MemberEditService editService;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -58,22 +69,29 @@ public class MemberController implements ExceptionProcessor {
         return "admin/member/list";
     }
 
-    @GetMapping("/edit/{userId}")
-    public String edit(@PathVariable("userId") String userId, Model model) {
-        MemberInfo memberInfo = (MemberInfo)infoService.findByUserId(userId);
-        AbstractMember member = memberInfo.getMember();
-        List<Address> addressList = member.getAddress();
+    @GetMapping("/edit/{seq}")
+    public String edit(@PathVariable("seq") Long seq, @ModelAttribute MemberForm member, Model model) {
+        commonProcess("edit", model);
 
+        member = infoService.getMemberForm(seq);
+
+        member.setAuthorities(member.getAuthorities());
         model.addAttribute("member", member);
-        model.addAttribute("address", addressList);
-
         return "admin/member/edit";
     }
 
     @PostMapping("/save")
     public String save(@Valid MemberForm form, Errors errors, Model model) {
+        String mode = form.getMode();
+        commonProcess(mode, model);
+        validator.validate(form, errors);
 
+        if(errors.hasErrors()){
 
+            throw new AlertBackException("올바르지 않은 형식입니다", HttpStatus.BAD_REQUEST);
+        }
+
+        editService.editMember(form);
 
         return "redirect:/admin/member";
     }
@@ -85,6 +103,8 @@ public class MemberController implements ExceptionProcessor {
 
         if(mode.equals("authority")){
             pageTitle = "회원 권한";
+        } else if (model.equals("edit")) {
+            pageTitle = "회원정보 수정";
         }
 
 
