@@ -37,10 +37,10 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil ;
     private final MemberInfoService memberInfoService ;
     private final InfoSaveService infoSaveService ;
-    private final FileInfoService fileInfoService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
 
@@ -108,37 +108,34 @@ public class MemberController implements ExceptionProcessor {
         RequestMemberInfo form = memberInfoService.getMemberInfo() ;
         model.addAttribute("requestMemberInfo", form) ;
 
-        List<FileInfo> profileImg = fileInfoService.getListDone(form.getGid(), "profile_img") ;
-        List<FileInfo> businessPermitFiles = fileInfoService.getListDone(form.getGid(), "business_permit") ;
-        model.addAttribute("requestMemberInfo.profileImage", profileImg) ;
-        model.addAttribute("requestMemberInfo.businessPermitFiles", businessPermitFiles) ;
-
         return utils.tpl("member/info");
     }
 
     /**
      * 회원정보 수정
      */
-    @PostMapping("/info")
+    @PatchMapping("/info")
     public String infoSave(@Valid RequestMemberInfo form, Errors errors, Model model) {
         commonProcess("memberInfo", model);
 
         infoSaveService.saveInfo(form, errors);
 
         if (errors.hasErrors()) {
+            List<FileInfo> profileImages = fileInfoService.getList(form.getGid(), "profile_img");
+            if (profileImages != null && !profileImages.isEmpty()) {
+                form.setProfileImage(profileImages.get(0));
+            }
+
+            List<FileInfo> businessPermitFiles = fileInfoService.getList(form.getGid(), "business_permit");
+            form.setBusinessPermitFiles(businessPermitFiles);
+
             return utils.tpl("member/info");
         }
 
-        List<FileInfo> profileImg = fileInfoService.getListDone(form.getGid(), "profile_img") ;
-        List<FileInfo> businessPermitFiles = fileInfoService.getListDone(form.getGid(), "business_permit") ;
-        model.addAttribute("requestMemberInfo.profileImage", profileImg) ;
-        model.addAttribute("requestMemberInfo.businessPermitFiles", businessPermitFiles) ;
+        // String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
+        //model.addAttribute("script", script);
 
-        String script = String.format("alert('%s'); parent.location.href='/member/logout';",
-                                Utils.getMessage("수정이_완료_되었습니다.", "commons"));
-        model.addAttribute("script", script);
-
-        return "common/_execute_script";
+        return "redirect:/mypage";
     }
 
     /**

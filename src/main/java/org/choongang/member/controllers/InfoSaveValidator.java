@@ -30,19 +30,23 @@ public class InfoSaveValidator implements Validator, PasswordValidator {
         RequestMemberInfo form = (RequestMemberInfo)target;
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
+        if (StringUtils.hasText(password)) {
+            // 비밀번호 최소 자리수 체크
+            if (password.length() < 8) {
+                errors.rejectValue("password", "Size");
+            }
 
-        // 비밀번호 복잡성 체크 - 대소문자 1개 각각 포함, 숫자 1개 이상 포함, 특수문자도 1개 이상 포함
-        if (StringUtils.hasText(password) &&
-                (!alphaCheck(password, true) || !numberCheck(password) || !specialCharsCheck(password))) {
-            errors.rejectValue("password", "Complexity");
+            // 비밀번호 복잡성 체크 - 대소문자 1개 각각 포함, 숫자 1개 이상 포함, 특수문자도 1개 이상 포함
+            if (!alphaCheck(password, true) || !numberCheck(password) || !specialCharsCheck(password)) {
+                errors.rejectValue("password", "Complexity");
+            }
+
+            // 비밀번호, 비밀번호 확인 일치 여부 체크
+            if (StringUtils.hasText(confirmPassword)
+                    && !password.equals(confirmPassword)) {
+                errors.rejectValue("confirmPassword", "Mismatch.password");
+            }
         }
-
-        // 비밀번호, 비밀번호 확인 일치 여부 체크
-        if (StringUtils.hasText(password) && StringUtils.hasText(confirmPassword)
-            && !password.equals(confirmPassword)) {
-            errors.rejectValue("confirmPassword", "Mismatch.password");
-        }
-
         /**
          * [농장주인일 때만 필요한 validator]
          * 농장이름 필수 체크

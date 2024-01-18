@@ -19,6 +19,7 @@ import org.choongang.member.repositories.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 @Service
@@ -43,11 +44,15 @@ public class InfoSaveService {
         }
 
         // 비밀번호 BCrypt로 해시화
-        String hash = encoder.encode(form.getPassword());
+
 
         AbstractMember user = (AbstractMember) session.getAttribute("member");
         user.setUsername(form.getUsername());
-        user.setPassword(hash);
+        String password = form.getPassword();
+        if (StringUtils.hasText(password)) {
+            String hash = encoder.encode(password.trim());
+            user.setPassword(hash);
+        }
         user.setTel(form.getTel());
 
         if (user instanceof Member) {
