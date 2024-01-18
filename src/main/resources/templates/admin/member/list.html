@@ -50,6 +50,7 @@
                 <tr th:if="${items != null && !items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
                     <td width="40">
                         <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                        <input type="hidden" name="seq" th:value="*{seq}">
                         <label th:for="${'chk_' + status.index}"></label>
                     </td>
                     <td th:text="*{userId}"></td>
@@ -65,7 +66,7 @@
                         <th:block th:text="*{address[0].addressSub}"></th:block>
                     </td>
                     <td>
-                        <a th:href="@{/admin/member/edit/{userId}(userId=*{userId})}" class="sbtn on">
+                        <a th:href="@{/admin/member/edit/{seq}(seq=*{seq})}" class="sbtn on">
                             <i class="xi-pen"></i> 회원정보 / 권한 수정
                         </a>
                     </td>

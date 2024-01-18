@@ -4,69 +4,95 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
 
-    <form name="frmSave" method="post" th:action="@{/admin/member/save}" autocomplete="off">
+    <form name="frmSave" method="post" th:action="@{/admin/member/save}" autocomplete="off" th:object="${member}">
 
-    <h1>회원 권한 설정</h1>
+        <h1>회원 권한 부여</h1>
         <div class="mb30">
-            <input type="radio" name="authority" th:text="#{일반_권한_부여}" checked="${member.authority == 'USER'}">
-            <input type="radio" name="authority" th:text="#{관리자_권한_부여}" checked="${member.authority == 'ADMIN'}">
+            <input type="checkbox" name="authorities" value="ADMIN" id="authority_admin" th:field="*{authorities}">
+            <label for="authority_admin">관리자</label>
+            <input type="checkbox" name="authorities" value="FARMER" id="authority_farmer" th:field="*{authorities}">
+            <label for="authority_admin">농부</label>
         </div>
-    <h1>활동 여부 설정</h1>
+
+        <h1>활동 여부 설정</h1>
         <div class="mb30">
-            <input type="radio" name="activity" th:text="#{계정_활동_가능}" checked="${member.activity == true}">
-            <input type="radio" name="activity" th:text="#{계정_활동_중지}" checked="${member.activity == false}">
+            <input type="radio" name="activity" id="activity_true" value="true" th:field="*{activity}">
+            <label for="activity_true">계정 활동 가능</label>
+            <input type="radio" name="activity" id="activity_false" value="false" th:field="*{activity}">
+            <label for="activity_false">계정 활동 불가능</label>
         </div>
-    <h1>회원 정보 설정</h1>
+
+        <h1>회원 정보 설정</h1>
         <input type="hidden" name="mode" value="edit">
-        <dl>
+        <input type="hidden" name="seq" th:field="*{seq}">
+        <dl class="mb30">
             <dt th:text="#{아이디}"></dt>
             <dd>
                 <div>
-                    <input type="text" name="userId" th:value="${member.userId}">
+                    <input type="text" name="userId" th:field="*{userId}">
                 </div>
             </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{아이디}"></dt>
+            <dt th:text="#{이메일}"></dt>
             <dd>
                 <div>
-                    <input type="text" name="email" th:value="${member.email}">
+                    <input type="text" name="email" th:field="*{email}">
                 </div>
             </dd>
-        </dl>
-        <dl>
             <dt th:text="#{회원명}"></dt>
             <dd>
                 <div>
-                    <input type="text" name="username" th:value="${member.username}">
+                    <input type="text" name="username" th:field="*{username}">
                 </div>
             </dd>
-        </dl>
-        <dl>
             <dt th:text="#{닉네임}"></dt>
             <dd>
                 <div>
-                    <input type="text" name="nickname" th:value="${member.nickname}">
+                    <input type="text" name="nickname" th:field="*{nickname}">
                 </div>
             </dd>
-        </dl>
-        <dl>
             <dt th:text="#{전화번호}"></dt>
             <dd>
                 <div>
-                    <input type="text" name="tel" th:value="${member.tel}">
+                    <input type="text" name="tel" th:field="*{tel}">
                 </div>
             </dd>
         </dl>
-        <dl>
-            <dt th:text="#{주소}"></dt>
-            <dd>
-                <div>
-                    <input type="text" name="address" th:if="${address != null}" th:value="${'(' + address[0].zoneCode + ')' + address[0].address}">
-                    <input type="text" name="addressSub" th:if="${address != null and address[0].addressSub != null}" th:value="${address[0].addressSub}">
-                </div>
-            </dd>
-        </dl>
+
+        <h1>주소 설정</h1>
+        <table class="table_rows">
+            <thead>
+                <tr>
+                    <th>기본배송지 여부</th>
+                    <th>별칭</th>
+                    <th>우편번호</th>
+                    <th>주소</th>
+                    <th>상세주소</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:if="*{address != null && !address.isEmpty()}" th:each="add, status : *{address}">
+                    <tr>
+                        <td>
+                            <input type="hidden" th:name="${'seq_' + status.index}" th:value="${add.seq}">
+                            <input type="radio" th:name="${'default_true_' + status.index}" value="true" th:id="${'default_true_' + status.index}" th:checked="${add.defaultAddress}">
+                            <label th:for="${'default_true_' + status.index}"></label>
+                        </td>
+                        <td>
+                            <input type="text" th:name="${'title_' + status.index}" th:value="${add.title}">
+                        </td>
+                        <td>
+                            <input type="text" th:name="${'zoneCode_' + status.index}" th:value="${add.zoneCode}">
+                        </td>
+                        <td>
+                            <input type="text" th:name="${'address_' + status.index}" th:value="${add.address}">
+                        </td>
+                        <td>
+                            <input type="text" th:name="${'addressSub_' + status.index}" th:value="${add.addressSub}">
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
 
         <div class="submit_btns">
             <button type="submit" class="btn" onclick="history.go(-1);">뒤로가기</button>

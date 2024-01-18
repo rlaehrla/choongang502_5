@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.member.controllers.MemberForm;
+import org.choongang.admin.product.controllers.RequestProduct;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -16,11 +18,13 @@ import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.constants.Authority;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.controllers.RequestMemberInfo;
 import org.choongang.member.entities.*;
 import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.member.repositories.MemberRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -237,6 +242,17 @@ public class MemberInfoService implements UserDetailsService {
         return MemberInfo.builder()
                 .member(member)
                 .build();
+    }
+
+
+    public MemberForm getMemberForm(Long seq){
+        AbstractMember member = memberRepository.findById(seq).orElseThrow(MemberNotFoundException::new);
+        MemberForm form = new ModelMapper().map(member, MemberForm.class);
+        List<String>  authorities = member.getAuthorities().stream().map(a -> a.getAuthority().name()).toList();
+        form.setAuthorities(authorities);
+        form.setActivity(true);
+
+        return form;
     }
 
 
