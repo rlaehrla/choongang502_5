@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.choongang.cart.constants.CartType;
 import org.choongang.commons.entities.Base;
+import org.choongang.file.entities.FileInfo;
 import org.choongang.member.entities.Member;
 import org.choongang.product.entities.Product;
 
@@ -34,4 +35,16 @@ public class CartInfo extends Base {
     private Member member;
 
     private int ea = 1; // 주문수량
+
+    @Transient
+    private int totalPrice; // 상품 합계
+
+    @Transient
+    private int totalDiscount; // 상품 할인
+
+    @Transient
+    private FileInfo mainImage;
+
+    @Transient
+    private FileInfo listImage;
 }
