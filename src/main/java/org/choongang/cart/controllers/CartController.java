@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/cart")
 @RequiredArgsConstructor
@@ -70,5 +73,12 @@ public class CartController implements ExceptionProcessor {
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";
 
+
+        List<String> addScript = new ArrayList<>();
+        if (mode.equals("list")) { // 장바구니 상품 목록
+            addScript.add("cart/cart");
+        }
+
+        model.addAttribute("addScript", addScript);
     }
 }
