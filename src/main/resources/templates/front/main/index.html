@@ -2,25 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content" class="layout_width">
-    <h1 th:text="#{최신_게시글}"></h1>
+<main layout:fragment="content">
+    <section th:replace="~{front/outlines/_banner::banner}">
+    </section>
+    <section> <!-- 추천레시피 -->
+        <h1 th:text="#{추천레시피}"></h1>
+        <ul>
+            <li th:each="recipe : ${추천레시피}" th:object="${recipe}">
+                <a th:href="@{레시피게시물링크}">
+                    <div>
+                        <strong type="text" th:field="*{레시피제목}"></strong>
+                        <input type="text" th:field="*{상품태그}" readonly>
+                    </div>
+                    <input type="text" th:field="*{좋아요}" readonly>
+                    <img th:src="*{프로필사진링크}">
+                    <input type="text" th:field="*{글쓴이}" readonly>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <section> <!--제철/특산품-->
+        <h1 th:text="#{제철_특산품}"></h1>
+        <ul>
+            <li th:each="item : ${시즌아이템}" th:object="${item}">
+                <img th:src="*{아이템링크}">
+                <strong th:text="*{아이템이름}"></strong>
+            </li>
+        </ul>
+    </section>
+    <section> <!-- 최근 등록 상품-->
+        <h1 th:text="#{최근등록상품}"></h1>
+        <ul>
+            <li th:each="board : ${상품목록}" th:object="${board}">
+                <a th:href="@{농장링크}">
+                    <p th:field="*{한줄소개}"></p>
+                    <img th:src="*{프로필사진링크}">
+                    <p th:field="*{농장이름}"></p>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <section th:replace="~{front/outlines/_best_farm::farm}">
+    </section>
 
-    <ul class="board_latest">
-        <li th:each="b : ${boardMenus}">
-            <h2>
-                <a th:href="@{/board/list/{bid}(bid=${b.bid})}" th:text="${b.bName}"></a>
-            </h2>
-            <ul class="items">
-                <li th:each="item : ${@boardInfoService.getLatest(b.bid)}" th:object="${item}" class="item">
-                    <a th:href="@{/board/view/{seq}(seq=*{seq})}">
-                        <th:block th:if="*{notice}">
-                            [<th:block th:text="#{공지}"></th:block>]
-                        </th:block>
-                        <th:block th:text="*{subject}"></th:block>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
 </main>
 </html>
