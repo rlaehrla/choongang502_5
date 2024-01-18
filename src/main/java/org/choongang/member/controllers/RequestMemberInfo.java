@@ -24,8 +24,8 @@ public class RequestMemberInfo {
     @Size(min=6)
     private String userId;
 
-   // @NotBlank
-   // @Size(min=8)
+    // @NotBlank
+    // @Size(min=8)
     private String password;
 
     //@NotBlank

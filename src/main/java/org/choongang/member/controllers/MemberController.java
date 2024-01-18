@@ -132,7 +132,7 @@ public class MemberController implements ExceptionProcessor {
             return utils.tpl("member/info");
         }
 
-       // String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
+        // String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
         //model.addAttribute("script", script);
 
         return "redirect:/mypage";
