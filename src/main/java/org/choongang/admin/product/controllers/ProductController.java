@@ -1,10 +1,8 @@
 package org.choongang.admin.product.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
@@ -25,11 +23,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller("adminProductController")
 @RequiredArgsConstructor
-@RequestMapping("/admin/product")
+@RequestMapping({"/admin/product", "/farmer/product"})
 public class ProductController implements ExceptionProcessor {
 
     private final HttpServletRequest request;

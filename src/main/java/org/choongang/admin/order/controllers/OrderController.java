@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/order")
+@RequestMapping({"/admin/order", "/farmer/order"})
 public class OrderController implements ExceptionProcessor {
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
