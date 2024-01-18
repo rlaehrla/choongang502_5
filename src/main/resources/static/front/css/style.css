@@ -3,6 +3,12 @@
 :root{
     --main-color: #596b99;
 }
+/* 타이틀 사진 */
+.title {
+    text-align: center;
+    padding: 50px;
+}
+
 html { font-size: 13px; }
 body { margin: 0; }
 a { text-decoration: none; }
@@ -68,8 +74,8 @@ select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
     text-align: center;
 }
 .loginPlz{ /* 로그인 회원가입 장바구니 */
-    text-align: right;
-    padding: 0 500px 0 0;
+    text-align: center;
+
     font-size: 15px;
 }
 .loginPlz a:nth-child(1) {
@@ -128,6 +134,7 @@ select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
 /* main - 배너 슬라이드 S */
 .slide {
   /* layout */
+  margin : auto;
   display: flex;
   flex-wrap: nowrap;
   /* 컨테이너의 내용물이 컨테이너 크기(width, height)를 넘어설 때 보이지 않도록 하기 위해 hidden을 준다. */
