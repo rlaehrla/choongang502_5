@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.UnAuthorizedException;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Farmer;
@@ -38,6 +40,7 @@ public class MemberController implements ExceptionProcessor {
     private final MemberUtil memberUtil ;
     private final MemberInfoService memberInfoService ;
     private final InfoSaveService infoSaveService ;
+    private final FileInfoService fileInfoService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
 
@@ -105,13 +108,18 @@ public class MemberController implements ExceptionProcessor {
         RequestMemberInfo form = memberInfoService.getMemberInfo() ;
         model.addAttribute("requestMemberInfo", form) ;
 
+        List<FileInfo> profileImg = fileInfoService.getListDone(form.getGid(), "profile_img") ;
+        List<FileInfo> businessPermitFiles = fileInfoService.getListDone(form.getGid(), "business_permit") ;
+        model.addAttribute("requestMemberInfo.profileImage", profileImg) ;
+        model.addAttribute("requestMemberInfo.businessPermitFiles", businessPermitFiles) ;
+
         return utils.tpl("member/info");
     }
 
     /**
      * 회원정보 수정
      */
-    @PatchMapping("/info")
+    @PostMapping("/info")
     public String infoSave(@Valid RequestMemberInfo form, Errors errors, Model model) {
         commonProcess("memberInfo", model);
 
@@ -121,7 +129,13 @@ public class MemberController implements ExceptionProcessor {
             return utils.tpl("member/info");
         }
 
-        String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
+        List<FileInfo> profileImg = fileInfoService.getListDone(form.getGid(), "profile_img") ;
+        List<FileInfo> businessPermitFiles = fileInfoService.getListDone(form.getGid(), "business_permit") ;
+        model.addAttribute("requestMemberInfo.profileImage", profileImg) ;
+        model.addAttribute("requestMemberInfo.businessPermitFiles", businessPermitFiles) ;
+
+        String script = String.format("alert('%s'); parent.location.href='/member/logout';",
+                                Utils.getMessage("수정이_완료_되었습니다.", "commons"));
         model.addAttribute("script", script);
 
         return "common/_execute_script";

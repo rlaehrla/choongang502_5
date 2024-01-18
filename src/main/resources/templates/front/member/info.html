@@ -9,7 +9,6 @@
     <th:block sec:authorize="isAuthenticated()">
             <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}" target="ifrmProcess">
                 <input type="hidden" name="gid" th:value="*{gid}">
-                <input type="hidden" name="_method" value="PATCH">
                 <dl>
                     <dt th:text="#{이메일}"></dt>
                     <dd>
@@ -103,13 +102,13 @@
                         <dt th:text="#{사업자_번호}"></dt>
                         <dd>
                             <div class="b_no_box">
-                                <input type="text" name="businessPermitNum" th:value="${session.member.businessPermitNum}" readonly>
+                                <input type="text" name="businessPermitNum" th:value="*{businessPermitNum}" readonly>
                             </div>
 
                             <div>
                                 <div id="attached_file">
-                                    <th:block th:if="${session.member.businessPermitFiles != null}">
-                                        <th:block th:each="file : ${session.member.businessPermitFiles}">
+                                    <th:block th:if="*{businessPermitFiles != null}">
+                                        <th:block th:each="file : *{businessPermitFiles}">
                                             <span class="file_tpl_box" th:id="${'file_' + file.seq}">
                                                 <a th:href="@{/file/download/{seq}(seq=${file.seq})}" th:text="${file.fileName}"></a>
                                                   <a th:href="@{/file/delete/{seq}(seq=${file.seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
