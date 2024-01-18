@@ -6,15 +6,19 @@
 
     <form name="frmSave" method="post" th:action="@{/admin/member/save}" autocomplete="off">
 
-    <h1>회원 권한 설정</h1>
+    <h1>관리자 권한 설정</h1>
         <div class="mb30">
-            <input type="radio" name="authority" th:text="#{일반_권한_부여}" checked="${member.authority == 'USER'}">
-            <input type="radio" name="authority" th:text="#{관리자_권한_부여}" checked="${member.authority == 'ADMIN'}">
+            <input type="radio" name="authority" id="adminTrue" value="user">
+            <label for="adminTrue">관리자 권한 부여</label>
+            <input type="radio" name="authority" id="adminFalse" value="admin">
+            <label for="adminFalse">관리자 권한 해제</label>
         </div>
-    <h1>활동 여부 설정</h1>
+    <h1>계정 활성화 여부 설정</h1>
         <div class="mb30">
-            <input type="radio" name="activity" th:text="#{계정_활동_가능}" checked="${member.activity == true}">
-            <input type="radio" name="activity" th:text="#{계정_활동_중지}" checked="${member.activity == false}">
+            <input type="radio" name="activity" id="activeTrue" value="true" checked="${member.activity == true}">
+            <label for="activeTrue">계정 활동 가능</label>
+            <input type="radio" name="activity" id="activeFalse" value="false" checked="${member.activity == false}">
+            <label for="activeFalse">계정 활동 정지</label>
         </div>
     <h1>회원 정보 설정</h1>
         <input type="hidden" name="mode" value="edit">
@@ -63,7 +67,7 @@
             <dd>
                 <div>
                     <input type="text" name="address" th:if="${address != null}" th:value="${'(' + address[0].zoneCode + ')' + address[0].address}">
-                    <input type="text" name="addressSub" th:if="${address != null and address[0].addressSub != null}" th:value="${address[0].addressSub}">
+                    <input type="text" name="addressSub" th:if="${address != null}" placeholder="나머지 주소 입력" th:value="${address != null and address[0].addressSub != null} ? ${address[0].addressSub} : ''">
                 </div>
             </dd>
         </dl>
