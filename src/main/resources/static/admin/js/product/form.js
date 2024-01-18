@@ -13,6 +13,17 @@ window.addEventListener("DOMContentLoaded", function() {
     }
     /* 이미지 본문 추가 이벤트 처리 E */
 
+
+    /* 분류코드 선택 버튼 문구 S */
+    const mode = document.querySelector("#mode");
+    const cate_select = document.querySelector("#cate_select");
+    const cateCd = document.querySelector("#cateCd").value;
+    if(mode.value == 'edit'){
+        cate_select.innerText = cateCd;
+    }
+
+    /* 분류코드 선택 버튼 문구 E */
+
 });
 
 /**
