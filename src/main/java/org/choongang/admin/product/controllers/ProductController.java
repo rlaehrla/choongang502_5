@@ -10,6 +10,7 @@ import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.UnAuthorizedException;
+import org.choongang.farmer.management.menus.FarmerMenu;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.MemberInfoService;
@@ -49,6 +50,10 @@ public class ProductController implements ExceptionProcessor {
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> getSubMenus(){
+        if (memberUtil.isFarmer()) {
+            return FarmerMenu.getMenus("products") ;
+        }
+
         return AdminMenu.getMenus("product");
     }
 
