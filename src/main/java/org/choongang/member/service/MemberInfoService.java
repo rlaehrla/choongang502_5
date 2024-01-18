@@ -102,7 +102,10 @@ public class MemberInfoService implements UserDetailsService {
         HttpSession session = request.getSession();
         RequestMemberInfo form = new RequestMemberInfo() ;
 
-        AbstractMember user = (AbstractMember) session.getAttribute("member") ;
+        AbstractMember user = memberUtil.getMember();
+        MemberInfo memberInfo = (MemberInfo) loadUserByUsername(user.getUserId());
+        user = memberInfo.getMember();
+
         form.setGid(user.getGid());
         form.setEmail(user.getEmail());
         form.setUserId(user.getUserId());

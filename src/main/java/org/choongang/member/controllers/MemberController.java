@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.UnAuthorizedException;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Farmer;
@@ -35,6 +37,7 @@ public class MemberController implements ExceptionProcessor {
     private final Utils utils;
     private final JoinService joinService;
     private final FindPwService findPwService ;
+    private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil ;
     private final MemberInfoService memberInfoService ;
     private final InfoSaveService infoSaveService ;
@@ -118,13 +121,21 @@ public class MemberController implements ExceptionProcessor {
         infoSaveService.saveInfo(form, errors);
 
         if (errors.hasErrors()) {
+            List<FileInfo> profileImages = fileInfoService.getList(form.getGid(), "profile_img");
+            if (profileImages != null && !profileImages.isEmpty()) {
+                form.setProfileImage(profileImages.get(0));
+            }
+
+            List<FileInfo> businessPermitFiles = fileInfoService.getList(form.getGid(), "business_permit");
+            form.setBusinessPermitFiles(businessPermitFiles);
+
             return utils.tpl("member/info");
         }
 
-        String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
-        model.addAttribute("script", script);
+       // String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
+        //model.addAttribute("script", script);
 
-        return "common/_execute_script";
+        return "redirect:/mypage";
     }
 
     /**

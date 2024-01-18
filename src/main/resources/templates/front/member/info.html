@@ -7,14 +7,14 @@
     <h1>회원정보 수정</h1>
 
     <th:block sec:authorize="isAuthenticated()">
-            <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}" target="ifrmProcess">
+            <form name="frmInfo" method="post" th:action="@{/member/info}" autocomplete="off" th:object="${requestMemberInfo}">
                 <input type="hidden" name="gid" th:value="*{gid}">
                 <input type="hidden" name="_method" value="PATCH">
                 <dl>
                     <dt th:text="#{이메일}"></dt>
                     <dd>
                         <div>
-                            <input type="text" name="email" th:value="${session.member.email}" readonly>
+                            <input type="text" name="email" th:field="*{email}" readonly>
                         </div>
                     </dd>
                 </dl>
@@ -22,14 +22,14 @@
                 <dl>
                     <dt th:text="#{아이디}"></dt>
                     <dd>
-                        <input type="text" name="userId" th:value="${session.member.userId}" readonly>
+                        <input type="text" name="userId" th:field="*{userId}" readonly>
                     </dd>
                 </dl>
 
                 <dl>
                     <dt th:text="#{비밀번호}"></dt>
                     <dd>
-                        <input type="password" name="password" th:value="*{password}">
+                        <input type="password" name="password" th:field="*{password}">
                         <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}">></div>
                     </dd>
                 </dl>
@@ -37,7 +37,7 @@
                 <dl>
                     <dt th:text="#{비밀번호_확인}"></dt>
                     <dd>
-                        <input type="password" name="confirmPassword" th:value="*{confirmPassword}">
+                        <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
                         <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}">></div>
                     </dd>
                 </dl>
@@ -103,13 +103,13 @@
                         <dt th:text="#{사업자_번호}"></dt>
                         <dd>
                             <div class="b_no_box">
-                                <input type="text" name="businessPermitNum" th:value="${session.member.businessPermitNum}" readonly>
+                                <input type="text" name="businessPermitNum" th:value="*{businessPermitNum}" readonly>
                             </div>
 
                             <div>
                                 <div id="attached_file">
-                                    <th:block th:if="${session.member.businessPermitFiles != null}">
-                                        <th:block th:each="file : ${session.member.businessPermitFiles}">
+                                    <th:block th:if="*{businessPermitFiles != null}">
+                                        <th:block th:each="file : *{businessPermitFiles}">
                                             <span class="file_tpl_box" th:id="${'file_' + file.seq}">
                                                 <a th:href="@{/file/download/{seq}(seq=${file.seq})}" th:text="${file.fileName}"></a>
                                                   <a th:href="@{/file/delete/{seq}(seq=${file.seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
