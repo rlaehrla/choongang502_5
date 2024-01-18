@@ -10,7 +10,7 @@ import org.choongang.commons.entities.Base;
 @Entity
 @Data @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Table(indexes = @Index(name = "idx_pdt_opt_order", columnList = "listOrder DESC, createdAt ASC"))
+@Table(indexes = @Index(name="idx_product_opt_order", columnList = "listOrder DESC, createdAt ASC"))
 public class ProductOption extends Base {
 
     @Id @GeneratedValue
