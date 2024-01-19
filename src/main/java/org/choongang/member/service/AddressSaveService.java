@@ -1,21 +1,25 @@
 package org.choongang.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.AddressAssist;
+import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AddressSaveService {
     private final AddressRepository repository;
-/*
-    *//**
+    /**
      * 최초등록시 defaultAddress true, 이후 등록시는 false
      *
      *
      * @param seq : memberSeq, 해당 주소를 가지는 멤버 시퀀스
      * @param addressAssist
-     *//*
+     */
     public void save(Long seq, AddressAssist addressAssist){
         boolean defaultAddress = !repository.existByMemberSeq(seq);
 
@@ -31,12 +35,13 @@ public class AddressSaveService {
     }
 
 
-    *//**
+    /**
      * 기존 주소 변경시 사용
      *
      * @param seq : 주소의 seq
      * @param addressAssist
-     *//*
+     */
+
     public void edit(Long seq, AddressAssist addressAssist){
         Address address = repository.findById(seq).orElse(null);
         List<Address> list = new ArrayList<>();
@@ -59,5 +64,5 @@ public class AddressSaveService {
 
         repository.saveAllAndFlush(list);
 
-    }*/
+    }
 }

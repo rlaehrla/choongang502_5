@@ -48,17 +48,11 @@ public class MemberEditService {
 
         /* 회원 권한 설정 E */
 
-        /* 주소 설정 S */
-        List<Address> address = form.getAddress();
-        System.out.println(address);
-        /* 주소 설정 E */
-
         member.setUserId(userId);
         member.setEmail(email);
         member.setUsername(username);
         member.setNickname(nickname);
         member.setTel(tel);
-        member.setAddress(address);
         member.setAuthorities(authoList);
 
         memberRepository.saveAndFlush(member);

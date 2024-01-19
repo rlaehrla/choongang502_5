@@ -3,16 +3,19 @@ package org.choongang.admin.member.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.AdminMenu;
+import org.choongang.commons.AddressAssist;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.MemberRepository;
 import org.choongang.member.service.MemberEditService;
 import org.choongang.member.service.MemberInfoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,16 +98,24 @@ public class MemberController implements ExceptionProcessor {
 
     @GetMapping("/address/{seq}")
     public String address(@PathVariable("seq") Long seq, Model model){
-/*
         Address address = addressRepository.findById(seq).orElse(null);
-        System.out.println("seq"+seq);
+
+        AddressAssist addr = new AddressAssist();
+        addr.setAddress(address.getAddress());
+        addr.setAddressSub(address.getAddressSub());
+        addr.setDefaultAddress(address.isDefaultAddress());
+        addr.setZoneCode(address.getZoneCode());
+        addr.setTitle(address.getTitle());
+
+        RequestAddress form = new RequestAddress();
+        form.setAddr(addr);
 
         List<String> addCommonScript = new ArrayList<>();
 
         addCommonScript.add("address");
 
         model.addAttribute("addCommonScript", addCommonScript);
-        model.addAttribute("requestAddress", form);*/
+        model.addAttribute("requestAddress", form);
         return "admin/member/edit_address";
     }
 
