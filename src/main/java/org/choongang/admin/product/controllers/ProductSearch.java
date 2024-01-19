@@ -10,7 +10,7 @@ public class ProductSearch {
     private int page = 1;
     private int limit = 20;
 
-    private List<String> cateCd;
+    private List<String> cateCd;  // 분류 코드
     private List<Long> seq;
     private String name;
 

@@ -3,6 +3,12 @@ package org.choongang.farmer.management.controllers;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.config.service.ConfigSaveService;
+import org.choongang.board.controllers.BoardDataSearch;
+import org.choongang.board.entities.Board;
+import org.choongang.board.entities.BoardData;
+import org.choongang.board.service.BoardInfoService;
+import org.choongang.board.service.config.BoardConfigInfoService;
+import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.farmer.blog.intro.BlogIntroPost;
 import org.choongang.farmer.management.menus.FarmerMenu;
@@ -28,6 +34,10 @@ public class BlogEditController {
     private final MemberUtil memberUtil ;
     private final ConfigSaveService saveService ;
     private final FileUploadService fileUploadService ;
+
+    private final BoardInfoService boardInfoService;
+    private final BoardConfigInfoService configInfoService; // 게시판 설정 조회 서비스
+    private Board board; // 게시판 설정
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -86,8 +96,15 @@ public class BlogEditController {
      * 소식 관리 페이지
      */
     @GetMapping("/sns")
-    public String sns(Model model) {
+    public String sns(@ModelAttribute BoardDataSearch search, Model model) {
         commonProcess("sns", model);
+
+        String bid = "farmSns" ;
+        search.setUserId(memberUtil.getMember().getUserId());
+        ListData<BoardData> data = boardInfoService.getList(bid, search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "/admin/farmer/blog/sns" ;
     }
@@ -101,6 +118,7 @@ public class BlogEditController {
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
 
         if (mode.equals("intro")) {
             addScript.add("farmer/blog_intro") ;
@@ -109,6 +127,22 @@ public class BlogEditController {
         } else if (mode.equals("sns")) {
             pageTitle = "소식관리" ;
             addScript.add("board/form");
+
+            /* 게시판 설정 처리 S */
+
+            board = configInfoService.get("farmSns"); // 매번 DB조회
+
+            // 스킨별 css, js 추가
+            String skin = board.getSkin();
+            addCss.add("board/skin_" + skin);
+            addScript.add("board/skin_" + skin);
+
+            model.addAttribute("board", board);
+
+            pageTitle = board.getBName(); // 게시판명이 기본 타이틀
+            model.addAttribute("pageTitle", pageTitle);
+
+            /* 게시판 설정 처리 E */
         }
 
         addCommonScript.add("ckeditor5/ckeditor");
