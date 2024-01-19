@@ -55,6 +55,8 @@ public class productController {
 
     @GetMapping("/detail/{seq}/detail")
     public String productDetail(@PathVariable("seq") Long seq, Model model){
+        Product product = productInfoService.get(seq);
+        model.addAttribute("product", product) ;
 
         return utils.tpl("product/detail_sub/_detail");
     }
