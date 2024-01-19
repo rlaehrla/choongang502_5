@@ -4,6 +4,10 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
     <input type="hidden" name="gid" th:field="*{gid}">
+    <input type="hidden" name="requiredIngJSON" th:field="*{requiredIngJSON}">
+    <input type="hidden" name="subIngJSON" th:field="*{subIngJSON}">
+    <input type="hidden" name="condimentsJSON" th:field="*{condimentsJSON}">
+
     <div class="main_image_box">
         <div class="upload_files" id="main_images" data-image-only="true">
             <i class="xi-plus"></i>
@@ -23,33 +27,37 @@
 
     <div class="stit" th:text="#{예상_소요_시간}"></div>
     <div class="rows estimate_times">
-        <input type="radio" name="estimatedT" value="15" id="estimatedT_15">
+        <input type="radio" name="estimatedT" value="15" id="estimatedT_15"
+               th:field="*{estimatedT}">
         <label for="estimatedT_15" th:text="#{15분_컷}"></label>
 
-        <input type="radio" name="estimatedT" value="30" id="estimatedT_30">
+        <input type="radio" name="estimatedT" value="30" id="estimatedT_30"
+               th:field="*{estimatedT}">
         <label for="estimatedT_30" th:text="#{30분_컷}"></label>
 
-        <input type="radio" name="estimatedT" value="45" id="estimatedT_45">
+        <input type="radio" name="estimatedT" value="45" id="estimatedT_45"
+               th:field="*{estimatedT}">
         <label for="estimatedT_45" th:text="#{45분_컷}"></label>
 
-        <input type="radio" name="estimatedT" value="46" id="estimatedT_46">
+        <input type="radio" name="estimatedT" value="46" id="estimatedT_46"
+               th:field="*{estimatedT}">
         <label for="estimatedT_46" th:text="#{46분_컷}"></label>
     </div>
     <div class="rows">
         <div class="stit" th:text="#{카테고리}"></div>
-        <select name="category">
+        <select name="category" th:field="*{category}">
             <option value="" th:text="#{요리_분류}"></option>
         </select>
-        <select name="subCategory">
+        <select name="subCategory" th:field="*{subCategory}">
             <option value="" th:text="#{요리_종류}"></option>
         </select>
     </div>
     <div class="rows">
         <div class="stit" th:text="#{기준량}"></div>
         <div class="amount_box">
-            <button type="button"><i class="xi-minus"></i></button>
-            <input type="number" name="amount" min="1">
-            <button type="button"><i class="xi-plus"></i></button>
+            <button type="button" class="down"><i class="xi-minus"></i></button>
+            <input type="number" name="amount" min="1" max="10"  th:field="*{amount}">
+            <button type="button" class="up"><i class="xi-plus"></i></button>
             <th:block th:text="#{인분}"></th:block>
         </div>
     </div>
