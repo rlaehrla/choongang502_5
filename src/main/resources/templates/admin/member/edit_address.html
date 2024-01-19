@@ -14,18 +14,46 @@
 </head>
 <body>
     <form name="addressFrm" method="post" th:object="${requestAddress}">
-        <input type="hidden" name="seq" th:value="*{seq}">
-        <input type="text" name="zoneCode" readonly th:placeholder="#{우편번호}" id="zoneCode" th:field="*{zoneCode}">
-        <button type="button" class="search_address sbtn" th:text="#{주소_찾기}" data-zonecode-id="zoneCode" data-address-id="address"></button><br>
+        <table class="table_cols mb30">
+            <tr>
+                <th></th>
+                <td>
+                    <input type="hidden" name="seq" th:value="*{seq}">
+                    <input type="text" name="addr.zoneCode" readonly th:placeholder="#{우편번호}" id="zoneCode" th:field="*{addr.zoneCode}">
+                    <button type="button" class="search_address sbtn" th:text="#{주소_찾기}" data-zonecode-id="zoneCode" data-address-id="address"></button>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="text" name="addr.address" readonly  th:placeholder="#{주소}" id="address" th:field="*{addr.address}">
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="text" name="addr.addressSub" th:placeholder="#{나머지_주소}" th:field="*{addr.addressSub}">
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="text" name="addr.title" th:field="*{addr.title}" 소:placeholder="#{배송지명}">
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="checkbox" name="addr.defaultAddress" th:field="*{addr.defaultAddress}" id="defaultAddress">
+                    <label for="defaultAddress">기본 배송지로 설정</label>
 
-        <input type="text" name="address" readonly  th:placeholder="#{주소}" id="address" th:field="*{address}">
-        <input type="text" name="addressSub" th:placeholder="#{나머지_주소}" *{addressSub}>
-
+                </td>
+            </tr>
+        </table>
         <div class="submit_btns">
             <button type="submit" class="btn">등록하기</button>
         </div>
     </form>
-
 </body>
 </html>
 
