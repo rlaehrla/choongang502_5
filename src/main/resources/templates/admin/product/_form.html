@@ -18,7 +18,7 @@
         <tr th:if="${@memberUtil.isAdmin()}">
             <th>판매자</th>
             <td>
-                <th:block th:if="*{mode == 'add'}">
+                <th:block th:if="*{mode != 'edit'}">
                     <select name="farmer" th:field="*{farmer}">
                         <th:block th:each="farmer : ${farmers}">
                             <option th:value="${farmer.userId}" th:text="${farmer.userId}"></option>
@@ -26,7 +26,7 @@
                         </th:block>
                     </select>
                 </th:block>
-                <th:block th:unless="*{mode == 'add'}">
+                <th:block th:if="*{mode == 'edit'}">
                     <th:block th:text="*{farmer}"></th:block>
                 </th:block>
             </td>
