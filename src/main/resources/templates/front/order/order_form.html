@@ -113,8 +113,17 @@
                     <th:block th:text="#{원}"></th:block>
                 </td>
             </tr>
+            <tr>
+                <th th:text="#{결제약관_동의}"></th>
+                <td>
+                    <textarea></textarea>
+                    <input type="checkbox" value="true" name="agree" id="agree">
+                    <label for="agree" th:text="#{결제약관_동의_체크}"></label>
+                </td>
+            </tr>
         </table>
-        <h2 th:text="#{약관_동의}"></h2>
+
+
     </form>
 </main>
 </html>
