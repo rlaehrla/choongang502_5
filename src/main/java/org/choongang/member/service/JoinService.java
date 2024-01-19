@@ -3,6 +3,7 @@ package org.choongang.member.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.AddressAssist;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.constants.Gender;
@@ -80,11 +81,12 @@ public class JoinService {
 
         authoritiesRepository.saveAndFlush(authorities);
 
+        AddressAssist addr =  form.getAddr();
         // 주소 처리
         Address address = Address.builder()
-                .zoneCode(form.getZoneCode())
-                .address(form.getAddress())
-                .addressSub(form.getAddressSub())
+                .zoneCode(addr.getZoneCode())
+                .address(addr.getAddress())
+                .addressSub(addr.getAddressSub())
                 .member(member)
                 .defaultAddress(true)
                 .build();
