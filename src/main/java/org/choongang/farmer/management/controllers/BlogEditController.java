@@ -1,11 +1,18 @@
 package org.choongang.farmer.management.controllers;
 
+import lombok.RequiredArgsConstructor;
+import org.choongang.admin.config.service.ConfigInfoService;
+import org.choongang.admin.config.service.ConfigSaveService;
 import org.choongang.commons.MenuDetail;
+import org.choongang.farmer.blog.intro.BlogIntroPost;
 import org.choongang.farmer.management.menus.FarmerMenu;
+import org.choongang.file.service.FileUploadService;
+import org.choongang.member.MemberUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -14,7 +21,13 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("/farmer/myFarmBlog")
+@RequiredArgsConstructor
 public class BlogEditController {
+
+    private final ConfigInfoService infoService;
+    private final MemberUtil memberUtil ;
+    private final ConfigSaveService saveService ;
+    private final FileUploadService fileUploadService ;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -31,20 +44,32 @@ public class BlogEditController {
      * 소개글 관리
      */
     @GetMapping
-    public String blogIntro(Model model) {
+    public String blogIntro(@ModelAttribute BlogIntroPost intro, Model model) {
         commonProcess("intro", model);
 
-        return "/admin/farmer/blog/introduction";
+        String code = memberUtil.getMember().getUserId() ;
+        intro = infoService.get(code, BlogIntroPost.class).orElseGet(BlogIntroPost::new);
+
+        model.addAttribute("blogIntroPost", intro);
+
+        return "admin/farmer/blog/introduction";
     }
 
     /**
-     * 판매글 관리 뷰 페이지
+     * 소개글 저장
      */
-    @GetMapping("/salesPosts")
-    public String salesPosts(Model model) {
-        commonProcess("salesPosts", model);
+    @PostMapping
+    public String introSave(BlogIntroPost intro, Model model) {
 
-        return "/admin/farmer/blog/salesPosts" ;
+        commonProcess("intro", model);
+
+        String code = memberUtil.getMember().getUserId() ;
+        saveService.save(code, intro);
+        fileUploadService.processDone(intro.getGid());
+
+        model.addAttribute("message", "저장되었습니다.");
+
+        return "admin/farmer/blog/introduction";
     }
 
     /**
@@ -77,16 +102,17 @@ public class BlogEditController {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
-        if (mode.equals("salesPosts")) {
-            pageTitle = "판매글관리" ;
+        if (mode.equals("intro")) {
+            addScript.add("farmer/blog_intro") ;
         } else if (mode.equals("review")) {
             pageTitle = "리뷰관리" ;
         } else if (mode.equals("sns")) {
             pageTitle = "소식관리" ;
+            addScript.add("board/form");
         }
 
         addCommonScript.add("ckeditor5/ckeditor");
-        addScript.add("board/form");
+        addCommonScript.add("fileManager");
 
         model.addAttribute("subMenuCode", mode);
         model.addAttribute("pageTitle", pageTitle);

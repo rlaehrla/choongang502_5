@@ -14,7 +14,6 @@ public class FarmerMenu {
         farmerMenus = new HashMap<>();
         farmerMenus.put("blog", Arrays.asList(
            new MenuDetail("intro", "소개글관리", "/farmer/myFarmBlog"),
-           new MenuDetail("salesPosts", "판매글관리", "/farmer/myFarmBlog/salesPosts"),
            new MenuDetail("review", "후기관리", "/farmer/myFarmBlog/review"),
            new MenuDetail("sns", "소식관리", "/farmer/myFarmBlog/sns")
         ));
