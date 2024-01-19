@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="items">
+<span th:fragment="items" th:object="${cartData}">
     <table class="cart_items">
         <thead>
         <tr>
-            <th>
+            <th th:if="${mode == null || mode != 'order'}">
                 <input type="checkbox" class="checkall" data-target-name="chk" id="checkall">
                 <label for="checkall"></label>
             </th>
@@ -35,8 +35,8 @@
                 <div class="product_name" th:text="*{product.name}"></div>
             </td>
             <td>
-                <span th:text="*{product.salePrice >= 1000 ? #numbers.formatInteger(product.salePrice, 3, 'COMMA') : product.salePrice}"></span>
-                <th:block th:text="#{원}"></th:block>
+                <span class="money" th:text="*{ product.salePrice}"></span>
+                <span th:text="#{원}"></span>
             </td>
             <td th:if="${mode == null || mode != 'order'}">
                 <input type="number" th:name="${'ea_' + status.index}" th:value="*{ea}">
@@ -48,34 +48,34 @@
                 </button>
             </td>
             <td th:unless="${mode == null || mode != 'order'}">
-                <th:block th:text="*{ea}"></th:block>
-                <th:block th:text="#{개}"></th:block>
+                <span th:text="*{ea}"></span>
+                <span th:text="#{개}"></span>
             </td>
             <td>
-                <span th:text="*{totalPrice >= 1000 ? #numbers.formatInteger(totalPrice, 3, 'COMMA') : totalPrice}"></span>
-                <th:block th:text="#{원}"></th:block>
+                <span class="money" th:text="*{totalPrice}"></span>
+                <span th:text="#{원}"></span>
             </td>
             <td>
-                <span th:text="*{totalDiscount >= 1000 ? #numbers.formatInteger(totalDiscount, 3, 'COMMA') : totalDiscount}"></span>
-                <th:block th:text="#{원}"></th:block>
+                <span class="money" th:text="*{totalDiscount}"></span>
+                <span th:text="#{원}"></span>
             </td>
         </tr>
         </tbody>
     </table>
     <div th:if="*{items != null && !items.isEmpty()}" class="cart_summary">
-        <th:block th:text="*{totalPrice >= 1000 ? #numbers.formatInteger(totalPrice, 3, 'COMMA') : totalPrice}"></th:block>(<th:block th:text="#{상품합계}"></th:block>)
+        <span class="money" th:text="*{totalPrice}"></span>(<span th:text="#{상품합계}"></span>)
 
         <i class="xi-plus"></i>
 
-        <th:block th:text="*{totalDeliveryPrice >= 1000 ? #numbers.formatInteger(totalDeliveryPrice, 3, 'COMMA') : totalDeliveryPrice}"></th:block>(<th:block th:text="#{배송비}"></th:block>)
+        <span class="money" th:text="*{totalDeliveryPrice}"></span>(<span th:text="#{배송비}"></span>)
 
         <i class="xi-minus"></i>
 
-        <th:block th:text="*{totalDiscount >= 1000 ? #numbers.formatInteger(totalDiscount, 3, 'COMMA') : totalDiscount}"></th:block>(<th:block th:text="#{할인합계}"></th:block>)
+        <span class="money" th:text="*{totalDiscount}"></span>(<span th:text="#{할인합계}"></span>)
 
-        <i>=</i>
+                <i>=</i>
 
-        <th:block th:text="*{payPrice >= 1000 ? #numbers.formatInteger(payPrice, 3, 'COMMA') : payPrice}"></th:block>(<th:block th:text="#{결제금액}"></th:block>)
+        <span class="money" th:text="*{payPrice}"></span>(<span th:text="#{결제금액}"></span>)
     </div>
     <!--// cart_summary -->
 </th:block>

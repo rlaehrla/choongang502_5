@@ -101,6 +101,22 @@ commonLib.loadEditor = function(id, height) {
     });
 }
 
+
+window.addEventListener("DOMContentLoaded", function() {
+    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 S */
+    const numbers = document.querySelectorAll(".money");
+
+    for(const num of numbers){
+        const el = parseInt(num.innerText).toLocaleString();
+
+        num.innerText = el;
+    }
+
+    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 E */
+
+});
+
+
 commonLib.numberComma = function(num){
     return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
