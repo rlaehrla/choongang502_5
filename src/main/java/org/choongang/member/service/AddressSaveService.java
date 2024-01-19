@@ -1,9 +1,13 @@
 package org.choongang.member.service;
 
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.AddressAssist;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.QAddress;
 import org.choongang.member.repositories.AddressRepository;
+import org.choongang.member.repositories.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AddressSaveService {
     private final AddressRepository repository;
+    private final MemberRepository memberRepository;
+
     /**
      * 최초등록시 defaultAddress true, 이후 등록시는 false
      *
@@ -21,9 +27,20 @@ public class AddressSaveService {
      * @param addressAssist
      */
     public void save(Long seq, AddressAssist addressAssist){
-        boolean defaultAddress = !repository.existByMemberSeq(seq);
+        List<Address> addresses = repository.findByMemberSeq(seq).orElse(null);
+        boolean defaultAddress = true;
+
+        for(Address add : addresses){
+            if(add.isDefaultAddress()){
+                defaultAddress = false;
+                break;
+            }
+        }
+
+        AbstractMember member = memberRepository.findById(seq).orElseThrow(MemberNotFoundException::new);
 
         Address address = Address.builder()
+                .member(member)
                 .address(addressAssist.getAddress())
                 .addressSub(addressAssist.getAddressSub())
                 .title(addressAssist.getTitle())
@@ -43,12 +60,16 @@ public class AddressSaveService {
      */
 
     public void edit(Long seq, AddressAssist addressAssist){
-        Address address = repository.findById(seq).orElse(null);
+        Address address = repository.findById(seq).orElse(null); // 변경할 주소
         List<Address> list = new ArrayList<>();
+
         if(address != null){
-            Address _address = null;
-            if(addressAssist.isDefaultAddress()){
-                _address = repository.findByDefaultAddress(true);
+            /*
+             * 원래 defaultAddress= true로 설정되어있던 주소 -> defaultAddress false로 변경
+             */
+            Address _address = repository.findDefaultAddress(address.getMember().getSeq(), true).orElse(null);
+
+            if(_address != null && addressAssist.isDefaultAddress()){
                 _address.setDefaultAddress(false);
                 list.add(_address);
             }

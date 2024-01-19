@@ -89,7 +89,7 @@
                     <td th:text="${add.address}"></td>
                     <td th:text="${add.addressSub}"></td>
                     <td>
-                        <a th:href="@{/admin/member/address/{seq}(seq=${add.seq})}" class="sbtn">수정하기</a>
+                        <button th:value="${'/admin/member/address/' + add.seq}" class="sbtn addrBtn" type="button">수정하기</button>
                     </td>
                 </tr>
                 <tr th:unless="*{address != null && !address.isEmpty()}">
@@ -105,8 +105,14 @@
     </form>
 <script>
     const { popup } = commonLib;
-    const editAdd = document.getElementById("editAdd");
-    editAdd.onclick = () => popup.open('/admin/member/address', 450, 450);
+    const addrBtns = document.getElementsByClassName("addrBtn");
+
+    for( const el of addrBtns){
+        const link = el.value;
+        console.log("el", el, "el.value", el.value);
+
+        el.onclick = () => popup.open(link, 450, 450);
+    }
 </script>
 </section>
 </html>
