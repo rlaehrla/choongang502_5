@@ -15,7 +15,7 @@ public interface AddressRepository extends JpaRepository<Address, Long>, Queryds
     Address findByDefaultAddress(boolean defaultAddress);
     Optional<List<Address>> findByMemberSeq(Long seq);
 
-    default Optional<Address> findDefaultAddress(Long memberSeq, boolean defaultAddress){
+    default Optional<Address> findDefaultAddress(Long memberSeq){
 
         QAddress address = QAddress.address1;
 

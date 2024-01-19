@@ -67,7 +67,7 @@ public class AddressSaveService {
             /*
              * 원래 defaultAddress= true로 설정되어있던 주소 -> defaultAddress false로 변경
              */
-            Address _address = repository.findDefaultAddress(address.getMember().getSeq(), true).orElse(null);
+            Address _address = repository.findDefaultAddress(address.getMember().getSeq()).orElse(null);
 
             if(_address != null && addressAssist.isDefaultAddress()){
                 _address.setDefaultAddress(false);
