@@ -28,7 +28,7 @@
             <td>
                 <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
                 <a th:href="@{/product/detail/{seq}(seq=*{product.seq})}">
-                    <th:block th:utext="*{@utils.printThumb(listImage, 50, 50, 'product_image')}"></th:block>
+                    <th:block th:if="*{mainImage != null}" th:utext="*{@utils.printThumb(mainImage, 80, 80, 'product_image')}"></th:block>
                 </a>
             </td>
             <td>

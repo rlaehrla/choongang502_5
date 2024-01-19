@@ -126,6 +126,7 @@ public class ProductController implements ExceptionProcessor {
         commonProcess("edit", model);
 
         RequestProduct form = productInfoService.getForm(seq);
+        System.out.println("폼 " + form );
         form.setMode("edit");
 
         String cateNm = categoryInfoService.get(form.getCateCd()).getCateNm();

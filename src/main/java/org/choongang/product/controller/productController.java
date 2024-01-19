@@ -39,14 +39,17 @@ public class productController {
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addCommonCss = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
 
         addCommonScript.add("tab");
         addCommonCss.add("tab");
+        addScript.add("product/detail");
         addCss.add("product/style");
 
         model.addAttribute("product", product);
         model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addScript);
         model.addAttribute("addCommonCss", addCommonCss);
         model.addAttribute("addCommonScript", addCommonScript);
         return utils.tpl("product/view");
@@ -67,11 +70,6 @@ public class productController {
         return utils.tpl("product/detail_sub/_review");
     }
 
-    @GetMapping("/detail/{seq}/ask")
-    public String productAsk(@PathVariable("seq") Long seq, Model model){
-
-        return utils.tpl("product/detail_sub/_ask");
-    }
 
     @GetMapping("/detail/{seq}/exchange")
     public String productExchange(@PathVariable("seq") Long seq, Model model){

@@ -8,6 +8,8 @@ import org.choongang.cart.entities.CartInfo;
 import org.choongang.cart.repositories.CartInfoRepository;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
@@ -26,6 +28,7 @@ import java.util.Objects;
 public class CartSaveService {
 
     private final ProductInfoService productInfoService;
+    private final FileInfoService fileInfoService;
     private final CartInfoRepository cartInfoRepository;
     private final CartInfoService cartInfoService;
     private final HttpServletRequest request;
@@ -40,6 +43,8 @@ public class CartSaveService {
         int uid = memberUtil.isLogin() ? 0 : utils.cartUid();
         Member member = (Member)memberUtil.getMember();
         Product product = productInfoService.get(seq); // 상품 엔티티
+        FileInfo mainImage = fileInfoService.getListDone(product.getGid(), "product_main").get(0);
+        FileInfo listImage = fileInfoService.getListDone(product.getGid(), "product_list").get(0);
 
         // mode - DIRECT -> 기존 바로 구매 상품 삭제
         if (mode.equals("DIRECT")) {
@@ -76,6 +81,8 @@ public class CartSaveService {
                     .uid(uid)
                     .ea(ea)
                     .member(member)
+                    .mainImage(mainImage)
+                    .listImage(listImage)
                     .build();
 
             items.add(item);

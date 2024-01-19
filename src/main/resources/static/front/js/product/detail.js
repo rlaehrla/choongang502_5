@@ -3,27 +3,43 @@
 *
 */
 const productDetails = {
+
+
     /**
     * 구매 수량 변경
     *
     */
-      changeEa(e) {
-            const el = e.currentTarget;
-            const inputEl = el.parentElement.querySelector("input[type='number']");
-            let ea = parseInt(inputEl.value);
-            if (el.classList.contains("down")) { // 수량 감소
-                ea--;
-            } else { // 수량 증가
-                ea++;
-            }
+    changeEa(e) {
+        /* 표기 수량 변경*/
+          const el = e.currentTarget;
+          const inputEl = el.parentElement.querySelector("input[type='number']");
+          let ea = parseInt(inputEl.value);
+          if (el.classList.contains("down")) { // 수량 감소
+              ea--;
+          } else { // 수량 증가
+              ea++;
+          }
 
-            ea = ea < 1 ? 1 : ea;
+          ea = ea < 1 ? 1 : ea;
 
-            inputEl.value = ea;
+          inputEl.value = ea;
+          /* 총 상품 금액 변경 */
+          const totalPrice = document.querySelector("#total_price");
+          const salePrice = document.querySelector("#sale_price").innerText.replace(/,/g, "");
+          const deliveryPrice = document.getElementById("delivery_price");
+
+          if(deliveryPrice != null){
+              const el = deliveryPrice.innerText.replace(/,/g, "") * 1;
+
+              totalPrice.innerText = salePrice * ea + el;
+          }else{
+              totalPrice.innerText = salePrice * ea;
+          }
     }
 };
 
 window.addEventListener("DOMContentLoaded", function() {
+
     /* 상품 메인 썸네일 이벤트 처리 S */
     const thumbs = document.querySelectorAll(".thumbs .thumb");
 
@@ -70,5 +86,17 @@ window.addEventListener("DOMContentLoaded", function() {
             });
         }
     /** 찜하기, 장바구니, 주문하기 버튼 처리 E */
+
+    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 S */
+    const { numberComma } = commonLib;
+    const numbers = document.querySelectorAll(".money");
+
+    for(const num of numbers){
+        const el = numberComma(num.innerText);
+        num.innerText = el;
+    }
+
+    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 E */
+
 
 });

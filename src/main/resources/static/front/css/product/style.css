@@ -4,6 +4,8 @@
 .product_detail .product_main .product_images { width: 550px; margin-right: 30px; }
 .product_detail .product_main .main_image img { width: 100%; }
 .product_detail .product_main .product_info { flex-grow: 1; }
+.product_detail .product_main .product_info .table_sale { border: none; }
+.
 .product_detail .thumbs { display: flex; height: 80px; margin-top: 10px; }
 .product_detail .thumbs .thumb { width: 80px; border: 1px solid #222; cursor: pointer; }
 .product_detail .thumbs .thumb + .thumb { margin-left: 3px; }
