@@ -20,6 +20,7 @@
                 </th:block>
 
                 <span th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></span>
+                <a th:href="@{/cart}" th:text="#{장바구니}"></a>
                 <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
                 <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
 
