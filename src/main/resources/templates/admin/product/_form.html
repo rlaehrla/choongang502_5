@@ -27,6 +27,7 @@
                     </select>
                 </th:block>
                 <th:block th:if="*{mode == 'edit'}">
+                    <input type="hidden" name="farmer" th:value="*{farmer}">
                     <th:block th:text="*{farmer}"></th:block>
                 </th:block>
             </td>
@@ -149,7 +150,7 @@
 
                 <div class="uploaded_files" id="uploaded_files_product_main">
                     <th:block th:each="item : *{mainImages}">
-                        <span th:replace="~{common/_editor_file::item}"></span>
+                        <span th:replace="~{common/_image_file::item}"></span>
                     </th:block>
                 </div>
                 <div class="error" th:each="err : ${#fields.errors('mainImages')}" th:text="${err}"></div>
@@ -166,7 +167,7 @@
             <td>
                 <div class="uploaded_files" id="uploaded_files_product_list">
                     <th:block th:each="item : *{listImages}">
-                        <span th:replace="~{common/_editor_file::item}"></span>
+                        <span th:replace="~{common/_image_file::item}"></span>
                     </th:block>
                 </div>
                 <div class="error" th:each="err : ${#fields.errors('listImages')}" th:text="${err}"></div>
