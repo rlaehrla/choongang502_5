@@ -41,6 +41,10 @@ spring:
     livereload:
       enabled: true
 
+      jackson:
+        serialization:
+          failOnEmptyBeans: false
+
   # 정적 자원 설정(CSS, JS, 이미지)
   web:
     resources:
