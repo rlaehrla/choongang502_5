@@ -41,7 +41,7 @@ public class QCommentData extends EntityPathBase<CommentData> {
 
     public final NumberPath<Long> listOrder = createNumber("listOrder", Long.class);
 
-    public final org.choongang.member.entities.QMember member;
+    public final org.choongang.member.entities.QAbstractMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
@@ -69,7 +69,7 @@ public class QCommentData extends EntityPathBase<CommentData> {
     public QCommentData(Class<? extends CommentData> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.boardData = inits.isInitialized("boardData") ? new QBoardData(forProperty("boardData"), inits.get("boardData")) : null;
-        this.member = inits.isInitialized("member") ? new org.choongang.member.entities.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new org.choongang.member.entities.QAbstractMember(forProperty("member")) : null;
     }
 
 }

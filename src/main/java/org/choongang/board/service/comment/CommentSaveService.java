@@ -7,6 +7,7 @@ import org.choongang.board.entities.BoardData;
 import org.choongang.board.entities.CommentData;
 import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.repositories.CommentDataRepository;
+import org.choongang.board.service.BoardDataNotFoundException;
 import org.choongang.member.MemberUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

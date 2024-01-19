@@ -3,7 +3,7 @@
 <th:block th:fragment="comment" th:if="${board.useComment}">
     <form th:replace="~{front/board/skins/default/_comment_form::form}"></form>
 
-    <th:block th:object="${boardData}" th:if="*{comment != null && !comments.isEmpty()}">
+    <th:block th:object="${boardData}" th:if="*{comments != null && !comments.isEmpty()}">
         <div class="total">
             Total : <th:block th:text="*{commentCount >= 1000 ? #numbers.formatInteger(commentCount, 3, 'COMMA') : commentCount}"></th:block>
         </div>
@@ -15,7 +15,7 @@
                         <th:block th:text="*{commenter}"></th:block>
                         <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
                     </div>
-                    <div th:text="*{#temporals.foemat(createdAt, 'yyyy.MM.dd HH:mm')}"></div>
+                    <div th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></div>
                 </div>
                 <!-- // comment_top -->
                 <div class="comment" th:utext="*{@utils.nl2br(content)}"></div>

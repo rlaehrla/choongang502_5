@@ -11,6 +11,7 @@ import org.choongang.board.entities.QCommentData;
 import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.repositories.CommentDataRepository;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
@@ -81,7 +82,7 @@ public class CommentInfoService {
     private void addCommentInfo(CommentData data) {
         boolean editable = false, deletable = false, mine = false;
 
-        Member _member = data.getMember(); // 댓글을 작성한 회원
+        AbstractMember _member = data.getMember(); // 댓글을 작성한 회원
 
         /*
         * 관리자는 댓글 수정, 삭제 제한 없음

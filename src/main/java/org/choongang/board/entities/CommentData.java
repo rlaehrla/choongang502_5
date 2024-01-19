@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.choongang.commons.entities.Base;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
 
 
@@ -14,7 +15,7 @@ import org.choongang.member.entities.Member;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(indexes = @Index(name = "idx_comment_basic", columnList = "listOrder DESC, createAt ASC"))
+@Table(indexes = @Index(name = "idx_comment_basic", columnList = "listOrder DESC, createdAt ASC"))
 public class CommentData extends Base implements AuthCheck{ // 댓글
 
     @Id @GeneratedValue
@@ -26,7 +27,7 @@ public class CommentData extends Base implements AuthCheck{ // 댓글
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberSeq")
-    private Member member;
+    private AbstractMember member;
 
     @Column(length = 40, nullable = false)
     private String commenter; // 작성자
