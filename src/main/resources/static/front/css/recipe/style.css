@@ -34,4 +34,9 @@ textarea { border: 1px solid #d5d5d5; width: 100%; resize: none; height: 100px; 
 .add_input_item { display: block; width: 100%; height: 40px; }
 
 /* 완료 버튼 */
-.recipe_form .submit_btn { display: block; width: 100%; height: 45px; margin-top: 10px; }
+.recipe_form .submit_btn { display: block; width: 100%; height: 45px;
+ margin-top: 10px; }
+.input_item_box .item_box { display: flex; }
+.input_item_box .item_box input[type='text'] { padding: 0 10px; }
+.input_item_box .item_box input[type='text']:last-of-type { width: 80px; }
+.input_item_box .item_box button { width: 40px; }
