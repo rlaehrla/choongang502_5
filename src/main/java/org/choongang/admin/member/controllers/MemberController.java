@@ -1,7 +1,9 @@
 package org.choongang.admin.member.controllers;
 
+import jakarta.mail.internet.AddressException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.member.service.AddressBadException;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.AddressAssist;
 import org.choongang.commons.ExceptionProcessor;
@@ -13,6 +15,7 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.MemberRepository;
+import org.choongang.member.service.AddressSaveService;
 import org.choongang.member.service.MemberEditService;
 import org.choongang.member.service.MemberInfoService;
 import org.modelmapper.ModelMapper;
@@ -37,6 +40,8 @@ public class MemberController implements ExceptionProcessor {
     private final MemberFormValidator validator;
     private final MemberEditService editService;
     private final AddressRepository addressRepository;
+    private final AddressValidator addressValidator;
+    private final AddressSaveService addressSaveService;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -80,6 +85,7 @@ public class MemberController implements ExceptionProcessor {
         return "admin/member/edit";
     }
 
+
     @PostMapping("/save")
     public String save(@Valid MemberForm form, Errors errors, Model model) {
         String mode = form.getMode();
@@ -109,9 +115,10 @@ public class MemberController implements ExceptionProcessor {
 
         RequestAddress form = new RequestAddress();
         form.setAddr(addr);
+        form.setMemberSeq(address.getMember().getSeq());
+        form.setSeq(seq);
 
         List<String> addCommonScript = new ArrayList<>();
-
         addCommonScript.add("address");
 
         model.addAttribute("addCommonScript", addCommonScript);
@@ -119,6 +126,20 @@ public class MemberController implements ExceptionProcessor {
         return "admin/member/edit_address";
     }
 
+    @PostMapping("/address/save")
+    public String addrPs(RequestAddress form, Errors errors, Model model ){
+
+        addressValidator.validate(form, errors);
+
+        if (errors.hasErrors()){
+            throw new AddressBadException();
+        }
+
+        addressSaveService.edit(form.getSeq(), form.getAddr());
+
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
+    }
 
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "list");

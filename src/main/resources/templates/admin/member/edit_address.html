@@ -13,11 +13,12 @@
     <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
 </head>
 <body>
-    <form name="addressFrm" method="post" th:object="${requestAddress}">
+    <form name="addressFrm" method="post" th:action="@{save}" th:object="${requestAddress}" id="addrFrm">
         <table class="table_cols mb30">
             <tr>
                 <th></th>
                 <td>
+                    <input type="hidden" name="memberSeq" th:value="*{memberSeq}">
                     <input type="hidden" name="seq" th:value="*{seq}">
                     <input type="text" name="addr.zoneCode" readonly th:placeholder="#{우편번호}" id="zoneCode" th:field="*{addr.zoneCode}">
                     <button type="button" class="search_address sbtn" th:text="#{주소_찾기}" data-zonecode-id="zoneCode" data-address-id="address"></button>
@@ -38,7 +39,7 @@
             <tr>
                 <th></th>
                 <td>
-                    <input type="text" name="addr.title" th:field="*{addr.title}" 소:placeholder="#{배송지명}">
+                    <input type="text" name="addr.title" th:field="*{addr.title}" th:placeholder="#{배송지명}">
                 </td>
             </tr>
             <tr>
@@ -51,7 +52,7 @@
             </tr>
         </table>
         <div class="submit_btns">
-            <button type="submit" class="btn">등록하기</button>
+            <button type="submit" class="btn" id="addEditBtn">등록하기</button>
         </div>
     </form>
 </body>
