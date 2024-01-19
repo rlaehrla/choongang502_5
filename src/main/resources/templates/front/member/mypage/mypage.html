@@ -8,6 +8,9 @@
         <a th:href="@{/mypage/diary}" th:text="#{마이_다이어리}"></a>
     </div>
     <div class="row">
+        <a th:href="@{/cart}" th:text="#{장바구니}"></a>
+    </div>
+    <div class="row">
         <th:block th:replace="~{front/member/mypage/_latest_order::latest}"></th:block>
     </div>
     <div class="row">
