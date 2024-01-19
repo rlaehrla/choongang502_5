@@ -31,9 +31,9 @@ const productDetails = {
           if(deliveryPrice != null){
               const el = deliveryPrice.innerText.replace(/,/g, "") * 1;
 
-              totalPrice.innerText = salePrice * ea + el;
+              totalPrice.innerText = (salePrice * ea + el).toLocaleString();
           }else{
-              totalPrice.innerText = salePrice * ea;
+              totalPrice.innerText = (salePrice * ea).toLocaleString();
           }
     }
 };
@@ -92,7 +92,8 @@ window.addEventListener("DOMContentLoaded", function() {
     const numbers = document.querySelectorAll(".money");
 
     for(const num of numbers){
-        const el = numberComma(num.innerText);
+        const el = parseInt(num.innerText).toLocaleString();
+
         num.innerText = el;
     }
 

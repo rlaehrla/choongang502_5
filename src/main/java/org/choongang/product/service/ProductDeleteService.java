@@ -6,6 +6,7 @@ import org.choongang.file.service.FileDeleteService;
 import org.choongang.product.entities.Product;
 import org.choongang.product.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,14 +18,16 @@ public class ProductDeleteService {
     private final ProductRepository productRepository;
     private final Utils utils;
 
+    @Transactional
     public void delete(Long seq) {
         Product product = productInfoService.get(seq);
 
         String gid = product.getGid();
-        fileDeleteService.delete(gid);
 
         productRepository.delete(product);
         productRepository.flush();
+
+        fileDeleteService.delete(gid);
     }
 
     /**
