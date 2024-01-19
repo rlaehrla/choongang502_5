@@ -59,4 +59,10 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // 처음 로딩되면 첫번째 탭(전체) 클릭
     buttons[0].click();
+
+    const selectDone = document.getElementById("select_done");
+    selectDone.addEventListener("click", function() {
+        const { popup } = parent.commonLib;
+        popup.close();
+    });
 });
