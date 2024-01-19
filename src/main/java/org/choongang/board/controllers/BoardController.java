@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.board.controllers.comment.RequestComment;
 import org.choongang.board.entities.Board;
 import org.choongang.board.entities.BoardData;
 import org.choongang.board.service.*;
@@ -55,7 +56,7 @@ public class BoardController implements ExceptionProcessor {
     public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonPrecess(bid, "list", model);
 
-        ListData<BoardData> data = boardInfoService.getList(bid, new BoardDataSearch());
+        ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
@@ -84,6 +85,15 @@ public class BoardController implements ExceptionProcessor {
             model.addAttribute("pagination", data.getPagination());
         }
         // 게시글 보기 하단 목록 노출 E
+
+        // 댓글 커맨드 객체 처리
+        RequestComment requestComment = new RequestComment();
+        if (memberUtil.isLogin()) {
+            requestComment.setCommenter(memberUtil.getMember().getNickname());
+        }
+
+        model.addAttribute("requestComment", requestComment);
+        // 댓글 커맨드 객체 처리 E
 
         return utils.tpl("board/view");
     }
@@ -235,6 +245,7 @@ public class BoardController implements ExceptionProcessor {
         } else if (mode.equals("view")) {
             // pageTitle - 글 제목 - 게시판 명
             pageTitle = String.format("%s | %s", boardData.getSubject(), board.getBName());
+            addScript.add("board/view");
         }
 
         model.addAttribute("addCommonCss", addCommonCss);
