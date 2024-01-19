@@ -96,8 +96,8 @@ public class CartInfoService {
 
         /* 메인, 리스트 이미지 정보 처리 S */
         String gid = product.getGid();
-        List<FileInfo> mainImages = fileInfoService.getListDone(gid, "main");
-        List<FileInfo> listImages = fileInfoService.getListDone(gid, "list");
+        List<FileInfo> mainImages = fileInfoService.getListDone(gid, "product_main");
+        List<FileInfo> listImages = fileInfoService.getListDone(gid, "product_list");
         if (mainImages != null && !mainImages.isEmpty()) {
             item.setMainImage(mainImages.get(0));
         }

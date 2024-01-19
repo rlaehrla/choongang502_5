@@ -82,6 +82,7 @@ public class ProductSaveService {
 
         product.setStatus(form.getStatus());
         product.setDiscountType(form.getDiscountType());
+        product.setDiscount(form.getDiscount());
 
         product.setUseStock(form.isUseStock());
         product.setStock(form.getStock());

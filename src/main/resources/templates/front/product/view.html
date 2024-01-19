@@ -4,6 +4,7 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content" class="product_detail layout_width" th:object="${product}">
     <section class="product_main">
+        <!-- 상품 메인 이미지 S -->
         <div class="product_images">
             <div class="main_image">
                 <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
@@ -11,54 +12,57 @@
             <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
                 <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}" class="thumb" th:data-url="${thumb.fileUrl}"></div>
             </div>
-            <!--// main_image -->
         </div>
+        <!-- 상품 메인 이미지 E -->
+        <!-- 상품 대략적인 정보 S-->
         <div class="product_info">
             <form name="frmSave" method="post" th:action="@{/cart/save}" autocomplete="off" target="ifrmProcess">
                 <input type="hidden" name="mode" value="CART">
-                <input type="hidden" name="seq" th:value="*{seq}">
-                <div th:text="*{name}"></div>
+                <input type="hidden" name="seq" th:value="*{seq}"> <!-- 상품 seq -->
+                <h2 th:text="*{name}"></h2>
 
-                <dl th:if="*{consumerPrice > 0}">
-                    <dt th:text="#{소비자가}"></dt>
-                    <dd>
-                        <del>
-                            <th:block th:text="*{consumerPrice >= 1000 ? #numbers.formatInteger(consumerPrice, 3, 'COMMA') : consumerPrice}"></th:block>
-                            <th:block th:text="#{원}"></th:block>
-                        </del>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt th:text="#{판매가}"></dt>
-                    <dd>
-                        <th:block th:text="*{salePrice >= 1000 ? #numbers.formatInteger(salePrice, 3, 'COMMA') : salePrice}"></th:block>
-                        <th:block th:text="#{원}"></th:block>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt th:text="#{할인가}"></dt>
-                    <dd></dd>
-                </dl>
-                <dl>
-                    <dt th:text="#{배송}"></dt>
-                    <dd th:if="*{packageDelivery}" th:text="#{묶음배송}"></dd>
-                    <dd th:unless="*{packageDelivery}" th:text="#{개별배송}"></dd>
-                </dl>
-                <dl>
-                    <dt th:text="#{배송비}"></dt>
-                    <dd th:if="*{deliveryPrice > 0}">
-                        <th:block th:text="*{deliveryPrice >= 1000 ? #numbers.formatInteger(deliveryPrice, 3, 'COMMA') : deliveryPrice}"></th:block>
-                        <th:block th:text="#{원}"></th:block>
-                    </dd>
-                    <dd th:unless="*{deliveryPrice > 0}" th:text="#{무료배송}"></dd>
-                </dl>
+                <table class="table_sale">
+                    <tr th:if="*{consumerPrice > 0}">
+                        <th th:text="#{소비자가}" width="180"></th>
+                        <td>
+                            <del>
+                                <span class="money" th:text="*{consumerPrice}"></span>
+                                <span th:text="#{원}"></span>
+                            </del>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{판매가}"></th>
+                        <td>
+                            <span class="money" id="sale_price" th:text="*{salePrice}"></span>
+                            <span th:text="#{원}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{할인가}"></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th  th:text="#{배송}"></th>
+                        <td th:if="*{packageDelivery}" th:text="#{묶음배송}"></td>
+                        <td th:unless="*{packageDelivery}" th:text="#{개별배송}"></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{배송비}"></th>
+                        <td th:if="*{deliveryPrice > 0}">
+                            <span class="money" id="delivery_price" th:text="*{deliveryPrice}"></span>
+                            <span th:text="#{원}"></span>
+                        </td>
+                        <td th:unless="*{deliveryPrice > 0}" th:text="#{무료배송}"></td>
+                    </tr>
+                </table>
 
                 <div class="summary">
-                    <div class="tit" th:text="#{총_상품금액}"></div>
+                    <strong class="tit" th:text="#{총_상품금액}"></strong>
                     <div class="info">
-                        <span class="total_price" th:text="*{salePrice >= 1000 ? #numbers.formatInteger(salePrice, 3, 'COMMA') : salePrice}">
+                        <span id="total_price" class="money" th:text="*{salePrice + deliveryPrice}">
                         </span>
-                        <th:block th:text="#{원}"></th:block>
+                        <span th:text="#{원}"></span>
                     </div>
                 </div>
 
@@ -68,7 +72,7 @@
 
                     <div class="option_ea">
                         <div class="ea_box">
-                            <input type="number" name="ea_0" value="1" min="1">
+                            <input type="number" id="ea" name="ea_0" value="1" min="1" readonly>
                             <button type="button" class="change_ea down">
                                 <i class="xi-minus"></i>
                             </button>
@@ -90,6 +94,7 @@
                 </div>
             </form>
         </div>
+        <!-- 상품 대략적인 정보 E -->
     </section>
 
     <section class="widget_tab">
@@ -101,10 +106,6 @@
             <li class="tab">
                 <input type="radio" name="tab" id="review" class="tab" th:value="*{'/product/detail/' + seq + '/review'}">
                 <label for="review">후기</label>
-            </li>
-            <li class="tab">
-                <input type="radio" name="tab" id="ask" class="tab" th:value="*{'/product/detail/' + seq + '/ask'}">
-                <label for="ask">문의</label>
             </li>
             <li class="tab">
                 <input type="radio" name="tab" id="exchange" class="tab" th:value="*{'/product/detail/' + seq + '/exchange'}">
