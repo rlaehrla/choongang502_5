@@ -12,6 +12,7 @@ import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,7 +68,13 @@ public class OrderController implements ExceptionProcessor {
      * @param model
      */
     private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "order";
+        String pageTitle = "주문하기";
+        if(mode.equals("order")){
+            pageTitle = "주문하기";
+        }
 
+        model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
     }
 }
