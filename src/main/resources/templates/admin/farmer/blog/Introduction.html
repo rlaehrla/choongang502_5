@@ -3,8 +3,38 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
-<h1>소개글..</h1>
-    <button type="button">글수정</button>
-    <div th:replace="~{/blog/_blog_intro :: intro_main}"></div>
+<h1>블로그 소개글</h1>
+
+    <div th:replace="~{admin/commons/_message::message}"></div>
+
+    <form name="frmIntro" method="post" th:action="@{/farmer/myFarmBlog}" autocomplete="off" th:object="${blogIntroPost}">
+        <input type="hidden" name="gid" th:field="*{gid}">
+        <h2>소개글 본문</h2>
+
+        <div>
+            <textarea id="introContent" name="introContent" th:field="*{introContent}"></textarea>
+            <button type="button" class="upload_files sbtn"
+                    data-location="blog_intro" data-image-only="true">
+                <i class="xi-image"></i>
+                이미지 추가
+            </button>
+
+            <div class="uploaded_files" id="uploaded_files_blog_intro">
+                <th:block th:each="item : *{introImages}">
+                    <span th:replace="~{common/_editor_file::item}"></span>
+                </th:block>
+            </div>
+        </div>
+
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">저장하기</button>
+        </div>
+
+        <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
+
+    </form>
+
 </section>
+
 </html>
