@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -70,11 +71,17 @@ public class OrderController implements ExceptionProcessor {
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "order";
         String pageTitle = "주문하기";
+
+        List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
+        List<String> addScript = new ArrayList<>();    // 프론트 자바스크립트
+
         if(mode.equals("order")){
             pageTitle = "주문하기";
+            addCommonScript.add("address");
         }
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
+        model.addAttribute("addCommonScript", addCommonScript) ;
     }
 }

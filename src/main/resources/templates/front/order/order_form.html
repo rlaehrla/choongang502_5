@@ -5,7 +5,7 @@
 <main layout:fragment="content">
     <h1 th:text="#{주문서_작성}"></h1>
 
-    <form name="frmOrder" method="post" th:action="@{/order}" autocomplete="off" >
+    <form name="frmOrder" method="post" th:action="@{/order}" autocomplete="off" th:object="${cartData}">
 
         <h2 th:text="#{주문_상품}"></h2>
 
@@ -87,7 +87,7 @@
                     </div>
 
                     <div class="address_rows">
-                        <input type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" readonly>
+                        <input type="text" name="addressSub" th:pleaceholder="#{나머지_주소}">
                     </div>
                 </td>
             </tr>
@@ -145,6 +145,7 @@
         </table>
 
 
+        <button type="submit">결제하기</button>
     </form>
 </main>
 </html>
