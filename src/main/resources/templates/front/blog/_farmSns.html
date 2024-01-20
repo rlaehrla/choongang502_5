@@ -1,3 +1,6 @@
 <div xmlns:th="http://www.thymeleaf.org">
     <h1>소식페이지</h1>
+    <th:block th:if="${board.skin == null || board.skin == 'default'}">
+        <th:block th:replace="~{front/board/skins/default/list::default}"></th:block>
+    </th:block>
 </div>
