@@ -32,7 +32,7 @@ public class productController {
      */
     @GetMapping("/{category}")
     public String product(@PathVariable("category") String category, @ModelAttribute ProductSearch form, Model model){
-        ListData<Product> data = productInfoService.getList(form, true);
+        ListData<Product> data = productInfoService.getProducts(form);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagenation", data.getPagination());

@@ -1,42 +1,22 @@
 package org.choongang.product.service;
 
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
+import com.querydsl.core.BooleanBuilder;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.board.controllers.RequestBoardConfig;
 import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.admin.product.controllers.RequestProduct;
-import org.choongang.file.entities.FileInfo;
-import org.choongang.file.service.FileInfoService;
-import org.choongang.member.constants.Authority;
-import org.choongang.member.entities.Authorities;
-import org.choongang.member.service.MemberInfoService;
-import org.choongang.product.entities.Category;
-import org.modelmapper.ModelMapper;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Service;
-
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Query;
-import com.querydsl.core.QueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.choongang.board.entities.Board;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.UnAuthorizedException;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.entities.Farmer;
-import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.product.constants.ProductStatus;
 import org.choongang.product.entities.Product;
 import org.choongang.product.entities.QProduct;
 import org.choongang.product.repositories.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,9 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
-import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
@@ -200,5 +178,71 @@ public class ProductInfoService {
         return form;
     }
 
+    /**
+     * 미노출, 판매중이 아닌 상품을 제외하고 상품 목록 반환
+     * --> 홈페이지의 상품 목록 출력할 때!
+     */
+    public ListData<Product> getProducts(ProductSearch search) {
+
+        int page = Utils.onlyPositiveNumber(search.getPage(), 1);
+        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
+
+        QProduct product = QProduct.product;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+        /* 검색 조건 처리 S */
+
+        List<String> cateCd = search.getCateCd();
+        List<Long> seq = search.getSeq();
+        List<String> status = search.getStatuses();
+        LocalDate sdate = search.getSdate();
+        LocalDate edate = search.getEdate();
+        String name = search.getName();
+
+        if(cateCd != null && !cateCd.isEmpty()){
+            andBuilder.and(product.category.cateCd.in(cateCd));
+        }
+
+        if (seq != null && !seq.isEmpty()){
+            andBuilder.and(product.seq.in(seq));
+        }
+
+        if(status != null && !status.isEmpty()){
+            List<ProductStatus> _statuses = status.stream().map(ProductStatus::valueOf).toList();
+            andBuilder.and(product.status.in(_statuses));
+        }
+
+        if(sdate != null){
+            andBuilder.and(product.createdAt.goe(LocalDateTime.of(sdate, LocalTime.of(0, 0, 0))));
+        }
+
+        if (edate != null){
+            andBuilder.and(product.createdAt.loe(LocalDateTime.of(edate, LocalTime.of(23, 59, 59))));
+        }
+
+        if(StringUtils.hasText(name)){
+
+            andBuilder.and(product.name.contains(name.trim()));
+        }
+
+        if(true){
+
+            andBuilder.and(product.active.eq(true));
+        }
+
+        /* 검색 조건 처리 E */
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+
+        Page<Product> data = productRepository.findAll(andBuilder, pageable);
+
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
+
+        List<Product> items = data.getContent();
+        items.forEach(this::addProductInfo);
+
+
+        return new ListData<>(items, pagination);
+    }
 
 }
