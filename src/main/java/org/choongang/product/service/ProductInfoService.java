@@ -91,10 +91,6 @@ public class ProductInfoService {
         QProduct product = QProduct.product;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        // 관리자/농부가 아닐 경우 접근 제한
-        if(!memberUtil.isAdmin() && !memberUtil.isFarmer()){
-            throw new UnAuthorizedException();
-        }
 
         /* 검색 조건 처리 S */
 
