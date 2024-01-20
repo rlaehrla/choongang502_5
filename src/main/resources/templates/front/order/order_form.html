@@ -16,22 +16,43 @@
         <table class="table_order">
             <tr>
                 <th th:text="#{주문자_이름}"></th>
-                <td>
-                    <input type="text" name="orderName">
-                </td>
+                <th:block th:if="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderName" th:value="${session.member.username}" disabled>
+                    </td>
+                </th:block>
+                <th:block th:unless="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderName">
+                    </td>
+                </th:block>
             </tr>
             <tr>
                 <th th:text="#{휴대전화번호}"></th>
-                <td>
-                    <input type="text" name="orderCellPhone">
-                </td>
+                <th:block th:if="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderCellPhone" th:value="${session.member.tel}" disabled>
+                    </td>
+                </th:block>
+                <th:block th:unless="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderCellPhone">
+                    </td>
+                </th:block>
             </tr>
 
             <tr>
                 <th th:text="#{이메일}"></th>
-                <td>
-                    <input type="text" name="orderEmail">
-                </td>
+                <th:block th:if="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderEmail" th:value="${session.member.email}" disabled>
+                    </td>
+                </th:block>
+                <th:block th:unless="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderEmail">
+                    </td>
+                </th:block>
             </tr>
 
         </table>
