@@ -1,12 +1,11 @@
 package org.choongang.member.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.AddressAssist;
+import org.choongang.farmer.blog.service.BlogCreateService;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.constants.Authority;
-import org.choongang.member.constants.Gender;
 import org.choongang.member.controllers.JoinValidator;
 import org.choongang.member.controllers.RequestJoin;
 import org.choongang.member.entities.*;
@@ -32,6 +31,7 @@ public class JoinService {
     private final FileUploadService uploadService;
     private final AddressRepository addressRepository;
     private final HttpServletRequest request ;
+    private final BlogCreateService blogCreateService;
 
     public void process(RequestJoin form, Errors errors) {
         joinValidator.validate(form, errors);
@@ -68,6 +68,11 @@ public class JoinService {
             // 농부 회원 --> FARMER 권한 부여
             authorities.setMember(farmer);
             authorities.setAuthority(Authority.FARMER);
+
+            // 블로그 게시판 자동 생성
+            // 블로그의 이름 : farmTitle
+            blogCreateService.create(member.getUserId(), form.getFarmTitle());
+
         } else {
             // 일반 회원
             Member _member = (Member) member;
