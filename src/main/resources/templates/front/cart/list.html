@@ -4,7 +4,7 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
     <h1 th:text="#{장바구니}"></h1>
-    <form name="frmCart" method="post" th:action="@{/cart}" autocomplete="off" target="ifrmProcess">
+    <form name="frmCart" method="post" th:action="@{/cart}" autocomplete="off" target="ifrmProcess"  th:object="${cartData}">
         <input type="hidden" name="mode" value="edit">
 
         <th:block th:replace="~{front/cart/_items::items}"></th:block>

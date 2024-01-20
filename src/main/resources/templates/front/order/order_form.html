@@ -75,7 +75,7 @@
                 <th th:text="#{배송_주소}"></th>
                 <td>
                     <div class="address_rows">
-                        <input type="text" name="zonecode" th:placeholder="#{우편번호}" readonly id="zonecode">
+                        <input type="text" name="addr.zonecode" th:placeholder="#{우편번호}" readonly id="zonecode">
                         <button type="button" class="search_address" data-zonecode-id="zonecode" data-address-id="address">
                             <i class="xi-search"></i>
                             <th:block th:text="#{주소_찾기}"></th:block>
@@ -83,11 +83,11 @@
                     </div>
 
                     <div class="address_rows">
-                        <input type="text" name="address" th:placeholder="#{주소}" readonly id="address">
+                        <input type="text" name="addr.address" th:placeholder="#{주소}" readonly id="address">
                     </div>
 
                     <div class="address_rows">
-                        <input type="text" name="addressSub" th:pleaceholder="#{나머지_주소}">
+                        <input type="text" name="addr.addressSub" th:pleaceholder="#{나머지_주소}">
                     </div>
                 </td>
             </tr>

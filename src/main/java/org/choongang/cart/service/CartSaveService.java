@@ -43,9 +43,15 @@ public class CartSaveService {
         int uid = memberUtil.isLogin() ? 0 : utils.cartUid();
         Member member = (Member)memberUtil.getMember();
         Product product = productInfoService.get(seq); // 상품 엔티티
-        FileInfo mainImage = fileInfoService.getListDone(product.getGid(), "product_main").get(0);
-        FileInfo listImage = fileInfoService.getListDone(product.getGid(), "product_list").get(0);
+        FileInfo mainImage = null;
+        FileInfo listImage = null;
 
+        if(fileInfoService.getListDone(product.getGid(), "product-main") != null){
+            mainImage = fileInfoService.getListDone(product.getGid(), "product-main").get(0);
+        }
+        if(fileInfoService.getListDone(product.getGid(), "product-list") != null){
+            listImage = fileInfoService.getListDone(product.getGid(), "product-list").get(0);
+        }
         // mode - DIRECT -> 기존 바로 구매 상품 삭제
         if (mode.equals("DIRECT")) {
             List<CartInfo> directItems = cartInfoService.getList(CartType.DIRECT);
