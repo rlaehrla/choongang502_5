@@ -5,7 +5,7 @@
 <main layout:fragment="content">
     <section class="contentBox product">
         <div th:each="item : ${items}" th:object="${item}">
-            <a th:href="@{/product/detail{seq}(seq=*{seq})}" >
+            <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                 <img th:src="${사진링크}" />
                 <div class="tag" th:each="tag : ${category}">
                     <span th:text="${tag}"></span>
