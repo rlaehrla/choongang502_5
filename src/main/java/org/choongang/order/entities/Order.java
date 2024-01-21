@@ -9,6 +9,7 @@ import org.choongang.commons.AddressAssist;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 
+/*
 @Entity
 @Data
 
@@ -43,3 +44,4 @@ public class Order {
 
 
 }
+*/

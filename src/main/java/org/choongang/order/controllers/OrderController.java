@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
 @Controller
 @RequestMapping("/order")
 @RequiredArgsConstructor
@@ -32,7 +33,8 @@ public class OrderController implements ExceptionProcessor {
     private final Utils utils;
     private final OrderValidator orderValidator;
 
-    /**
+    */
+/**
      * 주문서 작성
      *
      * @param seq : 장바구니 등록 번호
@@ -41,7 +43,8 @@ public class OrderController implements ExceptionProcessor {
      *                  CART : 장바구니 -> 주문하기
      * @param model
      * @return
-     */
+     *//*
+
     @GetMapping
     public String order(@RequestParam(name="seq", required = false) List<Long> seq,  Model model) {
         commonProcess("order", model);
@@ -78,12 +81,14 @@ public class OrderController implements ExceptionProcessor {
     }
 
 
-    /**
+    */
+/**
      * 주문 공통 처리
      *
      * @param mode
      * @param model
-     */
+     *//*
+
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "order";
         String pageTitle = "주문하기";
@@ -100,4 +105,4 @@ public class OrderController implements ExceptionProcessor {
         model.addAttribute("mode", mode);
         model.addAttribute("addCommonScript", addCommonScript) ;
     }
-}
+}*/

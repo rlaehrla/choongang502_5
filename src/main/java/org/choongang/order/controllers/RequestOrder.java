@@ -6,6 +6,7 @@ import org.choongang.commons.AddressAssist;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 
+/*
 @Data
 public class RequestOrder {
 
@@ -29,3 +30,4 @@ public class RequestOrder {
     private boolean agree; // 결제약관 동의 여부
 
 }
+*/
