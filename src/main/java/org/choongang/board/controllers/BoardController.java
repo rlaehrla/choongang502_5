@@ -11,6 +11,7 @@ import org.choongang.board.service.BoardSaveService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.farmer.blog.service.SellingInfoService;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
@@ -27,9 +28,8 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController extends AbstractBoardController {
 
-
-    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils);
+    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService);
     }
 
     /**
