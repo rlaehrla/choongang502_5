@@ -3,19 +3,30 @@
 <th:block th:fragment="latest">
     <div>
         <div>
-            <th:block th:text="#{최신_주문내역(최근3개월)}"></th:block>
+            <th:block th:text="#{최신_주문내역}"></th:block>
             <table class="table_cols mb30">
                 <tr>
-                    <th th:text="#{주문번호}"></th>
-                    <th th:text="#{주문일}"></th>
-                    <th th:text="#{종류}"></th>
-                    <th th:text="#{가격}"></th>
+                    <th th:text="#{주문번호}" width="100"></th>
+                    <th th:text="#{주문일}" width="100"></th>
+                    <th th:text="#{종류}" width="100"></th>
+                    <th th:text="#{가격}" width="100"></th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                <tr th:if="${orders.isEmpty()}">
+                    <td colspan="4" th:text="#{주문내역_없음}"></td>
+                </tr>
+                <tr th:unless="${orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
+                    <td th:text="*{seq}"></td>
+                    <td th:text="*{createdAt}"></td>
+                    <td></td>
+                    <td th:text="*{payPrice}"></td>
+                    <table class="table_cols" th:each="item : *{orderItems}" th:object="${item}" >
+                        <tr>
+                            <td width="100"></td>
+                            <td width="100"></td>
+                            <td th:text="*{product.name}" width="100"></td>
+                            <td th:text="*{totalPrice}" width="100"></td>
+                        </tr>
+                    </table>
                 </tr>
 
             </table>
