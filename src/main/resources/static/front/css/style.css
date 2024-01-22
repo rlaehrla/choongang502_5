@@ -147,6 +147,7 @@ flex : 1 1 0%
     list-style-type: none;
 }
 /* main - 지도 옆 best E */
+
 /* main - 배너 슬라이드 S */
 .slide {
   /* layout */
@@ -170,7 +171,7 @@ flex : 1 1 0%
   /* layout */
   display: flex;
   align-items: center;
-  justify-content: center;
+  /*justify-content: center;*/
 
   /* position - 버튼 클릭시 left offset값을 적용시키기 위해 */
   position: relative;
@@ -183,7 +184,7 @@ flex : 1 1 0%
   flex-shrink: 0;
 
   /* transition */
-  transition: left 0.15s;
+  transition: left 0.5s;
 }
 .slide_button {
   /* layout */
