@@ -34,7 +34,7 @@ public class RequestOrder {
     private String receiverCellPhone; // 받는분 번호
 
     @NotBlank
-    private Address addr; // 받는사람 주소
+    private AddressAssist addr; // 받는사람 주소
 
     private String deliveryMemo; // 배송 메모
 

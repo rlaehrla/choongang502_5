@@ -35,15 +35,15 @@
                 <div class="product_name" th:text="*{product.name}"></div>
             </td>
             <td>
-                <span class="money" th:text="*{ product.salePrice}"></span>
+                <span class="money" th:text="*{ product.salePrice}" th:id="${'sale_price_' + status.index}"></span>
                 <span th:text="#{원}"></span>
             </td>
             <td th:if="${mode == null || mode != 'order'}">
-                <input type="number" th:name="${'ea_' + status.index}" th:value="*{ea}">
-                <button type="button" class="change_ea down">
+                <input type="number" th:name="${'ea_' + status.index}" th:value="*{ea}" th:id="${'ea_' + status.index}">
+                <button type="button" class="change_ea down" th:data-ea-id="${'ea_' + status.index}" th:data-target-id="${'total_price_' + status.index}" th:data-price="*{product.salePrice}">
                     <i class="xi-minus"></i>
                 </button>
-                <button type="button" class="change_ea up">
+                <button type="button" class="change_ea up" th:data-ea-id="${'ea_' + status.index}" th:data-target-id="${'total_price_' + status.index}" th:data-price="*{product.salePrice}">
                     <i class="xi-plus"></i>
                 </button>
             </td>
@@ -52,7 +52,7 @@
                 <span th:text="#{개}"></span>
             </td>
             <td>
-                <span class="money" th:text="*{totalPrice}"></span>
+                <span class="money" th:text="*{totalPrice}" th:id="${'total_price_' + status.index}"></span>
                 <span th:text="#{원}"></span>
             </td>
             <td>
@@ -63,19 +63,19 @@
         </tbody>
     </table>
     <div th:if="*{items != null && !items.isEmpty()}" class="cart_summary">
-        <span class="money" th:text="*{totalPrice}"></span>(<span th:text="#{상품합계}"></span>)
+        <span class="money" th:text="*{totalPrice}" id="totalPrice"></span>(<span th:text="#{상품합계}"></span>)
 
         <i class="xi-plus"></i>
 
-        <span class="money" th:text="*{totalDeliveryPrice}"></span>(<span th:text="#{배송비}"></span>)
+        <span class="money" th:text="*{totalDeliveryPrice}" id="totalDeliveryPrice"></span>(<span th:text="#{배송비}"></span>)
 
         <i class="xi-minus"></i>
 
-        <span class="money" th:text="*{totalDiscount}"></span>(<span th:text="#{할인합계}"></span>)
+        <span class="money" th:text="*{totalDiscount}" id="totalDiscount"></span>(<span th:text="#{할인합계}"></span>)
 
                 <i>=</i>
 
-        <span class="money" th:text="*{payPrice}"></span>(<span th:text="#{결제금액}"></span>)
+        <span class="money" th:text="*{payPrice}" id="payPrice"></span>(<span th:text="#{결제금액}"></span>)
     </div>
     <!--// cart_summary -->
 </th:block>
