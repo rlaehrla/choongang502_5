@@ -4,7 +4,7 @@
         <section class="contentBox product">
             <div th:each="item : ${products}" th:object="${item}">
                 <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
-                    <img th:src="*{listImages[0].thumbsUrl}" />
+                    <th:bock th:utext="*{@utils.printThumb(mainImages[0].seq, 100, 100, 'product_main')}"></th:bock>
                     <div class="cate" th:each="cate : *{category}">
                         <span th:text="${cate.cateNm}"></span>
                     </div>
