@@ -12,12 +12,15 @@ window.addEventListener("DOMContentLoaded", function() {
                 console.log(this);
 
                 const targetEls = parentEl.getElementsByClassName(targetClass);
+                const downBtn = document.getElementsByClassName("xi-angle-down");
                 for (const ta of targetEls) {
                     const classList = ta.classList;
                     if (classList.contains("hidden")) {
                          classList.remove("hidden");
+                         this.innerHTML = '<i class="fas xi-angle-up"></i>';
                     } else {
                         classList.add("hidden");
+                        this.innerHTML = '<i class="fas xi-angle-down"></i>';
                     }
                 }
             });
