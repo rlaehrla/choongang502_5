@@ -1,0 +1,31 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <h1>판매목록페이지</h1>
+    <th:block th:fragment="sales">
+        <section class="contentBox product">
+            <div th:each="item : ${products}" th:object="${item}">
+                <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
+                    <img th:src="*{listImages[0].thumbsUrl}" />
+                    <div class="cate" th:each="cate : *{category}">
+                        <span th:text="${cate.cateNm}"></span>
+                    </div>
+                    <div th:text="*{name}"></div>
+                    <div>
+                        <span th:text="*{consumerPrice}"></span>
+                        <span th:text="#{돈단위}"></span>
+                        <span>
+                       <th:block th:text="*{discount}"></th:block>
+                       <th:block th:text="#{%}"></th:block>
+                    </span>
+                        <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                    </div>
+                    <div class="star">
+                        <i class="xi-star"></i>
+                        <span th:text="${평점}"></span>
+                    </div>
+                </a>
+            </div>
+        </section>
+        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+
+    </th:block>
+</div>

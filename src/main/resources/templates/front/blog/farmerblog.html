@@ -31,7 +31,7 @@
                     <label for="farmReview" th:text="#{후기}"></label>
                 </li>
                 <li>
-                    <input type="radio" name="blogTab" class="tab" value="/farm/blog/sns" id="farmSns">
+                    <input type="radio" name="blogTab" class="tab" value="'/farm/blog/sns/' + ${farmerId}" id="farmSns">
                     <label for="farmSns" th:text="#{소식}"></label>
                 </li>
             </ul>

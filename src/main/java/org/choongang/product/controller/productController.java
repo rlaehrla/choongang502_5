@@ -1,6 +1,8 @@
 package org.choongang.product.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.product.controllers.ProductSearch;
+import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 
 import org.choongang.product.entities.Product;
@@ -8,6 +10,7 @@ import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,7 +31,11 @@ public class productController {
      * @return
      */
     @GetMapping("/{category}")
-    public String product(@PathVariable("category") String category){
+    public String product(@PathVariable("category") String category, @ModelAttribute ProductSearch form, Model model){
+        ListData<Product> data = productInfoService.getProducts(form);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagenation", data.getPagination());
 
         return utils.tpl("product/list");
     }

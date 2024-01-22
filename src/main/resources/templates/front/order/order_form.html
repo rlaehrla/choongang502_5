@@ -5,7 +5,7 @@
 <main layout:fragment="content">
     <h1 th:text="#{주문서_작성}"></h1>
 
-    <form name="frmOrder" method="post" th:action="@{/order}" autocomplete="off" >
+    <form name="frmOrder" method="post" th:action="@{/order}" autocomplete="off" th:object="${cartData}">
 
         <h2 th:text="#{주문_상품}"></h2>
 
@@ -16,45 +16,68 @@
         <table class="table_order">
             <tr>
                 <th th:text="#{주문자_이름}"></th>
-                <td>
-                    <input type="text" name="orderName">
-                </td>
+                <th:block th:if="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderName" th:value="${session.member.username}" readonly id="orderName">
+                    </td>
+                </th:block>
+                <th:block th:unless="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderName" id="orderName">
+                    </td>
+                </th:block>
             </tr>
             <tr>
                 <th th:text="#{휴대전화번호}"></th>
-                <td>
-                    <input type="text" name="orderCellPhone">
-                </td>
+                <th:block th:if="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderCellPhone" th:value="${session.member.tel}" readonly id="orderCellPhone">
+                    </td>
+                </th:block>
+                <th:block th:unless="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderCellPhone" id="orderCellPhone">
+                    </td>
+                </th:block>
             </tr>
 
             <tr>
                 <th th:text="#{이메일}"></th>
-                <td>
-                    <input type="text" name="orderEmail">
-                </td>
+                <th:block th:if="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderEmail" th:value="${session.member.email}" readonly id="orderEmail">
+                    </td>
+                </th:block>
+                <th:block th:unless="${@memberUtil.isLogin()}">
+                    <td>
+                        <input type="text" name="orderEmail" id="orderEmail">
+                    </td>
+                </th:block>
             </tr>
 
         </table>
 
         <h2 th:text="#{받는분_정보}"></h2>
         <table class="table_order">
+            <input type="checkbox" name="eqOrder" id="eqOrder">
+            <label for="eqOrder" th:text="#{주문자와_동일}"></label>
             <tr>
                 <th th:text="#{받는분_이름}"></th>
                 <td>
-                    <input type="text" name="receiverName">
+                    <input type="text" name="receiverName" id="receiverName">
                 </td>
             </tr>
             <tr>
                 <th th:text="#{휴대전화번호}"></th>
                 <td>
-                    <input type="text" name="receiverCellPhone">
+                    <input type="text" name="receiverCellPhone" id="receiverCellPhone">
                 </td>
             </tr>
             <tr>
                 <th th:text="#{배송_주소}"></th>
                 <td>
                     <div class="address_rows">
-                        <input type="text" name="zonecode" th:placeholder="#{우편번호}" readonly id="zonecode">
+                        <input type="text" name="addr.zoneCode" th:placeholder="#{우편번호}" readonly id="zonecode" th:value="${addr.zoneCode}">
                         <button type="button" class="search_address" data-zonecode-id="zonecode" data-address-id="address">
                             <i class="xi-search"></i>
                             <th:block th:text="#{주소_찾기}"></th:block>
@@ -62,11 +85,11 @@
                     </div>
 
                     <div class="address_rows">
-                        <input type="text" name="address" th:placeholder="#{주소}" readonly id="address">
+                        <input type="text" name="addr.address" th:placeholder="#{주소}" readonly id="address" th:value="${addr.address}">
                     </div>
 
                     <div class="address_rows">
-                        <input type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" readonly>
+                        <input type="text" name="addr.addressSub" th:pleaceholder="#{나머지_주소}" th:value="${addr.addressSub}">
                     </div>
                 </td>
             </tr>
@@ -116,14 +139,28 @@
             <tr>
                 <th th:text="#{결제약관_동의}"></th>
                 <td>
-                    <textarea></textarea>
+                    <textarea th:text="#{결제약관}" readonly></textarea>
                     <input type="checkbox" value="true" name="agree" id="agree">
-                    <label for="agree" th:text="#{결제약관_동의_체크}"></label>
+                    <label for="agree" th:text="#{동의}"></label>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{결제방식}"></th>
+                <td>
+                    <input type="radio" name="payType" value="LBT" id="payType_LBT">
+                    <label for="payType_LBT" th:text="#{무통장입금}"></label>
+                    <input type="radio" name="payType" value="VACCOUNT" id="payType_VACCOUNT">
+                    <label for="payType_VACCOUNT" th:text="#{가상계좌}"></label>
+                    <input type="radio" name="payType" value="CARD" id="payType_CARD">
+                    <label for="payType_CARD" th:text="#{신용카드}"></label>
+                    <input type="radio" name="payType" value="DIRECT" id="payType_DIRECT">
+                    <label for="payType_DIRECT" th:text="#{계좌이체}"></label>
                 </td>
             </tr>
         </table>
 
 
+        <button type="submit">결제하기</button>
     </form>
 </main>
 </html>

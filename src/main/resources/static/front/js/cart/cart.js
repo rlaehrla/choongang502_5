@@ -22,4 +22,24 @@ window.addEventListener("DOMContentLoaded", function() {
             frmCart.submit();
         });
     }
+
+1
+   /* 상품 수량 증가, 감소 처리 S */
+   /*
+   const changeEaEls = document.querySelectorAll(".cart_items .change_ea");
+   for (const el of changeEaEls) {
+       el.addEventListener("click", productDetails.changeEa);
+   }
+    */
+
+   const eaEls = document.querySelectorAll(".cart_items input[type='number']");
+       for (const el of eaEls) {
+           el.addEventListener("blur", function() {
+               let ea = parseInt(this.value);
+               ea = ea < 1 ? 1 : ea;
+               this.value = ea;
+           });
+       }
+
+   /* 상품 수량 증가, 감소 처리 E */
 });
