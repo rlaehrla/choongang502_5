@@ -38,6 +38,8 @@ public class QBoardData extends EntityPathBase<BoardData> {
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
+    public final BooleanPath editorView = createBoolean("editorView");
+
     public final StringPath gid = createString("gid");
 
     public final StringPath guestPw = createString("guestPw");
