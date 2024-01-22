@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <h2>농장 랭킹</h2>
+    <h2 class="max-w-screen-lg flex ma">농장 랭킹</h2>
     <section th:replace="~{front/outlines/_best_farm::farm}">
     </section>
     <section class="rank-sec" name="recipeRank">
