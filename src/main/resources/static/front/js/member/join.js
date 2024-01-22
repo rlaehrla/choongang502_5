@@ -169,12 +169,7 @@ const authCount = {
     }
 };
 
-// 핸드폰 ###-####-#### 자동 하이픈 생성 코드
-const autoHyphen = (target) => {
- target.value = target.value
-   .replace(/[^0-9]/g, '')
-   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-}
+
 
 // join.html 일반회원과 농장주인 탭 전환 시 뷰에 노출할 부분 구별
 // --> session에 mType 저장

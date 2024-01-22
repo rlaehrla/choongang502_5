@@ -11,13 +11,11 @@ var commonLib = commonLib || {};
 commonLib.ajaxLoad = function(method, url, params, responseType) {
     method = !method || !method.trim() ? "GET" : method.toUpperCase();
     params = params || null ;
-
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
 
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-
         xhr.open(method, url);
         xhr.setRequestHeader(header, token);
 
@@ -28,15 +26,10 @@ commonLib.ajaxLoad = function(method, url, params, responseType) {
         }
 
         xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                const resultData = (responseType && responseType.toLowerCase() == 'json') ? JSON.parse(xhr.responseText) : xhr.responseText;
+            if (xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE) {
+                const resultData = responseType == 'json' ? xhr.response : xhr.responseText;
 
-               if (xhr.status == 200) {
-
-                 resolve(resultData); // 성공시 응답 데이터
-                } else {
-                 reject(resultData);
-                }
+                resolve(resultData);    // 성공 시 응답 데이터
             }
         };
 
