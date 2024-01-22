@@ -270,11 +270,14 @@ window.addEventListener("DOMContentLoaded", function() {
             const price = Number(this.dataset.price);
 
             let ea = Number(inputEl.value);
-            const classList = targetEl.classList;
+            let i = 0;
+            const classList = el.classList;
             if (classList.contains('down')) {
                 ea--;
+                i--;
             } else {
                 ea++;
+                i++;
             }
 
             ea = ea < 1 ? 1 : ea;
@@ -282,6 +285,16 @@ window.addEventListener("DOMContentLoaded", function() {
 
             const total = price * ea;
             targetEl.innerText = total.toLocaleString();
+
+
+            const totalPrice = document.querySelector("#ordTotalPrice");
+            const payPrice = document.querySelector("#ordPayPrice");
+            const deliveryPrice = document.querySelector("#ordTotalDeliveryPrice").innerText;
+            const totalDiscount = document.querySelector("#ordTotalDiscount").innerText;
+
+            totalPrice.innerText = Number(totalPrice.innerText) + Number(i) * price;
+            payPrice.innerText = Number(totalPrice.innerText) + Number(deliveryPrice) - Number(totalDiscount);
+
         });
     }
     /* 수량 변경 기능 E */
