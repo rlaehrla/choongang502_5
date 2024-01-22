@@ -10,6 +10,7 @@ import org.choongang.board.service.BoardInfoService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
+import org.choongang.commons.Utils;
 import org.choongang.farmer.blog.intro.BlogIntroPost;
 import org.choongang.farmer.management.menus.FarmerMenu;
 import org.choongang.file.service.FileUploadService;
@@ -54,8 +55,15 @@ public class BlogEditController {
      * 소개글 관리
      */
     @GetMapping
-    public String blogIntro(@ModelAttribute BlogIntroPost intro, Model model) {
+    public String blogIntro(@ModelAttribute BlogIntroPost intro,
+                            @ModelAttribute BlogIntroPost sum,
+                            Model model) {
         commonProcess("intro", model);
+
+        String sumCode = memberUtil.getMember().getUserId() + "_sum" ;
+        sum = infoService.get(sumCode, BlogIntroPost.class).orElseGet(BlogIntroPost::new);
+
+        model.addAttribute("introSum", sum) ;
 
         String code = memberUtil.getMember().getUserId() ;
         intro = infoService.get(code, BlogIntroPost.class).orElseGet(BlogIntroPost::new);
@@ -77,9 +85,23 @@ public class BlogEditController {
         saveService.save(code, intro);
         fileUploadService.processDone(intro.getGid());
 
-        model.addAttribute("message", "저장되었습니다.");
+        String script = String.format("alert('%s'); location.href='/farmer/myFarmBlog';", Utils.getMessage("저장되었습니다.", "commons"));
+        model.addAttribute("script", script);
 
-        return "admin/farmer/blog/introduction";
+        return "common/_execute_script";
+    }
+
+    @PostMapping("/sum")
+    public String introSumSave(BlogIntroPost sum, Model model) {
+        commonProcess("intro", model);
+
+        String code = memberUtil.getMember().getUserId() + "_sum" ;
+        saveService.save(code, sum);
+
+        String script = String.format("alert('%s'); location.href='/farmer/myFarmBlog';", Utils.getMessage("저장되었습니다.", "commons"));
+        model.addAttribute("script", script);
+
+        return "common/_execute_script";
     }
 
     /**

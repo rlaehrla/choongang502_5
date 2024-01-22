@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="default" th:object="${boardData}">
     <div class="board_view layout_width">
 
@@ -15,7 +16,12 @@
                     <th:block th:text="#{작성자}"></th:block> :
                     <th:block th:text="*{poster}"></th:block>
                     <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
+                     <th:block th:if="*{member != null}" sec:authorize="isAuthenticated()">
+                        <button type="button" th:if="*{@followService.followed(member.userId)}" class="follow_action unfollow" th:data-user-id="*{member.userId}">UnFollow</button>
+                        <button type="button" th:unless="*{@followService.followed(member.userId)}" class="follow_action" th:data-user-id="*{member.userId}">Follow</button>
+                   </th:block>
                 </span>
+
                 <span>
                    <th:block th:text="#{조회수}"></th:block> :
                    <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
@@ -28,14 +34,14 @@
                 </span>
                 <span>
                     <th:block th:text="#{작성일시}"></th:block>
-                </span>
-                <span>
                     <th:block th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></th:block>
                 </span>
             </div>
         </div>
         <!-- // post_info -->
-        <div class="content" th:utext="*{content}"></div>
+
+        <div th:if="*{editorView}" class="content" th:utext="*{content}"></div>
+        <div th:if="*{!editorView}" class="content" th:utext="*{@utils.nl2br(content)}"></div>
 
         <ul th:if="*{attachFiles != null && !attachFiles.isEmpty()}" class="downloads">
             <li th:each="file, status : *{attachFiles}" th:object="${file}">
@@ -43,6 +49,12 @@
                 <a th:href="@{/file/download/{seq}(seq=*{seq})}" th:text="*{fileName}"></a>
             </li>
         </ul>
+
+        <div class="share_btns">
+            <button sec:authorize="isAuthenticated()" class="save_post" th:data-seq="*{seq}" th:classappend="*{@saveBoardDataService.saved(seq)} ? 'on'">
+                <i class="xi-star"></i>
+            </button>
+        </div>
 
         <div class="board_btns">
             <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="btn"></a>
@@ -57,8 +69,10 @@
             </th:block>
         </div>
         <!--// btns-->
+
         <!-- 댓글 -->
         <th:block th:replace="~{front/board/skins/default/_comment::comment}"></th:block>
+
     </div>
     <!--// board_view -->
 </th:block>
