@@ -4,24 +4,25 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.cart.constants.CartType;
 import org.choongang.cart.service.CartData;
 import org.choongang.cart.service.CartInfoService;
-import org.choongang.commons.AddressAssist;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
-import org.choongang.order.service.OrderBadException;
+import org.choongang.order.service.OrderNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
 @Controller
 @RequestMapping("/order")
 @RequiredArgsConstructor
@@ -31,10 +32,9 @@ public class OrderController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final AddressRepository addressRepository;
     private final Utils utils;
-    private final OrderValidator orderValidator;
+    private final OrderValidator validator;
 
-    */
-/**
+    /**
      * 주문서 작성
      *
      * @param seq : 장바구니 등록 번호
@@ -42,11 +42,11 @@ public class OrderController implements ExceptionProcessor {
      *                  바로구매(DIRECT) : 상품 상세에서 바로 주문하는 경우
      *                  CART : 장바구니 -> 주문하기
      * @param model
-     * @return
-     *//*
+     * @return*/
+
 
     @GetMapping
-    public String order(@RequestParam(name="seq", required = false) List<Long> seq,  Model model) {
+    public String order(@RequestParam(name="seq", required = false) List<Long> seq, Model model) {
         commonProcess("order", model);
 
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
@@ -69,25 +69,22 @@ public class OrderController implements ExceptionProcessor {
     @PostMapping
     public String orderPs(RequestOrder form, Errors errors, Model model){
 
-        orderValidator.validate(form, errors);
+        validator.validate(form, errors);
 
         if(errors.hasErrors()){
-            throw new OrderBadException();
+
         }
-
-
 
         return "";
     }
 
 
-    */
-/**
+    /**
      * 주문 공통 처리
      *
      * @param mode
      * @param model
-     *//*
+     */
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "order";
@@ -105,4 +102,4 @@ public class OrderController implements ExceptionProcessor {
         model.addAttribute("mode", mode);
         model.addAttribute("addCommonScript", addCommonScript) ;
     }
-}*/
+}
