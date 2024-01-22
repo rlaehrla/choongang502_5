@@ -24,7 +24,9 @@ public class QOrderInfo extends EntityPathBase<OrderInfo> {
 
     public final org.choongang.commons.entities.QBase _super = new org.choongang.commons.entities.QBase(this);
 
-    public final org.choongang.member.entities.QAddress addr;
+    public final StringPath address = createString("address");
+
+    public final StringPath addressSub = createString("addressSub");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -64,6 +66,8 @@ public class QOrderInfo extends EntityPathBase<OrderInfo> {
 
     public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
 
+    public final StringPath zoneCode = createString("zoneCode");
+
     public QOrderInfo(String variable) {
         this(OrderInfo.class, forVariable(variable), INITS);
     }
@@ -82,7 +86,6 @@ public class QOrderInfo extends EntityPathBase<OrderInfo> {
 
     public QOrderInfo(Class<? extends OrderInfo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.addr = inits.isInitialized("addr") ? new org.choongang.member.entities.QAddress(forProperty("addr"), inits.get("addr")) : null;
         this.member = inits.isInitialized("member") ? new org.choongang.member.entities.QAbstractMember(forProperty("member")) : null;
     }
 
