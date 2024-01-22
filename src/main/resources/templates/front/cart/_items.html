@@ -63,19 +63,19 @@
         </tbody>
     </table>
     <div th:if="*{items != null && !items.isEmpty()}" class="cart_summary">
-        <span class="money" th:text="*{totalPrice}" id="totalPrice"></span>(<span th:text="#{상품합계}"></span>)
+        <span class="money" th:text="*{totalPrice}" id="ordTotalPrice"></span>(<span th:text="#{상품합계}"></span>)
 
         <i class="xi-plus"></i>
 
-        <span class="money" th:text="*{totalDeliveryPrice}" id="totalDeliveryPrice"></span>(<span th:text="#{배송비}"></span>)
+        <span class="money" th:text="*{totalDeliveryPrice}" id="ordTotalDeliveryPrice"></span>(<span th:text="#{배송비}"></span>)
 
         <i class="xi-minus"></i>
 
-        <span class="money" th:text="*{totalDiscount}" id="totalDiscount"></span>(<span th:text="#{할인합계}"></span>)
+        <span class="money" th:text="*{totalDiscount}" id="ordTotalDiscount"></span>(<span th:text="#{할인합계}"></span>)
 
                 <i>=</i>
 
-        <span class="money" th:text="*{payPrice}" id="payPrice"></span>(<span th:text="#{결제금액}"></span>)
+        <span class="money" th:text="*{payPrice}" id="ordPayPrice"></span>(<span th:text="#{결제금액}"></span>)
     </div>
     <!--// cart_summary -->
 </th:block>

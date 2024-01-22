@@ -88,7 +88,7 @@ public class CartController implements ExceptionProcessor {
             cartDeleteService.deleteList(chks);
 
         } else if (mode.equals("order")) { // 장바구니 상품 주문
-
+            cartSaveService.saveList(chks);
             String orderUrl = cartInfoService.getOrderUrl(chks);
             script = String.format("parent.location.replace('%s');", orderUrl);
         }
