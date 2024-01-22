@@ -8,10 +8,10 @@ import org.choongang.admin.product.controllers.RequestProduct;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
-import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
+import org.choongang.product.constants.MainCategory;
 import org.choongang.product.constants.ProductStatus;
 import org.choongang.product.entities.Product;
 import org.choongang.product.entities.QProduct;
@@ -178,7 +178,7 @@ public class ProductInfoService {
      * 미노출, 판매중이 아닌 상품을 제외하고 상품 목록 반환
      * --> 홈페이지의 상품 목록 출력할 때!
      */
-    public ListData<Product> getProducts(ProductSearch search) {
+    public ListData<Product> getProducts(MainCategory category, ProductSearch search) {
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
@@ -194,6 +194,10 @@ public class ProductInfoService {
         LocalDate sdate = search.getSdate();
         LocalDate edate = search.getEdate();
         String name = search.getName();
+
+        if (category != null) {
+            andBuilder.and(product.category.mainCategory.eq(category)) ;
+        }
 
         if(cateCd != null && !cateCd.isEmpty()){
             andBuilder.and(product.category.cateCd.in(cateCd));
