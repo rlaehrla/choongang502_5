@@ -33,6 +33,10 @@ public class BlogCreateService {
             form.setBid(blogId);
             form.setActive(true);
             form.setBName("🔔" + farmTitle + "의 소식");
+            form.setUseEditor(true);
+            form.setUseUploadImage(true);
+            form.setUseUploadFile(true);
+            form.setWriteAccessType("FARMER");
 
             boardConfigSaveService.save(form);
         }

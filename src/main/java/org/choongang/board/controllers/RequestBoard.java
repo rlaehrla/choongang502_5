@@ -21,7 +21,7 @@ public class RequestBoard {
     private String poster; // 글 작성자
     private String guestPw; // 비회원 비밀번호
 
-    private Boolean notice; // 공지사항 여부
+    private Boolean notice = false ; // 공지사항 여부
 
     @NotBlank
     private String subject; // 글 제목

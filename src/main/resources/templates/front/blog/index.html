@@ -4,16 +4,37 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content" class="layout_width">
 
+    <section th:object="${farmer}">
+        <th:block th:if="*{profileImage != null}"
+                  th:utext="*{@utils.printThumb(profileImage.seq, 300, 300, 'profile_image')}">
+        </th:block>
+
+        <h1 th:text="*{farmTitle}"></h1>
+    </section>
+    <section>
+        <h3>찜</h3>
+        <h3>판매량 : </h3>
+        <button type="button">1 : 1 문의 채팅</button>
+    </section>
+
     <div class="tabs">
         <a href="?tab=intro" class="tab" th:classappend="${tab == 'intro'} ? 'on'">농장소개</a>
-        <a href="?tab=blog" class="tab" th:classappend="${tab == 'blog'} ? 'on'">블로그</a>
+        <a href="?tab=sales" class="tab" th:classappend="${tab == 'sales'} ? 'on'">판매상품</a>
+        <a href="?tab=review" class="tab" th:classappend="${tab == 'review'} ? 'on'">후기</a>
+        <a href="?tab=sns" class="tab" th:classappend="${tab == 'sns'} ? 'on'">농장소식</a>
     </div>
 
     <div class="tab_content">
         <th:block th:if="${tab == 'intro'}">
             <th:block th:replace="~{front/blog/_intro::intro}"></th:block>
         </th:block>
-        <th:block th:if="${tab == 'blog'}">
+        <th:block th:if="${tab == 'sales'}">
+            <th:block th:replace="~{front/blog/_sales::sales}"></th:block>
+        </th:block>
+        <th:block th:if="${tab == 'review'}">
+            <th:block th:replace="~{front/blog/_review::review}"></th:block>
+        </th:block>
+        <th:block th:if="${tab == 'sns'}">
             <th:block th:replace="~{front/blog/_sns::sns}"></th:block>
         </th:block>
     </div>
