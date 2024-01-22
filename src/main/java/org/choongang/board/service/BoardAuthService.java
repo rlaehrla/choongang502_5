@@ -155,6 +155,10 @@ public class BoardAuthService {
             accessible = true;
         }
 
+        if (target == Authority.FARMER) {
+            accessible = true ;
+        }
+
         if (target == Authority.USER && memberUtil.isLogin()) { // 회원 + 관리자
             accessible = true;
         }

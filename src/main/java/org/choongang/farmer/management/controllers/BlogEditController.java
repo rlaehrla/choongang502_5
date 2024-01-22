@@ -97,11 +97,15 @@ public class BlogEditController {
      */
     @GetMapping("/sns")
     public String sns(@ModelAttribute BoardDataSearch search, Model model) {
-        commonProcess("sns", model);
 
-        String bid = "farmSns" ;
+        String bid = "sns_" + memberUtil.getMember().getUserId() ;
         search.setUserId(memberUtil.getMember().getUserId());
         ListData<BoardData> data = boardInfoService.getList(bid, search);
+
+        /* 게시판 설정 처리 */
+        board = configInfoService.get(bid); // 매번 DB조회
+        model.addAttribute("board", board);
+        commonProcess("sns", model);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
@@ -128,21 +132,11 @@ public class BlogEditController {
             pageTitle = "소식관리" ;
             addScript.add("board/form");
 
-            /* 게시판 설정 처리 S */
-
-            board = configInfoService.get("farmSns"); // 매번 DB조회
-
-            // 스킨별 css, js 추가
             String skin = board.getSkin();
             addCss.add("board/skin_" + skin);
             addScript.add("board/skin_" + skin);
 
-            model.addAttribute("board", board);
-
             pageTitle = board.getBName(); // 게시판명이 기본 타이틀
-            model.addAttribute("pageTitle", pageTitle);
-
-            /* 게시판 설정 처리 E */
         }
 
         addCommonScript.add("ckeditor5/ckeditor");
