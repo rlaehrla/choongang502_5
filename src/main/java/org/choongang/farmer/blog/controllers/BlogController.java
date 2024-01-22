@@ -1,6 +1,7 @@
 package org.choongang.farmer.blog.controllers;
 
 import org.choongang.admin.config.service.ConfigInfoService;
+import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.board.controllers.AbstractBoardController;
 import org.choongang.board.controllers.BoardDataSearch;
 import org.choongang.board.controllers.BoardFormValidator;
@@ -13,11 +14,13 @@ import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 import org.choongang.farmer.blog.intro.BlogIntroPost;
+import org.choongang.farmer.blog.service.SellingInfoService;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
+import org.choongang.product.entities.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +32,15 @@ import java.util.List;
 @RequestMapping("/farm/blog")
 public class BlogController extends AbstractBoardController {
 
-    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils);
+
+    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService);
     }
 
     @GetMapping("/{farmerId}")
     public String index(@PathVariable("farmerId") String farmerId,
                         @RequestParam(name="tab", defaultValue = "intro") String tab,
+                        @ModelAttribute ProductSearch productSearch,
                         @ModelAttribute BoardDataSearch search, Model model) {
 
         // farmer 정보 가져오기
@@ -50,6 +55,8 @@ public class BlogController extends AbstractBoardController {
             model.addAttribute("blogIntroPost", intro);
 
         } else if (tab.equals("sales")) {
+            ListData<Product> products = sellingInfoService.getSellingList(farmerId, productSearch) ;
+            model.addAttribute("products", products.getItems()) ;
 
         } else if (tab.equals("review")) {
 

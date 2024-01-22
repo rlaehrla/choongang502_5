@@ -10,6 +10,7 @@ import org.choongang.board.service.*;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.farmer.blog.service.SellingInfoService;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.service.MemberInfoService;
@@ -36,6 +37,7 @@ public abstract class AbstractBoardController implements ExceptionProcessor{
     protected final MemberUtil memberUtil;
     protected final MemberInfoService memberInfoService ;
     protected final Utils utils;
+    protected final SellingInfoService sellingInfoService ;
 
     protected Board board; // 게시판 설정
     protected BoardData boardData; // 게시글
