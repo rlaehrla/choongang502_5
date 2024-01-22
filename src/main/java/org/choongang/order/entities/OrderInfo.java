@@ -51,7 +51,7 @@ public class OrderInfo extends Base {
     @JoinColumn(name = "addrSeq")
     private Address addr; // 받는사람 주소
 
-    @Column(length = 150, nullable = false)
+    @Column(length = 150)
     private String deliveryMemo; // 배송 메모
 
     private int totalPrice; // 주문시점 상품 합계

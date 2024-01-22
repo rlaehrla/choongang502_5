@@ -9,6 +9,8 @@ import org.choongang.member.entities.QAddress;
 import org.choongang.member.repositories.AddressRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AddressInfoService {
@@ -16,7 +18,7 @@ public class AddressInfoService {
     private final MemberUtil memberUtil;
 
 
-    public boolean exist(AddressAssist addr){
+    public Optional<Address> exist(AddressAssist addr){
         QAddress address = QAddress.address1;
 
         BooleanBuilder builder = new BooleanBuilder();
@@ -25,7 +27,7 @@ public class AddressInfoService {
         builder.and(address.addressSub.eq(addr.getAddressSub()));
         builder.and(address.zoneCode.eq(addr.getZoneCode()));
 
-        return addressRepository.exists(builder);
+        return addressRepository.findOne(builder);
     }
 
 
