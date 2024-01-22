@@ -115,7 +115,7 @@ function nextMove() {
       // 각 슬라이드 아이템의 left에 offset 적용
       slideItems.forEach((i) => {
         // i.setAttribute("style", `transition: ${0}s; left: ${-offset}px`);
-        i.setAttribute("style", `transition: ${0.15}s; left: ${-offset}px`);
+        i.setAttribute("style", `transition: ${0.5}s; left: ${-offset}px`);
       });
     }, 0);
     // // 슬라이드 이동 시 현재 활성화된 pagination 변경
