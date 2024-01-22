@@ -22,7 +22,7 @@
         <div>
 
             <ul th:each="recipe : ${recipes}" th:object="${recipe}">
-                <a th:href="@{/recipe/{seq}(seq=*{id})}">
+                <a th:href="@{/recipe/{seq}(seq=*{seq})}">
                     <li th:text="*{rcpName}"></li>
                     <li th:text="*{userName}"></li>
                 </a>
