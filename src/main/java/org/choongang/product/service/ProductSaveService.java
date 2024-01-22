@@ -67,12 +67,9 @@ public class ProductSaveService {
             } else if (memberUtil.isFarmer()) {
                 farmer = (Farmer)memberUtil.getMember();
             }
-        }else {
-            String farmerId = form.getFarmer();
-            farmer = farmerRepository.findByUserId(farmerId).orElse(null);
+            product.setFarmer(farmer);
         }
 
-        product.setFarmer(farmer);
 
         /* 농부 설정 E */
 
