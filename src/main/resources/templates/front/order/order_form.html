@@ -31,12 +31,12 @@
                 <th th:text="#{휴대전화번호}"></th>
                 <th:block th:if="${@memberUtil.isLogin()}">
                     <td>
-                        <input type="text" name="orderCellPhone" th:value="${session.member.tel}" readonly id="orderCellPhone">
+                        <input type="text" name="orderCellPhone" th:value="${session.member.tel}" readonly id="orderCellPhone" oninput="autoHyphen(this)">
                     </td>
                 </th:block>
                 <th:block th:unless="${@memberUtil.isLogin()}">
                     <td>
-                        <input type="text" name="orderCellPhone" id="orderCellPhone">
+                        <input type="text" name="orderCellPhone" id="orderCellPhone" oninput="autoHyphen(this)">
                     </td>
                 </th:block>
             </tr>
@@ -70,7 +70,7 @@
             <tr>
                 <th th:text="#{휴대전화번호}"></th>
                 <td>
-                    <input type="text" name="receiverCellPhone" id="receiverCellPhone">
+                    <input type="text" name="receiverCellPhone" id="receiverCellPhone" oninput="autoHyphen(this)">
                 </td>
             </tr>
             <tr>

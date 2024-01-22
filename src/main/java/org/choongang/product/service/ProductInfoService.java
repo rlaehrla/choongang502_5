@@ -73,7 +73,7 @@ public class ProductInfoService {
         /* 검색 조건 처리 S */
 
         // 농부는 본인의 상품만 볼 수 있도록
-        if(memberUtil.isFarmer() && !memberUtil.isAdmin()){
+        if(memberUtil.isFarmer()){
             String userId = memberUtil.getMember().getUserId();
             andBuilder.and(product.farmer.userId.eq(userId));
         }
