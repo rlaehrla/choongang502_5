@@ -16,23 +16,6 @@ window.addEventListener("DOMContentLoaded", function() {
     }
     /* 상품 메인 썸네일 이벤트 처리 E */
 
-    /* 상품 수량 증가, 감소 처리 S */
-    const changeEaEls = document.querySelectorAll(".selected_products .change_ea");
-    for (const el of changeEaEls) {
-        el.addEventListener("click", productDetails.changeEa);
-    }
-
-    const eaEls = document.querySelectorAll(".selected_products input[type='number']");
-        for (const el of eaEls) {
-            el.addEventListener("blur", function() {
-                let ea = parseInt(this.value);
-                ea = ea < 1 ? 1 : ea;
-                this.value = ea;
-            });
-        }
-
-    /* 상품 수량 증가, 감소 처리 E */
-
 
     /** 찜하기, 장바구니, 주문하기 버튼 처리 S */
     const productActions = document.getElementsByClassName("product_action");

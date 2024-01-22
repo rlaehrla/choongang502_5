@@ -38,7 +38,7 @@ public class OrderSaveService {
     private final AddressInfoService addressInfoService;
 
 
-    public void save(RequestOrder form){
+    public OrderInfo save(RequestOrder form){
         List<Long> cartSeqs = form.getCartSeq();
         CartData cartData = cartInfoService.getCartInfo(cartSeqs);
 
@@ -51,15 +51,20 @@ public class OrderSaveService {
 
         /* 주소 저장 S */
         AddressAssist address = form.getAddr();
-        System.out.println(address);
-        if(!memberUtil.isLogin()){
-            addressSaveService.save(0L ,address);
-        }else {
+        Address addr = null;
 
-            if(!addressInfoService.exist(address)){
+        if(memberUtil.isLogin()){
+            addr = addressInfoService.exist(address).orElse(null);
+            if(addr != null) {
+                addressSaveService.edit(addr.getSeq(), address);
+            }else{
                 addressSaveService.save(memberUtil.getMember().getSeq(), address);
             }
+        }else {
+            addr = new ModelMapper().map(address, Address.class);
+
         }
+
         /* 주소 저장 E */
 
         /* 주문 정보 저장 S */
@@ -70,6 +75,7 @@ public class OrderSaveService {
         orderInfo.setTotalDiscount(totalDiscount);
         orderInfo.setTotalDeliveryPrice(totalDeliveryPrice);
         orderInfo.setPayPrice(payPrice);
+        orderInfo.setAddr(addr);
         orderInfo.setSeq(5L);
 
         orderInfoRepository.saveAndFlush(orderInfo);
@@ -83,6 +89,7 @@ public class OrderSaveService {
             OrderItem item = OrderItem.builder()
                     .product(product)
                     .optionName(product.getOptionName())
+                    .status(orderInfo.getStatus())
                     .productName(product.getName())
                     .ea(cartItem.getEa())
                     .salePrice(product.getSalePrice())
@@ -93,7 +100,11 @@ public class OrderSaveService {
             items.add(item);
         }
 
+        orderItemRepository.saveAllAndFlush(items);
         /* 주문 상품 정보 저장 E */
+
+
+        return orderInfo;
 
     }
 }
