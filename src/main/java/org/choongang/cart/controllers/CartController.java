@@ -99,13 +99,14 @@ public class CartController implements ExceptionProcessor {
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";
-
+        String pageTitle="장바구니";
 
         List<String> addScript = new ArrayList<>();
         if (mode.equals("list")) { // 장바구니 상품 목록
-            addScript.add("cart/cart");
+            pageTitle = "장바구니";
         }
 
+        addScript.add("cart/cart");
         model.addAttribute("addScript", addScript);
     }
 }

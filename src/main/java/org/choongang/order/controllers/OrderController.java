@@ -11,6 +11,7 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.order.service.OrderNotFoundException;
+import org.choongang.order.service.OrderSaveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -33,6 +34,7 @@ public class OrderController implements ExceptionProcessor {
     private final AddressRepository addressRepository;
     private final Utils utils;
     private final OrderValidator validator;
+    private final OrderSaveService orderSaveService;
 
     /**
      * 주문서 작성
@@ -72,10 +74,17 @@ public class OrderController implements ExceptionProcessor {
         validator.validate(form, errors);
 
         if(errors.hasErrors()){
-
+            return utils.tpl("order");
         }
 
-        return "";
+        orderSaveService.save(form);
+        String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
+                + "location.href='/'";
+
+        model.addAttribute("script", script);
+
+
+        return "common/_execute_script";
     }
 
 
@@ -96,10 +105,12 @@ public class OrderController implements ExceptionProcessor {
         if(mode.equals("order")){
             pageTitle = "주문하기";
             addCommonScript.add("address");
+            addScript.add("order/order");
         }
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
         model.addAttribute("addCommonScript", addCommonScript) ;
+        model.addAttribute("addScript", addScript);
     }
 }

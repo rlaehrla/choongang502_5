@@ -46,10 +46,10 @@ public class CartSaveService {
         FileInfo mainImage = null;
         FileInfo listImage = null;
 
-        if(fileInfoService.getListDone(product.getGid(), "product-main") != null){
+        if(!fileInfoService.getListDone(product.getGid(), "product-main").isEmpty()){
             mainImage = fileInfoService.getListDone(product.getGid(), "product-main").get(0);
         }
-        if(fileInfoService.getListDone(product.getGid(), "product-list") != null){
+        if(!fileInfoService.getListDone(product.getGid(), "product-list").isEmpty()){
             listImage = fileInfoService.getListDone(product.getGid(), "product-list").get(0);
         }
         // mode - DIRECT -> 기존 바로 구매 상품 삭제

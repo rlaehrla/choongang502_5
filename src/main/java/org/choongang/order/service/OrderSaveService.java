@@ -5,7 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.cart.entities.CartInfo;
 import org.choongang.cart.service.CartData;
 import org.choongang.cart.service.CartInfoService;
+import org.choongang.commons.AddressAssist;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Address;
+import org.choongang.member.repositories.AddressRepository;
+import org.choongang.member.service.AddressInfoService;
+import org.choongang.member.service.AddressSaveService;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.constants.PayType;
 import org.choongang.order.controllers.RequestOrder;
@@ -26,8 +31,11 @@ import java.util.List;
 @Transactional
 public class OrderSaveService {
     private final OrderItemRepository orderItemRepository;
+    private final AddressSaveService addressSaveService;
     private final OrderInfoRepository orderInfoRepository;
     private final CartInfoService cartInfoService;
+    private final MemberUtil memberUtil;
+    private final AddressInfoService addressInfoService;
 
 
     public void save(RequestOrder form){
@@ -41,6 +49,18 @@ public class OrderSaveService {
         int payPrice = cartData.getPayPrice();
 
 
+        /* 주소 저장 S */
+        AddressAssist address = form.getAddr();
+        System.out.println(address);
+        if(!memberUtil.isLogin()){
+            addressSaveService.save(0L ,address);
+        }else {
+            if(!addressInfoService.exist(address)){
+                addressSaveService.save(memberUtil.getMember().getSeq(), address);
+            }
+        }
+        /* 주소 저장 E */
+
         /* 주문 정보 저장 S */
         OrderInfo orderInfo = new ModelMapper().map(form, OrderInfo.class);
         orderInfo.setStatus(OrderStatus.READY);
@@ -49,6 +69,7 @@ public class OrderSaveService {
         orderInfo.setTotalDiscount(totalDiscount);
         orderInfo.setTotalDeliveryPrice(totalDeliveryPrice);
         orderInfo.setPayPrice(payPrice);
+        orderInfo.setSeq(5L);
 
         orderInfoRepository.saveAndFlush(orderInfo);
         /* 주문 정보 저장 E */
