@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.member.controllers.MemberForm;
-import org.choongang.admin.product.controllers.RequestProduct;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -18,7 +17,6 @@ import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.constants.Authority;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.controllers.RequestMemberInfo;
 import org.choongang.member.entities.*;
@@ -33,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -57,7 +54,11 @@ public class MemberInfoService implements UserDetailsService {
 
         // 회원 유형에 따라 member 형 변환 처리
         String mType = request.getParameter("mType") ;
-        member = "M".equals(mType) ? (Member)member : (Farmer)member ;
+        if (mType != null && mType.equals("M")) {
+            member = (Member)member ;
+        } else if (mType != null && mType.equals("F")){
+            member = (Farmer)member ;
+        }
 
         if (member instanceof Farmer) {
             member = farmerRepository.findByEmail(username)
@@ -90,7 +91,6 @@ public class MemberInfoService implements UserDetailsService {
         /* 사업자등록증 첨부 파일 처리 E */
 
         System.out.println(member.getAddress());
-        System.out.println(member.getClass().getSimpleName());
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .userId(member.getUserId())
@@ -129,7 +129,7 @@ public class MemberInfoService implements UserDetailsService {
             form.setBusinessPermitNum(farmer.getBusinessPermitNum());
             form.setBusinessPermitFiles(farmer.getBusinessPermitFiles());
         }
-        System.out.println(form);
+
         return form ;
     }
 
