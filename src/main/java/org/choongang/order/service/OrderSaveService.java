@@ -55,6 +55,7 @@ public class OrderSaveService {
         if(!memberUtil.isLogin()){
             addressSaveService.save(0L ,address);
         }else {
+
             if(!addressInfoService.exist(address)){
                 addressSaveService.save(memberUtil.getMember().getSeq(), address);
             }
