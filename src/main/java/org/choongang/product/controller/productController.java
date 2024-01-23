@@ -35,6 +35,11 @@ public class productController {
     public String product(@PathVariable("category") MainCategory category, @ModelAttribute ProductSearch form, Model model){
         ListData<Product> data = productInfoService.getProducts(category, form);
 
+        List<String> addCss = new ArrayList<>();
+
+        addCss.add("product/style");
+
+        model.addAttribute("addCss", addCss);
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagenation", data.getPagination());
 
