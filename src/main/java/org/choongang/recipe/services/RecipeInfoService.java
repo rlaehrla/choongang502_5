@@ -128,7 +128,6 @@ public class RecipeInfoService {
      * @return
      */
     public ListData<Recipe> getList(RecipeDataSearch search) {
-
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 10);
         int offset = (page - 1) * limit;
@@ -139,31 +138,38 @@ public class RecipeInfoService {
         /* 검색 조건 처리 S */
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
+        System.out.println("skey = " + skey);
+        System.out.println("sopt = " + sopt);
 
-        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
+        if(StringUtils.hasText(sopt)){
+            if(sopt.equals("all")) {
+                sopt = "all";
+            } else if(sopt.equals("rcpName")) {
+                sopt = "rcpname";
+            } else if(sopt.equals("member")) {
+                sopt = "member";
+            }
+        }
+
+       //sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
-            //BooleanExpression contentCond = recipe.requiredIng.contains(skey); // 재료 - requiredIng LIKE '%skey%';
+            //BooleanExpression memeberCond = recipe.requiredIng.contains(skey);
+            //BooleanExpression allCond = recipe.requiredIng.contains(skey);
 
-            if (sopt.equals("RCPNAME")) { // 제목
+            if (sopt.equals("rcpname")) { // 제목
                 andBuilder.and(rcpCond);
-           /* } else if (sopt.equals("REQUIREDING")) { // 재료
-                andBuilder.and(contentCond);
-            } else if (sopt.equals("RCPNAME_REQUIREDING")) { // 제목 + 재료
-                BooleanBuilder orBuilder = new BooleanBuilder();
-                orBuilder.or(rcpCond)
-                        .or(contentCond);
-
-                andBuilder.and(orBuilder);*/
-
-            } else if (sopt.equals("MEMBER")) { // 닉네임 + 아이디 + 이름 (OR)
+            } else if (sopt.equals("member")) { // 닉네임 + 아이디 (OR)
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder.or(recipe.member.nickname.contains(skey))
-                        .or(recipe.member.userId.contains(skey))
-                        .or(recipe.member.username.contains(skey));
+                        .or(recipe.member.userId.contains(skey));
                 andBuilder.and(orBuilder);
+            } else if (sopt.equals("all")) {
+                // 닉네임+아이디도 추가해야함
+                andBuilder.and(rcpCond);
+
             }
         }
             /* 검색 조건 처리 E */
