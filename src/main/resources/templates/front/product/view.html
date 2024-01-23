@@ -11,6 +11,7 @@
             </div>
             <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
                 <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}" class="thumb" th:data-url="${thumb.fileUrl}"></div>
+                <div th:each="thumb : *{listImages}" th:style="${@utils.backgroundStyle(thumb)}" class="thumb" th:data-url="${thumb.fileUrl}"></div>
             </div>
         </div>
         <!-- 상품 메인 이미지 E -->
