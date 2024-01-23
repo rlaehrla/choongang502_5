@@ -8,9 +8,11 @@ import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderInfo;
 import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.product.entities.Product;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ import static org.springframework.data.domain.Sort.Order.desc;
 @RequiredArgsConstructor
 public class OrderInfoService {
     private final OrderInfoRepository orderInfoRepository;
+    private final ProductInfoService productInfoService;
     private final MemberUtil memberUtil;
     private final Utils utils;
     private final HttpServletRequest request;
@@ -74,6 +77,15 @@ public class OrderInfoService {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
 
         Page<OrderInfo> data = orderInfoRepository.findAll(andBuilder, pageable);
+
+        for(OrderInfo info : data){
+            List<OrderItem> items = info.getOrderItems();
+            for(OrderItem item : items){
+                Product product = productInfoService.get(item.getProduct().getSeq());
+                item.setProduct(product);
+            }
+        }
+
 
         Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
 

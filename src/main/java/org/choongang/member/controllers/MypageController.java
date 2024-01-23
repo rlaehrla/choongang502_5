@@ -102,6 +102,9 @@ public class MypageController { //implements ExceptionProcessor {
         List<String> addCss = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
+        if(mode.equals("orders") || mode.equals("myPage")){
+            addCss.add("member/mypage/order");
+        }
         addCommonScript.add("tab");
         addCommonCss.add("tab");
 
