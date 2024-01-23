@@ -48,6 +48,8 @@ public class QOrderInfo extends EntityPathBase<OrderInfo> {
 
     public final StringPath orderName = createString("orderName");
 
+    public final NumberPath<Long> orderNo = createNumber("orderNo", Long.class);
+
     public final NumberPath<Integer> payPrice = createNumber("payPrice", Integer.class);
 
     public final EnumPath<org.choongang.order.constants.PayType> payType = createEnum("payType", org.choongang.order.constants.PayType.class);

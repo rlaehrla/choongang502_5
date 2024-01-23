@@ -16,7 +16,9 @@ import org.choongang.product.entities.Product;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -119,6 +121,7 @@ public class CartInfoService {
         int totalPrice = 0, totalDiscount = 0, totalDeliveryPrice = 0, payPrice = 0;
         int totalPackageDeliveryPrice = 0; // 묶음 배송 비용  - 가장 비싼 배송비
         int totalEachDeliveryPrice = 0; // 개별 배송 비용
+        Map<String, Integer> deliveryPrices = new HashMap<>();
 
         List<CartInfo> items = getList(mode, seq);
         for (CartInfo item : items) {
@@ -139,14 +142,19 @@ public class CartInfoService {
 
             // 배송비
             int deliveryPrice = product.getDeliveryPrice();
+            String userId = product.getFarmer().getUserId();
+
             if (product.isPackageDelivery()) { // 묶음 배송
-                totalPackageDeliveryPrice = totalPackageDeliveryPrice > deliveryPrice ? totalPackageDeliveryPrice : deliveryPrice;
+
+                deliveryPrice = deliveryPrices.getOrDefault(userId, 0) > deliveryPrice ?
+                        deliveryPrices.getOrDefault(userId, 0) : deliveryPrice;
+                deliveryPrices.put(userId, deliveryPrice);
             } else {
-                totalEachDeliveryPrice += deliveryPrice; // 개별 배송
+                deliveryPrices.put(userId + "_" + product.getSeq(), deliveryPrice);
             }
         } // endfor
 
-        totalDeliveryPrice = totalPackageDeliveryPrice + totalEachDeliveryPrice; // 배송비
+        totalPackageDeliveryPrice = deliveryPrices.values().stream().mapToInt(Integer::intValue).sum(); // 총 배송비 계산
 
         payPrice = totalPrice + totalDeliveryPrice - totalDiscount; // 결제 금액
 
