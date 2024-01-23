@@ -6,8 +6,8 @@
 
     <section class="contentBox product">
         <div th:if="${items == null or #lists.isEmpty(items)}">
-            <td colspan="6" class="no_data" th:text="${noResultsMessage}"> </td>
-        </div>
+        <td colspan="6" class="no_data" th:text="${noResultsMessage}"> </td>
+    </div>
         <div th:each="item : ${items}" th:object="${item}">
             <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                 <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 100, 100, 'product_main')}"></th:block>
