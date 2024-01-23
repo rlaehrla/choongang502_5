@@ -4,9 +4,22 @@
     --main-color: #596b99;
 }
 /* 타이틀 사진 */
-.title {
-    text-align: center;
-    padding: 50px;
+.logo {
+    position: absolute;
+    top: 57px;
+    left: 0;
+    display: flex;
+    height: 30px;
+}
+.logo a {
+    display: inline-flex;
+    align-items: center;
+}
+.idMenu, .loginPlz {
+    position: absolute;
+    right: 0;
+    top: 52px;
+    display: flex;
 }
 
 html { font-size: 13px; }
