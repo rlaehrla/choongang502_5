@@ -3,6 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
+    <section class="contentBox product">
+        <div class="max-w-screen-lg ma" th:each="item : ${items}" th:object="${item}">
+            <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
+                <th:block th:utext="*{@utils.printThumb(listImages[0].seq, 100, 100, 'product_main')}"></th:block>
+                <div class="cate" th:each="cate : *{category}">
+                    <span th:text="${cate.cateNm}"></span>
+                </div>
     <section class="latestProducts">
         <div class="products" th:each="item : ${items}" th:object="${item}">
             <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
