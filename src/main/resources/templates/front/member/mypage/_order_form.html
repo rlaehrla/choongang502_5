@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="form">
     <div>
-        <th:block th:if="${orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
+        <th:block th:unless="${orders != null && !orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
 
-        <th:block th:unless="${orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
-            <table class="table_cols">
+        <th:block th:if="${orders != null && !orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
+            <table class="table_order">
                 <colgroup>
                     <col>
                     <col style="width:120px">
@@ -16,7 +16,7 @@
                 <tr>
                     <th th:text="*{createdAt}"></th>
                     <th colspan="2">
-                        <a>
+                        <a th:href="@{/order/detail/{seq}(seq=*{seq})}">
                             <span th:text="*{payPrice}"></span>
                             <i class="xi-angle-right"></i>
                         </a>
@@ -25,7 +25,7 @@
                 </thead>
                 <!-- 주문당 요악 E -->
                 <!-- 상품당 요악 S -->
-                <tbody>
+                <tbody th:fragment="table_body">
                 <tr th:if="*{orderItems != null}" th:each="item : *{orderItems}" th:object="${item}">
                     <td>
                         <div class="list-item">

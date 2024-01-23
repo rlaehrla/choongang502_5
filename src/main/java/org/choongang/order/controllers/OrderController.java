@@ -10,16 +10,18 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
+import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.entities.OrderItem;
+import org.choongang.order.service.OrderInfoService;
 import org.choongang.order.service.OrderNotFoundException;
 import org.choongang.order.service.OrderSaveService;
+import org.choongang.product.entities.Product;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class OrderController implements ExceptionProcessor {
     private final Utils utils;
     private final OrderValidator validator;
     private final OrderSaveService orderSaveService;
+    private final OrderInfoService orderInfoService;
+    private final ProductInfoService productInfoService;
 
     /**
      * 주문서 작성
@@ -77,14 +81,26 @@ public class OrderController implements ExceptionProcessor {
             return utils.tpl("order");
         }
 
-        orderSaveService.save(form);
+        OrderInfo orderInfo = orderSaveService.save(form);
+
         String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
-                + "location.href='/'";
+                + "location.href=/order/detail/"+ orderInfo.getSeq()+";";
+
 
         model.addAttribute("script", script);
 
 
         return "common/_execute_script";
+    }
+
+    @GetMapping("/detail/{seq}")
+    public String detail(@PathVariable("seq") Long seq, Model model){
+         commonProcess("detail", model);
+
+         OrderInfo orderInfo = orderInfoService.get(seq);
+
+         model.addAttribute("orderInfo", orderInfo);
+         return utils.tpl("order/order_detail");
     }
 
 
@@ -101,16 +117,20 @@ public class OrderController implements ExceptionProcessor {
 
         List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
         List<String> addScript = new ArrayList<>();    // 프론트 자바스크립트
-
+        List<String> addCss = new ArrayList<>();
         if(mode.equals("order")){
             pageTitle = "주문하기";
             addCommonScript.add("address");
             addScript.add("order/order");
+        }else if(mode.equals("detail")){
+            addCss.add("order/detail");
+            pageTitle = "주문상세";
         }
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
         model.addAttribute("addCommonScript", addCommonScript) ;
         model.addAttribute("addScript", addScript);
+        model.addAttribute("addCss", addCss);
     }
 }

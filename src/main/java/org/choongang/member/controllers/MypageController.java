@@ -96,6 +96,8 @@ public class MypageController { //implements ExceptionProcessor {
 
 
 
+
+
     private void commonProcess(String mode, Model model) {
         List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
         List<String> addCommonCss = new ArrayList<>();    // 공통 자바스크립트
