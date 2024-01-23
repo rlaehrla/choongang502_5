@@ -34,22 +34,13 @@
                 <th:block th:each="recipe : ${recipes}" th:object="${recipe}">
                 [[${recipe}]]
                 <ul>
-
-                    <div class="main_image">
+<!--                    <div class="main_image">
                         <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
                     </div>
                     <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
-                        <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}" class="thumb" th:data-url="${thumb.fileUrl}"></div>
-                    </div>
-
-<!--                        <th:block th:if="${recipe.mainImage != null && !recipe.mainImage.isEmpty()}">
-                        <td width="80" th:utext="${@utils.printThumb(recipe.mainImage[0].seq, 80, 80, 'recipe_main')}"></td>
-                        </th:block>-->
-
-                <!--    <th:block th:unless="${item.mainImages != null && !item.mainImages.isEmpty()}">
-                        <td></td>
-                    </th:block>-->
-
+                        <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}"
+                             class="thumb" th:data-url="${thumb.fileUrl}"></div>
+                    </div>-->
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>

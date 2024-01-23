@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="form" th:object="${requestRecipe}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-
+    <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
     <input type="hidden" name="gid" th:field="*{gid}">
     <input type="hidden" name="requiredIngJSON" th:field="*{requiredIngJSON}">
     <input type="hidden" name="subIngJSON" th:field="*{subIngJSON}">
@@ -81,6 +81,26 @@
         <div class="input_item_box" id="condiments"></div>
         <button type="button" th:text="#{추가}" data-id="condiments" data-name="condiments" class="add_input_item"></button>
     </div>
+    <!-- 만드는 방법 -->
+    <div>
+        <div class="rows">
+            <div class="stit" th:text="#{만드는 방법}"></div>
+            <input type="text" id="content_1" th:field="*{content}">
+            <input type="text" id="content_2" th:field="*{content}">
+
+            <div class="input_item_box" id="howto"></div>
+            <button type="button" th:text="#{단계_추가}" data-id="howto" data-name="howto" class="add_input_item"></button>
+        </div>
+
+        <div class="rows">
+            <div class="stit" th:text="#{TIP}"></div>
+            <!--<input type="text" id="tip_[seq]" th:field="*{tip}">-->
+
+            <div class="input_item_box" id="tip"></div>
+            <button type="button" th:text="#{TIP_추가}" data-id="tip" data-name="tip" class="add_input_item"></button>
+        </div>
+    </div>
     <th:block th:replace="~{common/_file_tpl::image1_tpl}"></th:block>
 </th:block>
+
 </html>

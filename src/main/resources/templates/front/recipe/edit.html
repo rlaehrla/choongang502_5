@@ -4,9 +4,10 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content" class="recipe_form">
     <form name="frmSave" method="post" th:action="@{/recipe/save}" autocomplete="off">
+        <input type="text" th:field="*{seq}">
         <input type="hidden" name="mode" value="edit">
         <th:block th:replace="~{front/recipe/_form::form}"></th:block>
-        <button type="submit" th:text="#{수정}" class="submit_btn"></button>
+        <button type="submit" th:text="#{완료}" class="submit_btn"></button>
     </form>
 </main>
 </html>
