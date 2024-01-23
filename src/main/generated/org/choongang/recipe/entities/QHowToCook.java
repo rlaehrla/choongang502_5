@@ -38,6 +38,8 @@ public class QHowToCook extends EntityPathBase<HowToCook> {
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
+    public final StringPath tip = createString("tip");
+
     public QHowToCook(String variable) {
         this(HowToCook.class, forVariable(variable), INITS);
     }

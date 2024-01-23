@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import org.choongang.cart.service.CartData;
+import org.choongang.commons.AddressAssist;
 import org.choongang.commons.entities.Base;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
@@ -47,9 +48,15 @@ public class OrderInfo extends Base {
     @Column(length = 15, nullable = false)
     private String receiverCellphone; // 받는분 번호
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addrSeq")
-    private Address addr; // 받는사람 주소
+
+    @Column(length=10, nullable = false)
+    private String zoneCode;
+
+    @Column(length=100, nullable = false)
+    private String address;
+
+    @Column(length=100)
+    private String addressSub;
 
     @Column(length = 150)
     private String deliveryMemo; // 배송 메모

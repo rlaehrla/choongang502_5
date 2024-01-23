@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form">
+    <div>
+        <th:block th:if="${orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
+
+        <th:block th:unless="${orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
+            <dl>
+                <dt>
+                    <span th:text="*{createdAt}"></span><span th:text="*{seq}"></span>
+                </dt>
+                <dd>
+                    <table class="table_cols">
+                        <tr>
+                            <th th:text="#{주문_상품}"></th>
+                            <th th:text="#{가격}"></th>
+                        </tr>
+                        <tr th:each="item : *{orderItems}" th:object="${item}">
+                            <td th:text="*{product.name}"></td>
+                            <td th:text="*{totalPrice}"></td>
+                        </tr>
+                    </table>
+                    <strong th:text="*{'결제금액 : ' + payPrice}"></strong>
+                </dd>
+            </dl>
+        </th:block>
+    </div>
+</th:block>
+</html>

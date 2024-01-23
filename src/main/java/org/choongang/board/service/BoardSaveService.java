@@ -59,6 +59,7 @@ public class BoardSaveService {
         data.setSubject(form.getSubject());
         data.setContent(form.getContent());
         data.setCategory(form.getCategory());
+        data.setEditorView(data.getBoard().isUseEditor());
 
         // 추가 필드 - 정수
         data.setNum1(form.getNum1());

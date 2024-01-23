@@ -3,13 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
+
     <section class="contentBox product">
+        <div th:if="${items == null or #lists.isEmpty(items)}">
+            <td colspan="6" class="no_data" th:text="${noResultsMessage}"> </td>
+        </div>
         <div th:each="item : ${items}" th:object="${item}">
             <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                 <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 100, 100, 'product_main')}"></th:block>
-                <div class="cate" th:each="cate : *{category}">
-                    <span th:text="${cate.cateNm}"></span>
-                </div>
                 <div th:text="*{name}"></div>
                 <div>
                     <span th:text="*{consumerPrice}"></span>
@@ -27,7 +28,6 @@
             </a>
         </div>
     </section>
-    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
-</main>
 
+</main>
 </html>

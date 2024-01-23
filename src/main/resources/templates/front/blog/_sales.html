@@ -4,7 +4,7 @@
         <section class="contentBox product">
             <div th:each="item : ${products}" th:object="${item}">
                 <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
-                    <th:bock th:utext="*{@utils.printThumb(mainImages[0].seq, 100, 100, 'product_main')}"></th:bock>
+                    <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 100, 100, 'product_main')}"></th:block>
                     <div class="cate" th:each="cate : *{category}">
                         <span th:text="${cate.cateNm}"></span>
                     </div>
@@ -12,10 +12,10 @@
                     <div>
                         <span th:text="*{consumerPrice}"></span>
                         <span th:text="#{돈단위}"></span>
-                        <span>
-                       <th:block th:text="*{discount}"></th:block>
-                       <th:block th:text="#{%}"></th:block>
-                    </span>
+                        <span th:if="*{discount != 0}">
+                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                           <th:block th:text="#{%}"></th:block>
+                        </span>
                         <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
                     </div>
                     <div class="star">

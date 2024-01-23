@@ -2,10 +2,14 @@ package org.choongang.member.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
+import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.repositories.OrderInfoRepository;
+import org.choongang.order.service.OrderInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,10 +26,15 @@ import java.util.List;
 public class MypageController { //implements ExceptionProcessor {
     private final Utils utils;
     private final MemberUtil memberUtil;
-
+    private final OrderInfoService orderInfoService;
     @GetMapping
     public String myPage(Model model) {
         commonProcess("myPage", model);
+
+        ListData<OrderInfo> orderInfos = orderInfoService.getList(3);
+        List<OrderInfo> orders = orderInfos.getItems();
+
+        model.addAttribute("orders", orders);
         return utils.tpl("member/mypage/mypage");
     }
 
@@ -55,6 +64,11 @@ public class MypageController { //implements ExceptionProcessor {
     @GetMapping("/orders")
     public String orders(Model model) {
         commonProcess("orders", model);
+
+        ListData<OrderInfo> orderInfos = orderInfoService.getList();
+        List<OrderInfo> orders = orderInfos.getItems();
+
+        model.addAttribute("orders", orders);
         return utils.tpl("member/mypage/orders");
     }
 

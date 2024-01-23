@@ -1,6 +1,7 @@
 package org.choongang.order.service;
 
 
+import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
 import org.choongang.cart.entities.CartInfo;
 import org.choongang.cart.service.CartData;
@@ -9,7 +10,6 @@ import org.choongang.commons.AddressAssist;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
-import org.choongang.member.service.AddressInfoService;
 import org.choongang.member.service.AddressSaveService;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.constants.PayType;
@@ -35,8 +35,7 @@ public class OrderSaveService {
     private final OrderInfoRepository orderInfoRepository;
     private final CartInfoService cartInfoService;
     private final MemberUtil memberUtil;
-    private final AddressInfoService addressInfoService;
-
+    private final AddressRepository addressRepository;
 
     public OrderInfo save(RequestOrder form){
         List<Long> cartSeqs = form.getCartSeq();
@@ -51,32 +50,41 @@ public class OrderSaveService {
 
         /* 주소 저장 S */
         AddressAssist address = form.getAddr();
-        Address addr = null;
 
         if(memberUtil.isLogin()){
-            addr = addressInfoService.exist(address).orElse(null);
+            Address addr = addressRepository.findExists(memberUtil.getMember().getSeq(), address).orElse(null);
             if(addr != null) {
                 addressSaveService.edit(addr.getSeq(), address);
             }else{
                 addressSaveService.save(memberUtil.getMember().getSeq(), address);
             }
-        }else {
-            addr = new ModelMapper().map(address, Address.class);
-
         }
 
         /* 주소 저장 E */
 
         /* 주문 정보 저장 S */
-        OrderInfo orderInfo = new ModelMapper().map(form, OrderInfo.class);
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOrderName(form.getOrderName());
+        orderInfo.setOrderCellphone(form.getOrderCellPhone());
+        orderInfo.setOrderEmail(form.getOrderEmail());
+        orderInfo.setReceiverName(form.getReceiverName());
+        orderInfo.setReceiverCellphone(form.getReceiverCellPhone());
+        orderInfo.setDeliveryMemo(form.getDeliveryMemo());
         orderInfo.setStatus(OrderStatus.READY);
         orderInfo.setPayType(PayType.valueOf(form.getPayType()));
         orderInfo.setTotalPrice(totalPrice);
         orderInfo.setTotalDiscount(totalDiscount);
         orderInfo.setTotalDeliveryPrice(totalDeliveryPrice);
         orderInfo.setPayPrice(payPrice);
-        orderInfo.setAddr(addr);
+        orderInfo.setZoneCode(form.getAddr().getZoneCode());
+        orderInfo.setAddress(form.getAddr().getAddress());
+        orderInfo.setAddressSub(form.getAddr().getAddressSub());
         orderInfo.setSeq(5L);
+
+        if(memberUtil.isLogin()){
+            orderInfo.setMember(memberUtil.getMember());
+        }
+
 
         orderInfoRepository.saveAndFlush(orderInfo);
         /* 주문 정보 저장 E */

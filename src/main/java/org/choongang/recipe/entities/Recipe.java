@@ -1,10 +1,7 @@
 package org.choongang.recipe.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.choongang.board.entities.CommentData;
 import org.choongang.commons.entities.Base;
 import org.choongang.file.entities.FileInfo;
@@ -49,6 +46,9 @@ public class Recipe extends Base {
     @Column(length = 20) //, nullable = false)
     private String subCategory;
 
+    @ToString.Exclude // StackOverflowError 해결 방안
+    @OneToMany(mappedBy = "recipe")
+    private List<HowToCook> howToCook;
 
     //@ManyToMany
     //private List<String> tags = new ArrayList<>();

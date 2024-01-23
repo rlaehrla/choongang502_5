@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class ProductController implements ExceptionProcessor {
     private final MemberInfoService memberInfoService;
     private final ProductInfoService productInfoService;
     private final ProductDeleteService productDeleteService;
+    private final CategoryDeleteService categoryDeleteService;
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "product";
@@ -150,7 +152,6 @@ public class ProductController implements ExceptionProcessor {
     public String deleteList(@RequestParam("chk") List<Integer> chks, Model model){
         commonProcess("list", model);
 
-        System.out.println("chks : " + chks);
 
         productDeleteService.deleteList(chks);
         model.addAttribute("script", "parent.location.reload();");
@@ -191,8 +192,10 @@ public class ProductController implements ExceptionProcessor {
         }
 */
         List<Category> items = categoryInfoService.getList();
+        Month[] months = Month.values();
 
         model.addAttribute("items", items);
+        model.addAttribute("months", months);
 
 
         return "admin/product/category";
@@ -231,6 +234,8 @@ public class ProductController implements ExceptionProcessor {
     public String categoryEdit(@RequestParam("chk") List<Integer> chks, Model model){
         commonProcess("category", model);
 
+        categorySaveService.saveList(chks);
+
         // 수정 완료 -> 새로고침
         model.addAttribute("script", "parent.location.reload()");
 
@@ -244,6 +249,7 @@ public class ProductController implements ExceptionProcessor {
 
         commonProcess("category", model);
 
+        categoryDeleteService.deleteList(chks);
         // 삭제 완료 -> 새로고침
         model.addAttribute("script", "parent.location.reload()");
         return "common/_execute_script";

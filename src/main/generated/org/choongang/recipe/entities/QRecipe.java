@@ -37,6 +37,8 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final StringPath gid = createString("gid");
 
+    public final ListPath<HowToCook, QHowToCook> howToCook = this.<HowToCook, QHowToCook>createList("howToCook", HowToCook.class, QHowToCook.class, PathInits.DIRECT2);
+
     public final org.choongang.member.entities.QAbstractMember member;
 
     //inherited

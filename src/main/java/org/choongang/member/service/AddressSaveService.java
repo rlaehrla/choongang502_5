@@ -61,7 +61,6 @@ public class AddressSaveService {
 
     public void edit(Long seq, AddressAssist addressAssist){
         Address address = repository.findById(seq).orElse(null); // 변경할 주소
-        List<Address> list = new ArrayList<>();
 
         if(address != null){
             /*
@@ -71,19 +70,18 @@ public class AddressSaveService {
 
             if(_address != null && addressAssist.isDefaultAddress()){
                 _address.setDefaultAddress(false);
-                list.add(_address);
+                repository.saveAndFlush(_address);
             }
 
+            address.setSeq(address.getSeq());
             address.setTitle(addressAssist.getTitle());
             address.setZoneCode(addressAssist.getZoneCode());
             address.setAddress(addressAssist.getAddress());
             address.setAddressSub(addressAssist.getAddressSub());
             address.setDefaultAddress(addressAssist.isDefaultAddress());
 
-            list.add(address);
         }
 
-        repository.saveAllAndFlush(list);
-
+        repository.saveAndFlush(address);
     }
 }
