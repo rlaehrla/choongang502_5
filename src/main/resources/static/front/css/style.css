@@ -102,7 +102,6 @@ flex : 1 1 0%
 }
 .cate_all {
     text-align: center; /* 카테고리 */
-    padding: 0 0 30px 0;
 }
 .cate_all a {
     font-size: 20px;
@@ -429,7 +428,7 @@ li {
         flex-wrap: wrap;
         margin: 0 auto; /* 좌우 여백 설정 */
         max-width: 1200px; /* 최대 너비 설정 */
-        padding: 100px 0 50px 0;
+        padding: 20px 0 50px 0;
     }
 
     .products {

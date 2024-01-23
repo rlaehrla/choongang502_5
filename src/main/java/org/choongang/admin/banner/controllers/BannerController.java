@@ -28,13 +28,15 @@ public class BannerController {
 
     @GetMapping
     public String list(Model model){
-
         commonProcess("list", model);
         return "admin/banner/list";
     }
     @GetMapping("/add")
     public String add(Model model){
         commonProcess("add", model);
+
+
+
         return "admin/banner/add";
     }
 
