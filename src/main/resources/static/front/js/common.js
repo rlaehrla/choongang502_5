@@ -1,3 +1,41 @@
+/**
+* 상품 상세 기능 모음
+*
+*/
+const productDetails = {
+    /**
+    * 구매 수량 변경
+    *
+    */
+    changeEa(e) {
+        /* 표기 수량 변경*/
+          const el = e.currentTarget;
+          const inputEl = el.parentElement.querySelector("input[type='number']");
+          let ea = parseInt(inputEl.value);
+          if (el.classList.contains("down")) { // 수량 감소
+              ea--;
+          } else { // 수량 증가
+              ea++;
+          }
+
+          ea = ea < 1 ? 1 : ea;
+
+          inputEl.value = ea;
+
+          /* 총 상품 금액 변경 */
+          const totalPrice = document.querySelector("#total_price");
+          const salePrice = document.querySelector("#sale_price").innerText.replace(/,/g, "");
+          const deliveryPrice = document.getElementById("delivery_price");
+
+          if(deliveryPrice != null){
+              const el = deliveryPrice.innerText.replace(/,/g, "") * 1;
+
+              totalPrice.innerText = (salePrice * ea + el).toLocaleString();
+          }else{
+              totalPrice.innerText = (salePrice * ea).toLocaleString();
+          }
+    }
+};
 
 // 슬라이크 전체 크기(width 구하기)
 document.addEventListener('DOMContentLoaded', function() {
@@ -77,7 +115,7 @@ function nextMove() {
       // 각 슬라이드 아이템의 left에 offset 적용
       slideItems.forEach((i) => {
         // i.setAttribute("style", `transition: ${0}s; left: ${-offset}px`);
-        i.setAttribute("style", `transition: ${0.15}s; left: ${-offset}px`);
+        i.setAttribute("style", `transition: ${0.5}s; left: ${-offset}px`);
       });
     }, 0);
     // // 슬라이드 이동 시 현재 활성화된 pagination 변경
@@ -222,5 +260,45 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
     /* 전체 선택 토글 기능 E */
+
+    /* 수량 변경 기능 S */
+    const changeEaEls = document.getElementsByClassName("change_ea");
+    for (const el of changeEaEls) {
+        el.addEventListener("click", function() {
+            const targetEl = document.getElementById(this.dataset.targetId);
+            const inputEl = document.getElementById(this.dataset.eaId);
+            const price = Number(this.dataset.price);
+
+            let ea = Number(inputEl.value);
+            let i = 0;
+            const classList = el.classList;
+            if (classList.contains('down')) {
+                ea--;
+                i--;
+            } else {
+                ea++;
+                i++;
+            }
+
+            ea = ea < 1 ? 1 : ea;
+            inputEl.value = ea;
+
+            const total = price * ea;
+            targetEl.innerText = total.toLocaleString();
+
+
+            const totalPrice = document.querySelector("#ordTotalPrice");
+            const payPrice = document.querySelector("#ordPayPrice");
+            const deliveryPrice = document.querySelector("#ordTotalDeliveryPrice").innerText;
+            const totalDiscount = document.querySelector("#ordTotalDiscount").innerText;
+
+            totalPrice.innerText = Number(totalPrice.innerText) + Number(i) * price;
+            payPrice.innerText = Number(totalPrice.innerText) + Number(deliveryPrice) - Number(totalDiscount);
+
+        });
+    }
+    /* 수량 변경 기능 E */
 });
+
+
 

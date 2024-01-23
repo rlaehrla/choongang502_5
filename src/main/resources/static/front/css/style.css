@@ -54,12 +54,28 @@ input[type='email'] { width: 10%; height: 40px; padding: 0 10px; border: 1px sol
 select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
 입력 항목 공통 E */
 
+/* 중간 정렬? */
+.max-w-screen-lg{
+    max-width : 1024px;
+}
+.flex {
+    display : flex;
+    justify-content : center;
+}
+.ma {
+    margin : auto;
+}
+.flex-1 {
+flex : 1 1 0%
+}
+/* 중간 정렬? E*/
+
 .footerInfoSect {
     display: flex;
     width: 1400px;
     position: relative;
     margin: 0 auto;
-    padding: 40px 0 30px;
+    padding: 40px 0 30px 100px;
     text-align: left;
     font-size: 14px;
     }
@@ -75,7 +91,6 @@ select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
 }
 .loginPlz{ /* 로그인 회원가입 장바구니 */
     text-align: center;
-
     font-size: 15px;
 }
 .loginPlz a:nth-child(1) {
@@ -132,6 +147,7 @@ select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
     list-style-type: none;
 }
 /* main - 지도 옆 best E */
+
 /* main - 배너 슬라이드 S */
 .slide {
   /* layout */
@@ -155,7 +171,7 @@ select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
   /* layout */
   display: flex;
   align-items: center;
-  justify-content: center;
+  /*justify-content: center;*/
 
   /* position - 버튼 클릭시 left offset값을 적용시키기 위해 */
   position: relative;
@@ -168,7 +184,7 @@ select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
   flex-shrink: 0;
 
   /* transition */
-  transition: left 0.15s;
+  transition: left 0.5s;
 }
 .slide_button {
   /* layout */
@@ -340,3 +356,56 @@ li {
     padding: 0;
     margin: 0;
 }
+
+.idMenu > span {
+    margin-right: 50px;
+}
+
+.idMenu > a {
+    margin-right: 10px; /* 나머지 요소들 사이의 오른쪽 간격을 10px로 조절 */
+}
+
+.service {
+    text-decoration: underline;
+}
+
+
+
+.search-container {
+    position: relative;
+    width: fit-content; /* 내용의 크기에 맞게 넓이 지정 */
+    margin: 20px auto; /* 수평 가운데 정렬 및 위아래 여백 추가 */
+}
+
+.form_list_input input[type="text"] {
+        width: 500px; /* 원하는 너비로 조절 */
+        border-color: #e96c7c; /* 테두리 없애기 */
+        border-radius: 50px; /* 테두리 없앴을 때의 둥글기 정도 */
+        padding: 20px; /* 필요에 따라 내부 여백을 조절할 수 있습니다. */
+		color: black;
+		border-width: 3px; /* 테두리의 두께 조절 */
+    }
+
+    .form_list_input input[type="text"]::placeholder {
+        color: gray; /* placeholder 텍스트의 색상을 흰색으로 지정 */
+        font-size: 15px;
+    }
+
+    .enter_btn::before {
+        content: '\1F50E'; /* 돋보기 아이콘(유니코드) */
+        font-size: 15px; /* 아이콘 크기 조절 */
+        margin-right: 20px; /* 아이콘과 텍스트 사이의 간격 조절 */
+    }
+
+    .enter_btn {
+        position: absolute;
+        top: 50%;
+        right: 5px; /* 원하는 위치 조절 */
+        transform: translateY(-50%);
+        padding: 5px;
+        background-color: white; /* 버튼의 배경색을 원하는 색상으로 지정/
+        color: white; /* 버튼 텍스트 색상을 흰색으로 지정 */
+        border: none; /* 테두리 없애기 */
+        border-radius: 5px; /* 테두리 둥글기 정도 조절 */
+        cursor: pointer;
+    }

@@ -6,12 +6,22 @@ import org.choongang.cart.service.CartData;
 import org.choongang.cart.service.CartInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Address;
+import org.choongang.member.repositories.AddressRepository;
+import org.choongang.order.service.OrderNotFoundException;
+import org.choongang.order.service.OrderSaveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,7 +30,11 @@ import java.util.List;
 public class OrderController implements ExceptionProcessor {
 
     private final CartInfoService cartInfoService;
+    private final MemberUtil memberUtil;
+    private final AddressRepository addressRepository;
     private final Utils utils;
+    private final OrderValidator validator;
+    private final OrderSaveService orderSaveService;
 
     /**
      * 주문서 작성
@@ -30,20 +44,49 @@ public class OrderController implements ExceptionProcessor {
      *                  바로구매(DIRECT) : 상품 상세에서 바로 주문하는 경우
      *                  CART : 장바구니 -> 주문하기
      * @param model
-     * @return
-     */
+     * @return*/
+
+
     @GetMapping
     public String order(@RequestParam(name="seq", required = false) List<Long> seq, Model model) {
         commonProcess("order", model);
 
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
         CartData data = cartInfoService.getCartInfo(mode, seq);
+        AbstractMember member = memberUtil.getMember();
 
+        if(member != null){
+            Long userSeq = member.getSeq();
+            Address defaultAddr = addressRepository.findDefaultAddress(userSeq).orElse(null);
 
+            if(defaultAddr != null){
+                model.addAttribute("addr", defaultAddr);
+            }
+        }
         model.addAttribute("cartData", data);
 
         return utils.tpl("order/order_form");
     }
+
+    @PostMapping
+    public String orderPs(RequestOrder form, Errors errors, Model model){
+
+        validator.validate(form, errors);
+
+        if(errors.hasErrors()){
+            return utils.tpl("order");
+        }
+
+        orderSaveService.save(form);
+        String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
+                + "location.href='/'";
+
+        model.addAttribute("script", script);
+
+
+        return "common/_execute_script";
+    }
+
 
     /**
      * 주문 공통 처리
@@ -51,8 +94,23 @@ public class OrderController implements ExceptionProcessor {
      * @param mode
      * @param model
      */
-    private void commonProcess(String mode, Model model) {
 
+    private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "order";
+        String pageTitle = "주문하기";
+
+        List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
+        List<String> addScript = new ArrayList<>();    // 프론트 자바스크립트
+
+        if(mode.equals("order")){
+            pageTitle = "주문하기";
+            addCommonScript.add("address");
+            addScript.add("order/order");
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
+        model.addAttribute("addCommonScript", addCommonScript) ;
+        model.addAttribute("addScript", addScript);
     }
 }

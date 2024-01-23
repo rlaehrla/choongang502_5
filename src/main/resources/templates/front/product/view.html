@@ -73,10 +73,10 @@
                     <div class="option_ea">
                         <div class="ea_box">
                             <input type="number" id="ea" name="ea_0" value="1" min="1" readonly>
-                            <button type="button" class="change_ea down">
+                            <button type="button" class="change_ea down" data-ea-id="ea" data-target-id="total_price" th:data-price="*{salePrice}">
                                 <i class="xi-minus"></i>
                             </button>
-                            <button type="button" class="change_ea up">
+                            <button type="button" class="change_ea up" data-ea-id="ea" data-target-id="total_price" th:data-price="*{salePrice}">
                                 <i class="xi-plus"></i>
                             </button>
                         </div>

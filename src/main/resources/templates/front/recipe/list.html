@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <section th:replace="~{front/outlines/_banner::banner}">
+    </section>
+    <div>
+        <h1>레시피 모두 보기</h1>
+        <div>
+            <th:block th:if="${recipes == null || recipes.isEmpty()}"
+            th:text="#{등록된_레시피가_없습니다.}">
+            </th:block>
+        </div>
+        <a th:href="@{/recipe/add}">등록하기</a><br>
+        <div> <!-- 검색-->
+            <form name="frmSearch" method="get" th:action="@{/recipe/list}"
+                  autocomplete="off" th:object="${recipeDataSearch}">
+                <select name="sopt" th:field="*{sopt}">
+                    <!-- 임시 - 수정 필요 -->
+                    <option value="SUBJECT" th:text="#{제목}"></option>
+                    <option value="CONTENT" th:text="#{내용}"></option>
+                    <option value="SUBJECT_CONTENT" th:text="#{제목_내용}"></option>
+                    <option value="POSTER" th:text="#{작성자}"></option>
+                </select>
+                <input type="text" name="skey" th:field="*{skey}"
+                       th:placeholder="#{요리나 재료를 검색!}">
+                <button type="submit" th:text="#{검색하기}"></button>
+            </form>
+        </div>
+
+        <div>
+            <div>
+                <th:block th:each="recipe : ${recipes}" th:object="${recipe}">
+                [[${recipe}]]
+                <ul>
+
+                    <div class="main_image">
+                        <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
+                    </div>
+                    <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
+                        <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}" class="thumb" th:data-url="${thumb.fileUrl}"></div>
+                    </div>
+
+<!--                        <th:block th:if="${recipe.mainImage != null && !recipe.mainImage.isEmpty()}">
+                        <td width="80" th:utext="${@utils.printThumb(recipe.mainImage[0].seq, 80, 80, 'recipe_main')}"></td>
+                        </th:block>-->
+
+                <!--    <th:block th:unless="${item.mainImages != null && !item.mainImages.isEmpty()}">
+                        <td></td>
+                    </th:block>-->
+
+                    <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
+                        <li th:text="*{rcpName}"></li>
+                        <li th:text="*{rcpInfo}"></li>
+                        <li th:text="*{gid}"></li>
+                    </a>
+
+                    <!--      </a>-->
+                    좋아요
+                    <br><br><br><br><br>
+                </ul>
+                </th:block>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!-- 임시 페이지네이션 -->
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+
+
+</main>
+
+</html>

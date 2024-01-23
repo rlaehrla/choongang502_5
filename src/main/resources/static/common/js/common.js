@@ -100,3 +100,29 @@ commonLib.loadEditor = function(id, height) {
         height
     });
 }
+
+
+window.addEventListener("DOMContentLoaded", function() {
+    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 S */
+    const numbers = document.querySelectorAll(".money");
+
+    for(const num of numbers){
+        const el = parseInt(num.innerText);
+
+        if(el >= 1000){
+            el = el.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        num.innerText = el;
+    }
+
+    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 E */
+
+});
+
+// 핸드폰 ###-####-#### 자동 하이픈 생성 코드
+const autoHyphen = (target) => {
+ target.value = target.value
+   .replace(/[^0-9]/g, '')
+   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+}

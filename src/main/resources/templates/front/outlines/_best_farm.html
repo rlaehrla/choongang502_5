@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="farm">
-    <div th:each="farm : farmRank" th:object="${farmRank}">
+    <div class="max-w-screen-lg flex ma" th:each="farm : farmRank" th:object="${farmRank}">
         <!--<img class="rank-img" th:src="랭킹사진링크">-->
-        <a th:href="@{농장링크}">
+        <a class="flex-1" th:href="@{농장링크}">
             <div>
                 <strong th:text="#{총판매량}"></strong>
                 <p th:text="#{한줄소개}"></p>

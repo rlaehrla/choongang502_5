@@ -22,7 +22,7 @@
         <div class="error" th:each="err : ${#fields.errors('rcpName')}" th:text="${err}"></div>
     </div>
     <div class="rows">
-        <textarea name="rcpInfo" th:placeholder="#{레시피에_대한_간단한_설명을_덧붙여주세요.}"></textarea>
+        <textarea th:field="*{rcpInfo}" th:placeholder="#{레시피에_대한_간단한_설명을_덧붙여주세요.}"></textarea>
     </div>
 
     <div class="stit" th:text="#{예상_소요_시간}"></div>
@@ -47,9 +47,11 @@
         <div class="stit" th:text="#{카테고리}"></div>
         <select name="category" th:field="*{category}">
             <option value="" th:text="#{요리_분류}"></option>
+            <option value="" th:text="#{한식}"></option>
         </select>
         <select name="subCategory" th:field="*{subCategory}">
             <option value="" th:text="#{요리_종류}"></option>
+            <option value="" th:text="#{볶음밥/덮밥}"></option>
         </select>
     </div>
     <div class="rows">
