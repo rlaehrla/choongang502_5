@@ -7,6 +7,7 @@
     <section th:replace="~{front/outlines/_best_farm::farm}">
     </section>
     <section class="rank-sec" name="recipeRank">
+
         <h2>레시피 랭킹</h2>
         <div th:each="recipe : ${recipeRank}" th:object="${recipe}">
             <img th:src="랭킹사진링크">
