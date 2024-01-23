@@ -2,6 +2,7 @@ package org.choongang.recipe.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.choongang.board.entities.AuthCheck;
 import org.choongang.board.entities.CommentData;
 import org.choongang.commons.entities.Base;
 import org.choongang.file.entities.FileInfo;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Entity
 @Data @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class Recipe extends Base {
+public class Recipe extends Base implements AuthCheck {
     @Id
     @GeneratedValue
     private Long seq;
