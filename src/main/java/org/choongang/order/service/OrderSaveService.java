@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -108,6 +109,8 @@ public class OrderSaveService {
                     .build();
             items.add(item);
         }
+
+        items.sort(Comparator.comparingLong(o -> o.getProduct().getFarmer().getSeq()));
 
         orderItemRepository.saveAllAndFlush(items);
         /* 주문 상품 정보 저장 E */
