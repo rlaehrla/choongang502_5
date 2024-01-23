@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form">
+    <div>
+        <th:block th:if="${orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
+
+        <th:block th:unless="${orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
+            <table class="table_cols">
+                <colgroup>
+                    <col>
+                    <col style="width:120px">
+                    <col style="width:120px">
+                </colgroup>
+                <!-- 주문당 요악 S -->
+                <thead>
+                <tr>
+                    <th th:text="*{createdAt}"></th>
+                    <th colspan="2">
+                        <a>
+                            <span th:text="*{payPrice}"></span>
+                            <i class="xi-angle-right"></i>
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <!-- 주문당 요악 E -->
+                <!-- 상품당 요악 S -->
+                <tbody>
+                <tr th:if="*{orderItems != null}" th:each="item : *{orderItems}" th:object="${item}">
+                    <td>
+                        <div class="list-item">
+                            <!-- 상품 메인이미지 출력 -->
+                            <div class="area-img">
+                                <div class="thumbs" th:if="*{product.mainImages != null && !product.mainImages.isEmpty()}" >
+                                    <div th:if="*{product.mainImages != null && !product.mainImages.isEmpty()}" th:style="*{@utils.backgroundStyle(product.mainImages[0])}" class="thumb"></div>
+                                </div>
+                            </div>
+                            <div class="area-txt">
+                                <div class="list-head">
+                                    <div class="row OrderTableCardContent">
+                                        <!-- 상품명 -->
+                                        <div class="col OrderTableCardContent__title">
+                                            <a th:href="@{/product/detail/{seq}(seq=*{product.seq})}"
+                                               class="title-txt"
+                                               for="prd-name"
+                                            th:text="*{product.name}"></a>
+                                        </div>
+                                        <!-- 배송 상태 -->
+                                        <div class=OrderTableCardContent__badgeWrapper>
+                                            <span class='OrderBadge OrderBadge--gray OrderTableCardContent__badge' th:text="*{status.title}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 구매한 옵션 출력 -->
+                                <ul class="list-options">
+                                    <li>
+                                        <th:block th:if="*{product.useOption == true}">
+                                            <span class="option-txt" th:text="*{option.name}">
+                                            </span>
+                                        </th:block>
+                                        <em class="option-count" th:text="*{ea + '개'}"></em>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- 농장 설명 -->
+                    <td class="td-controller wow-b row fixed">
+                        <div class="col">
+                            <span class="txt" th:text="*{product.farmer.farmTitle}"></span>
+                        </div>
+                        <div class="col">
+                            <a href="/w/message/070d9941-8dd2-426c-8144-a79b6e05c154"
+                               class="btn btn-s btn-white"
+                               type="button"
+                            th:text="#{메세지_문의}"></a>
+                        </div>
+
+                    </td>
+                    <td class="td-controller row">
+                        <div class="OrderTableCardButtonWrapper">
+                            <div class="OrderTableCardButtonItem">
+                                <a class="btn btn-s btn-point"
+                                   type="button"
+                                   href="/w/me/order/review/8ff89430-f99c-42ab-8826-33168bf523a0"
+                                   data-modal-id="modal-review"
+                                   data-modal-trigger="modal-link"
+                                 th:text="#{후기_작성}"></a>
+                            </div>
+                            <div class="OrderTableCardButtonItem">
+                                <a th:href="*{'https://search.naver.com/search.naver?where=nexearch&sm=top_sug.pre&fbm=0&acr=1&acq=qoth&qdt=0&ie=utf8&query='+deliveryCompany + '+' + deliveryInvoice}"
+                                   target="_blank"
+                                   class="btn btn-s btn-white"
+                                   data-tracking
+                                th:text="#{배송조회}"></a>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                </tbody>
+                <!-- 상품당 요악 E -->
+            </table>
+        </th:block>
+    </div>
+</th:block>
+</html>

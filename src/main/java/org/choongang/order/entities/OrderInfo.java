@@ -22,7 +22,7 @@ import java.util.List;
 public class OrderInfo extends Base {
 
     @Id
-    private Long seq=System.currentTimeMillis();
+    private Long seq = System.currentTimeMillis();
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)

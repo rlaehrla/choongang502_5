@@ -10,6 +10,9 @@ import org.choongang.commons.entities.BaseMember;
 import org.choongang.member.entities.Farmer;
 import org.choongang.product.constants.MainCategory;
 
+import java.time.Month;
+import java.util.List;
+
 @Entity
 @Builder
 @Data
@@ -27,4 +30,8 @@ public class Category extends Base {
 
     @Column(length = 60, nullable = false)
     private String cateNm; // 분류명
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30, nullable = false)
+    private List<Month> months; // 제철
 }

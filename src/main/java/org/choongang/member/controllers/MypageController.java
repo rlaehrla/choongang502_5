@@ -31,7 +31,7 @@ public class MypageController { //implements ExceptionProcessor {
     public String myPage(Model model) {
         commonProcess("myPage", model);
 
-        ListData<OrderInfo> orderInfos = orderInfoService.getList();
+        ListData<OrderInfo> orderInfos = orderInfoService.getList(3);
         List<OrderInfo> orders = orderInfos.getItems();
 
         model.addAttribute("orders", orders);
@@ -64,6 +64,11 @@ public class MypageController { //implements ExceptionProcessor {
     @GetMapping("/orders")
     public String orders(Model model) {
         commonProcess("orders", model);
+
+        ListData<OrderInfo> orderInfos = orderInfoService.getList();
+        List<OrderInfo> orders = orderInfos.getItems();
+
+        model.addAttribute("orders", orders);
         return utils.tpl("member/mypage/orders");
     }
 
@@ -97,6 +102,9 @@ public class MypageController { //implements ExceptionProcessor {
         List<String> addCss = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
+        if(mode.equals("orders") || mode.equals("myPage")){
+            addCss.add("member/mypage/order");
+        }
         addCommonScript.add("tab");
         addCommonCss.add("tab");
 
