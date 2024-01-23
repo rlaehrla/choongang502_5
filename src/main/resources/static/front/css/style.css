@@ -92,6 +92,7 @@ flex : 1 1 0%
 .loginPlz{ /* 로그인 회원가입 장바구니 */
     text-align: center;
     font-size: 15px;
+    padding: 0 0 10px 0;
 }
 .loginPlz a:nth-child(1) {
     margin-right: 10px; /* 회원가입창 */
@@ -386,7 +387,7 @@ li {
 .search-container {
     position: relative;
     width: fit-content; /* 내용의 크기에 맞게 넓이 지정 */
-    margin: 20px auto; /* 수평 가운데 정렬 및 위아래 여백 추가 */
+    margin: 0px auto; /* 수평 가운데 정렬 및 위아래 여백 추가 */
 }
 
 .form_list_input input[type="text"] {
@@ -428,7 +429,7 @@ li {
         flex-wrap: wrap;
         margin: 0 auto; /* 좌우 여백 설정 */
         max-width: 1200px; /* 최대 너비 설정 */
-        padding: 0 0 50px 0;
+        padding: 100px 0 50px 0;
     }
 
     .products {
