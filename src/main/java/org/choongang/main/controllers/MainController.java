@@ -25,7 +25,9 @@ public class MainController implements ExceptionProcessor {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(@ModelAttribute ProductSearch form, Model model) {
+        ListData<Product> data = productInfoService.getList(form, true);
+        model.addAttribute("items", data.getItems());
 
         return utils.tpl("main/index");
     }
@@ -37,7 +39,7 @@ public class MainController implements ExceptionProcessor {
 
         // 검색어가 공백인 경우
         String searchQuery = form.getName();
-        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+        if (searchQuery == null || data.getItems().isEmpty() || searchQuery.trim().isEmpty()) {
             model.addAttribute("noResultsMessage", "조회된 상품이 없습니다.");
             return utils.tpl("search/result");
         }
