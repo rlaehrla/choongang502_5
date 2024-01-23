@@ -113,6 +113,14 @@
     text-align: right;
     margin: 10px 10px 5px;
 }
+.board_list .depth_1 { text-indent: 10px; }
+.board_list .depth_2 { text-indent: 20px; }
+.board_list .depth_3 { text-indent: 30px; }
+.board_list .depth_4 { text-indent: 40px; }
+.board_list .depth_5 { text-indent: 50px; }
+.board_list .depth_6 { text-indent: 60px; }
+.board_list .depth_7 { text-indent: 70px; }
+.board_list .depth_8 { text-indent: 80px; }
 
 /* 댓글 */
 #frmComment {
