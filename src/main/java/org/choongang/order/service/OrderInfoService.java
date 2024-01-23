@@ -40,7 +40,17 @@ public class OrderInfoService {
      * @return
      */
     public OrderInfo get(Long seq){
+
         OrderInfo orderInfo = orderInfoRepository.findById(seq).orElseThrow(OrderNotFoundException::new);
+
+        List<OrderItem> items = orderInfo.getOrderItems();
+        for(OrderItem item : items){
+            Product product = productInfoService.get(item.getProduct().getSeq());
+
+            item.setProduct(product);
+        }
+
+        orderInfo.setOrderItems(items);
 
         return orderInfo;
     }

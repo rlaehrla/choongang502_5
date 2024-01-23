@@ -64,6 +64,7 @@ public class OrderSaveService {
 
         /* 주문 정보 저장 S */
         OrderInfo orderInfo = new OrderInfo();
+
         orderInfo.setOrderName(form.getOrderName());
         orderInfo.setOrderCellphone(form.getOrderCellPhone());
         orderInfo.setOrderEmail(form.getOrderEmail());
