@@ -13,15 +13,15 @@
             </th:block>
         </div>
         <a th:href="@{/recipe/add}">등록하기</a><br>
+
         <div> <!-- 검색-->
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
                   autocomplete="off" th:object="${recipeDataSearch}">
                 <select name="sopt" th:field="*{sopt}">
                     <!-- 임시 - 수정 필요 -->
-                    <option value="SUBJECT" th:text="#{제목}"></option>
-                    <option value="CONTENT" th:text="#{내용}"></option>
-                    <option value="SUBJECT_CONTENT" th:text="#{제목_내용}"></option>
-                    <option value="POSTER" th:text="#{작성자}"></option>
+                    <option value="all" th:text="#{전체}"></option>
+                    <option value="rcpName" th:text="#{레시피_이름}"></option>
+                    <option value="member" th:text="#{작성자}"></option>
                 </select>
                 <input type="text" name="skey" th:field="*{skey}"
                        th:placeholder="#{요리나 재료를 검색!}">
@@ -45,6 +45,7 @@
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>
                         <li th:text="*{gid}"></li>
+                        <li th:text="*{member}"></li>
                     </a>
 
                     <!--      </a>-->
