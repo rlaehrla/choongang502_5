@@ -107,8 +107,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const numbers = document.querySelectorAll(".money");
 
     for(const num of numbers){
-        const el = parseInt(num.innerText);
-
+        let el = parseInt(num.innerText);
         if(el >= 1000){
             el = el.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
