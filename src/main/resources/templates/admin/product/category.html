@@ -27,6 +27,15 @@
                     <input type="text" name="cateNm" th:field="*{cateNm}">
                 </td>
             </tr>
+            <tr>
+                <th>제철</th>
+                <td>
+                    <th:block th:if="${months != null}" th:each="month, status : ${months}">
+                        <input type="checkbox" name="months" th:id="${'months_' + month}" th:value="${month}" th:field="*{months}">
+                        <label th:for="${'months_' + month}" th:text="${status.count + '월'}"></label>
+                    </th:block>
+                </td>
+            </tr>
         </table>
         <div class="submit_btns">
             <button type="reset" class="btn">다시입력</button>
@@ -48,6 +57,7 @@
                 <th width="200">대분류</th>
                 <th width="200">분류코드</th>
                 <th width="300">분류명</th>
+                <th width="200">제철</th>
                 <th></th>
             </tr>
             </thead>
@@ -63,6 +73,7 @@
                 <td>
                     <input type="text" th:name="${'cateNm_' + status.index}" th:value="*{cateNm}">
                 </td>
+                <td th:text="*{months}"></td>
                 <td>
                     <a th:href="@{/admin/product?cateCd={cateCd}(cateCd=*{cateCd})}" class="sbtn">상품관리</a>
                     <a th:href="@{/product/{cateCd}(cateCd=*{cateCd})}" class="sbtn on" target="_blank">미리보기</a>

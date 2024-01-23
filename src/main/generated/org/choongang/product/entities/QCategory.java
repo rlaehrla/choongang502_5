@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -32,6 +33,8 @@ public class QCategory extends EntityPathBase<Category> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final ListPath<java.time.Month, EnumPath<java.time.Month>> months = this.<java.time.Month, EnumPath<java.time.Month>>createList("months", java.time.Month.class, EnumPath.class, PathInits.DIRECT2);
 
     public QCategory(String variable) {
         super(Category.class, forVariable(variable));
