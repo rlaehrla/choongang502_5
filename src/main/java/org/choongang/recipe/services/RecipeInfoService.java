@@ -1,5 +1,6 @@
 package org.choongang.recipe.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -71,6 +72,10 @@ public class RecipeInfoService {
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
 
         recipe.setMainImages(mainImages);
+
+
+
+
         /* 파일 정보 추가 E */
 
        /* *//* 수정, 삭제 권한 정보 처리 S *//*
@@ -136,7 +141,7 @@ public class RecipeInfoService {
      */
     public ListData<Recipe> getList(RecipeDataSearch search) {
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
-        int limit = Utils.onlyPositiveNumber(search.getLimit(), 10);
+        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
         int offset = (page - 1) * limit;
 
         QRecipe recipe = QRecipe.recipe;
@@ -194,13 +199,13 @@ public class RecipeInfoService {
                     .fetch();
 
             // 게시글 전체 갯수
-            long total = recipeRepository.count(andBuilder);
+            int total = (int) recipeRepository.count(andBuilder);
             Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
 
+            // 이미지
+            items.forEach(this::addRecipe);
+
             return new ListData<>(items, pagination);
-
-
-
     }
 }
 

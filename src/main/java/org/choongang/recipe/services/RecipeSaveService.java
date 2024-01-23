@@ -44,7 +44,6 @@ public class RecipeSaveService {
             howToCook = new HowToCook();
             howToCook.setGid(form.getGid());
 
-
         }
         data.setRcpName(form.getRcpName());
         data.setRcpInfo(form.getRcpInfo());
@@ -52,10 +51,15 @@ public class RecipeSaveService {
         data.setCategory(form.getCategory());
         data.setSubCategory(form.getSubCategory());
         data.setAmount(form.getAmount());
-        //JSON
-        ObjectMapper om = new ObjectMapper();
 
-        List<String> _requiredIng = new ArrayList<>();
+        data.setRequiredIng(form.getRequiredIngJSON());
+        data.setSubIng(form.getSubIngJSON());
+        data.setCondiments(form.getCondimentsJSON());
+
+        //JSON
+        /*ObjectMapper om = new ObjectMapper();*/
+
+        /*List<String> _requiredIng = new ArrayList<>();
         String[] requiredIng = form.getRequiredIng();
         String[] requiredIngEa = form.getRequiredIngEa();
         if (requiredIng != null) {
@@ -93,7 +97,7 @@ public class RecipeSaveService {
         // ---
 
         howToCook.setContent(form.getContent().toString());
-        howToCook.setRecipe(data);
+        howToCook.setRecipe(data);*/
 
 
         recipeRepository.saveAndFlush(data);

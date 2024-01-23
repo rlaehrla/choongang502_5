@@ -79,7 +79,7 @@ public class RequestRecipe {
                 String ea = subIngEa[i];
                 ea = StringUtils.hasText(ea) ? ea : "";
 
-                data.add(new String[] { content.trim(),  ea.trim()});
+                data.add(new String[] { content.trim(),  ea.trim()}); // 0: 재료 / 1: 수량
             }
         }
         String json =  null;

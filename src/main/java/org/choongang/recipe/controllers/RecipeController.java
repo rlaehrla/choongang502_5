@@ -28,7 +28,6 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeSaveService recipeSaveService;
     private final RecipeInfoService recipeInfoService;
     private final RecipeDeleteService recipeDeleteService;
-
     private Recipe recipe;
 
     @GetMapping
@@ -81,7 +80,8 @@ public class RecipeController implements ExceptionProcessor {
             return utils.tpl("recipe/" + mode);
         }
         // 레시피 저장 처리
-        Recipe recipe = recipeSaveService.save(form);
+        //Recipe recipe = recipeSaveService.save(form);
+        recipeSaveService.save(form);
 
         return "redirect:/recipe/list"; // 레서피 목록
     }

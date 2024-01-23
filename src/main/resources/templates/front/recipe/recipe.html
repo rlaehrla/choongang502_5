@@ -5,7 +5,7 @@
 <main layout:fragment="content">
     <section th:replace="~{front/outlines/_banner::banner}">
     </section>
-    <a th:href="@{/recipe/add}">등록하기</a><br>
+    <a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
     <h2 th:text="#{맞춤레시피}"></h2>
     <div>
         <ul>
