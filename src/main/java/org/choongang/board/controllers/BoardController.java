@@ -11,6 +11,7 @@ import org.choongang.board.service.BoardSaveService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.farmer.blog.service.SellingInfoService;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
@@ -119,6 +120,28 @@ public class BoardController extends AbstractBoardController {
         model.addAttribute("requestBoard", form);
 
         return utils.tpl("board/update");
+    }
+    @GetMapping("/reply/{seq}")
+    public String reply(@PathVariable("seq") Long parentSeq,
+                        @ModelAttribute RequestBoard form, Model model) {
+        commonProcess(parentSeq, "reply", model);
+        if (!board.isUseReply()) { // 답글 사용 불가
+            throw new UnAuthorizedException();
+        }
+
+        String content = boardData.getContent();
+        content = String.format("<br><br><br><br><br>===================================================<br>%s", content);
+
+        form.setBid(board.getBid());
+        form.setContent(content);
+        form.setParentSeq(parentSeq);
+
+        if (memberUtil.isLogin()) {
+            form.setPoster(memberUtil.getMember().getNickname()); // 확인 필요
+        }
+
+
+        return utils.tpl("board/write");
     }
 
     /**

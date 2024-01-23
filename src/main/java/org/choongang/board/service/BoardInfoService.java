@@ -176,6 +176,8 @@ public class BoardInfoService {
                 .limit(limit)
                 .where(andBuilder)
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("notice")),
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder")),
+                        new OrderSpecifier(Order.ASC, pathBuilder.get("listOrder2")),
                         new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 공지사항, 최신게시글 순서로 정렬
                 .fetch();
