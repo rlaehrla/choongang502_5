@@ -231,7 +231,7 @@ slide.addEventListener("touchend", (e) => {
 // 기본적으로 슬라이드 루프 시작하기
 let loopInterval = setInterval(() => {
   nextMove();
-}, 3000);
+}, 5000);
 
 // 슬라이드에 마우스가 올라간 경우 루프 멈추기
 slide.addEventListener("mouseover", () => {
@@ -242,7 +242,7 @@ slide.addEventListener("mouseover", () => {
 slide.addEventListener("mouseout", () => {
   loopInterval = setInterval(() => {
     nextMove();
-  }, 3000);
+  }, 5000);
 });
 });
 
