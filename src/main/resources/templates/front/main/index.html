@@ -30,18 +30,32 @@
             </li>
         </ul>
     </section>
-    <section class="max-w-screen-lg flex ma"> <!-- 최근 등록 상품-->
-        <h1 th:text="#{최근등록상품}"></h1>
-        <ul>
-            <li th:each="board : ${상품목록}" th:object="${board}">
-                <a th:href="@{농장링크}">
-                    <p th:field="*{한줄소개}"></p>
-                    <img th:src="*{프로필사진링크}">
-                    <p th:field="*{농장이름}"></p>
-                </a>
-            </li>
-        </ul>
+
+    <div class="latestTitle">
+        <h1>최신상품</h1>
+    </div>
+    <section class="latestProducts">
+        <div class="products" th:each="item : ${items}" th:object="${item}">
+            <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
+                <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 250, 250, 'product_main')}"></th:block>
+                <div th:text="*{name}"></div>
+                <div>
+                    <span th:text="*{consumerPrice}"></span>
+                    <span th:text="#{돈단위}"></span>
+                    <span th:if="*{discount != 0}">
+                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                           <th:block th:text="#{%}"></th:block>
+                        </span>
+                    <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                </div>
+                <div class="star">
+                    <i class="xi-star"></i>
+                    <span th:text="${평점}"></span>
+                </div>
+            </a>
+        </div>
     </section>
+
     <section th:replace="~{front/outlines/_best_farm::farm}">
     </section>
 
