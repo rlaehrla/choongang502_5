@@ -163,7 +163,7 @@ flex : 1 1 0%
   position: relative;
 
   /* size */
-  width: 50%;
+  width: 1024px;
 
   /* slide drag를 위해 DOM요소가 드래그로 선택되는것을 방지 */
   user-select: none;
@@ -183,9 +183,15 @@ flex : 1 1 0%
   height: 250px;
   /* flex item의 flex-shrink는 기본값이 1이므로 컨테이너 크기에 맞게 줄어드는데, 슬라이드를 구현할 것이므로 줄어들지 않도록 0을 준다. */
   flex-shrink: 0;
+  overflow: hidden;
 
   /* transition */
   transition: left 0.5s;
+}
+.slide_item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .slide_button {
   /* layout */
@@ -357,6 +363,11 @@ li {
     padding: 0;
     margin: 0;
 }
+
+.faq-container
+
+.faq-container .hidden .xi-angle-up { display: none; }
+.faq-container .hidden .xi-angle-down { display: inline; }
 
 .idMenu > span {
     margin-right: 50px;

@@ -1,6 +1,7 @@
 package org.choongang.board.service;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.choongang.board.entities.AuthCheck;
 import org.choongang.board.entities.Board;
 import org.choongang.board.entities.BoardData;
@@ -20,20 +21,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
+@RequiredArgsConstructor
 public class BoardAuthService {
 
-    @Autowired
-    private BoardConfigInfoService configInfoService;
-    @Autowired
-    private BoardInfoService infoService;
-    @Autowired
-    private CommentInfoService commentInfoService;
-    @Autowired
-    private HttpSession session;
-    @Autowired
-    private PasswordEncoder encoder;
-    @Autowired
-    private MemberUtil memberUtil;
+    private final BoardConfigInfoService configInfoService;
+    private final BoardInfoService infoService;
+    private final CommentInfoService commentInfoService;
+    private final HttpSession session;
+    private final PasswordEncoder encoder;
+    private final MemberUtil memberUtil;
 
     /**
      * 게시글 관련 권한 체크
