@@ -83,7 +83,7 @@ public class RecipeController implements ExceptionProcessor {
         // 레시피 저장 처리
         Recipe recipe = recipeSaveService.save(form);
 
-        return "redirect:/recipe"; // 레서피 목록
+        return "redirect:/recipe/list"; // 레서피 목록
     }
 
     /**

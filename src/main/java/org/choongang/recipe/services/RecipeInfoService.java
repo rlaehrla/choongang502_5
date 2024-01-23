@@ -151,13 +151,9 @@ public class RecipeInfoService {
             }
         }
 
-       //sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
-
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
-            //BooleanExpression memeberCond = recipe.requiredIng.contains(skey);
-            //BooleanExpression allCond = recipe.requiredIng.contains(skey);
 
             if (sopt.equals("rcpname")) { // 제목
                 andBuilder.and(rcpCond);
@@ -168,7 +164,11 @@ public class RecipeInfoService {
                 andBuilder.and(orBuilder);
             } else if (sopt.equals("all")) {
                 // 닉네임+아이디도 추가해야함
-                andBuilder.and(rcpCond);
+                BooleanBuilder orBuilder = new BooleanBuilder();
+                orBuilder.or(recipe.member.nickname.contains(skey))
+                        .or(recipe.member.userId.contains(skey));
+                andBuilder.or(rcpCond)
+                        .or(orBuilder);
 
             }
         }
