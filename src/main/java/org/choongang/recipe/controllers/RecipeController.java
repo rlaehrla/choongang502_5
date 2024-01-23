@@ -92,8 +92,8 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(@ModelAttribute RecipeDataSearch search, Model model) {
         commonProcess("list", model);
-
-        ListData<Recipe> data = recipeInfoService.getList(new RecipeDataSearch());
+        System.out.println("search = " + search);
+        ListData<Recipe> data = recipeInfoService.getList(search);
         model.addAttribute("recipes", data.getItems());
         model.addAttribute("pagination", data.getPagination());
         return utils.tpl("recipe/list");

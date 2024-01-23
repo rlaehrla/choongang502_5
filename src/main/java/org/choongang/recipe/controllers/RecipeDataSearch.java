@@ -19,6 +19,9 @@ public class RecipeDataSearch {
      *
      * 요리분류 + 요리 종류 -> 필터로?
      */
+    private String rcpName;
+    private String requiredIng;
+
     private String sopt; // 검색 옵션
     private String skey; // 검색 키워드
 
