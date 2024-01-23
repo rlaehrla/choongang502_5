@@ -3,33 +3,30 @@
 <th:block th:fragment="latest">
     <div>
         <div>
-            <th:block th:text="#{최신_주문내역}"></th:block>
-            <table class="table_cols mb30">
-                <tr>
-                    <th th:text="#{주문번호}" width="100"></th>
-                    <th th:text="#{주문일}" width="100"></th>
-                    <th th:text="#{종류}" width="100"></th>
-                    <th th:text="#{가격}" width="100"></th>
-                </tr>
-                <tr th:if="${orders.isEmpty()}">
-                    <td colspan="4" th:text="#{주문내역_없음}"></td>
-                </tr>
-                <tr th:unless="${orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
-                    <td th:text="*{seq}"></td>
-                    <td th:text="*{createdAt}"></td>
-                    <td></td>
-                    <td th:text="*{payPrice}"></td>
-                    <table class="table_cols" th:each="item : *{orderItems}" th:object="${item}" >
-                        <tr>
-                            <td width="100"></td>
-                            <td width="100"></td>
-                            <td th:text="*{product.name}" width="100"></td>
-                            <td th:text="*{totalPrice}" width="100"></td>
-                        </tr>
-                    </table>
-                </tr>
+            <p th:text="#{최신_주문내역}"></p>
 
-            </table>
+            <th:block th:if="${orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
+
+            <th:block th:unless="${orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
+                <dl>
+                    <dt>
+                        <span th:text="*{createdAt}"></span><span th:text="*{seq}"></span>
+                    </dt>
+                    <dd>
+                        <table class="table_cols">
+                            <tr>
+                                <th th:text="#{주문_상품}"></th>
+                                <th th:text="#{가격}"></th>
+                            </tr>
+                            <tr th:each="item : *{orderItems}" th:object="${item}">
+                                <td th:text="*{product.name}"></td>
+                                <td th:text="*{totalPrice}"></td>
+                            </tr>
+                        </table>
+                        <strong th:text="*{'결제금액 : ' + payPrice}"></strong>
+                    </dd>
+                </dl>
+            </th:block>
         </div>
         <a th:href="@{/mypage/orders}" th:text="#{전체_주문내역}"></a>
     </div>
