@@ -21,8 +21,11 @@ import java.util.List;
 @Data
 public class OrderInfo extends Base {
 
-    @Id
-    private Long seq = System.currentTimeMillis();
+    @Id @GeneratedValue
+    private Long seq;
+
+    @Column(unique = true)
+    private Long orderNo = System.currentTimeMillis();
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)
