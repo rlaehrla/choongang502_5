@@ -47,6 +47,10 @@ public class BlogController extends AbstractBoardController {
         Farmer farmerInfo = (Farmer) ((MemberInfo) memberInfoService.loadUserByUsername(farmerId)).getMember() ;
         model.addAttribute("farmer", farmerInfo) ;
 
+        // 한 줄 소개 문장 가져오기
+        BlogIntroPost introSum = confInfoService.get(farmerId + "_sum", BlogIntroPost.class).orElseGet(BlogIntroPost::new) ;
+        model.addAttribute("introSum", introSum) ;
+
         model.addAttribute("tab", tab);
 
         if (tab.equals("intro")) {

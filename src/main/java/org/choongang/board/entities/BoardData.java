@@ -1,5 +1,6 @@
 package org.choongang.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,6 +57,8 @@ public class BoardData extends BaseMember implements AuthCheck{
     private int viewCount; // 조회수
     private int commentCount; // 댓글 수
 
+    private boolean editorView; // true : 에디터를 통해서 작성
+
     @Column(length = 20)
     private String ip; // IP 주소
 
@@ -96,6 +99,9 @@ public class BoardData extends BaseMember implements AuthCheck{
     private boolean deletable; // 삭제 가능 여부
 
     @Transient
+    private boolean commentable; // 댓글 작성 가능 여부
+
+    @Transient
     private boolean mine; // 게시글 소유자
 
     @Transient
@@ -105,5 +111,6 @@ public class BoardData extends BaseMember implements AuthCheck{
     private boolean showDeleteButton; // 삭제 버튼 노출 여부
 
     @Transient
+    @JsonIgnore
     private List<CommentData> comments; // 댓글 목록
 }

@@ -5,12 +5,19 @@
 <section layout:fragment="content">
 <h1>블로그 소개글</h1>
 
-    <div th:replace="~{admin/commons/_message::message}"></div>
+    <form name="frmIntroSum" method="post" th:action="@{/farmer/myFarmBlog/sum}" autocomplete="off" th:object="${introSum}">
+        <h2>한 줄 소개</h2>
+        <div th:replace="~{admin/commons/_message::message}"></div>
+        <div>
+            <input type="text" class="flex" id="introSum" name="introSum" th:field="*{introContent}">
+            <button type="submit" class="btn">저장하기</button>
+        </div>
+    </form>
 
     <form name="frmIntro" method="post" th:action="@{/farmer/myFarmBlog}" autocomplete="off" th:object="${blogIntroPost}">
         <input type="hidden" name="gid" th:field="*{gid}">
         <h2>소개글 본문</h2>
-
+        <div th:replace="~{admin/commons/_message::message}"></div>
         <div>
             <textarea id="introContent" name="introContent" th:field="*{introContent}"></textarea>
             <button type="button" class="upload_files sbtn"
