@@ -7,12 +7,18 @@
     </section>
     <div>
         <h1>레시피 모두 보기</h1>
+        <div class="total">
+            Total : <th:block
+                th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
+            <a th:href="@{/recipe/add}">등록하기</a><br>
+        </div>
+
+
         <div>
             <th:block th:if="${recipes == null || recipes.isEmpty()}"
             th:text="#{등록된_레시피가_없습니다.}">
             </th:block>
         </div>
-        <a th:href="@{/recipe/add}">등록하기</a><br>
 
         <div> <!-- 검색-->
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
