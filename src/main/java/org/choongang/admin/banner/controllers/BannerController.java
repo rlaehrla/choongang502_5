@@ -1,12 +1,15 @@
 package org.choongang.admin.banner.controllers;
 
+import jakarta.validation.Valid;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -36,8 +39,15 @@ public class BannerController {
         commonProcess("add", model);
 
 
-
         return "admin/banner/add";
+    }
+
+    @PostMapping("/save")
+    public String save(@Valid RequestBanner form, Errors errors, Model model) {
+
+
+
+        return "redirect:/admin/banner";
     }
 
     private void commonProcess(String mode, Model model) {
@@ -54,6 +64,7 @@ public class BannerController {
         if (mode.equals("add")) {
             // 품목 등록 또는 수정
             addCommonScript.add("ckeditor5/ckeditor");
+            addCommonScript.add("fileManager");
             addScript.add("board/form");
         }
 
