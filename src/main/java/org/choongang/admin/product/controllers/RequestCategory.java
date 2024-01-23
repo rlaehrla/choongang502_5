@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.choongang.product.constants.MainCategory;
 
+import java.time.Month;
+import java.util.List;
+
 @Data
 public class RequestCategory {
 
@@ -15,4 +18,6 @@ public class RequestCategory {
 
     @NotBlank
     private String cateNm; // 분류명
+
+    private List<String> months;
 }
