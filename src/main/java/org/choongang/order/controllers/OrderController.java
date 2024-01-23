@@ -84,7 +84,7 @@ public class OrderController implements ExceptionProcessor {
         OrderInfo orderInfo = orderSaveService.save(form);
 
         String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
-                + "location.href=/order/detail/"+ orderInfo.getSeq()+";";
+                + "location.replace('/order/detail/"+ orderInfo.getSeq()+"');";
 
 
         model.addAttribute("script", script);
