@@ -20,10 +20,11 @@
 
          <li th:unless="${items == null || items.isEmpty()}"
              th:each="item : ${items}" th:object="${item}" class="item">
-            <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject">
+             <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
                     <span class="notice" th:if="*{notice}">
                         [<th:block th:text="#{공지}"></th:block>]
                     </span>
+                 <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
                <span class='category' th:if="*{category}" th:text="*{'[' + category + ']'}"></span>
                <th:block th:text="*{subject}"></th:block>
             </a>

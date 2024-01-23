@@ -24,7 +24,7 @@ class ProjectApplicationTests {
 
 	@Test @Disabled
 	void contextLoads() {
-		AbstractMember member = memberRepository.findByUserId("user01").orElse(null);
+		AbstractMember member = memberRepository.findByUserId("abc1004").orElse(null);
 
 		Authorities authorities = new Authorities();
 		authorities.setMember(member);

@@ -10,14 +10,20 @@
                 <div class="cate" th:each="cate : *{category}">
                     <span th:text="${cate.cateNm}"></span>
                 </div>
+    <section class="latestProducts">
+        <div class="products" th:each="item : ${items}" th:object="${item}">
+            <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
+                <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 250, 250, 'product_main')}"></th:block>
                 <div th:text="*{name}"></div>
-                <div>
+                <div class="productText">
                     <span th:text="*{consumerPrice}"></span>
                     <span th:text="#{돈단위}"></span>
                     <span th:if="*{discount != 0}">
                            <th:block th:text="*{'할인율 : ' + discount}"></th:block>
                            <th:block th:text="#{%}"></th:block>
                         </span>
+                </div>
+                <div>
                     <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
                 </div>
                 <div class="star">
