@@ -10,7 +10,7 @@
         <div class="total">
             Total : <th:block
                 th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
-            <a th:href="@{/recipe/add}">등록하기</a><br>
+            <br><a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
         </div>
 
 
@@ -39,6 +39,7 @@
             <div>
                 <th:block th:each="recipe : ${recipes}" th:object="${recipe}">
                 [[${recipe}]]
+
                 <ul>
 <!--                    <div class="main_image">
                         <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
