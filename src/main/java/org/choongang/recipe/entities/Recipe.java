@@ -47,7 +47,7 @@ public class Recipe extends Base {
     private String subCategory;
 
     @ToString.Exclude // StackOverflowError 해결 방안
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<HowToCook> howToCook;
 
     //@ManyToMany
