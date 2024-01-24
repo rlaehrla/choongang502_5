@@ -3,7 +3,10 @@ package org.choongang.recipe.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import org.choongang.file.entities.FileInfo;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -11,6 +14,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class RequestRecipe {
     private ObjectMapper om;
 
@@ -40,6 +45,8 @@ public class RequestRecipe {
 
     private String[] condiments; // 양념
     private String[] condimentsEa; // 양념 수량
+
+    private List<FileInfo> mainImages;
 
     private List<String> content;
     private List<String> tip;

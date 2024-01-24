@@ -57,7 +57,9 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/edit/{seq}")
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "edit", model);
-        RequestRecipe form = recipeInfoService.getForm(recipe);
+        RequestRecipe form = recipeInfoService.getForm(seq);
+
+       // RequestRecipe form = recipeInfoService.getForm(recipe);
         model.addAttribute("requestRecipe", form);
 
         return utils.tpl("recipe/edit");
@@ -92,10 +94,16 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(@ModelAttribute RecipeDataSearch search, Model model) {
         commonProcess("list", model);
-        System.out.println("search = " + search);
+
         ListData<Recipe> data = recipeInfoService.getList(search);
+
+        List<String> addCss = new ArrayList<>();
+        addCss.add("product/style");
+
+        model.addAttribute("addCss", addCss);
         model.addAttribute("recipes", data.getItems());
         model.addAttribute("pagination", data.getPagination());
+
         return utils.tpl("recipe/list");
     }
 
@@ -146,7 +154,7 @@ public class RecipeController implements ExceptionProcessor {
         } else if (mode.equals("view")) {
             pageTitle = recipe.getRcpName();
     }
-
+        addScript.add("recipe/detail");
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);

@@ -1,5 +1,7 @@
 package org.choongang.recipe.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
@@ -75,7 +77,6 @@ public class RecipeInfoService {
 
 
 
-
         /* 파일 정보 추가 E */
 
        /* *//* 수정, 삭제 권한 정보 처리 S *//*
@@ -115,21 +116,47 @@ public class RecipeInfoService {
      * 수정하기
      * Recipe 엔터티 -> RequestRecipe
      *
-     * @param data : 레시피 데이터(Recipe), 레시피 번호(Long)
+     * @param seq : 레시피 번호(Long)
      * @return
      */
 
-    public RequestRecipe getForm(Object data) {
-        Recipe recipe = null;
-        if (data instanceof Recipe) {
-            recipe = (Recipe) data;
-        } else {
-            Long seq = (Long) data;
-            recipe = get(seq);
-        }
+    public RequestRecipe getForm(Long seq) {
+        Recipe data = get(seq);
+        String[] requiredIng = null;
+        String[] requiredIngEa = null;
+        String[] subIng = null;
+        String[] condiments = null;
+        try {
+            ObjectMapper om = new ObjectMapper();
 
-        RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
-        form.setMode("edit");
+            if (data.getRequiredIng() == null) {
+                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {
+                });
+
+
+            }
+
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        RequestRecipe form = RequestRecipe.builder()
+                .seq(data.getSeq())
+                .gid(data.getGid())
+                .rcpName(data.getRcpName())
+                .rcpInfo(data.getRcpInfo())
+                .estimatedT(data.getEstimatedT())
+                .category(data.getCategory())
+                .subCategory(data.getSubCategory())
+                .requiredIng(requiredIng)
+                //.requiredIngEa(requiredIngEa)
+                //.subIng(condiments)
+                .mainImages(data.getMainImages())
+                .mode("edit") // ?
+                .build();
+
+        //RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
+        //form.setMode("edit");
 
         return form;
     }

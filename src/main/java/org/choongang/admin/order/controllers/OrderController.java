@@ -40,23 +40,19 @@ public class OrderController implements ExceptionProcessor {
 
     @GetMapping
     public String list(@ModelAttribute OrderSearch search, Model model){
-
         commonProcess("list", model);
-        List<OrderItem> orderItems = null;
 
         if(memberUtil.isFarmer()){
-            orderItems = orderItemInfoService.farmerSales(memberUtil.getMember().getUserId()).getItems();
-        }else{
+            ListData<OrderItem> orders = orderItemInfoService.getAll(search, memberUtil.getMember().getUserId()) ;
+
+            model.addAttribute("orders", orders.getItems());
+            model.addAttribute("pagenation", orders.getPagination());
+        } else {
             ListData<OrderItem> orders = orderItemInfoService.getAll(search) ;
             System.out.println(orders);
             model.addAttribute("orders", orders.getItems()) ;
             model.addAttribute("pagenation", orders.getPagination());
-
-            return "admin/order/list";
         }
-
-
-        model.addAttribute("orderItems", orderItems);
 
         return "admin/order/list";
     }
