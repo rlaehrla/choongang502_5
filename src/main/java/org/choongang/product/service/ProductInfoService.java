@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.desc;
@@ -240,6 +241,27 @@ public class ProductInfoService {
 
 
         return new ListData<>(items, pagination);
+    }
+
+    /**
+     * 현재 월에 제철인 상품 목록 조회
+     *
+     * @return 현재 월에 제철인 상품 목록
+     */
+    public List<Product> getInSeasonProducts() {
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        QProduct product = QProduct.product;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+        // category의 months 필드에 현재 월이 포함되어 있는 경우를 필터링
+        andBuilder.and(product.category.months.any().eq(Month.of(currentMonth)));
+
+        List<Product> inSeasonProducts = (List<Product>) productRepository.findAll(andBuilder);
+
+        inSeasonProducts.forEach(this::addProductInfo);
+
+        return inSeasonProducts;
     }
 
 }
