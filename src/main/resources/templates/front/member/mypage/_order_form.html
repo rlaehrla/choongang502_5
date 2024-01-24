@@ -49,6 +49,7 @@
                                     <!-- 구매한 옵션 출력 -->
                                     <ul class="list-options">
                                         <li>
+                                            <span class="option-text">옵션값</span>
                                             <th:block th:if="*{product.useOption == true}">
                                             </th:block>
                                             <em class="option-count" th:text="*{ea + '개'}"></em>
@@ -56,7 +57,7 @@
                                     </ul>
                                 </div>
                             </td>
-                        <!-- 농장 설명 -->
+                         농장 설명
                         <td class="td-controller wow-b row fixed">
                             <div class="col">
                                 <span class="txt" th:text="*{product.farmer.farmTitle}"></span>
