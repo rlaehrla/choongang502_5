@@ -8,9 +8,9 @@
     <div>
 
         <a th:href="@{/recipe/edit/{seq}(seq=*{seq})}"
-           th:text="#{수정하기}" class="btn"></a><br><br>
+           th:text="#{수정}" class="btn"></a><br><br>
         <a th:href="@{/recipe/delete/{seq}(seq=*{seq})}"
-           th:text="#{삭제하기}" class="btn"></a><br><br>
+           th:text="#{삭제}" class="btn"></a><br><br>
         <div><!-- 멤버, 레시피 정보 출력 -->
 
             <div>
@@ -25,14 +25,14 @@
                 <th:block th:text="*{category + '-' +subCategory}"></th:block><br>
                 <th:block th:text="*{rcpInfo}"></th:block><br>
                 <th:block th:text="#{해쉬태그}"></th:block><br>
-                <th:block th:text="#{댓글/좋아요}"></th:block><br>
+                <th:block th:text="#{댓글}"></th:block><br>
             </div>
         </div>
         <br><br><br><br><br><br><br>
 
         <div> <!-- 재료/만드는 방법-->
             <div><!-- 재료 -->
-                <a href="#ing" th:text="#{재료}"></a> | <a href="#howTo" th:text="#{만드는 방법}"></a> <!-- 클릭 시 위치로 이동 -->
+                <a href="#ing" th:text="#{재료}"></a> | <a href="#howTo" th:text="#{만드는_방법}"></a> <!-- 클릭 시 위치로 이동 -->
                 <br><br><br><br><br><br><br>
                 <a id="ing"><h2 th:text="#{재료}"></h2></a>
                 <th:block th:text="*{amount} + #{인분_기준}"></th:block>
@@ -56,7 +56,7 @@
             <br><br><br><br><br><br><br>
 
             <div> <!-- 만드는 방법 -->
-                <a id="howTo"><p th:text="#{만드는 방법}"></p></a>
+                <a id="howTo"><p th:text="#{만드는_방법}"></p></a>
 
                 1
 

@@ -4,6 +4,8 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
     <input type="hidden" name="gid" th:field="*{gid}">
+
+    <!-- JSON - 자바스크립트 사용하기 위함 -->
     <input type="hidden" name="requiredIngJSON" th:field="*{requiredIngJSON}">
     <input type="hidden" name="subIngJSON" th:field="*{subIngJSON}">
     <input type="hidden" name="condimentsJSON" th:field="*{condimentsJSON}">
@@ -84,7 +86,7 @@
     <!-- 만드는 방법 -->
     <div>
         <div class="rows">
-            <div class="stit" th:text="#{만드는 방법}"></div>
+            <div class="stit" th:text="#{만드는_방법}"></div>
             <input type="text" id="content_1" th:field="*{content}">
             <input type="text" id="content_2" th:field="*{content}">
 
