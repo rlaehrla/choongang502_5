@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<table th:fragment="item" th:object="${data}" class="table_cols mb30" th:id="*{'display_' + code}">
+    <tr>
+        <th width="108">진열코드</th>
+        <td th:text="*{code}"></td>
+    </tr>
+    <tr>
+        <th>
+            진열 명칭
+            <button type="button" class="sbtn remove_display" th:data-num="*{code}">
+                <i class="xi-minus"></i> 진열 제거
+            </button>
+        </th>
+        <td>
+            <input type="hidden" name="num" th:value="*{code}">
+            <input type="text" th:name="*{'displayName_' + code}" th:value="*{displayName}">
+        </td>
+    </tr>
+    <tr>
+        <th>
+            진열상품
+            <button type="button" class="sbtn add_product" th:data-num="*{code}">
+                <i class="xi-plus"></i> 상품선택
+            </button>
+        </th>
+        <td class="items" th:id="*{'items_' + code}">
+            <div th:if="*{items != null}" th:each="item : *{items}" th:object="${item}" class="item" th:id="${'item_'+ data.code +'_' + item.seq}">
+                <input type="hidden" th:name="${'seq_' + data.code}" th:value="*{seq}">
+                <div class="image">
+                    <img th:if="*{listImages != null && !listImages.isEmpty()}" th:src="*{listImages[0].fileUrl}">
+                    <th:block th:unless="*{listImages != null && !listImages.isEmpty()}">
+                        이미지 없음
+                    </th:block>
+                </div>
+                <div class="product_name">
+
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+</html>

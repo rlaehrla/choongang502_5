@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long>, QuerydslPredicateExecutor<OrderItem> {
 
-    @Query("SELECT p, SUM(o.ea) FROM OrderItem o LEFT JOIN o.product p WHERE o.createdAt >= :date GROUP BY p ORDER BY SUM(o.ea)")
-    List<Object[]> getEaSum(@Param("date") LocalDateTime date);
+   /* @Query("SELECT p, SUM(o.ea) FROM OrderItem o LEFT JOIN o.product p WHERE o.createdAt >= :date GROUP BY p ORDER BY SUM(o.ea)")
+    List<Object[]> getEaSum(@Param("date") LocalDateTime date);*/
 
 }
