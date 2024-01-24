@@ -128,11 +128,21 @@
 
             <button type="button" id="cancelBtn">취소</button>
             <button type="submit" id="saveBtn">저장</button>
+            <button type="button" id="deleteBtn">회원탈퇴</button>
 
             <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
             <script th:replace="~{common/_file_tpl::attach_tpl}"></script>
 
         </form>
     </th:block>
+
+    <script>
+        const deleteBtn = document.querySelector('#deleteBtn') ;
+        deleteBtn.addEventListener('click', function() {
+            var yes = confirm('정말 탈퇴하시겠습니까?') ;
+            if (yes) { location.href='/member/delete' ; }
+            else { }
+        });
+    </script>
 </main>
 </html>

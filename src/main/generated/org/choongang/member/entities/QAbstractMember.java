@@ -31,6 +31,8 @@ public class QAbstractMember extends EntityPathBase<AbstractMember> {
 
     public final StringPath email = createString("email");
 
+    public final BooleanPath enabled = createBoolean("enabled");
+
     public final StringPath gid = createString("gid");
 
     //inherited
