@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+
+<!--<th:block sec:authorize="isAnonymous()">
+</th:block>-->
+
 <main layout:fragment="content" class="recipe_form" th:object="${recipe}">
     <h1>상세보기</h1>
     [[${recipe}]]<br><br>
+    <!-- 메인 이미지 -->
+    <div class="product_images">
+        <div class="main_image">
+            <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
+        </div>
+        <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
+            <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}"
+                 class="thumb" th:data-url="${thumb.fileUrl}"></div>
+        </div>
+    </div>
     <div>
-
+        <th:block sec:authorize="isAuthenticated()">
         <a th:href="@{/recipe/edit/{seq}(seq=*{seq})}"
            th:text="#{수정}" class="btn"></a><br><br>
         <a th:href="@{/recipe/delete/{seq}(seq=*{seq})}"
            th:text="#{삭제}" class="btn"></a><br><br>
+        </th:block>
         <div><!-- 멤버, 레시피 정보 출력 -->
 
             <div>
