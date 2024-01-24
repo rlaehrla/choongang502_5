@@ -96,7 +96,7 @@
                     <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
                     <label th:for="${'chk_' + status.index}"></label>
                 </td>
-                <td th:text="*{seq}"></td>
+                <td th:text="*{orderInfo.orderNo}"></td>
                 <td th:text="*{orderInfo.orderName}"></td>
                 <td th:text="*{orderInfo.orderEmail}"></td>
                 <td th:text="*{product.name}"></td>
@@ -111,7 +111,6 @@
             </tbody>
         </table>
         <div class="table_actions">
-            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 항목 삭제하기</button>
             <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 항목 수정하기</button>
         </div>
     </form>
