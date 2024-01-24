@@ -3,9 +3,8 @@ package org.choongang.admin.order.controllers;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
-import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
-import org.choongang.order.controllers.OrderSearch;
+import org.choongang.member.MemberUtil;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.service.OrderItemInfoService;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController implements ExceptionProcessor {
 
-    private final OrderItemInfoService orderItemInfoService ;
+    private final OrderItemInfoService orderItemInfoService;
+    private final MemberUtil memberUtil;
+
 
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
@@ -36,14 +37,19 @@ public class OrderController implements ExceptionProcessor {
     }
 
     @GetMapping
-    public String list(@ModelAttribute OrderSearch search, Model model){
+    public String list(Model model){
 
         commonProcess("list", model);
+        List<OrderItem> orderItems = null;
 
-        ListData<OrderItem> orders = orderItemInfoService.getAll(search) ;
-        System.out.println(orders);
-        model.addAttribute("orders", orders.getItems()) ;
-        model.addAttribute("pagenation", orders.getPagination());
+        if(memberUtil.isFarmer()){
+            orderItems = orderItemInfoService.farmerSales(memberUtil.getMember().getUserId()).getItems();
+        }else{
+            orderItems = orderItemInfoService.farmerSales().getItems();
+        }
+
+
+        model.addAttribute("orderItems", orderItems);
 
         return "admin/order/list";
     }
@@ -56,6 +62,11 @@ public class OrderController implements ExceptionProcessor {
     private void commonProcess(String mode, Model model) {
         String pageTitle = "주문 리스트";
         mode = StringUtils.hasText(mode) ? mode : "list";
+
+        if (mode.equals("setting")) {
+            pageTitle = "주문 설정";
+
+        }
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
