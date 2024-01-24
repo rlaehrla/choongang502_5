@@ -45,9 +45,7 @@ public class AdminMenu {
                 new MenuDetail("list", "배너", "/admin/banner"),
                 new MenuDetail("add", "배너등록", "/admin/banner/add")
         ));
-        adminMenus.put("search", Arrays.asList(
-                new MenuDetail("list", "검색순위", "/admin/search")
-        ));
+
 
 
     }
