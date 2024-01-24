@@ -12,11 +12,22 @@
 
     <div class="main_image_box">
         <div class="upload_files" id="main_images" data-image-only="true">
+            <th:block th:each="item : *{mainImages}">
+                <span th:replace="~{common/_image_file::item}"></span>
+            </th:block>
             <i class="xi-plus"></i>
             <div class="txt" th:text="#{대표_이미지_업로드}"></div>
         </div>
         <div class="thumbs"></div>
     </div>
+
+    <div class="uploaded_files" id="editor_files">
+
+    </div>
+
+
+
+
     <!--// main_image_box -->
 
     <div class="rows recipe_name">
@@ -49,11 +60,11 @@
         <div class="stit" th:text="#{카테고리}"></div>
         <select name="category" th:field="*{category}">
             <option value="" th:text="#{요리_분류}"></option>
-            <option value="" th:text="#{한식}"></option>
+<!--            <option th:value="*{korean}" th:text="#{한식}"></option>-->
         </select>
         <select name="subCategory" th:field="*{subCategory}">
             <option value="" th:text="#{요리_종류}"></option>
-            <option value="" th:text="#{볶음밥/덮밥}"></option>
+<!--            <option th:value="*{rice}" th:text="#{볶음밥/덮밥}"></option>-->
         </select>
     </div>
     <div class="rows">
@@ -68,7 +79,14 @@
     <div class="rows">
         <div class="stit" th:text="#{필수재료}"></div>
 
-        <div class="input_item_box" id="requiredIng"></div>
+        <div class="input_item_box" id="requiredIng">
+
+            <div class="item_box" th:if="*{requiredIng != null}">
+                <input type="text" name="requiredIng" id="content_requiredIng" th:text="*{requiredIng}">
+                <input type="text" name="requiredIngEa" th:text="*{requiredIngEa}">
+            </div>
+
+        </div>
         <button type="button" th:text="#{추가}" data-id="requiredIng" data-name="requiredIng" class="add_input_item"></button>
     </div>
     <div class="rows">

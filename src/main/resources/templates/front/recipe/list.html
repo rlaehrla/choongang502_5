@@ -35,24 +35,25 @@
             </form>
         </div>
 
-        <div>
-            <div>
-                <th:block th:each="recipe : ${recipes}" th:object="${recipe}">
-                [[${recipe}]]
+        <div class="contentBox">
+            [[${recipe}]]
+            <div class="itemList" th:each="recipe : ${recipes}" th:object="${recipe}">
                 <ul>
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                         <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 400, 400, 'recipe_main')}"></th:block>
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>
-                        <li th:text="*{gid}"></li>
                         <li th:text="*{member}"></li>
+                        <li th:text="*{requiredIng}"></li>
+                        <li th:text="*{category}"></li>
+                        <li th:text="*{subCategory}"></li>
+
                     </a>
 
                     <!--      </a>-->
                     좋아요
                     <br><br><br><br><br>
                 </ul>
-                </th:block>
             </div>
 
         </div>
