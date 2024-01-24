@@ -17,25 +17,47 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class StatsService {
 
-    private final OrderInfoService orderInfoService ;
     private final OrderItemRepository orderItemRepository ;
-    private final MemberUtil memberUtil ;
     private final Utils utils ;
     private final HttpServletRequest request;
 
     /**
-     * 최근 1개월 간의 상품 당 판매량
+     * 상품당 month개월 이내 판매 내역
+     *
+     * @param month
+     * @param productSeq
+     * @return
      */
-    public void salesSum() {
-        ListData<OrderInfo> items = orderInfoService.getList(1) ;
+    public ListData<OrderItem> getListMonth(int month, Long productSeq){
+        QOrderItem orderItem = QOrderItem.orderItem;
 
+        BooleanBuilder builder = new BooleanBuilder();
 
+        LocalDateTime refDay = LocalDateTime.now().minusMonths(month);
+        builder.and(orderItem.product.seq.eq(productSeq));
+        builder.and(orderItem.createdAt.goe(refDay));
+
+        /* 페이징 처리 */
+        int page = 1;
+        int limit = utils.isMobile()? 5 : 10;
+
+        Pageable pageable = PageRequest.of(page - 1, limit);
+
+        Page<OrderItem> data = orderItemRepository.findAll(builder, pageable);
+
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
+
+        List<OrderItem> items = data.getContent();
+
+        return new ListData<>(items, pagination);
     }
 
     /**
