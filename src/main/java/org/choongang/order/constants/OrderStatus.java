@@ -1,5 +1,8 @@
 package org.choongang.order.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum OrderStatus {
     READY("주문 접수 전"), // 주문 접수 전
     ORDER("주문 접수"), // 주문 접수
@@ -20,6 +23,21 @@ public enum OrderStatus {
 
     public String getTitle(){
         return title;
+    }
+
+    public List<String[]> getTitles() {
+        return Arrays.asList(
+                new String[]{READY.name(), READY.title},
+                new String[]{ORDER.name(), ORDER.title},
+                new String[]{IN_CASH.name(), IN_CASH.title},
+                new String[]{PREPARE.name(), PREPARE.title},
+                new String[]{DELIVERY.name(), DELIVERY.title},
+                new String[]{ARRIVAL.name(), ARRIVAL.title},
+                new String[]{DONE.name(), DONE.title},
+                new String[]{CANCEL.name(), CANCEL.title},
+                new String[]{REFUND.name(), REFUND.title},
+                new String[]{EXCHANGE.name(), EXCHANGE.title}
+        );
     }
 
 
