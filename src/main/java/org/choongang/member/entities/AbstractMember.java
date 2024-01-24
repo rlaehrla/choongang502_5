@@ -51,4 +51,6 @@ public abstract class AbstractMember extends Base {
 
     @Transient
     private List<FileInfo> businessPermitFiles;
+
+    private boolean enabled = true;
 }

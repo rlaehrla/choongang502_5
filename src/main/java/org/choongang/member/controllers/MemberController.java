@@ -1,6 +1,5 @@
 package org.choongang.member.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -11,9 +10,6 @@ import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Farmer;
-import org.choongang.member.entities.Member;
 import org.choongang.member.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +18,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -41,6 +36,7 @@ public class MemberController implements ExceptionProcessor {
     private final MemberUtil memberUtil ;
     private final MemberInfoService memberInfoService ;
     private final InfoSaveService infoSaveService ;
+    private final MemberDeleteService memberDeleteService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
 
@@ -132,10 +128,22 @@ public class MemberController implements ExceptionProcessor {
             return utils.tpl("member/info");
         }
 
-        // String script = String.format("alert('%s'); parent.location.reload();", Utils.getMessage("수정이_완료_되었습니다.", "commons"));
-        //model.addAttribute("script", script);
-
         return "redirect:/mypage";
+    }
+
+    /**
+     * 회원 탈퇴 처리
+     */
+    @GetMapping("/delete")
+    public String deleteMember(Model model) {
+        commonProcess("deleteMember", model);
+
+        memberDeleteService.deleteMember();
+
+        String script = String.format("alert('%s'); location.href='/member/logout';", Utils.getMessage("탈퇴처리되었습니다.", "commons"));
+        model.addAttribute("script", script) ;
+
+        return "/common/_execute_script" ;
     }
 
     /**
