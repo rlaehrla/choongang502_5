@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/main}">
+<section layout:fragment="content">
+[[${info}]]
+[[${info.orderItems[0].product}]]
+    <h1>주문 상세 정보</h1>
+
+    <form name="frmOrderDetail" method="get" th:href="@{/admin/order/save}" th:object="${info}">
+        <h2>주문 기본 정보</h2>
+        <table class="table-cols">
+            <tr>
+                <th>주문번호</th>
+                <td th:text="*{orderNo}"></td>
+                <th>주문일시</th>
+                <td th:text="*{createdAt}"></td>
+            </tr>
+            <tr>
+                <th>주문자 명</th>
+                <td th:text="*{orderName}"></td>
+                <th>주문자 이메일</th>
+                <td th:text="*{orderEmail}"></td>
+            </tr>
+            <tr>
+                <th>주문자 전화번호</th>
+                <td th:text="*{orderCellphone}"></td>
+                <th>배송 주소</th>
+                <th:block th:if="*{addressSub == null}">
+                    <td th:text="*{zoneCode + ' ' + address}"></td>
+                </th:block>
+                <th:block th:if="*{addressSub != null}">
+                    <td th:text="*{zoneCode + ' ' + address + ' ' + addressSub}"></td>
+                </th:block>
+            </tr>
+            <tr>
+                <th>주문상태</th>
+                <td>
+                    <select name="orderStatus">
+                        <option value="ready">주문 접수 전</option>
+                        <option value="order">주문 접수</option>
+                        <option value="in_cash">입금 확인</option>
+                        <option value="prepare">상품 준비중</option>
+                        <option value="delivery">배송중</option>
+                        <option value="arrival">배송완료</option>
+                        <option value="done">주문완료</option>
+                        <option value="cancel">입금확인 전 취소</option>
+                        <option value="refund">입금 후 취소</option>
+                        <option value="exchange">교환</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <h2>품목 정보</h2>
+        <table>
+            <tr>
+                <th>상품번호</th>
+                <td th:text="*{orderItems[0].product.seq}"></td>
+                <th>상품명</th>
+                <td th:text="*{orderItems[0].product.name}"></td>
+            </tr>
+            <tr>
+                <th>상품 단가</th>
+                <td th:text="*{orderItems[0].product.salePrice + '원'}"></td>
+                <th>총 주문 금액</th>
+                <td th:text="*{payPrice + '원'}"></td>
+            </tr>
+        </table>
+    </form>
+</section>
+</html>

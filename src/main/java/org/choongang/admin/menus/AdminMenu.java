@@ -31,7 +31,8 @@ public class AdminMenu {
         adminMenus.put("product", Arrays.asList(
                 new MenuDetail("list", "상품리스트", "/admin/product"),
                 new MenuDetail("add", "상품등록", "/admin/product/add"),
-                new MenuDetail("category", "상품분류", "/admin/product/category")
+                new MenuDetail("category", "상품분류", "/admin/product/category"),
+                new MenuDetail("display", "상품진열관리", "/admin/product/display")
         ));
         adminMenus.put("order", Arrays.asList(
                 new MenuDetail("list", "주문목록", "/admin/order"),

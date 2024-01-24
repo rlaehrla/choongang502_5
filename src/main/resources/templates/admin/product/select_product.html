@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/layouts/popup}">
+<main layout:fragment="content">
+    <h1>상품 선택</h1>
+    <h2>상품 검색</h2>
+    <form name="frmSearch" method="get" th:action="@{/admin/product/select_product}" autocomplete="off" th:object="${productSearch}">
+        <input th:if="${!#strings.isEmpty(param.target)}" type="hidden" name="target" th:value="${param.target}">
+        <table class="table_cols mb30">
+            <tr>
+                <th>카테고리</th>
+                <td>
+                    <th:block th:each="cate : ${cateCd}">
+                        <input type="checkbox" name="cateCd" th:value="${cate}" th:id="${cate}" th:field="*{cateCd}">
+                        <label th:for="${cate}" th:text="${cate}"></label>
+                    </th:block>
+                </td>
+            </tr>
+            <tr>
+                <th>상품번호</th>
+                <td>
+                    <input type="number" name="seq" min="0" th:field="*{seq}">
+                </td>
+            </tr>
+            <tr>
+                <th>상품명</th>
+                <td>
+                    <input type="text" name="name" th:field="*{name}">
+                </td>
+            </tr>
+            <tr>
+                <th>상품상태</th>
+                <td>
+                    <input type="checkbox" name="statuses" value="SALE" th:field="*{statuses}" id="status_sale">
+                    <label for="status_sale">판매중</label>
+                    <input type="checkbox" name="statuses" value="OUT_OF_STOCK" th:field="*{statuses}" id="status_out_of_stock">
+                    <label for="status_out_of_stock">품절</label>
+                    <input type="checkbox" name="statuses" value="PREPARE" th:field="*{statuses}" id="status_prepare">
+                    <label for="status_prepare">상품준비중</label>
+                </td>
+            </tr>
+            <tr>
+                <th>상품 등록일</th>
+                <td>
+                    <input type="date" name="sdate" th:field="*{sdate}">
+                    ~
+                    <input type="date" name="edate" th:field="*{edate}">
+                </td>
+            </tr>
+        </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+
+    <h2>상품 목록</h2>
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th width="40">
+                    <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
+                    <label for="checkall"></label>
+                </th>
+                <th width="150">상품번호</th>
+                <th nowrap colspan="2">상품명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${items == null || items.isEmpty()}">
+                <td colspan="6" class="no_data">조회된 상품이 없습니다.</td>
+            </tr>
+            <tr th:unless="${items == null || items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
+                <td>
+                    <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}"
+                        th:data-item="${@utils.toJson(item)}"
+                    >
+                    <label th:for="${'chk_' + status.index}"></label>
+                </td>
+                <td th:text="*{seq}"></td>
+                <td width="80">
+                    <a class="image" th:href="@{/product/detail/{seq}(seq=*{seq})}" target="_blank">
+                        <th:block th:if="${item.listImages != null && !item.listImages.isEmpty()}" th:utext="${@utils.printThumb(item.listImages[0].seq, 80, 80, 'product_list')}">
+                        </th:block>
+                        <th:block th:unless="${item.mainImages != null && !item.mainImages.isEmpty()}">
+                            이미지 없음
+                        </th:block>
+                    </a>
+                </td>
+                <td th:text="*{name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    <button type="button" id="select_products">상품 선택</button>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</main>
+</html>

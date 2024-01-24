@@ -4,10 +4,24 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
 
-    <div th:if="${orderInfo != null}" th:object="${orderInfo}">
+    <div class="max-w-screen-lg ma" th:if="${orderInfo != null}" th:object="${orderInfo}">
         <h1 th:text="#{주문상세}"></h1>
-        <table class="table_cols mb30">
-            <th:block th:replace="~{front/member/mypage/_order_form::table_body}"></th:block>
+        <table class="order_detail table_cols mb30">
+            <colgroup>
+                <col>
+                <col style="width:120px">
+                <col style="width:120px">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>상품</th>
+                    <th>농부</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:replace="~{front/member/mypage/_order_form::table_body}"></th:block>
+            </tbody>
         </table>
         <h2 th:text="#{배송정보}"></h2>
         <table class="table_cols mb30">

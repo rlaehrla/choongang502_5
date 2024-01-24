@@ -3,6 +3,116 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
+<!--    [[${orders}]]-->
+    <h1>주문 내역 목록</h1>
 
+    <h2>주문 내역 검색</h2>
+    <form name="frmOrderSearch" method="get" th:action="@{/admin/order}" autocomplete="off" th:object="${orderSearch}">
+        <table class="table_cols mb30">
+            <tr>
+                <th>주문자 정보 검색</th>
+                <td>
+                    <div class="input_grp">
+                        <select name="sopt" th:field="*{sopt}">
+                            <option value="ALL">주문자 정보 선택</option>
+                            <option value="orderName">주문자 명</option>
+                            <option value="orderEmail">주문자 이메일</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>상품명</th>
+                <td>
+                    <input type="text" name="name" th:field="*{productNm}">
+                </td>
+            </tr>
+            <tr>
+                <th>주문상태</th>
+                <td>
+                    <input type="checkbox" name="statuses" value="READY" th:field="*{orderStatus}" id="status_ready">
+                    <label for="status_ready">주문 접수 전</label>
+                    <input type="checkbox" name="statuses" value="ORDER" th:field="*{orderStatus}" id="status_order">
+                    <label for="status_order">주문 접수</label>
+                    <input type="checkbox" name="statuses" value="IN_CASH" th:field="*{orderStatus}" id="status_in_cash">
+                    <label for="status_in_cash">입금 확인</label>
+                    <input type="checkbox" name="statuses" value="PREPARE" th:field="*{orderStatus}" id="status_prepare">
+                    <label for="status_prepare">상품 준비중</label>
+                    <input type="checkbox" name="statuses" value="DELIVERY" th:field="*{orderStatus}" id="status_delivery">
+                    <label for="status_delivery">배송중</label>
+                    <input type="checkbox" name="statuses" value="ARRIVAL" th:field="*{orderStatus}" id="status_arrival">
+                    <label for="status_arrival">배송완료</label>
+                    <input type="checkbox" name="statuses" value="DONE" th:field="*{orderStatus}" id="status_done">
+                    <label for="status_done">주문완료</label>
+                    <input type="checkbox" name="statuses" value="CANCEL" th:field="*{orderStatus}" id="status_cancel">
+                    <label for="status_cancel">입금확인 전 취소</label>
+                    <input type="checkbox" name="statuses" value="REFUND" th:field="*{orderStatus}" id="status_refund">
+                    <label for="status_refund">입금 후 취소</label>
+                    <input type="checkbox" name="statuses" value="EXCHANGE" th:field="*{orderStatus}" id="status_exchange">
+                    <label for="status_exchange">교환</label>
+                </td>
+            </tr>
+            <tr>
+                <th>상품 등록일</th>
+                <td>
+                    <input type="date" name="sdate" th:field="*{sdate}">
+                    ~
+                    <input type="date" name="edate" th:field="*{edate}">
+                </td>
+            </tr>
+        </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+
+    <h2>주문 목록</h2>
+    <form name="frmOrderList" method="post" th:action="@{/admin/order}" target="ifrmProcess" autocomplete="off">
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th width="40">
+                    <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
+                    <label for="checkall"></label>
+                </th>
+                <th width="80">주문번호</th>
+                <th width="100">주문자 명</th>
+                <th width="100">주문자 이메일</th>
+                <th width="150">상품명</th>
+                <th width="100">총 주문금액</th>
+                <th width="100">주문상태</th>
+                <th width="200"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${orders == null || orders.isEmpty()}">
+                <td colspan="6" class="no_data">조회된 상품이 없습니다.</td>
+            </tr>
+            <tr th:unless="${orders == null || orders.isEmpty()}" th:each="order, status : ${orders}" th:object="${order}">
+                <td>
+                    <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
+                    <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                    <label th:for="${'chk_' + status.index}"></label>
+                </td>
+                <td th:text="*{orderInfo.orderNo}"></td>
+                <td th:text="*{orderInfo.orderName}"></td>
+                <td th:text="*{orderInfo.orderEmail}"></td>
+                <td th:text="*{product.name}"></td>
+                <td th:text="*{totalPrice}"></td>
+                <td>
+                    [[*{status.getTitle()}]]
+                </td>
+                <td>
+                    <a th:href="@{/admin/order/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table_actions">
+            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 항목 수정하기</button>
+        </div>
+    </form>
 </section>
 </html>

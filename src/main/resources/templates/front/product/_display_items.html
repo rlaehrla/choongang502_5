@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="item">
+
+    <h2 th:text="*{displayName}"></h2>
+    <ul class="product_items">
+        <li th:each="item : *{items}" th:object="${item}">
+            <a th:href="@{/product/detail/{seq}(seq=*{seq})}">
+                <th:block th:utext="*{@utils.printThumb(listImages[0].seq, 350, 350, 'image'}"></th:block>
+                <div th:text="*{name}"></div>
+                <div>
+                    <span class="money" th:text="*{salePrice}"></span>
+                    <span th:text="#{원}"></span>
+                </div>
+            </a>
+        </li>
+    </ul>
+</th:block>
+</html>

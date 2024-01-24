@@ -21,18 +21,37 @@
             </li>
         </ul>
     </section>
-    <section class="max-w-screen-lg flex ma"> <!--제철/특산품-->
+
+    <div class="inSeasonTitle"> <!-- 제철/특산품 -->
         <h1 th:text="#{제철_특산품}"></h1>
-        <ul>
-            <li th:each="item : ${시즌아이템}" th:object="${item}">
-                <img th:src="*{아이템링크}">
-                <strong th:text="*{아이템이름}"></strong>
-            </li>
-        </ul>
+    </div>
+    <section class="inSeasonProducts" id="inSeasonProductsContainer">
+            <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
+                <a th:href="@{/product/detail/{seq}(seq=*{seq})}">
+                    <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 250, 250, 'product_main')}"></th:block>
+                    <div th:text="*{name}"></div>
+                    <div class="productText">
+                        <span th:text="*{consumerPrice}"></span>
+                        <span th:text="#{돈단위}"></span>
+                        <span th:if="*{discount != 0}">
+                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                           <th:block th:text="#{%}"></th:block>
+                        </span>
+                    </div>
+                    <div>
+                        <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                    </div>
+                    <div class="star">
+                        <i class="xi-star"></i>
+                        <span th:text="${평점}"></span>
+                    </div>
+
+                </a>
+            </div>
     </section>
 
     <div class="latestTitle">
-        <h1>최신상품</h1>
+        <h1 th:text="#{최신상품}"></h1>
     </div>
     <section class="latestProducts">
         <div class="products" th:each="item : ${items}" th:object="${item}">

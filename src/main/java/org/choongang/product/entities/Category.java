@@ -31,7 +31,10 @@ public class Category extends Base {
     @Column(length = 60, nullable = false)
     private String cateNm; // 분류명
 
+    @ElementCollection
+    @CollectionTable(name = "category_months", joinColumns = @JoinColumn(name = "cateCd"))
+    @Column(name = "month")
     @Enumerated(EnumType.STRING)
-    @Column(length = 30, nullable = false)
     private List<Month> months; // 제철
+
 }

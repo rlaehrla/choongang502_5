@@ -19,28 +19,29 @@
                     </div>
                 </form>
             </div>
-            <div class="loginPlz">
-                <th:block sec:authorize="isAnonymous()"> <!-- 미 로그인 상태 -->
-                    <a th:href="@{/member/login}" th:text="#{로그인}"></a>
-                    <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
-                    <a th:href="@{/cart}">장바구니</a>
+            <div class="user">
+                <div class="loginPlz">
+                    <th:block sec:authorize="isAnonymous()"> <!-- 미 로그인 상태 -->
+                        <a th:href="@{/member/login}" th:text="#{로그인}"></a>
+                        <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
+                        <a th:href="@{/cart}">장바구니</a>
+                    </th:block>
+                </div>
+                <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->
+
+                    <th:block th:if="${session.member.profileImage != null}"
+                              th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
+                    </th:block>
+                    <div class="idMenu">
+                        <span th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></span>
+                        <a th:href="@{/cart}" th:text="#{장바구니}"></a>
+                        <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
+                        <a th:if="${@memberUtil.isFarmer()}" th:href="@{/farmer}" th:text="#{관리페이지}"></a>
+                        <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
+                        <a sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin}" th:text="#{사이트_관리}"></a>
+                    </div>
                 </th:block>
             </div>
-            <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->
-
-                <th:block th:if="${session.member.profileImage != null}"
-                          th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
-                </th:block>
-                <div class="idMenu">
-                    <span th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></span>
-                    <a th:href="@{/cart}" th:text="#{장바구니}"></a>
-                    <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
-                    <a th:if="${@memberUtil.isFarmer()}" th:href="@{/farmer}" th:text="#{관리페이지}"></a>
-                    <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin}" th:text="#{사이트_관리}"></a>
-                </div>
-            </th:block>
-
         </div>
     </header>
 </html>
