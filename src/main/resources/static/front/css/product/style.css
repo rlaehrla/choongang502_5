@@ -22,6 +22,7 @@
 .product_detail .tabs { display: flex; align-items: center; }
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
 .product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
+
 .product_detail .tabs .tab.on a { color: #fff; }
 
 .product_detail .desc_content { margin: 25px 0 100px; }

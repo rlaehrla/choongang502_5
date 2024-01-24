@@ -7,26 +7,28 @@
 <!--<th:block sec:authorize="isAnonymous()">
 </th:block>-->
 
-<main layout:fragment="content" class="recipe_form" th:object="${recipe}">
+<main layout:fragment="content" class="product_detail" th:object="${recipe}">
     <h1>상세보기</h1>
     [[${recipe}]]<br><br>
-    <!-- 메인 이미지 -->
-    <div class="recipe_images">
-        <div class="main_image">
-            <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
+    <div class="product_main">
+        <div class="product_images">
+            <div class="main_image">
+                <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
+            </div>
         </div>
         <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
             <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}"
                  class="thumb" th:data-url="${thumb.fileUrl}"></div>
         </div>
     </div>
+
     <div>
-        <th:block sec:authorize="isAuthenticated()">
+        <!--<th:block sec:authorize="isAuthenticated()">-->
         <a th:href="@{/recipe/edit/{seq}(seq=*{seq})}"
            th:text="#{수정}" class="btn"></a><br><br>
         <a th:href="@{/recipe/delete/{seq}(seq=*{seq})}"
-           th:text="#{삭제}" class="btn"></a><br><br>
-        </th:block>
+           th:text="#{삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a><br><br>
+        <!--</th:block>-->
         <div><!-- 멤버, 레시피 정보 출력 -->
 
             <div>

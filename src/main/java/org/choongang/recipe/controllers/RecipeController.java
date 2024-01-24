@@ -8,6 +8,7 @@ import org.choongang.commons.ListData;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
+import org.choongang.recipe.services.RecipeAuthService;
 import org.choongang.recipe.services.RecipeDeleteService;
 import org.choongang.recipe.services.RecipeInfoService;
 import org.choongang.recipe.services.RecipeSaveService;
@@ -28,6 +29,8 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeSaveService recipeSaveService;
     private final RecipeInfoService recipeInfoService;
     private final RecipeDeleteService recipeDeleteService;
+
+    private final RecipeAuthService recipeAuthService;
     private Recipe recipe;
 
     @GetMapping
@@ -58,7 +61,8 @@ public class RecipeController implements ExceptionProcessor {
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "edit", model);
         RequestRecipe form = recipeInfoService.getForm(seq);
-
+        System.out.println( form);
+//        recipeAuthService.check("update", seq);
        // RequestRecipe form = recipeInfoService.getForm(recipe);
         model.addAttribute("requestRecipe", form);
 
@@ -130,6 +134,7 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "delete", model);
+
         utils.confirmDelete();
         recipeDeleteService.delete(seq);
 
