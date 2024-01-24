@@ -3,6 +3,96 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
+<!--    [[${orders}]]-->
+    <h1>주문 내역 목록</h1>
 
+    <h2>주문 내역 검색</h2>
+    <form name="frmOrderSearch" method="get" th:action="@{/admin/order}" autocomplete="off" th:object="${orderSearch}">
+        <table class="table_cols mb30">
+            <tr>
+                <th>상품명</th>
+                <td>
+                    <input type="text" name="name" th:field="*{productNm}">
+                </td>
+            </tr>
+            <tr>
+                <th>주문상태</th>
+                <td>
+                    <input type="checkbox" name="statuses" value="READY" th:field="*{orderStatus}" id="status_ready">
+                    <label for="status_ready">주문 접수 전</label>
+                    <input type="checkbox" name="statuses" value="ORDER" th:field="*{orderStatus}" id="status_order">
+                    <label for="status_order">주문 접수</label>
+                    <input type="checkbox" name="statuses" value="IN_CASH" th:field="*{orderStatus}" id="status_in_cash">
+                    <label for="status_in_cash">입금 확인</label>
+                    <input type="checkbox" name="statuses" value="PREPARE" th:field="*{orderStatus}" id="status_prepare">
+                    <label for="status_prepare">상품 준비중</label>
+                </td>
+            </tr>
+            <tr>
+                <th>상품 등록일</th>
+                <td>
+                    <input type="date" name="sdate" th:field="*{sdate}">
+                    ~
+                    <input type="date" name="edate" th:field="*{edate}">
+                </td>
+            </tr>
+        </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+
+    <h2>주문 목록</h2>
+    <form name="frmOrderList" method="post" th:action="@{/admin/order}" target="ifrmProcess" autocomplete="off">
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th width="40">
+                    <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
+                    <label for="checkall"></label>
+                </th>
+                <th width="100">주문번호</th>
+                <th width="100">주문자 명</th>
+                <th colspan="2">상품명</th>
+                <th width="100">총 주문금액</th>
+                <th width="100">주문상태</th>
+                <th width="200"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${orders == null || orders.isEmpty()}">
+                <td colspan="6" class="no_data">조회된 상품이 없습니다.</td>
+            </tr>
+            <tr th:unless="${orders == null || orders.isEmpty()}" th:each="order, status : ${orders}" th:object="${order}">
+                <td>
+                    <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
+                    <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                    <label th:for="${'chk_' + status.index}"></label>
+                </td>
+                <td th:text="*{seq}"></td>
+                <td th:text="*{orderInfo.orderName}"></td>
+                <th:block th:if="*{product.mainImages != null && !product.mainImages.isEmpty()}">
+                    <td width="80" th:utext="*{@utils.printThumb(product.mainImages[0].seq, 80, 80, 'product_main')}"></td>
+                </th:block>
+                <th:block th:unless="*{product.mainImages != null && !product.mainImages.isEmpty()}">
+                    <td></td>
+                </th:block>
+                <td th:text="*{product.name}"></td>
+                <td th:text="*{totalPrice}"></td>
+                <td>
+                    [[*{status}]]
+                </td>
+                <td>
+                    <a th:href="@{/admin/order/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table_actions">
+            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 상품 삭제하기</button>
+            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 상품 수정하기</button>
+        </div>
+    </form>
 </section>
 </html>
