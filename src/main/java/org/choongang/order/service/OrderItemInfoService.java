@@ -1,14 +1,22 @@
 package org.choongang.order.service;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.member.entities.Farmer;
+import org.choongang.member.entities.QFarmer;
+import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderItem;
 import org.choongang.order.repositories.OrderItemRepository;
+import org.choongang.product.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +35,8 @@ public class OrderItemInfoService {
     private final OrderItemRepository orderItemRepository ;
     private final Utils utils ;
     private final HttpServletRequest request;
+    private final EntityManager em;
+    private final FarmerRepository farmerRepository;
 
     /**
      * 상품당 month개월 이내 판매 내역
@@ -97,6 +108,49 @@ public class OrderItemInfoService {
         return farmerSales(null);
     }
 
+
+    /**
+     * 최근 month개월 이내 판매량 상위 mount개 농장 추출
+     * @param mount
+     * @param month - 0 : 기간 상관 없이 추출
+     * @return
+     */
+    public List<Farmer> topFarmer(int mount, int month){
+
+        LocalDateTime refDay = LocalDateTime.now().minusMonths(month);
+        if(month == 0){
+            refDay = LocalDateTime.MIN;
+        }
+
+        List<Object[]> objs = orderItemRepository.getEaSum(refDay);
+
+        List<Object[]> farmers = new ArrayList<>();
+
+        for(Object[] obj : objs){
+            Product product = (Product) obj[0];
+            Farmer farmer = farmerRepository.findById(product.getFarmer().getSeq()).orElse(null);
+            int sum = (Integer) obj[1];
+
+            if(farmer != null){
+                Object[] temp = {farmer, sum};
+                farmers.add(temp);
+            }
+        }
+
+        farmers.sort((o1, o2) -> ((Integer) o2[1]) - ((Integer) o1[1]));
+
+
+        List<Farmer> farmer = new ArrayList<>();
+
+        for(Object[] obj : farmers){
+            Farmer frm = (Farmer) obj[0];
+            farmer.add(frm);
+        }
+        mount = farmer.size() < mount ? farmer.size() : mount;
+        farmer = farmer.stream().limit(mount).toList();
+
+        return farmer;
+    }
 
 
 }

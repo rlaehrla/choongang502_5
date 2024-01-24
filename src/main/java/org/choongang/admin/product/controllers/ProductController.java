@@ -85,7 +85,7 @@ public class ProductController implements ExceptionProcessor {
 
         commonProcess("list", model);
 
-        ListData<Product> data = productInfoService.getList(form, true);
+        ListData<Product> data = productInfoService.getList(form, true, false);
         List<String> cateCd = categoryInfoService.getList().stream().map(s -> s.getCateCd()).toList();
         List<String> addCss = new ArrayList<>();
 
