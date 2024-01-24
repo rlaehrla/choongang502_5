@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class MainController implements ExceptionProcessor {
@@ -26,8 +28,13 @@ public class MainController implements ExceptionProcessor {
 
     @GetMapping("/")
     public String index(@ModelAttribute ProductSearch form, Model model) {
+        // 모든 상품 목록 가져오기
         ListData<Product> data = productInfoService.getList(form, true);
         model.addAttribute("items", data.getItems());
+
+        // 현재 월에 제철인 상품 목록 가져오기
+        List<Product> inSeasonProducts = productInfoService.getInSeasonProducts();
+        model.addAttribute("inSeasonProducts", inSeasonProducts);
 
         return utils.tpl("main/index");
     }
