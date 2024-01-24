@@ -22,11 +22,19 @@ public class QOrderItem extends EntityPathBase<OrderItem> {
 
     public static final QOrderItem orderItem = new QOrderItem("orderItem");
 
+    public final org.choongang.commons.entities.QBase _super = new org.choongang.commons.entities.QBase(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final StringPath deliveryCompany = createString("deliveryCompany");
 
     public final StringPath deliveryInvoice = createString("deliveryInvoice");
 
     public final NumberPath<Integer> ea = createNumber("ea", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final org.choongang.product.entities.QProductOption option;
 
