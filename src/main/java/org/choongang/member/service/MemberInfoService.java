@@ -97,6 +97,7 @@ public class MemberInfoService implements UserDetailsService {
                 .password(member.getPassword())
                 .member(member)
                 .authorities(authorities)
+                .enabled(member.isEnabled())
                 .build();
     }
 

@@ -35,6 +35,9 @@ public class QFarmer extends EntityPathBase<Farmer> {
     //inherited
     public final StringPath email = _super.email;
 
+    //inherited
+    public final BooleanPath enabled = _super.enabled;
+
     public final StringPath farmTitle = createString("farmTitle");
 
     //inherited
