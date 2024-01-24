@@ -122,11 +122,11 @@ public class OrderItemInfoService {
             refDay = LocalDateTime.MIN;
         }
 
-        List<Object[]> objs = orderItemRepository.getEaSum(refDay);
+        //List<Object[]> objs = orderItemRepository.getEaSum(refDay);
 
         List<Object[]> farmers = new ArrayList<>();
 
-        for(Object[] obj : objs){
+        /*for(Object[] obj : objs){
             Product product = (Product) obj[0];
             Farmer farmer = farmerRepository.findById(product.getFarmer().getSeq()).orElse(null);
             int sum = (Integer) obj[1];
@@ -135,7 +135,7 @@ public class OrderItemInfoService {
                 Object[] temp = {farmer, sum};
                 farmers.add(temp);
             }
-        }
+        }*/
 
         farmers.sort((o1, o2) -> ((Integer) o2[1]) - ((Integer) o1[1]));
 

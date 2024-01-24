@@ -1,8 +1,10 @@
 package org.choongang.admin.product.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
@@ -15,6 +17,7 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.product.constants.MainCategory;
+import org.choongang.product.constants.ProductStatus;
 import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
 import org.choongang.product.service.*;
@@ -45,6 +48,10 @@ public class ProductController implements ExceptionProcessor {
     private final ProductInfoService productInfoService;
     private final ProductDeleteService productDeleteService;
     private final CategoryDeleteService categoryDeleteService;
+    private final ProductDisplayService productDisplayService;
+    private final ConfigInfoService configInfoService;
+
+
     @ModelAttribute("menuCode")
     public String getMenuCode(){
         return "product";
@@ -255,6 +262,48 @@ public class ProductController implements ExceptionProcessor {
         return "common/_execute_script";
     }
 
+    @GetMapping("/display")
+    public String display(Model model){
+
+        commonProcess("display", model);
+
+        List<Long> codes = configInfoService.get("displayCodes", new TypeReference<List<Long>>() {}).orElse(null);
+
+        model.addAttribute("codes", codes);
+
+
+
+        return "admin/product/display";
+    }
+
+
+    @PostMapping("/display")
+    public String displayPs(@RequestParam("num") List<Long> codes, Model model){
+        commonProcess("display", model);
+
+        productDisplayService.save(codes);
+
+        model.addAttribute("script", "parent.location.reload();");
+
+        return "common/_execute_script";
+    }
+
+    @GetMapping("/select_product")
+    public String selectProduct(@RequestParam("target") String target, @ModelAttribute ProductSearch search, Model model){
+
+        search.setLimit(7);
+        ListData<Product> data = productInfoService.getList(search, true, false);
+        List<String> cateCd = categoryInfoService.getList().stream().map(s -> s.getCateCd()).toList();
+
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagenation", data.getPagination());
+        model.addAttribute("cateCd", cateCd);
+
+        model.addAttribute("addScript", new String[]{"product/select_product"});
+        return "admin/product/select_product";
+    }
+
 
     /**
      * 공통처리부분
@@ -279,6 +328,9 @@ public class ProductController implements ExceptionProcessor {
 
         } else if (mode.equals("category")) {
             pageTitle = "상품분류";
+        }else if (mode.equals("display")){
+            pageTitle = "상품진열 관리";
+            addScript.add("product/display");
         }
 
         model.addAttribute("mainCategory", MainCategory.getList());
