@@ -1,8 +1,14 @@
 package org.choongang.admin.order.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
+import org.choongang.member.MemberUtil;
+import org.choongang.order.controllers.OrderSearch;
+import org.choongang.order.entities.OrderItem;
+import org.choongang.order.service.OrderItemInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,7 +21,13 @@ import java.util.List;
 
 @Controller("adminOrderController")
 @RequestMapping({"/admin/order", "/farmer/order"})
+@RequiredArgsConstructor
 public class OrderController implements ExceptionProcessor {
+
+    private final OrderItemInfoService orderItemInfoService;
+    private final MemberUtil memberUtil;
+
+
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
         return "order";
@@ -27,9 +39,25 @@ public class OrderController implements ExceptionProcessor {
     }
 
     @GetMapping
-    public String list(Model model){
+    public String list(@ModelAttribute OrderSearch search, Model model){
 
         commonProcess("list", model);
+        List<OrderItem> orderItems = null;
+
+        if(memberUtil.isFarmer()){
+            orderItems = orderItemInfoService.farmerSales(memberUtil.getMember().getUserId()).getItems();
+        }else{
+            ListData<OrderItem> orders = orderItemInfoService.getAll(search) ;
+            System.out.println(orders);
+            model.addAttribute("orders", orders.getItems()) ;
+            model.addAttribute("pagenation", orders.getPagination());
+
+            return "admin/order/list";
+        }
+
+
+        model.addAttribute("orderItems", orderItems);
+
         return "admin/order/list";
     }
     @GetMapping("/setting")

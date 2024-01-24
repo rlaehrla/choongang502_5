@@ -58,11 +58,12 @@ public class ProductInfoService {
      *
      * @param search
      * @param isAll : true - 미노출 상품도 모두 보이게
+     * @param isMain : 메인페이지에서 사용하는지
      *
      * @return
      */
 
-    public ListData<Product> getList(ProductSearch search, boolean isAll){
+    public ListData<Product> getList(ProductSearch search, boolean isAll, boolean isMain){
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
@@ -74,7 +75,7 @@ public class ProductInfoService {
         /* 검색 조건 처리 S */
 
         // 농부는 본인의 상품만 볼 수 있도록
-        if(memberUtil.isFarmer()){
+        if(!isMain && memberUtil.isFarmer()){
             String userId = memberUtil.getMember().getUserId();
             andBuilder.and(product.farmer.userId.eq(userId));
         }
@@ -139,7 +140,7 @@ public class ProductInfoService {
      * @return
      */
     public ListData<Product> getList(ProductSearch search){
-        return getList(search, true);
+        return getList(search, true, false);
     }
 
     /**
@@ -208,10 +209,6 @@ public class ProductInfoService {
             andBuilder.and(product.seq.in(seq));
         }
 
-        if(status != null && !status.isEmpty()){
-            List<ProductStatus> _statuses = status.stream().map(ProductStatus::valueOf).toList();
-            andBuilder.and(product.status.in(_statuses));
-        }
 
         if(sdate != null){
             andBuilder.and(product.createdAt.goe(LocalDateTime.of(sdate, LocalTime.of(0, 0, 0))));
@@ -225,11 +222,11 @@ public class ProductInfoService {
 
             andBuilder.and(product.name.contains(name.trim()));
         }
+        // 노출중인 상품만
+        andBuilder.and(product.active.eq(true));
+        // 준비중인 상품은 노출 안되게
+        andBuilder.and(product.status.ne(ProductStatus.PREPARE));
 
-        if(true){
-
-            andBuilder.and(product.active.eq(true));
-        }
 
         /* 검색 조건 처리 E */
 

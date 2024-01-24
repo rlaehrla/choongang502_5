@@ -5,6 +5,9 @@ import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.order.repositories.OrderItemRepository;
+import org.choongang.order.service.OrderInfoService;
+import org.choongang.order.service.OrderItemInfoService;
 import org.choongang.product.entities.Product;
 import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ public class MainController implements ExceptionProcessor {
 
     private final Utils utils;
     private final ProductInfoService productInfoService;
+    private final OrderItemInfoService orderItemInfoService;
+    private final OrderItemRepository orderItemRepository;
 
     @ModelAttribute("addCss")
     public String[] addCss() {
@@ -28,9 +33,12 @@ public class MainController implements ExceptionProcessor {
 
     @GetMapping("/")
     public String index(@ModelAttribute ProductSearch form, Model model) {
-        // 모든 상품 목록 가져오기
-        ListData<Product> data = productInfoService.getList(form, true);
+
+
+        ListData<Product> data = productInfoService.getList(form, false, true);
+
         model.addAttribute("items", data.getItems());
+        //System.out.println(orderItemInfoService.topFarmer(1, 1));
 
         // 현재 월에 제철인 상품 목록 가져오기
         List<Product> inSeasonProducts = productInfoService.getInSeasonProducts();
@@ -42,7 +50,7 @@ public class MainController implements ExceptionProcessor {
     @GetMapping("/search/result")
     public String search(@ModelAttribute ProductSearch form, Model model) {
 
-        ListData<Product> data = productInfoService.getList(form, true);
+        ListData<Product> data = productInfoService.getList(form, false, true);
 
         // 검색어가 공백인 경우
         String searchQuery = form.getName();
