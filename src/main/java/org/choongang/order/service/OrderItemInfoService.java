@@ -73,46 +73,6 @@ public class OrderItemInfoService {
     }
 
     /**
-     * 판매자 별 판매 내역
-     */
-    public ListData<OrderItem> farmerSales(String farmerId) {
-
-        /* 판매 내역 조회 */
-        QOrderItem orderItem = QOrderItem.orderItem ;
-
-        BooleanBuilder andBuilder = new BooleanBuilder();
-
-        if (StringUtils.hasText(farmerId)) {
-            andBuilder.and(orderItem.product.farmer.userId.eq(farmerId)) ;
-        }
-
-
-        /* 페이징 처리 */
-        int page = 1;
-        int limit = 10;
-
-        Pageable pageable = PageRequest.of(page - 1, limit);
-
-        Page<OrderItem> data = orderItemRepository.findAll(andBuilder, pageable);
-
-        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
-
-        List<OrderItem> items = data.getContent();
-
-        return new ListData<>(items, pagination);
-    }
-
-    /**
-     * 전체 판매 내역
-     * - 관리자용
-     * @return
-     */
-    public ListData<OrderItem> farmerSales(){
-        return farmerSales(null);
-    }
-
-
-    /**
      * 최근 month개월 이내 판매량 상위 mount개 농장 추출
      * @param mount
      * @param month - 0 : 기간 상관 없이 추출
@@ -158,7 +118,7 @@ public class OrderItemInfoService {
     /**
      * 모든 주문 내역 조회
      */
-    public ListData<OrderItem> getAll(OrderSearch search) {
+    public ListData<OrderItem> getAll(OrderSearch search, String farmerId) {
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
 
@@ -174,6 +134,11 @@ public class OrderItemInfoService {
         String sopt = search.getSopt();
         sopt = StringUtils.hasText(sopt) ? sopt.trim() : "ALL";
         String skey = search.getSkey(); // 키워드
+
+        // farmer인 경우에는 본인 주문만
+        if (StringUtils.hasText(farmerId)) {
+            andBuilder.and(orderItem.product.farmer.userId.eq(farmerId)) ;
+        }
 
         if (StringUtils.hasText(productNm)) {
             andBuilder.and(orderItem.productName.contains(productNm.trim())) ;
@@ -194,12 +159,15 @@ public class OrderItemInfoService {
 
         // 조건 별 키워드 검색
         if (StringUtils.hasText(skey)) {
-            skey = skey.trim();
+            skey = skey.trim() ;
 
-            BooleanExpression cond = orderItem.productName.contains(skey) ;
+            BooleanExpression cond1 = orderItem.orderInfo.orderName.contains(skey) ;
+            BooleanExpression cond2 = orderItem.orderInfo.orderEmail.contains(skey) ;
 
-            if (sopt.equals("productNm")) {
-                andBuilder.and(cond);
+            if (sopt.equals("orderName")) {
+                andBuilder.and(cond1) ;
+            } else if (sopt.equals("orderEmail")) {
+                andBuilder.and(cond2) ;
             }
         }
         /* 검색 조건 처리 E */
@@ -212,5 +180,6 @@ public class OrderItemInfoService {
         return new ListData<>(data.getContent(), pagination);
     }
 
+    public ListData<OrderItem> getAll(OrderSearch search) { return getAll(search, null) ; }
 
 }

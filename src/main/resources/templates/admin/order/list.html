@@ -10,6 +10,19 @@
     <form name="frmOrderSearch" method="get" th:action="@{/admin/order}" autocomplete="off" th:object="${orderSearch}">
         <table class="table_cols mb30">
             <tr>
+                <th>주문자 정보 검색</th>
+                <td>
+                    <div class="input_grp">
+                        <select name="sopt" th:field="*{sopt}">
+                            <option value="ALL">주문자 정보 선택</option>
+                            <option value="orderName">주문자 명</option>
+                            <option value="orderEmail">주문자 이메일</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <th>상품명</th>
                 <td>
                     <input type="text" name="name" th:field="*{productNm}">
@@ -26,6 +39,18 @@
                     <label for="status_in_cash">입금 확인</label>
                     <input type="checkbox" name="statuses" value="PREPARE" th:field="*{orderStatus}" id="status_prepare">
                     <label for="status_prepare">상품 준비중</label>
+                    <input type="checkbox" name="statuses" value="DELIVERY" th:field="*{orderStatus}" id="status_delivery">
+                    <label for="status_delivery">배송중</label>
+                    <input type="checkbox" name="statuses" value="ARRIVAL" th:field="*{orderStatus}" id="status_arrival">
+                    <label for="status_arrival">배송완료</label>
+                    <input type="checkbox" name="statuses" value="DONE" th:field="*{orderStatus}" id="status_done">
+                    <label for="status_done">주문완료</label>
+                    <input type="checkbox" name="statuses" value="CANCEL" th:field="*{orderStatus}" id="status_cancel">
+                    <label for="status_cancel">입금확인 전 취소</label>
+                    <input type="checkbox" name="statuses" value="REFUND" th:field="*{orderStatus}" id="status_refund">
+                    <label for="status_refund">입금 후 취소</label>
+                    <input type="checkbox" name="statuses" value="EXCHANGE" th:field="*{orderStatus}" id="status_exchange">
+                    <label for="status_exchange">교환</label>
                 </td>
             </tr>
             <tr>
@@ -52,9 +77,10 @@
                     <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
                     <label for="checkall"></label>
                 </th>
-                <th width="100">주문번호</th>
+                <th width="80">주문번호</th>
                 <th width="100">주문자 명</th>
-                <th colspan="2">상품명</th>
+                <th width="100">주문자 이메일</th>
+                <th width="150">상품명</th>
                 <th width="100">총 주문금액</th>
                 <th width="100">주문상태</th>
                 <th width="200"></th>
@@ -72,16 +98,11 @@
                 </td>
                 <td th:text="*{seq}"></td>
                 <td th:text="*{orderInfo.orderName}"></td>
-                <th:block th:if="*{product.mainImages != null && !product.mainImages.isEmpty()}">
-                    <td width="80" th:utext="*{@utils.printThumb(product.mainImages[0].seq, 80, 80, 'product_main')}"></td>
-                </th:block>
-                <th:block th:unless="*{product.mainImages != null && !product.mainImages.isEmpty()}">
-                    <td></td>
-                </th:block>
+                <td th:text="*{orderInfo.orderEmail}"></td>
                 <td th:text="*{product.name}"></td>
                 <td th:text="*{totalPrice}"></td>
                 <td>
-                    [[*{status}]]
+                    [[*{status.getTitle()}]]
                 </td>
                 <td>
                     <a th:href="@{/admin/order/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
@@ -90,8 +111,8 @@
             </tbody>
         </table>
         <div class="table_actions">
-            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 상품 삭제하기</button>
-            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 상품 수정하기</button>
+            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 항목 삭제하기</button>
+            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 항목 수정하기</button>
         </div>
     </form>
 </section>
