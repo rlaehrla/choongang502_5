@@ -55,7 +55,7 @@ public class RecipeSaveService {
         data.setRequiredIng(form.getRequiredIngJSON());
         data.setSubIng(form.getSubIngJSON());
         data.setCondiments(form.getCondimentsJSON());
-
+        System.out.println("data = " + data);
         //JSON
         /*ObjectMapper om = new ObjectMapper();*/
 

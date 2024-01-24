@@ -49,6 +49,7 @@ public class RecipeInfoService {
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
 
+
     /**
      * 상세 조회하기
      * @param seq
@@ -74,12 +75,9 @@ public class RecipeInfoService {
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
 
         recipe.setMainImages(mainImages);
-
-
-
         /* 파일 정보 추가 E */
 
-       /* *//* 수정, 삭제 권한 정보 처리 S *//*
+        /* 수정, 삭제 권한 정보 처리 S */
         boolean editable = false, deletable = false, mine = false;
         AbstractMember _member = recipe.getMember(); // 작성한 회원
 
@@ -108,7 +106,6 @@ public class RecipeInfoService {
 
         recipe.setShowEditButton(showEditButton);
         recipe.setShowDeleteButton(showDeleteButton);
-*/
         /* 수정, 삭제 권한 정보 처리 E */
     }
 
@@ -125,13 +122,14 @@ public class RecipeInfoService {
         String[] requiredIng = null;
         String[] requiredIngEa = null;
         String[] subIng = null;
+        String[] subIngEa = null;
         String[] condiments = null;
+        String[] condientsEa = null;
         try {
             ObjectMapper om = new ObjectMapper();
 
             if (data.getRequiredIng() == null) {
-                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {
-                });
+                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {});
 
 
             }
@@ -149,14 +147,17 @@ public class RecipeInfoService {
                 .category(data.getCategory())
                 .subCategory(data.getSubCategory())
                 .requiredIng(requiredIng)
-                //.requiredIngEa(requiredIngEa)
-                //.subIng(condiments)
+                .requiredIngEa(requiredIngEa)
+                .subIng(subIng)
+                .subIngEa(subIngEa)
+                .condiments(condiments)
+                .condimentsEa(condientsEa)
                 .mainImages(data.getMainImages())
                 .mode("edit") // ?
                 .build();
 
         //RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
-        //form.setMode("edit");
+        form.setMode("edit");
 
         return form;
     }
