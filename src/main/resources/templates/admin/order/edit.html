@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/main}">
+<section layout:fragment="content">
+[[${info}]]
+    <h1>주문 상세 정보</h1>
+
+    <form name="frmOrderDetail" method="get" th:href="@{/admin/order/save}" th:object="${info}">
+        <table class="table-cols">
+            <tr>
+                <th>주문번호</th>
+                <td th:text="*{orderNo}"></td>
+                <th>주문일시</th>
+                <td th:text="*{createdAt}"></td>
+            </tr>
+            <tr>
+                <th>주문상태</th>
+                <td>
+                    <select name="orderStatus" >
+                        <option value="ready"></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</section>
+</html>
