@@ -1,6 +1,8 @@
 package org.choongang.order.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.config.controllers.PaymentConfig;
+import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.cart.constants.CartType;
 import org.choongang.cart.service.CartData;
 import org.choongang.cart.service.CartDeleteService;
@@ -45,6 +47,7 @@ public class OrderController implements ExceptionProcessor {
     private final ProductInfoService productInfoService;
     private final CartSaveService cartSaveService;
     private final PointInfoService pointInfoService;
+    private final ConfigInfoService configInfoService;
 
     /**
      * 주문서 작성
@@ -61,6 +64,14 @@ public class OrderController implements ExceptionProcessor {
     @GetMapping
     public String order(@RequestParam(name="seq", required = false) List<Long> seq, Model model) {
         commonProcess("order", model);
+
+        // 결제약관 불러오기
+        PaymentConfig paymentConfig = configInfoService.get("paymentConfig", PaymentConfig.class).orElseGet(PaymentConfig::new);
+        String personalInfoEntrust = paymentConfig.getPersonalInfoEntrust();
+
+        System.out.println(personalInfoEntrust);
+
+        model.addAttribute("personalInfoEntrust", personalInfoEntrust);
 
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
         CartData data = cartInfoService.getCartInfo(mode, seq);
