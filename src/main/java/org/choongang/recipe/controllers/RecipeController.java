@@ -67,13 +67,9 @@ public class RecipeController implements ExceptionProcessor {
     public String edit(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "edit", model);
 
-
         RequestRecipe form = recipeInfoService.getForm(seq);
-        recipeAuthService.check("edit", form, seq);
-        System.out.println( form);
-//        recipeAuthService.check("update", seq);
-       // RequestRecipe form = recipeInfoService.getForm(recipe);
-
+        recipeAuthService.check("edit", seq);
+        System.out.println(form);
         model.addAttribute("requestRecipe", form);
 
         return utils.tpl("recipe/edit");
@@ -186,10 +182,11 @@ public class RecipeController implements ExceptionProcessor {
 
     private void commonProcess(Long seq, String mode, Model model) {
         // 글수정, 글삭제 권한 체크 필요함
+        if(mode.equals("edit") || mode.equals("delete")) {
+            recipeAuthService.check(mode, seq);
+        }
 
         recipe = recipeInfoService.get(seq);
-
-        System.out.println("recipe = " + recipe);
 
         commonProcess(mode, model);
         model.addAttribute("recipe", recipe);

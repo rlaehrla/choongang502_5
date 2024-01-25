@@ -31,16 +31,12 @@ public class RecipeAuthService{
     private final RecipeInfoService recipeInfoService;
     private final CommentInfoService commentInfoService;
 
-    private final HttpSession session;
-
-
     /**
      * 레시피(댓글) 수정, 삭제
      *      user-작성자, admin O
      *      비회원, 농부 X
      */
-
-    public void check(String mode, RequestRecipe form, Long seq) {
+    public void check(String mode, Long seq) {
         System.out.println("check!");
         if(memberUtil.isAdmin()) { // 관리자는 체크 불필요
             return;
@@ -52,52 +48,38 @@ public class RecipeAuthService{
             data = recipeInfoService.get(seq);
         }
         AbstractMember member = data.getMember(); // 작성한 멤버
-/*        if(form.getPoster().equals(member)) {
 
-        }*/
-        // 작성자가 아닐 때 - 수정 필요
-        if ((mode.contains("edit") && !data.isEditable())
-                || (mode.contains("delete") && !data.isDeletable())) {
-            System.out.println("작성자가 아님");
-
-            throw new UnAuthorizedException();
-        }
-
-        // 비회원, 농부 -> 로그인 화면
-        if(member == null || memberUtil.isFarmer()) {
-            // 권한 없음
-            System.out.println("비회원, 농부임");
+        if(memberUtil.isLogin()) {
+            // 작성한 멤버가 X, 농부일 때
+            if (!(member.getNickname().equals(memberUtil.getMember().getNickname()))
+                || memberUtil.isFarmer()) {
+                throw new UnAuthorizedException();
+            }
+        } else if(memberUtil.getMember() == null) { // 비회원일 때
             throw new UnAuthorizedException(); // 임시
         }
-
-
-        // alert -> back
-        return;
     }
     /**
      * 레시피 등록
-     * 유저, admin만
+     * 유저, admin만 가능
      *
      */
     public void accessCheck(RequestRecipe form) {
-//        AuthCheck data = null;
         AbstractMember member = null;
         if (memberUtil.isAdmin()) { // 관리자는 체크 불필요
             member = memberUtil.getMember();
             form.setPoster("여름지기 마켓");
             return;
         }
-
         if (memberUtil.isLogin()) {
             member = memberUtil.getMember();
             form.setPoster(member.getNickname());
-            System.out.println("member = " + member.getNickname());
         }
 
-        // 비회원이거나 농부 -> 권한 없음
+        // 비회원이거나 농부 -> 로그인 페이지로 이동
         if(member == null || memberUtil.isFarmer()) {
-            System.out.println("비회원이거나 농부일 때");
-            throw new UnAuthorizedException(); // 임시
+            // 로그인 페이지로
+            throw new UnAuthorizedException();
         }
     }
 

@@ -18,7 +18,6 @@ public class RecipeDeleteService {
     private final RecipeRepository recipeRepository;
     private final RecipeInfoService recipeInfoService;
     private final FileDeleteService fileDeleteService;
-    private final RecipeAuthService recipeAuthService;
 
     /**
      * 레시피 삭제
@@ -27,12 +26,7 @@ public class RecipeDeleteService {
      */
     public void delete(Long seq) {
 
-
-
         Recipe data = recipeInfoService.get(seq);
-        // 삭제 권한 체크
-        /*recipeAuthService.check("delete", seq);*/
-
         String gid = data.getGid();
 
         recipeRepository.delete(data);
