@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.sound.midi.Receiver;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -44,7 +45,7 @@ public class RecipeInfoService {
     private final EntityManager em;
     private final RecipeRepository recipeRepository;
     private final HttpServletRequest request;
-    private final CommentInfoService commentInfoService;
+    //private final CommentInfoService commentInfoService;
 
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
@@ -68,21 +69,18 @@ public class RecipeInfoService {
     }
 
     private void addRecipe(Recipe recipe) {
-
         /* 파일 정보 추가 S */
         String gid = recipe.getGid();
-        String mgid = recipe.getMember().getGid();
+        //String mgid = recipe.getMember().getGid();
 
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
-        List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
-        if(profileImage.isEmpty() && profileImage == null) {
+        //List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
 
-        }
-        System.out.println("profileImage = " + profileImage);
         recipe.setMainImages(mainImages);
-        recipe.setProfileImage(profileImage);
+        //recipe.setProfileImage(profileImage);
         /* 파일 정보 추가 E */
 
+        /** 임시 !! */
         /* 수정, 삭제 권한 정보 처리 S */
         boolean editable = false, deletable = false, mine = false;
         AbstractMember _member = recipe.getMember(); // 작성한 회원
@@ -115,6 +113,18 @@ public class RecipeInfoService {
         /* 수정, 삭제 권한 정보 처리 E */
     }
 
+    public List<String> getIngredients(){
+        List<String> keywordTmp = recipeRepository.getIngredients();
+
+        return keywordTmp == null ? null :
+                keywordTmp.stream().filter(StringUtils::hasText)
+                        .flatMap(s -> Arrays.stream(s.split("__"))) // flatMap : 스트림이 여러 개 있는 경우 펼쳐서 하나로 만든다.
+                        .filter(StringUtils::hasText)
+                        .distinct()
+                        .toList();
+    }
+
+
     /**
      * 수정하기
      * Recipe 엔터티 -> RequestRecipe
@@ -122,28 +132,8 @@ public class RecipeInfoService {
      * @param seq : 레시피 번호(Long)
      * @return
      */
-
     public RequestRecipe getForm(Long seq) {
         Recipe data = get(seq);
-        String[] requiredIng = null;
-        String[] requiredIngEa = null;
-        String[] subIng = null;
-        String[] subIngEa = null;
-        String[] condiments = null;
-        String[] condientsEa = null;
-        try {
-            ObjectMapper om = new ObjectMapper();
-
-            if (data.getRequiredIng() == null) {
-                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {});
-
-
-            }
-
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         RequestRecipe form = RequestRecipe.builder()
                 .seq(data.getSeq())
                 .gid(data.getGid())
@@ -152,15 +142,60 @@ public class RecipeInfoService {
                 .estimatedT(data.getEstimatedT())
                 .category(data.getCategory())
                 .subCategory(data.getSubCategory())
-                .requiredIng(requiredIng)
-                .requiredIngEa(requiredIngEa)
-                .subIng(subIng)
-                .subIngEa(subIngEa)
-                .condiments(condiments)
-                .condimentsEa(condientsEa)
                 .mainImages(data.getMainImages())
+                .amount(data.getAmount())
                 .mode("edit")
                 .build();
+
+        try {
+            ObjectMapper om = new ObjectMapper();
+
+            if (StringUtils.hasText(data.getRequiredIng())) {
+                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {});
+
+                // 필수 재료 내용
+                String[] requiredIng = requiredIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                // 필수 재료 수량
+                String[] requiredIngEa = requiredIngTmp.stream().map(s -> s[1])
+                        .toArray(String[]::new);
+
+                form.setRequiredIng(requiredIng);
+                form.setRequiredIngEa(requiredIngEa);
+            }
+            if (StringUtils.hasText(data.getSubIng())) {
+                List<String[]> subIngTmp = om.readValue(data.getSubIng(), new TypeReference<>() {});
+
+                // 부재료 내용
+                String[] subIng = subIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                // 부재료 수량
+                String[] subIngEa = subIngTmp.stream().map(s -> s[1])
+                        .toArray(String[]::new);
+
+                form.setSubIng(subIng);
+                form.setSubIngEa(subIngEa);
+            }
+
+            if (StringUtils.hasText(data.getCondiments())) {
+                List<String[]> condimentsTmp = om.readValue(data.getCondiments(), new TypeReference<>() {});
+
+                // 양념 내용
+                String[] condiments = condimentsTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                // 양념 수량
+                String[] condimentsEa = condimentsTmp.stream().map(s -> s[1])
+                        .toArray(String[]::new);
+
+                form.setCondiments(condiments);
+                form.setCondimentsEa(condimentsEa);
+            }
+
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
 
         return form;
     }
@@ -178,13 +213,25 @@ public class RecipeInfoService {
         QRecipe recipe = QRecipe.recipe;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
+
+
         /* 검색 조건 처리 S */
+        String category = search.getCategory();
+        String subCategory = search.getSubCategory();
+        if(StringUtils.hasText(category)) {
+            andBuilder.and(recipe.category.eq(category.trim()));
+        }
+        if(StringUtils.hasText(subCategory)) {
+            andBuilder.and(recipe.subCategory.eq(subCategory.trim()));
+        }
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
-        System.out.println("skey = " + skey);
-        System.out.println("sopt = " + sopt);
 
-        if(StringUtils.hasText(sopt)){
+        sopt = StringUtils.hasText(sopt) ?  sopt : "all";
+
+
+
+/*        if(StringUtils.hasText(sopt)){
             if(sopt.equals("all")) {
                 sopt = "all";
             } else if(sopt.equals("rcpName")) {
@@ -192,31 +239,36 @@ public class RecipeInfoService {
             } else if(sopt.equals("member")) {
                 sopt = "member";
             }
-        }
+        }*/
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
 
+            BooleanExpression nickCond = recipe.member.nickname.contains(skey);
+            BooleanExpression userIdCond = recipe.member.userId.contains(skey);
+            BooleanExpression rcpIngCond = recipe.keyword.contains("__" + skey + "__");
+
             if (sopt.equals("rcpname")) { // 제목
                 andBuilder.and(rcpCond);
             } else if (sopt.equals("member")) { // 닉네임 + 아이디 (OR)
                 BooleanBuilder orBuilder = new BooleanBuilder();
-                orBuilder.or(recipe.member.nickname.contains(skey))
-                        .or(recipe.member.userId.contains(skey));
+                orBuilder.or(nickCond)
+                        .or(userIdCond);
                 andBuilder.and(orBuilder);
+            } else if (sopt.equals("rcpIng")) { // 재료
+                andBuilder.and(rcpIngCond);
             } else if (sopt.equals("all")) {
-                // 닉네임+아이디도 추가해야함
                 BooleanBuilder orBuilder = new BooleanBuilder();
-                orBuilder.or(recipe.member.nickname.contains(skey))
-                        .or(recipe.member.userId.contains(skey));
-                andBuilder.or(rcpCond)
-                        .or(orBuilder);
+                orBuilder.or(nickCond)
+                        .or(userIdCond)
+                        .or(rcpCond)
+                        .or(rcpIngCond);
 
+                andBuilder.and(orBuilder);
             }
         }
             /* 검색 조건 처리 E */
-
             PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
             List<Recipe> items = new JPAQueryFactory(em)
                     .selectFrom(recipe)
@@ -235,8 +287,6 @@ public class RecipeInfoService {
 
             // 이미지
             items.forEach(this::addRecipe);
-            System.out.println("items = " + items);
-
 
             return new ListData<>(items, pagination);
     }

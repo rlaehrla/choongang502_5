@@ -23,7 +23,7 @@ public class RequestRecipe {
     private Long seq; // 게시글 번호
     private String gid = UUID.randomUUID().toString();
 
-    @NotBlank
+    //@NotBlank
     private String poster; // 글 작성자
 
     @NotBlank

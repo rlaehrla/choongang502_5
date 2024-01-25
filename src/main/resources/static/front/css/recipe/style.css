@@ -45,9 +45,15 @@ textarea { border: 1px solid #d5d5d5; width: 100%; resize: none; height: 100px; 
 /* 레시피 리스트 S */
 .contentBox{
     padding: 50px;
+    display: grid;
+    column-gap: 15px;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    row-gap: 40px;
 }
-.itemList {
-    width: fit-content;
+.contentBox .item {
+}
+.contentBox .item .imgBox img{
+    width: 100%;
 }
 /* 레시피 리스트 E */
 
