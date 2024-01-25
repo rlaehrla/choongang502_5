@@ -74,7 +74,6 @@ public class BannerController {
             // 품목 등록 또는 수정
             addCommonScript.add("ckeditor5/ckeditor");
             addCommonScript.add("fileManager");
-            addScript.add("board/form");
         }
 
         model.addAttribute("pageTitle", pageTitle);
