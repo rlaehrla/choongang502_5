@@ -32,7 +32,6 @@ public class RecipeAuthService{
     private final CommentInfoService commentInfoService;
 
     private final HttpSession session;
-    private final Recipe recipe;
 
 
     /**
