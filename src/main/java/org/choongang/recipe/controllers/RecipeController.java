@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.board.controllers.RequestBoard;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
@@ -30,6 +32,7 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeInfoService recipeInfoService;
     private final RecipeDeleteService recipeDeleteService;
 
+    private final MemberUtil memberUtil;
     private final RecipeAuthService recipeAuthService;
     private Recipe recipe;
 
@@ -48,6 +51,9 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/add")
     public String write(@ModelAttribute RequestRecipe form, Model model) {
         commonProcess("add", model);
+        // member, admin만 등록 가능
+        recipeAuthService.accessCheck(form);
+
         return utils.tpl("recipe/add");
     }
 
@@ -58,12 +64,16 @@ public class RecipeController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/edit/{seq}")
-    public String update(@PathVariable("seq") Long seq, Model model) {
+    public String edit(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "edit", model);
+
+
         RequestRecipe form = recipeInfoService.getForm(seq);
+        recipeAuthService.check("edit", form, seq);
         System.out.println( form);
 //        recipeAuthService.check("update", seq);
        // RequestRecipe form = recipeInfoService.getForm(recipe);
+
         model.addAttribute("requestRecipe", form);
 
         return utils.tpl("recipe/edit");
@@ -177,10 +187,10 @@ public class RecipeController implements ExceptionProcessor {
     private void commonProcess(Long seq, String mode, Model model) {
         // 글수정, 글삭제 권한 체크 필요함
 
-
-
         recipe = recipeInfoService.get(seq);
+
         System.out.println("recipe = " + recipe);
+
         commonProcess(mode, model);
         model.addAttribute("recipe", recipe);
     }

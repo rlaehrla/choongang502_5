@@ -153,11 +153,11 @@ public class RecipeInfoService {
                 .condiments(condiments)
                 .condimentsEa(condientsEa)
                 .mainImages(data.getMainImages())
-                .mode("edit") // ?
+                .mode("edit")
                 .build();
 
         //RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
-        form.setMode("edit");
+        //form.setMode("edit");
 
         return form;
     }
