@@ -1,14 +1,20 @@
 package org.choongang.cart.service;
 
+import com.querydsl.core.BooleanBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.choongang.cart.constants.CartType;
+import org.choongang.cart.entities.CartInfo;
+import org.choongang.cart.entities.QCartInfo;
 import org.choongang.cart.repositories.CartInfoRepository;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
+import org.choongang.member.MemberUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -16,8 +22,11 @@ import java.util.List;
 public class CartDeleteService {
 
     private final CartInfoRepository cartInfoRepository;
+    private final CartSaveService cartSaveService;
     private final HttpServletRequest request;
     private final Utils utils;
+    private final MemberUtil memberUtil;
+
 
     public void deleteList(List<Integer> chks) {
         if (chks == null || chks.isEmpty()) {
@@ -32,6 +41,31 @@ public class CartDeleteService {
 
         cartInfoRepository.deleteAllById(seq);
 
+        cartInfoRepository.flush();
+
+    }
+
+    /**
+     * CartType.Direct 일 때(바로구매)
+     * 장바구니 전체 삭제
+     *
+     */
+    public void deleteCart(){
+
+        Long memberSeq = memberUtil.getMember().getSeq();
+        QCartInfo cartInfo = QCartInfo.cartInfo;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(cartInfo.member.seq.eq(memberSeq));
+        builder.and(cartInfo.mode.eq(CartType.CART));
+
+        Iterator<CartInfo> carts = cartInfoRepository.findAll(builder).iterator();
+
+        while(carts.hasNext()){
+            CartInfo cart = carts.next();
+            cartInfoRepository.delete(cart);
+
+        }
         cartInfoRepository.flush();
 
     }
