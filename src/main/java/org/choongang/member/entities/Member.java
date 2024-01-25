@@ -14,4 +14,7 @@ import java.time.LocalDate;
 @DiscriminatorValue("M")
 public class Member extends AbstractMember {
 
+    @Transient
+    private int point;
+
 }
