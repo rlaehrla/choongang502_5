@@ -1,7 +1,7 @@
 package org.choongang.order.service;
 
 
-import jakarta.persistence.criteria.Order;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.cart.entities.CartInfo;
 import org.choongang.cart.service.CartData;
@@ -19,7 +19,6 @@ import org.choongang.order.entities.OrderItem;
 import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.product.entities.Product;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +34,10 @@ public class OrderSaveService {
     private final AddressSaveService addressSaveService;
     private final OrderInfoRepository orderInfoRepository;
     private final CartInfoService cartInfoService;
+    private final OrderInfoService orderInfoService ;
     private final MemberUtil memberUtil;
     private final AddressRepository addressRepository;
+    private final HttpServletRequest request ;
 
     public OrderInfo save(RequestOrder form){
         List<Long> cartSeqs = form.getCartSeq();
@@ -118,5 +119,23 @@ public class OrderSaveService {
 
         return orderInfo;
 
+    }
+
+
+    /**
+     * 주문 상태 변경 저장
+     */
+    public void statusSave(Long orderSeq, String status) {
+        status = request.getParameter("orderStatus") ;
+
+        OrderInfo info = orderInfoService.get(orderSeq) ;
+        info.setStatus(OrderStatus.valueOf(status));
+
+        orderInfoRepository.saveAndFlush(info) ;
+
+        OrderItem item = orderItemRepository.findById(orderSeq).orElseGet(null) ;
+        item.setStatus(OrderStatus.valueOf(status));
+
+        orderItemRepository.saveAndFlush(item) ;
     }
 }
