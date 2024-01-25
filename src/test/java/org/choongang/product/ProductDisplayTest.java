@@ -1,6 +1,5 @@
 package org.choongang.product;
 
-import jakarta.validation.constraints.AssertTrue;
 import org.choongang.product.service.DisplayData;
 import org.choongang.product.service.ProductDisplayService;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ public class ProductDisplayTest {
 
     @Test
     void test1(){
-        DisplayData data = productDisplayService.getDisplaydata(1706081732704L);
+        DisplayData data = productDisplayService.getDisplayData(1706081732704L);
 
         System.out.println(data);
     }
