@@ -6,7 +6,9 @@
     <h1 th:text="#{주문서_작성}"></h1>
 
     <form name="frmOrder" method="post" th:action="@{/order}" autocomplete="off" th:object="${cartData}">
-
+        <input type="hidden" name="totalPrice" th:field="*{totalPrice}">
+        <input type="hidden" name="totalDeliveryPrice" th:field="*{totalDeliveryPrice}">
+        <input type="hidden" name="totalDiscount" th:field="*{totalDiscount}">
         <h2 th:text="#{주문_상품}"></h2>
 
         <th:block th:replace="~{front/cart/_items::items}"></th:block>
@@ -124,7 +126,7 @@
             <tr>
                 <th th:text="#{상품합계}"></th>
                 <td>
-                    <span class="money" th:text="*{totalPrice}"></span>
+                    <span class="money" id="total_price" th:text="*{totalPrice}"></span>
                     <th:block th:text="#{원}"></th:block>
                 </td>
             </tr>
@@ -146,10 +148,23 @@
                     <th:block th:text="#{원}"></th:block>
                 </td>
             </tr>
+
+            <tr th:if="${@memberUtil.isLogin()}">
+                <th th:text="#{포인트_사용}"></th>
+                <td>
+                    <span th:text="#{보유포인트}"></span>
+                    :
+                    <span id="avail_point" class="money" th:text="${point}"></span><br/>
+                    <input type="number" name="usePoint" min="0" id="use_point">
+                    <button type="button" id="pointBtn" class="sbtn" th:text="#{적용하기}"></button>
+                    <div class="auth_box"></div>
+                </td>
+            </tr>
+
             <tr>
                 <th th:text="#{결제금액}"></th>
                 <td>
-                    <span  class="money" th:text="*{payPrice}"></span>
+                    <span id="pay_price" class="money" th:text="*{payPrice}"></span>
                     <th:block th:text="#{원}"></th:block>
                 </td>
             </tr>

@@ -68,6 +68,8 @@ public class QOrderInfo extends EntityPathBase<OrderInfo> {
 
     public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
 
+    public final NumberPath<Integer> usePoint = createNumber("usePoint", Integer.class);
+
     public final StringPath zoneCode = createString("zoneCode");
 
     public QOrderInfo(String variable) {

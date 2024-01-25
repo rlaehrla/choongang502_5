@@ -12,6 +12,7 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 import org.choongang.member.repositories.AddressRepository;
+import org.choongang.member.service.PointInfoService;
 import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.service.OrderInfoService;
@@ -43,6 +44,7 @@ public class OrderController implements ExceptionProcessor {
     private final CartDeleteService cartDeleteService;
     private final ProductInfoService productInfoService;
     private final CartSaveService cartSaveService;
+    private final PointInfoService pointInfoService;
 
     /**
      * 주문서 작성
@@ -52,7 +54,8 @@ public class OrderController implements ExceptionProcessor {
      *                  바로구매(DIRECT) : 상품 상세에서 바로 주문하는 경우
      *                  CART : 장바구니 -> 주문하기
      * @param model
-     * @return*/
+     * @return
+     * */
 
 
     @GetMapping
@@ -74,6 +77,10 @@ public class OrderController implements ExceptionProcessor {
         }
         model.addAttribute("cartData", data);
 
+        if(memberUtil.isLogin()){
+            model.addAttribute("point", pointInfoService.pointSum());
+        }
+
         return utils.tpl("order/order_form");
     }
 
@@ -83,7 +90,7 @@ public class OrderController implements ExceptionProcessor {
         validator.validate(form, errors);
 
         if(errors.hasErrors()){
-            return utils.tpl("order");
+            return utils.tpl("/");
         }
 
         OrderInfo orderInfo = orderSaveService.save(form);

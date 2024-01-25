@@ -106,9 +106,9 @@ public class JoinService {
 
     public void processMember(Member member) {
 
-        pointSaveService.save(member, 1000);
 
         memberRepository.saveAndFlush(member);
+        pointSaveService.save(member, 1000);
     }
 
     public void processFarmer(Farmer farmer) {

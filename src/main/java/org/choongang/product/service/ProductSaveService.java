@@ -109,6 +109,7 @@ public class ProductSaveService {
             boolean active = Boolean.valueOf(utils.getParam("active_" + chk));
 
             product.setActive(active);
+            repository.save(product);
         }
 
         repository.flush();

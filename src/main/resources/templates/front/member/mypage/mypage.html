@@ -19,8 +19,14 @@
     </div>
     <div class="row">
         <th:block th:text="#{마이_포인트}"></th:block><br>
-        포인트 : <a th:href="@{/mypage/point}" th:text="#{P}"></a><br>
-
+        <div>
+            <a th:href="@{/mypage/point}">
+                <span th:text="#{포인트}"></span>
+                :
+                <span th:text="${point}"></span>
+                <span th:text="#{P}"></span>
+            </a>
+        </div>
     </div>
     <div class="row">
         <a th:href="@{/member/info}" th:text="#{회원_정보}"></a>

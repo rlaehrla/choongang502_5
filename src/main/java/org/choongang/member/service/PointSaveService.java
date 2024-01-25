@@ -7,6 +7,8 @@ import org.choongang.member.repositories.PointRepository;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PointSaveService {
@@ -29,5 +31,6 @@ public class PointSaveService {
         pointRepository.saveAndFlush(point);
 
     }
+
 
 }

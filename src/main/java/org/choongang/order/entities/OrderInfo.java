@@ -8,6 +8,7 @@ import org.choongang.commons.AddressAssist;
 import org.choongang.commons.entities.Base;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Point;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.constants.PayType;
 
@@ -69,6 +70,8 @@ public class OrderInfo extends Base {
     private int totalDiscount; // 주문 시점 총 할인금액
     private int payPrice; // 주문 시점 결제 금액
 
+    private int usePoint; // 포인트 사용 금액
+
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
     private PayType payType;
@@ -80,5 +83,6 @@ public class OrderInfo extends Base {
     @OneToMany(mappedBy = "orderInfo", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-
+    /*@Transient
+    private Point point;*/
 }
