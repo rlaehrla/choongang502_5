@@ -41,7 +41,7 @@
                 <td th:if="*{addressSub != null}" th:text="*{address + ' ' + addressSub }"></td>
             </tr>
         </table>
-        <div>
+        <div class="payInfo">
             <div class="order-title">
             <h2 th:text="#{결제정보}"></h2>
             </div>
@@ -75,37 +75,49 @@
                 <!-- 전체 요약 -->
                     <div class="col no-spacing ">
                         <div class="row result_list">
-                            <div class="value_item" th:text="#{상품금액}"></div>
-                            <div class="value_price">
-                                <span class="money" th:text="*{totalPrice}"></span>
-                                <span th:text="#{원}"></span>
+                            <div class="value_item">
+                                <div class="value_name" th:text="#{상품금액}"></div>
+                                <div class="value_price">
+                                    <span class="money" th:text="*{totalPrice}"></span>
+                                    <span th:text="#{원}"></span>
+                                </div>
                             </div>
-                            <div class="value_item" th:text="#{배송비}"></div>
-                            <div class="value_price">
-                                <span class="money" th:text="*{totalDeliveryPrice}"></span>
-                                <span th:text="#{원}"></span>
+                            <div class="value_item">
+                                <div class="value_name" th:text="#{배송비}"></div>
+                                <div class="value_price">
+                                    <span class="money" th:text="*{totalDeliveryPrice}"></span>
+                                    <span th:text="#{원}"></span>
+                                </div>
                             </div>
-                            <div class="value_item" th:text="#{할인금액}"></div>
-                            <div class="value_price">
-                                <span class="money" th:text="*{totalDiscount}"></span>
-                                <span th:text="#{원}"></span>
+                            <div class="value_item">
+                                <div class="value_name" th:text="#{할인금액}"></div>
+                                <div class="value_price">
+                                    <span class="money" th:text="*{totalDiscount}"></span>
+                                    <span th:text="#{원}"></span>
+                                </div>
                             </div>
-                            <div class="value_item" th:text="#{포인트사용}"></div>
-                            <div class="value_price">
+                            <div class="value_item">
+                                <div class="value_name" th:text="#{포인트사용}"></div>
+                                <div class="value_price">
                                 <span class="money">0</span>
                                 <span th:text="#{원}"></span>
+                            </div>
                             </div>
                         </div>
                         <!-- 포인트 -->
                         <div class="row point">
-                            <div th:text="#{포인트적립}"></div>
-                            <div></div>
-                            <div th:text="#{적립기준}"></div>
-                            <div th:text="#{적립기준_상세}"></div>
-                            <div th:text="#{가용시점}"></div>
-                            <div th:text="#{가용시점_상세}"></div>
-                            <div th:text="#{유효기간}"></div>
-                            <div th:text="#{유효기간_상세}"></div>
+                            <div class="clf">
+                                <b class="fl pb" th:text="#{포인트적립}"></b>
+                                <div class="fr pb">
+                                    <b class="highlight"></b>
+                                </div>
+                                <div class="fl" th:text="#{적립기준}"></div>
+                                <div class="fr" th:text="#{적립기준_상세}"></div>
+                                <div class="fl" th:text="#{가용시점}"></div>
+                                <div class="fr" th:text="#{가용시점_상세}"></div>
+                                <div class="fl" th:text="#{유효기간}"></div>
+                                <div class="fr" th:text="#{유효기간_상세}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,11 +126,13 @@
                         <div class="account-name" th:text="#{결제방식}"></div>
                         <div></div>
                     </div>
-                    <div class="col">
-                        <div th:text="#{총결제금액}"></div>
-                        <div>
-                            <span class="money" th:text="*{payPrice}"></span>
-                            <span th:text="#{원}"></span>
+                    <div class="col total_payment">
+                        <div class="order_flex">
+                            <div class="order_name" th:text="#{총결제금액}"></div>
+                            <div class="order_price">
+                                <span class="money" th:text="*{payPrice}"></span>
+                                <span th:text="#{원}"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
