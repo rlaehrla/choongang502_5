@@ -109,7 +109,7 @@ public class OrderSaveService {
             Point usePoint = Point.builder()
                     .point(form.getUsePoint() * -1)
                     .member((Member)memberUtil.getMember())
-                    //.orderInfo(orderInfo)
+                    .orderNo(orderInfo.getOrderNo())
                     .build();
 
             pointRepository.saveAndFlush(usePoint);
@@ -122,7 +122,7 @@ public class OrderSaveService {
             Point point = Point.builder()
                     .member((Member)memberUtil.getMember())
                     .point(pt)
-                    //.orderInfo(orderInfo)
+                    .orderNo(orderInfo.getOrderNo())
                     .build();
 
             pointRepository.saveAndFlush(point);

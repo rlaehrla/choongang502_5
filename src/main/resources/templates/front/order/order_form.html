@@ -171,7 +171,7 @@
             <tr>
                 <th th:text="#{결제약관_동의}"></th>
                 <td>
-                    <textarea th:text="#{결제약관}" readonly></textarea>
+                    <textarea th:text="${paymentConfig.paymentAgree}" readonly></textarea>
                     <input type="checkbox" value="true" name="agree" id="agree">
                     <label for="agree" th:text="#{동의}"></label>
                 </td>

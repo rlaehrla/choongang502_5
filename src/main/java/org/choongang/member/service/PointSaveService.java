@@ -22,15 +22,28 @@ public class PointSaveService {
      * @param member
      * @param num : 적립할 포인트
      */
-    public void save(Member member, int num){
+    public void save(Member member, int num, String message, Long orderNo){
 
         Point point = new Point();
         point.setMember(member);
         point.setPoint(num);
+        point.setMessage(message);
+        point.setOrderNo(orderNo);
 
         pointRepository.saveAndFlush(point);
 
     }
 
+    public void save(Member member, int num, Long orderNo){
+        save(member, num, null, orderNo);
+    }
+
+    public void save(Member member, int num, String message) {
+        save(member, num, message, null);
+    }
+
+    public void save(Member member, int num) {
+        save(member, num, null, null);
+    }
 
 }

@@ -108,7 +108,7 @@ public class JoinService {
 
 
         memberRepository.saveAndFlush(member);
-        pointSaveService.save(member, 1000);
+        pointSaveService.save(member, 1000, "회원가입을 축하합니다!");
     }
 
     public void processFarmer(Farmer farmer) {

@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long>, QuerydslPredicateExecutor<OrderInfo> {
 
+    Optional<OrderInfo> findByOrderNo(Long orderNo);
 
 }
