@@ -1,12 +1,18 @@
 package org.choongang.admin.banner.controllers;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.choongang.admin.banner.service.BannerSaveService;
 import org.choongang.admin.menus.AdminMenu;
 import org.choongang.commons.MenuDetail;
+import org.choongang.file.service.FileInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -14,7 +20,12 @@ import java.util.List;
 
 @Controller("adminBannerController")
 @RequestMapping("/admin/banner")
+@RequiredArgsConstructor
 public class BannerController {
+
+    private final BannerValidator bannerValidator;
+    private final BannerSaveService bannerSaveService;
+    protected final FileInfoService fileInfoService;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() { // 주 메뉴 코드
@@ -28,14 +39,24 @@ public class BannerController {
 
     @GetMapping
     public String list(Model model){
-
         commonProcess("list", model);
         return "admin/banner/list";
     }
     @GetMapping("/add")
     public String add(Model model){
         commonProcess("add", model);
+
         return "admin/banner/add";
+    }
+
+    @PostMapping("/save")
+    public String save(@Valid RequestBanner form, Errors errors, Model model) {
+        String mode = form.getMode();
+        commonProcess(mode, model);
+
+        bannerSaveService.save(form);
+
+        return "redirect:/admin/banner";
     }
 
     private void commonProcess(String mode, Model model) {
@@ -43,7 +64,7 @@ public class BannerController {
         mode = StringUtils.hasText(mode) ? mode : "list";
 
         if (mode.equals("add")) {
-            pageTitle = "배너등록";
+            pageTitle = "배너 등록";
         }
 
         List<String> addCommonScript = new ArrayList<>();
@@ -52,7 +73,7 @@ public class BannerController {
         if (mode.equals("add")) {
             // 품목 등록 또는 수정
             addCommonScript.add("ckeditor5/ckeditor");
-            addScript.add("board/form");
+            addCommonScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);

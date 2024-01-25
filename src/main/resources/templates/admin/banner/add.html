@@ -4,6 +4,120 @@
       layout:decorate="~{admin/layouts/main}">
 <aside th:replace="~{admin/outlines/_side::menus}"></aside>
 <section layout:fragment="content">
+    <h1>배너 등록</h1>
+    <form name="frmSave" method="post" th:action="@{/admin/banner/save}" autocomplete="off">
+        <input type="hidden" name="gid" value="banner">
+        <h2>사용 위치 설정</h2>
+        <table class="table_cols mb30">
+            <tr>
+                <th width="100">배너 사용 위치</th>
+                <td>
+                    <input type="radio" name="bannerWhere" id="main" value="main">
+                    <label for="main">메인 페이지</label>
+                    <input type="radio" name="bannerWhere" id="recipe" value="recipe">
+                    <label for="recipe">레시피 페이지</label>
+                </td>
+            </tr>
+        </table>
 
+        <h2>이미지 등록</h2>
+        <table class="table_cols mb30">
+            <tr>
+                <th width="100">배너 이미지 1</th>
+                <td>
+                    <div id="bannerImage1"></div>
+                    <button type="button" class="upload_files sbtn"
+                            data-location="bannerImage1" data-image-only="true">
+                        <i class="xi-image"></i>
+                        이미지 추가
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">배너 이미지 2</th>
+                <td>
+                    <div id="bannerImage2"></div>
+                    <button type="button" class="upload_files sbtn"
+                            data-location="bannerImage2" data-image-only="true">
+                        <i class="xi-image"></i>
+                        이미지 추가
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">배너 이미지 3</th>
+                <td>
+                    <div id="bannerImage3"></div>
+                    <button type="button" class="upload_files sbtn"
+                            data-location="bannerImage3" data-image-only="true">
+                        <i class="xi-image"></i>
+                        이미지 추가
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">배너 이미지 4</th>
+                <td>
+                    <div id="bannerImage4"></div>
+                    <button type="button" class="upload_files sbtn"
+                            data-location="bannerImage4" data-image-only="true">
+                        <i class="xi-image"></i>
+                        이미지 추가
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">배너 이미지 5</th>
+                <td>
+                    <div id="bannerImage5"></div>
+                    <button type="button" class="upload_files sbtn"
+                            data-location="bannerImage5" data-image-only="true">
+                        <i class="xi-image"></i>
+                        이미지 추가
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <h2>크기 설정</h2>
+        <table class="table_cols mb30">
+            <tr>
+                <th width="100">가로 크기</th>
+                <td>
+                    <input name="horizontal" type="text" placeholder="숫자만 입력">
+                </td>
+            </tr>
+            <tr>
+                <th width="100">세로 크기</th>
+                <td>
+                    <input name="vertical" type="text" placeholder="숫자만 입력">
+                </td>
+            </tr>
+        </table>
+
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">저장하기</button>
+        </div>
+    </form>
+
+    <script>
+        function callbackFileUpload(files) {
+            if (!files || files.length == 0) {
+                return;
+            }
+
+            for (const file of files) {
+                const el = document.getElementById(`${file.location}`);
+                if (!el) continue;
+
+                const img = new Image();
+                img.src = file.fileUrl;
+                el.innerHTML = "";
+                el.appendChild(img);
+            }
+        }
+    </script>
 </section>
+</th:block>
 </html>

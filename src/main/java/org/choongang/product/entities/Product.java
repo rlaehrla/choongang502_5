@@ -1,5 +1,6 @@
 package org.choongang.product.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Product extends Base {
     @JoinColumn(name = "cateCd")
     private Category category; // 상품 분류
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farmerSeq")
     private Farmer farmer; // 판매 농장주
@@ -76,6 +78,7 @@ public class Product extends Base {
     @Transient
     private List<FileInfo> listImages; // 목록 이미지
 
+    @JsonIgnore
     @Transient
     private List<FileInfo> editorImages; // 에디터에 첨부한 이미지
 }

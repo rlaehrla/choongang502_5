@@ -32,7 +32,7 @@ public class BlogCreateService {
             form.setMode("add");
             form.setBid(blogId);
             form.setActive(true);
-            form.setBName("🔔" + farmTitle + "의 소식");
+            form.setBName(farmTitle + "의 소식");
             form.setUseEditor(true);
             form.setUseUploadImage(true);
             form.setUseUploadFile(true);

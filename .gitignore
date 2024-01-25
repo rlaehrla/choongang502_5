@@ -37,3 +37,5 @@ out/
 .vscode/
 
 application-dev.*
+
+!**/src/main/java/org/choongang/member/controllers/JoinValidator/

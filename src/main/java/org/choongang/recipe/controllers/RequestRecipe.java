@@ -3,7 +3,10 @@ package org.choongang.recipe.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import org.choongang.file.entities.FileInfo;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -11,6 +14,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class RequestRecipe {
     private ObjectMapper om;
 
@@ -18,8 +23,8 @@ public class RequestRecipe {
     private Long seq; // 게시글 번호
     private String gid = UUID.randomUUID().toString();
 
-/*    @NotBlank
-    private String poster; // 글 작성자*/
+    @NotBlank
+    private String poster; // 글 작성자
 
     @NotBlank
     private String rcpName; // 글 제목
@@ -40,6 +45,8 @@ public class RequestRecipe {
 
     private String[] condiments; // 양념
     private String[] condimentsEa; // 양념 수량
+
+    private List<FileInfo> mainImages;
 
     private List<String> content;
     private List<String> tip;
@@ -79,7 +86,7 @@ public class RequestRecipe {
                 String ea = subIngEa[i];
                 ea = StringUtils.hasText(ea) ? ea : "";
 
-                data.add(new String[] { content.trim(),  ea.trim()});
+                data.add(new String[] { content.trim(),  ea.trim()}); // 0: 재료 / 1: 수량
             }
         }
         String json =  null;

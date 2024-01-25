@@ -32,6 +32,7 @@ public class JoinService {
     private final AddressRepository addressRepository;
     private final HttpServletRequest request ;
     private final BlogCreateService blogCreateService;
+    private final PointSaveService pointSaveService;
 
     public void process(RequestJoin form, Errors errors) {
         joinValidator.validate(form, errors);
@@ -104,6 +105,9 @@ public class JoinService {
     }
 
     public void processMember(Member member) {
+
+        pointSaveService.save(member, 1000);
+
         memberRepository.saveAndFlush(member);
     }
 

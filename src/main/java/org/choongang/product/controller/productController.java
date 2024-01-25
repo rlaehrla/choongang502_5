@@ -10,6 +10,7 @@ import org.choongang.product.entities.Product;
 import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,33 +34,25 @@ public class productController {
      */
     @GetMapping("/{category}")
     public String product(@PathVariable("category") MainCategory category, @ModelAttribute ProductSearch form, Model model){
+
+        commonProcess("product", category, model);
+
         ListData<Product> data = productInfoService.getProducts(category, form);
 
         model.addAttribute("items", data.getItems());
-        model.addAttribute("pagenation", data.getPagination());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("product/list");
     }
 
     @GetMapping("/detail/{seq}")
     public String productView(@PathVariable("seq") Long seq, Model model) {
+
+        commonProcess("view", null, model);
         Product product = productInfoService.get(seq);
 
-        List<String> addCommonScript = new ArrayList<>();
-        List<String> addCommonCss = new ArrayList<>();
-        List<String> addScript = new ArrayList<>();
-        List<String> addCss = new ArrayList<>();
-
-        addCommonScript.add("tab");
-        addCommonCss.add("tab");
-        addScript.add("product/detail");
-        addCss.add("product/style");
-
         model.addAttribute("product", product);
-        model.addAttribute("addCss", addCss);
-        model.addAttribute("addScript", addScript);
-        model.addAttribute("addCommonCss", addCommonCss);
-        model.addAttribute("addCommonScript", addCommonScript);
+
         return utils.tpl("product/view");
     }
 
@@ -83,5 +76,43 @@ public class productController {
     public String productExchange(@PathVariable("seq") Long seq, Model model){
 
         return utils.tpl("product/detail_sub/_exchange");
+    }
+
+
+    private void commonProcess(String mode, MainCategory category, Model model){
+        mode = StringUtils.hasText(mode) ? mode : "product";
+        String pageTitle = "전체보기";
+
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addCommonCss = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+
+        if(mode.equals("product")){
+            pageTitle = "전체보기";
+            addCss.add("product/style");
+
+
+            if(category == MainCategory.FRUIT){
+                pageTitle = "과일 "+ pageTitle;
+            }else if (category == MainCategory.GRAIN){
+                pageTitle = "곡물 " + pageTitle;
+            } else if (category == MainCategory.VEGETABLE) {
+                pageTitle = "채소 " + pageTitle;
+            }
+        } else if (mode.equals("view")) {
+            pageTitle = "상품 상세";
+
+            addCommonScript.add("tab");
+            addCommonCss.add("tab");
+            addScript.add("product/detail");
+            addCss.add("product/style");
+        }
+
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addScript);
+        model.addAttribute("addCommonCss", addCommonCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("pageTitle", pageTitle);
     }
 }

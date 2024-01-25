@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.board.controllers.RequestBoard;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
+import org.choongang.recipe.services.RecipeAuthService;
 import org.choongang.recipe.services.RecipeDeleteService;
 import org.choongang.recipe.services.RecipeInfoService;
 import org.choongang.recipe.services.RecipeSaveService;
@@ -29,6 +32,8 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeInfoService recipeInfoService;
     private final RecipeDeleteService recipeDeleteService;
 
+    private final MemberUtil memberUtil;
+    private final RecipeAuthService recipeAuthService;
     private Recipe recipe;
 
     @GetMapping
@@ -46,6 +51,9 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/add")
     public String write(@ModelAttribute RequestRecipe form, Model model) {
         commonProcess("add", model);
+        // member, admin만 등록 가능
+        recipeAuthService.accessCheck(form);
+
         return utils.tpl("recipe/add");
     }
 
@@ -56,9 +64,16 @@ public class RecipeController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/edit/{seq}")
-    public String update(@PathVariable("seq") Long seq, Model model) {
+    public String edit(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "edit", model);
-        RequestRecipe form = recipeInfoService.getForm(recipe);
+
+
+        RequestRecipe form = recipeInfoService.getForm(seq);
+        recipeAuthService.check("edit", form, seq);
+        System.out.println( form);
+//        recipeAuthService.check("update", seq);
+       // RequestRecipe form = recipeInfoService.getForm(recipe);
+
         model.addAttribute("requestRecipe", form);
 
         return utils.tpl("recipe/edit");
@@ -81,9 +96,10 @@ public class RecipeController implements ExceptionProcessor {
             return utils.tpl("recipe/" + mode);
         }
         // 레시피 저장 처리
-        Recipe recipe = recipeSaveService.save(form);
+        //Recipe recipe = recipeSaveService.save(form);
+        recipeSaveService.save(form);
 
-        return "redirect:/recipe"; // 레서피 목록
+        return "redirect:/recipe/list"; // 레서피 목록
     }
 
     /**
@@ -92,10 +108,16 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(@ModelAttribute RecipeDataSearch search, Model model) {
         commonProcess("list", model);
-        System.out.println("search = " + search);
+
         ListData<Recipe> data = recipeInfoService.getList(search);
+
+        List<String> addCss = new ArrayList<>();
+        addCss.add("product/style");
+
+        model.addAttribute("addCss", addCss);
         model.addAttribute("recipes", data.getItems());
         model.addAttribute("pagination", data.getPagination());
+
         return utils.tpl("recipe/list");
     }
 
@@ -122,6 +144,7 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "delete", model);
+
         utils.confirmDelete();
         recipeDeleteService.delete(seq);
 
@@ -146,7 +169,7 @@ public class RecipeController implements ExceptionProcessor {
         } else if (mode.equals("view")) {
             pageTitle = recipe.getRcpName();
     }
-
+        addScript.add("recipe/detail");
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
@@ -165,7 +188,9 @@ public class RecipeController implements ExceptionProcessor {
         // 글수정, 글삭제 권한 체크 필요함
 
         recipe = recipeInfoService.get(seq);
+
         System.out.println("recipe = " + recipe);
+
         commonProcess(mode, model);
         model.addAttribute("recipe", recipe);
     }

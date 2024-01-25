@@ -32,17 +32,14 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     /** 찜하기, 장바구니, 주문하기 버튼 처리 E */
 
-    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 S */
-    const { numberComma } = commonLib;
-    const numbers = document.querySelectorAll(".money");
+    /* 판매자 문의 채팅 연결 버튼 처리 S */
+    const chatBtn = document.querySelector(".chat_btn");
 
-    for(const num of numbers){
-        const el = parseInt(num.innerText).toLocaleString();
+    chatBtn.addEventListener("click", function(){
+        location.href='/';
+    });
 
-        num.innerText = el;
-    }
 
-    /* money 클래스 숫자 -> 세자리수마다 콤마 추가 E */
-
+    /* 판매자 문의 채팅 연결 버튼 처리 E */
 
 });

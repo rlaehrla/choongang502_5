@@ -1,5 +1,8 @@
 package org.choongang.recipe.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -12,6 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.controllers.RequestBoard;
 import org.choongang.board.entities.BoardData;
+import org.choongang.board.entities.CommentData;
+import org.choongang.board.service.comment.CommentInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -39,9 +44,11 @@ public class RecipeInfoService {
     private final EntityManager em;
     private final RecipeRepository recipeRepository;
     private final HttpServletRequest request;
+    private final CommentInfoService commentInfoService;
 
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
+
 
     /**
      * 상세 조회하기
@@ -52,6 +59,10 @@ public class RecipeInfoService {
         Recipe recipe = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
 
         addRecipe(recipe);
+
+        // 댓글 추가 필요
+ /*       List<CommentData> comments = commentInfoService.getList(seq);
+        recipe.setComments(comments); // 상세보기할때만 댓글 필요*/
 
         return recipe;
     }
@@ -66,7 +77,7 @@ public class RecipeInfoService {
         recipe.setMainImages(mainImages);
         /* 파일 정보 추가 E */
 
-       /* *//* 수정, 삭제 권한 정보 처리 S *//*
+        /* 수정, 삭제 권한 정보 처리 S */
         boolean editable = false, deletable = false, mine = false;
         AbstractMember _member = recipe.getMember(); // 작성한 회원
 
@@ -95,7 +106,6 @@ public class RecipeInfoService {
 
         recipe.setShowEditButton(showEditButton);
         recipe.setShowDeleteButton(showDeleteButton);
-*/
         /* 수정, 삭제 권한 정보 처리 E */
     }
 
@@ -103,21 +113,51 @@ public class RecipeInfoService {
      * 수정하기
      * Recipe 엔터티 -> RequestRecipe
      *
-     * @param data : 레시피 데이터(Recipe), 레시피 번호(Long)
+     * @param seq : 레시피 번호(Long)
      * @return
      */
 
-    public RequestRecipe getForm(Object data) {
-        Recipe recipe = null;
-        if (data instanceof Recipe) {
-            recipe = (Recipe) data;
-        } else {
-            Long seq = (Long) data;
-            recipe = get(seq);
-        }
+    public RequestRecipe getForm(Long seq) {
+        Recipe data = get(seq);
+        String[] requiredIng = null;
+        String[] requiredIngEa = null;
+        String[] subIng = null;
+        String[] subIngEa = null;
+        String[] condiments = null;
+        String[] condientsEa = null;
+        try {
+            ObjectMapper om = new ObjectMapper();
 
-        RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
-        form.setMode("edit");
+            if (data.getRequiredIng() == null) {
+                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {});
+
+
+            }
+
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        RequestRecipe form = RequestRecipe.builder()
+                .seq(data.getSeq())
+                .gid(data.getGid())
+                .rcpName(data.getRcpName())
+                .rcpInfo(data.getRcpInfo())
+                .estimatedT(data.getEstimatedT())
+                .category(data.getCategory())
+                .subCategory(data.getSubCategory())
+                .requiredIng(requiredIng)
+                .requiredIngEa(requiredIngEa)
+                .subIng(subIng)
+                .subIngEa(subIngEa)
+                .condiments(condiments)
+                .condimentsEa(condientsEa)
+                .mainImages(data.getMainImages())
+                .mode("edit")
+                .build();
+
+        //RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
+        //form.setMode("edit");
 
         return form;
     }
@@ -129,7 +169,7 @@ public class RecipeInfoService {
      */
     public ListData<Recipe> getList(RecipeDataSearch search) {
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
-        int limit = Utils.onlyPositiveNumber(search.getLimit(), 10);
+        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
         int offset = (page - 1) * limit;
 
         QRecipe recipe = QRecipe.recipe;
@@ -151,13 +191,9 @@ public class RecipeInfoService {
             }
         }
 
-       //sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
-
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
-            //BooleanExpression memeberCond = recipe.requiredIng.contains(skey);
-            //BooleanExpression allCond = recipe.requiredIng.contains(skey);
 
             if (sopt.equals("rcpname")) { // 제목
                 andBuilder.and(rcpCond);
@@ -168,7 +204,11 @@ public class RecipeInfoService {
                 andBuilder.and(orBuilder);
             } else if (sopt.equals("all")) {
                 // 닉네임+아이디도 추가해야함
-                andBuilder.and(rcpCond);
+                BooleanBuilder orBuilder = new BooleanBuilder();
+                orBuilder.or(recipe.member.nickname.contains(skey))
+                        .or(recipe.member.userId.contains(skey));
+                andBuilder.or(rcpCond)
+                        .or(orBuilder);
 
             }
         }
@@ -187,13 +227,13 @@ public class RecipeInfoService {
                     .fetch();
 
             // 게시글 전체 갯수
-            long total = recipeRepository.count(andBuilder);
+            int total = (int) recipeRepository.count(andBuilder);
             Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
 
+            // 이미지
+            items.forEach(this::addRecipe);
+
             return new ListData<>(items, pagination);
-
-
-
     }
 }
 

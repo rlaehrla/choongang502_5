@@ -81,12 +81,15 @@
                         <label th:for="${'chk_' + status.index}"></label>
                     </td>
                     <td th:text="*{seq}"></td>
-                    <th:block th:if="${item.mainImages != null && !item.mainImages.isEmpty()}">
-                        <td width="80" th:utext="${@utils.printThumb(item.mainImages[0].seq, 80, 80, 'product_main')}"></td>
-                    </th:block>
-                    <th:block th:unless="${item.mainImages != null && !item.mainImages.isEmpty()}">
-                        <td></td>
-                    </th:block>
+                    <td width="80">
+                        <a class="image" th:href="@{/product/detail/{seq}(seq=*{seq})}" target="_blank">
+                            <th:block th:if="${item.listImages != null && !item.listImages.isEmpty()}" th:utext="${@utils.printThumb(item.listImages[0].seq, 80, 80, 'product_list')}">
+                            </th:block>
+                            <th:block th:unless="${item.mainImages != null && !item.mainImages.isEmpty()}">
+                                이미지 없음
+                            </th:block>
+                        </a>
+                    </td>
                     <td th:text="*{name}"></td>
                     <td>
                         <select th:name="${'active_' + status.index}">

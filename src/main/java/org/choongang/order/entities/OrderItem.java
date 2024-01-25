@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.choongang.commons.entities.Base;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.product.entities.Product;
 import org.choongang.product.entities.ProductOption;
@@ -17,7 +18,7 @@ import org.choongang.product.entities.ProductOption;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
+public class OrderItem extends Base {
 
     @Id
     @GeneratedValue

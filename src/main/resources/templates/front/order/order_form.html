@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content">
+<main class="max-w-screen-lg ma" layout:fragment="content">
     <h1 th:text="#{주문서_작성}"></h1>
 
     <form name="frmOrder" method="post" th:action="@{/order}" autocomplete="off" th:object="${cartData}">

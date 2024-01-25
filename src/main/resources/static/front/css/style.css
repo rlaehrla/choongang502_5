@@ -3,11 +3,6 @@
 :root{
     --main-color: #596b99;
 }
-/* 타이틀 사진 */
-.title {
-    text-align: center;
-    padding: 50px;
-}
 
 html { font-size: 13px; }
 body { margin: 0; }
@@ -25,6 +20,122 @@ dd { flex-grow: 1; }
     min-width : 1000px;
     margin : 0 auto;
 }
+/* 중간 정렬? */
+.max-w-screen-lg{
+    max-width : 1024px;
+}
+.flex {
+    display : flex;
+}
+.ma {
+    margin : auto;
+}
+.flex-1 {
+flex : 1 1 0%
+}
+/* 중간 정렬? E*/
+
+/* header */
+.headerWrap {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 50px 0;
+}
+/*logo*/
+.logo {
+    position: absolute;
+    left: 50px;
+    display: flex;
+    height: 30px;
+}
+.logo a {
+    display: inline-flex;
+    align-items: center;
+}
+
+/*logo*/
+
+/*검색*/
+.searchBox {
+    position: absolute;
+    width: 500px; /* 원하는 너비로 조절 */
+    border: 3px solid #e96c7c; /* 테두리 없애기 */
+    border-radius: 50px; /* 테두리 없앴을 때의 둥글기 정도 */
+    padding: 0 20px; /* 필요에 따라 내부 여백을 조절할 수 있습니다. */
+
+}
+.searchFrm {
+    /*right: 5px; *//**//* 원하는 위치 조절 *//*
+    transform: translateY(-50%);*/
+    padding: 5px;
+    background-color: white; /* 버튼의 배경색을 원하는 색상으로 지정 */
+    color: white; /* 버튼 텍스트 색상을 흰색으로 지정 */
+    border-radius: 5px; /* 테두리 둥글기 정도 조절 */
+}
+.search_container {
+    /* width: fit-content; /* 내용의 크기에 맞게 넓이 지정 */
+    width: 100%;
+}
+.form_list_input{
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_list_input input[type="text"] {
+    height: 44px;
+    color: black;
+    border: none;
+}
+
+.form_list_input input[type="text"]::placeholder {
+    color: gray; /* placeholder 텍스트의 색상을 흰색으로 지정 */
+    font-size: 15px;
+}
+
+.enter_btn::before {
+    content: '\1F50E'; /* 돋보기 아이콘(유니코드) */
+    font-size: 15px; /* 아이콘 크기 조절 */
+}
+
+.enter_btn {
+    border: none; /* 테두리 없애기 */
+    height: 44px;
+    cursor: pointer;
+    background: none;
+}
+/*검색*/
+
+/*login*/
+.user{
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.user .idMenu{
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+}
+.user .loginPlz{ /* 로그인 회원가입 장바구니 */
+    text-align: center;
+    font-size: 15px;
+}
+.user .loginPlz a:nth-child(1) {
+    margin-right: 10px; /* 회원가입창 */
+}
+.user .loginPlz a:nth-child(2) {
+    margin-right: 10px; /* 로그인창 */
+}
+.user .idMenu, .user .loginPlz {
+    position: absolute;
+    right: 50px;
+    top: 52px;
+    display: flex;
+}
+/*login*/
+
+/* header */
 
 /* 페이징 공통 S */
 .pagination { text-align: center; margin: 30px 0; }
@@ -54,22 +165,6 @@ input[type='email'] { width: 10%; height: 40px; padding: 0 10px; border: 1px sol
 select { height: 40px; border: 1px solid #d5d5d5; border-radius: 3px; }
 입력 항목 공통 E */
 
-/* 중간 정렬? */
-.max-w-screen-lg{
-    max-width : 1024px;
-}
-.flex {
-    display : flex;
-    justify-content : center;
-}
-.ma {
-    margin : auto;
-}
-.flex-1 {
-flex : 1 1 0%
-}
-/* 중간 정렬? E*/
-
 .footerInfoSect {
     display: flex;
     width: 1400px;
@@ -85,28 +180,20 @@ flex : 1 1 0%
 .footerBox2 {
     margin: 32px 32px 0px 200px;
     }
+.service {
+    text-decoration: underline;
+}
 .product_search { /* 검색창 */
     margin: 20px 0 20px 0;
     text-align: center;
 }
-.loginPlz{ /* 로그인 회원가입 장바구니 */
-    text-align: center;
-    font-size: 15px;
-}
-.loginPlz a:nth-child(1) {
-    margin-right: 10px; /* 회원가입창 */
-}
-.loginPlz a:nth-child(2) {
-    margin-right: 10px; /* 로그인창 */
-}
 .cate_all {
     text-align: center; /* 카테고리 */
-    padding: 0 0 30px 0;
 }
 .cate_all a {
     font-size: 20px;
     display: inline-block; /* 카테고리 */
-    margin: 20px 50px 20px 0; /* 각 링크 사이의 간격 조절 */
+    margin: 20px 30px; /* 각 링크 사이의 간격 조절 */
 }
 .selectSearch { /* Select필드 */
     width: 70px;
@@ -163,7 +250,7 @@ flex : 1 1 0%
   position: relative;
 
   /* size */
-  width: 50%;
+  width: 1024px;
 
   /* slide drag를 위해 DOM요소가 드래그로 선택되는것을 방지 */
   user-select: none;
@@ -183,9 +270,15 @@ flex : 1 1 0%
   height: 250px;
   /* flex item의 flex-shrink는 기본값이 1이므로 컨테이너 크기에 맞게 줄어드는데, 슬라이드를 구현할 것이므로 줄어들지 않도록 0을 준다. */
   flex-shrink: 0;
+  overflow: hidden;
 
   /* transition */
   transition: left 0.5s;
+}
+.slide_item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .slide_button {
   /* layout */
@@ -358,58 +451,12 @@ li {
     margin: 0;
 }
 
-.idMenu > span {
-    margin-right: 50px;
-}
+.faq-container
 
-.idMenu > a {
-    margin-right: 10px; /* 나머지 요소들 사이의 오른쪽 간격을 10px로 조절 */
-}
-
-.service {
-    text-decoration: underline;
-}
+.faq-container .hidden .xi-angle-up { display: none; }
+.faq-container .hidden .xi-angle-down { display: inline; }
 
 
-
-.search-container {
-    position: relative;
-    width: fit-content; /* 내용의 크기에 맞게 넓이 지정 */
-    margin: 20px auto; /* 수평 가운데 정렬 및 위아래 여백 추가 */
-}
-
-.form_list_input input[type="text"] {
-        width: 500px; /* 원하는 너비로 조절 */
-        border-color: #e96c7c; /* 테두리 없애기 */
-        border-radius: 50px; /* 테두리 없앴을 때의 둥글기 정도 */
-        padding: 20px; /* 필요에 따라 내부 여백을 조절할 수 있습니다. */
-		color: black;
-		border-width: 3px; /* 테두리의 두께 조절 */
-    }
-
-    .form_list_input input[type="text"]::placeholder {
-        color: gray; /* placeholder 텍스트의 색상을 흰색으로 지정 */
-        font-size: 15px;
-    }
-
-    .enter_btn::before {
-        content: '\1F50E'; /* 돋보기 아이콘(유니코드) */
-        font-size: 15px; /* 아이콘 크기 조절 */
-        margin-right: 20px; /* 아이콘과 텍스트 사이의 간격 조절 */
-    }
-
-    .enter_btn {
-        position: absolute;
-        top: 50%;
-        right: 5px; /* 원하는 위치 조절 */
-        transform: translateY(-50%);
-        padding: 5px;
-        background-color: white; /* 버튼의 배경색을 원하는 색상으로 지정/
-        color: white; /* 버튼 텍스트 색상을 흰색으로 지정 */
-        border: none; /* 테두리 없애기 */
-        border-radius: 5px; /* 테두리 둥글기 정도 조절 */
-        cursor: pointer;
-    }
 
     .latestProducts {
         display: flex;
@@ -417,7 +464,7 @@ li {
         flex-wrap: wrap;
         margin: 0 auto; /* 좌우 여백 설정 */
         max-width: 1200px; /* 최대 너비 설정 */
-        padding: 0 0 50px 0;
+        padding: 20px 0 50px 0;
     }
 
     .products {
@@ -437,3 +484,17 @@ li {
         color: black;
         font-size: small;
     }
+
+    .inSeasonTitle {
+        text-align: center;
+    }
+
+    .inSeasonProducts {
+        display: flex;
+        justify-content: flex-start; /* 좌측 정렬 설정 */
+        flex-wrap: wrap;
+        margin: 0 auto; /* 좌우 여백 설정 */
+        max-width: 1200px; /* 최대 너비 설정 */
+        padding: 20px 0 50px 0;
+    }
+
