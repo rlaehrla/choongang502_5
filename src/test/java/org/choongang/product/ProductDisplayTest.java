@@ -15,7 +15,7 @@ public class ProductDisplayTest {
 
     @Test
     void test1(){
-        DisplayData data = productDisplayService.getDisplaydata(1706081732704L);
+        DisplayData data = productDisplayService.getDisplayData(1706081732704L);
 
         System.out.println(data);
     }

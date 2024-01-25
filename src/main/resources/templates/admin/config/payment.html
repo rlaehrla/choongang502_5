@@ -29,8 +29,14 @@
             <tr>
                 <th>결제 수단</th>
                 <td>
-                    <label><input type="checkbox" th:field="*{creditCardEnabled}" /> 신용카드</label>
-                    <label><input type="checkbox" th:field="*{bankTransferEnabled}" /> 계좌이체</label>
+                    <input type="checkbox" name="LBTEnabled" value="true" th:field="*{LBTEnabled}" id="LBTEnabled">
+                    <label for="LBTEnabled">무통장입금</label>
+                    <input type="checkbox" name="vaccountEnabled" value="true" th:field="*{vaccountEnabled}" id="vaccountEnabled">
+                    <label for="vaccountEnabled">가상계좌</label>
+                    <input type="checkbox" name="creditCardEnabled" value="true" th:field="*{creditCardEnabled}" id="creditCardEnabled">
+                    <label for="creditCardEnabled">신용카드</label>
+                    <input type="checkbox" name="bankTransferEnabled" value="true" th:field="*{bankTransferEnabled}" id="bankTransferEnabled">
+                    <label for="bankTransferEnabled">계좌이체</label>
                 </td>
             </tr>
             <!-- 추가적인 결제 설정 필드들을 필요에 따라 추가 -->
