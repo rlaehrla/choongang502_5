@@ -71,10 +71,16 @@ public class RecipeInfoService {
 
         /* 파일 정보 추가 S */
         String gid = recipe.getGid();
+        String mgid = recipe.getMember().getGid();
 
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
+        List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
+        if(profileImage.isEmpty() && profileImage == null) {
 
+        }
+        System.out.println("profileImage = " + profileImage);
         recipe.setMainImages(mainImages);
+        recipe.setProfileImage(profileImage);
         /* 파일 정보 추가 E */
 
         /* 수정, 삭제 권한 정보 처리 S */
@@ -156,9 +162,6 @@ public class RecipeInfoService {
                 .mode("edit")
                 .build();
 
-        //RequestRecipe form = new ModelMapper().map(recipe, RequestRecipe.class);
-        //form.setMode("edit");
-
         return form;
     }
 
@@ -232,6 +235,8 @@ public class RecipeInfoService {
 
             // 이미지
             items.forEach(this::addRecipe);
+            System.out.println("items = " + items);
+
 
             return new ListData<>(items, pagination);
     }

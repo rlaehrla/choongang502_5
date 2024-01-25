@@ -12,7 +12,8 @@
     <input type="hidden" name="condimentsJSON" th:field="*{condimentsJSON}">-->
 
     <div class="main_image_box">
-        <div class="upload_files" id="main_images" data-image-only="true">
+        <div class="upload_files" id="main_images" data-image-only="true"
+        data-location="recipe_main">
             <th:block th:each="item : *{mainImages}">
                 <span th:replace="~{common/_image_file::item}"></span>
             </th:block>

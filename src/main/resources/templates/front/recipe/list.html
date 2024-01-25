@@ -21,6 +21,7 @@
         </div>
 
         <div> <!-- 검색-->
+            [[${recipeDataSearch}]]
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
                   autocomplete="off" th:object="${recipeDataSearch}">
                 <select name="sopt" th:field="*{sopt}">
@@ -35,7 +36,8 @@
         </div>
 
         <div class="contentBox">
-            [[${recipe}]]
+            [[${recipes}]] <br></br>
+
             <div class="itemList" th:each="recipe : ${recipes}" th:object="${recipe}">
                 <ul>
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
@@ -45,7 +47,19 @@
                         <li th:text="*{requiredIng}"></li>
                         <li th:text="*{category}"></li>
                         <li th:text="*{subCategory}"></li>
+                    </a>
 
+                    <a th:href="@{임시}">
+                        <li th:text="*{member.nickname}"></li>
+                        프로필 gid : <li th:text="*{member.gid}"></li>
+                        <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                            <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 150, 150, 'profile_img')}">
+                            </th:block>
+                        </th:block>
+
+   <!--                     <th:block th:if="*{profileImage != null}"
+                                  th:utext="*{@utils.printThumb(profileImage[0].seq, 400, 400, 'profile_img')}">
+                        </th:block>-->
                     </a>
 
                     <!--      </a>-->
