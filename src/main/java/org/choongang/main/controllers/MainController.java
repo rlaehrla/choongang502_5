@@ -73,4 +73,11 @@ public class MainController implements ExceptionProcessor {
     public String privacy() {
         return utils.tpl("outlines/privacy");
     }
+
+
+    @GetMapping("/question")
+    public String question(Model model){
+
+        return utils.tpl("main/question");
+    }
 }
