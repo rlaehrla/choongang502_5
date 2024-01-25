@@ -36,7 +36,7 @@
                                     <div class="list-head">
                                         <!-- 상품명 -->
                                         <div class="OrderTableCardContent_title">
-                                            <a th:href="@{/product/detail/{seq}(seq=*{product.seq})}"
+                                            <a th:href="@{/product/detail/{seq}(seq=*{seq})}"
                                                class="title-txt"
                                                for="prd-name"
                                             th:text="*{product.name}"></a>
@@ -75,7 +75,7 @@
                                 <div class="OrderTableCardButtonItem">
                                     <a class="btn btn-s btn-point"
                                        type="button"
-                                       href="/w/me/order/review/8ff89430-f99c-42ab-8826-33168bf523a0"
+                                       th:href="@{/board/list/review?productSeq={seq}(seq=*{product.seq})}"
                                        data-modal-id="modal-review"
                                        data-modal-trigger="modal-link"
                                      th:text="#{후기_작성}"></a>

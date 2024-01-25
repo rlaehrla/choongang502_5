@@ -25,7 +25,6 @@ import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -163,6 +162,12 @@ public class BoardInfoService {
         if (StringUtils.hasText(category)) {
             category = category.trim();
             andBuilder.and(boardData.category.eq(category));
+        }
+
+        // 리뷰 게시판 --> 특정 상품의 리뷰만 조회
+        Long productSeq = search.getProductSeq();
+        if (productSeq != null) {
+            andBuilder.and(boardData.num1.eq(productSeq)) ;
         }
 
         /* 검색 조건 처리 E */
