@@ -83,6 +83,13 @@ public class OrderInfo extends Base {
     @OneToMany(mappedBy = "orderInfo", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    /*@Transient
-    private Point point;*/
+    /*
+
+    @Transient
+    private Point usePoint;
+
+    @Transient
+    private Point getPoint;
+
+    */
 }
