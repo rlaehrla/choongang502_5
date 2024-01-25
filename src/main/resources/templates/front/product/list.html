@@ -4,9 +4,11 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content" >
     <section class="contentBox product max-w-screen-lg ma">
-        <div class="itemList" th:each="item : ${items}" th:object="${item}">
+        <div class="item" th:each="item : ${items}" th:object="${item}">
             <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
-                <th:block th:if="*{listImages != null && listImages.size() != 0}" th:utext="*{@utils.printThumb(listImages[0].seq, 100, 100, 'product_main')}"></th:block>
+                <div class="imgBox">
+                    <th:block th:if="*{listImages != null && listImages.size() != 0}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                </div>
                 <th:block th:unless="*{listImages != null && listImages.size() != 0}" width="100px" height="100px"></th:block>
                 <div class="cate" th:each="cate : *{category}">
                     <span th:text="${cate.cateNm}"></span>
