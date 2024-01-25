@@ -4,6 +4,7 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
     <input type="hidden" name="gid" th:field="*{gid}">
+    작성자 : <input type="text" name="poster" th:field="*{poster}">
 
     <!-- JSON - 자바스크립트 사용하기 위함 -->
 <!--    <input type="hidden" name="requiredIngJSON" th:field="*{requiredIngJSON}">
