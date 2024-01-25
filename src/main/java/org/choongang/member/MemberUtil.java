@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.entities.AbstractMember;
+import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.repositories.OrderInfoRepository;
+import org.choongang.order.service.OrderInfoService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class MemberUtil {
 
     private final HttpSession session;
+    private final OrderInfoRepository orderInfoRepository;
 
     public boolean isAdmin() {
 
@@ -61,6 +65,20 @@ public class MemberUtil {
         session.removeAttribute("NotBlank_username");
         session.removeAttribute("NotBlank_password");
         session.removeAttribute("Global_error");
+    }
+
+    /**
+     * orderInfo의 seq 구하기
+     * @param orderNo
+     * @return
+     */
+    public Long findSeq(Long orderNo){
+        OrderInfo orderInfo =  orderInfoRepository.findByOrderNo(orderNo).orElse(null);
+
+        if (orderInfo != null) {
+            return orderInfo.getSeq();
+        }
+        return 0L;
     }
 
 }

@@ -29,8 +29,12 @@ public class QPoint extends EntityPathBase<Point> {
 
     public final QMember member;
 
+    public final StringPath message = createString("message");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final NumberPath<Long> orderNo = createNumber("orderNo", Long.class);
 
     public final NumberPath<Integer> point = createNumber("point", Integer.class);
 

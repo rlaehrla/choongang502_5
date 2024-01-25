@@ -25,8 +25,10 @@ public class Point extends Base {
 
     private int point;
 
-   /* @ManyToOne
-    @JoinColumn(name = "orderInfoSeq")
-    private OrderInfo orderInfo;*/
+    private Long orderNo;
+
+    @Column(length=60)
+    private String message;
+
 
 }

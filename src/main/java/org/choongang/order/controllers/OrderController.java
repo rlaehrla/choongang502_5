@@ -13,7 +13,9 @@ import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Point;
 import org.choongang.member.repositories.AddressRepository;
+import org.choongang.member.repositories.PointRepository;
 import org.choongang.member.service.PointInfoService;
 import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
@@ -48,6 +50,12 @@ public class OrderController implements ExceptionProcessor {
     private final CartSaveService cartSaveService;
     private final PointInfoService pointInfoService;
     private final ConfigInfoService configInfoService;
+    private final PointRepository pointRepository;
+
+    @ModelAttribute("paymentConfig")
+    public PaymentConfig paymentConfig() {
+        return configInfoService.get("paymentConfig", PaymentConfig.class).orElseGet(PaymentConfig::new);
+    }
 
     /**
      * 주문서 작성
@@ -64,14 +72,6 @@ public class OrderController implements ExceptionProcessor {
     @GetMapping
     public String order(@RequestParam(name="seq", required = false) List<Long> seq, Model model) {
         commonProcess("order", model);
-
-        // 결제약관 불러오기
-        PaymentConfig paymentConfig = configInfoService.get("paymentConfig", PaymentConfig.class).orElseGet(PaymentConfig::new);
-        String personalInfoEntrust = paymentConfig.getPersonalInfoEntrust();
-
-        System.out.println(personalInfoEntrust);
-
-        model.addAttribute("personalInfoEntrust", personalInfoEntrust);
 
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
         CartData data = cartInfoService.getCartInfo(mode, seq);
@@ -121,6 +121,18 @@ public class OrderController implements ExceptionProcessor {
          commonProcess("detail", model);
 
          OrderInfo orderInfo = orderInfoService.get(seq);
+
+         List<Point> points = pointRepository.findByOrderNo(orderInfo.getOrderNo()).orElse(null);
+
+         if(points != null && points.size() > 0){
+             for(Point point : points){
+                 if(point.getPoint() > 0){
+                     model.addAttribute("getPoint", point.getPoint());
+                 }else {
+                     model.addAttribute("usePoint", point.getPoint());
+                 }
+             }
+         }
 
          model.addAttribute("orderInfo", orderInfo);
          return utils.tpl("order/order_detail");

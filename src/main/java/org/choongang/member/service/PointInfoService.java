@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -76,12 +77,6 @@ public class PointInfoService {
         Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
 
         List<Point> items = data.getContent();
-
-        for(Point item : items){
-
-            System.out.println(item);
-
-        }
 
 
         return new ListData<>(items, pagination);
