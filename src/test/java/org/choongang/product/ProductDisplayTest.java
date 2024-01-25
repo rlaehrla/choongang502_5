@@ -1,6 +1,5 @@
 package org.choongang.product;
 
-import jakarta.validation.constraints.AssertTrue;
 import org.choongang.product.service.DisplayData;
 import org.choongang.product.service.ProductDisplayService;
 import org.junit.jupiter.api.Test;
