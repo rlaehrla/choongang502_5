@@ -84,11 +84,11 @@ public class OrderController implements ExceptionProcessor {
 
         orderSaveService.statusSave(seq, status);
 
-        String script = String.format("<script>alert('%s'); location.href='/admin/order';</script>",
-                Utils.getMessage("탈퇴처리되었습니다.", "commons"));
+        String script = String.format("alert('%s'); location.href='/admin/order/edit/%d';",
+                Utils.getMessage("주문_상태가_변경되었습니다.", "commons"), seq);
         model.addAttribute("script", script) ;
 
-        return "/common/_execute_script" ;
+        return "common/_execute_script" ;
     }
 
     @GetMapping("/setting")

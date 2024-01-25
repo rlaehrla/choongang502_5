@@ -125,12 +125,17 @@ public class OrderSaveService {
     /**
      * 주문 상태 변경 저장
      */
-    public void statusSave(Long orderSep, String status) {
+    public void statusSave(Long orderSeq, String status) {
         status = request.getParameter("orderStatus") ;
 
-        OrderInfo info = orderInfoService.get(orderSep) ;
+        OrderInfo info = orderInfoService.get(orderSeq) ;
         info.setStatus(OrderStatus.valueOf(status));
 
         orderInfoRepository.saveAndFlush(info) ;
+
+        OrderItem item = orderItemRepository.findById(orderSeq).orElseGet(null) ;
+        item.setStatus(OrderStatus.valueOf(status));
+
+        orderItemRepository.saveAndFlush(item) ;
     }
 }
