@@ -42,6 +42,8 @@ public abstract class AbstractBoardController implements ExceptionProcessor{
     protected Board board; // 게시판 설정
     protected BoardData boardData; // 게시글
 
+    protected final HttpServletRequest request ;
+
     /**
      * 게시판의 공통 처리 - 글목록, 글쓰기 등 게시판 ID가 있는 경우
      *
