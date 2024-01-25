@@ -19,7 +19,7 @@
             <div class="farmer_info">
                 <div class="farm">
                     <span class="farm_title" th:text="*{farmer.farmTitle}"></span>
-                    <a class="farm_link" th:href="@{/board/list/sns_{id}(id=*{farmer.userId})}">
+                    <a class="farm_link" th:href="@{/farm/blog/{id}(id=*{farmer.userId})}">
                         <span th:text="#{농장_바로가기}"></span>
                         <i class="xi-angle-right"></i>
                     </a>
