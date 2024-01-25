@@ -32,5 +32,14 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     /** 찜하기, 장바구니, 주문하기 버튼 처리 E */
 
+    /* 판매자 문의 채팅 연결 버튼 처리 S */
+    const chatBtn = document.querySelector(".chat_btn");
+
+    chatBtn.addEventListener("click", function(){
+        location.href='/';
+    });
+
+
+    /* 판매자 문의 채팅 연결 버튼 처리 E */
 
 });
