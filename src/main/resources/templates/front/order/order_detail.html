@@ -23,8 +23,10 @@
                 <th:block th:replace="~{front/member/mypage/_order_form::table_body}"></th:block>
             </tbody>
         </table>
-        <h2 th:text="#{배송정보}"></h2>
-        <table class="table_cols mb30">
+        <div class="order-title">
+            <h2 th:text="#{배송정보}"></h2>
+        </div>
+        <table class="table-style-head-left table_cols mb30">
             <tr>
                 <th th:text="#{이름}"></th>
                 <td th:text="*{receiverName}"></td>
@@ -39,82 +41,89 @@
                 <td th:if="*{addressSub != null}" th:text="*{address + ' ' + addressSub }"></td>
             </tr>
         </table>
-
-        <h2 th:text="#{결제정보}"></h2>
         <div>
-        <!-- 결제 상품들 나열 -->
-           <div>
-               <div th:each="item : *{orderItems}" th:object="${item}">
-                   <div th:text="*{product.farmer.farmTitle}"></div>
-                   <div class="value_list">
-                       <!-- 상품당 결제가격 -->
-                       <div class="value_item">
-                           <div th:if="*{optionName != null}" th:text="*{optionName}" class="value_name"></div>
-                           <div th:unless="*{optionName != null}" th:text="*{product.name}" class="value_name"></div>
-                           <div class="value_price">
-                               <span class="money" th:text="*{totalPrice}"></span>
-                               <span th:text="#{원}"></span>
-                           </div>
-                       </div>
-                       <!-- 상품당 배송비-->
-                       <div class="value_item">
-                           <div class="value_name" th:text="#{배송비}"></div>
-                           <div class="value_price">
-                               <span class="money" th:text="*{product.deliveryPrice}"></span>
-                               <span th:text="#{원}"></span>
+            <div class="order-title">
+            <h2 th:text="#{결제정보}"></h2>
+            </div>
+            <div class="order-result root">
+            <!-- 결제 상품들 나열 -->
+                <div class="row">
+                    <div class="col order-result">
+                       <div class="farmer_item" th:each="item : *{orderItems}" th:object="${item}">
+                           <div class="farmer_name" th:text="*{product.farmer.farmTitle}"></div>
+                           <div class="value_list">
+                               <!-- 상품당 결제가격 -->
+                               <div class="value_item">
+                                   <div th:if="*{optionName != null}" th:text="*{optionName}" class="value_name"></div>
+                                   <div th:unless="*{optionName != null}" th:text="*{product.name}" class="value_name"></div>
+                                   <div class="value_price">
+                                       <span class="money" th:text="*{totalPrice}"></span>
+                                       <span th:text="#{원}"></span>
+                                   </div>
+                               </div>
+                               <!-- 상품당 배송비-->
+                               <div class="value_item">
+                                   <div class="value_name" th:text="#{배송비}"></div>
+                                   <div class="value_price">
+                                       <span class="money" th:text="*{product.deliveryPrice}"></span>
+                                       <span th:text="#{원}"></span>
+                                   </div>
+                               </div>
                            </div>
                        </div>
                    </div>
-
-               </div>
-           </div>
-            <!-- 전체 요약 -->
+                <!-- 전체 요약 -->
+                    <div class="col no-spacing ">
+                        <div class="row result_list">
+                            <div class="value_item" th:text="#{상품금액}"></div>
+                            <div class="value_price">
+                                <span class="money" th:text="*{totalPrice}"></span>
+                                <span th:text="#{원}"></span>
+                            </div>
+                            <div class="value_item" th:text="#{배송비}"></div>
+                            <div class="value_price">
+                                <span class="money" th:text="*{totalDeliveryPrice}"></span>
+                                <span th:text="#{원}"></span>
+                            </div>
+                            <div class="value_item" th:text="#{할인금액}"></div>
+                            <div class="value_price">
+                                <span class="money" th:text="*{totalDiscount}"></span>
+                                <span th:text="#{원}"></span>
+                            </div>
+                            <div class="value_item" th:text="#{포인트사용}"></div>
+                            <div class="value_price">
+                                <span class="money">0</span>
+                                <span th:text="#{원}"></span>
+                            </div>
+                        </div>
+                        <!-- 포인트 -->
+                        <div class="row point">
+                            <div th:text="#{포인트적립}"></div>
+                            <div></div>
+                            <div th:text="#{적립기준}"></div>
+                            <div th:text="#{적립기준_상세}"></div>
+                            <div th:text="#{가용시점}"></div>
+                            <div th:text="#{가용시점_상세}"></div>
+                            <div th:text="#{유효기간}"></div>
+                            <div th:text="#{유효기간_상세}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="account-name" th:text="#{결제방식}"></div>
+                        <div></div>
+                    </div>
+                    <div class="col">
+                        <div th:text="#{총결제금액}"></div>
+                        <div>
+                            <span class="money" th:text="*{payPrice}"></span>
+                            <span th:text="#{원}"></span>
+                        </div>
+                    </div>
+                </div>
             <div>
-                <div class="value_item" th:text="#{상품금액}"></div>
-                <div class="value_price">
-                    <span class="money" th:text="*{totalPrice}"></span>
-                    <span th:text="#{원}"></span>
-                </div>
-                <div class="value_item" th:text="#{배송비}"></div>
-                <div class="value_price">
-                    <span class="money" th:text="*{totalDeliveryPrice}"></span>
-                    <span th:text="#{원}"></span>
-                </div>
-                <div class="value_item" th:text="#{할인금액}"></div>
-                <div class="value_price">
-                    <span class="money" th:text="*{totalDiscount}"></span>
-                    <span th:text="#{원}"></span>
-                </div>
-                <div class="value_item" th:text="#{포인트사용}"></div>
-                <div class="value_price">
-                    <span class="money">0</span>
-                    <span th:text="#{원}"></span>
-                </div>
-            </div>
-            <!-- 포인트 -->
-            <div>
-                <div th:text="#{포인트적립}"></div>
-                <div></div>
-                <div th:text="#{적립기준}"></div>
-                <div th:text="#{적립기준_상세}"></div>
-                <div th:text="#{가용시점}"></div>
-                <div th:text="#{가용시점_상세}"></div>
-                <div th:text="#{유효기간}"></div>
-                <div th:text="#{유효기간_상세}"></div>
-            </div>
-            <hr />
-            <div>
-                <div th:text="#{결제방식}"></div>
-                <div></div>
-                <div th:text="#{총결제금액}"></div>
-                <div>
-                    <span class="money" th:text="*{payPrice}"></span>
-                    <span th:text="#{원}"></span>
-                </div>
-            </div>
         </div>
     </div>
-
-
 </main>
 </html>
