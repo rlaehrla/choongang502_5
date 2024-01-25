@@ -3,7 +3,9 @@ package org.choongang.order.controllers;
 import lombok.RequiredArgsConstructor;
 import org.choongang.cart.constants.CartType;
 import org.choongang.cart.service.CartData;
+import org.choongang.cart.service.CartDeleteService;
 import org.choongang.cart.service.CartInfoService;
+import org.choongang.cart.service.CartSaveService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
@@ -38,7 +40,9 @@ public class OrderController implements ExceptionProcessor {
     private final OrderValidator validator;
     private final OrderSaveService orderSaveService;
     private final OrderInfoService orderInfoService;
+    private final CartDeleteService cartDeleteService;
     private final ProductInfoService productInfoService;
+    private final CartSaveService cartSaveService;
 
     /**
      * 주문서 작성
@@ -57,6 +61,12 @@ public class OrderController implements ExceptionProcessor {
 
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
         CartData data = cartInfoService.getCartInfo(mode, seq);
+
+        if(mode == CartType.DIRECT){
+            cartDeleteService.deleteCart();
+        }
+
+
         AbstractMember member = memberUtil.getMember();
 
         if(member != null){

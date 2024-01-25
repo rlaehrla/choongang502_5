@@ -53,6 +53,9 @@
         </table>
 
         <h2>품목 정보</h2>
+        <th:block>
+            <div th:utext="${@utils.printThumb(info.orderItems[0].product.mainImages[0], 300, 300, 'product_main')}"></div>
+        </th:block>
         <table>
             <tr>
                 <th>상품번호</th>
@@ -63,8 +66,22 @@
             <tr>
                 <th>상품 단가</th>
                 <td th:text="*{orderItems[0].product.salePrice + '원'}"></td>
-                <th>총 주문 금액</th>
-                <td th:text="*{payPrice + '원'}"></td>
+                <th>총 상품 금액</th>
+                <td th:text="*{totalPrice + '원'}"></td>
+            </tr>
+            <tr>
+                <th>할인금액</th>
+                <td th:text="*{totalDiscount + '원'}"></td>
+            </tr>
+        </table>
+
+        <h2>결제 정보</h2>
+        <table>
+            <tr>
+                <th>결제 수단</th>
+                <td th:text="*{payType.getTitle()}"></td>
+                <th>결제 금액</th>
+                <td th:text="*{payPrice} + '원'"></td>
             </tr>
         </table>
     </form>
