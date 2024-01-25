@@ -35,6 +35,16 @@ public class MemberUtil {
         return false;
     }
 
+    public boolean isMember() {
+        if(isLogin()) {
+            return getMember().getAuthorities()
+                    .stream().map(Authorities::getAuthority)
+                    .anyMatch(a -> a == Authority.USER);
+
+        }
+        return false;
+    }
+
 
     public boolean isLogin() {
         return getMember() != null;

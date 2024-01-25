@@ -24,7 +24,6 @@
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
                   autocomplete="off" th:object="${recipeDataSearch}">
                 <select name="sopt" th:field="*{sopt}">
-                    <!-- 임시 - 수정 필요 -->
                     <option value="all" th:text="#{전체}"></option>
                     <option value="rcpName" th:text="#{레시피_이름}"></option>
                     <option value="member" th:text="#{작성자}"></option>
@@ -43,7 +42,6 @@
                         <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 400, 400, 'recipe_main')}"></th:block>
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>
-                        <li th:text="*{member}"></li>
                         <li th:text="*{requiredIng}"></li>
                         <li th:text="*{category}"></li>
                         <li th:text="*{subCategory}"></li>

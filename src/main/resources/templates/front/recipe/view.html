@@ -23,14 +23,13 @@
     </div>
 
     <div>
-        <!--<th:block sec:authorize="isAuthenticated()">-->
-        <a th:href="@{/recipe/edit/{seq}(seq=*{seq})}"
-           th:text="#{수정}" class="btn"></a><br><br>
-        <a th:href="@{/recipe/delete/{seq}(seq=*{seq})}"
-           th:text="#{삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a><br><br>
-        <!--</th:block>-->
+        <th:block th:if="${@memberUtil.isMember()}">
+            <a th:href="@{/recipe/edit/{seq}(seq=*{seq})}"
+               th:text="#{수정}" class="btn"></a><br><br>
+            <a th:href="@{/recipe/delete/{seq}(seq=*{seq})}"
+               th:text="#{삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
+        </th:block>
         <div><!-- 멤버, 레시피 정보 출력 -->
-
             <div>
                 <!-- 유저 프로필, 아이디-->
             </div>
