@@ -14,87 +14,102 @@
             </div>
         </div>
         <!-- 상품 메인 이미지 E -->
-        <!-- 상품 대략적인 정보 S-->
-        <div class="product_info">
-            <form name="frmSave" method="post" th:action="@{/cart/save}" autocomplete="off" target="ifrmProcess">
-                <input type="hidden" name="mode" value="CART">
-                <input type="hidden" name="seq" th:value="*{seq}"> <!-- 상품 seq -->
-                <h2 th:text="*{name}"></h2>
+        <div class="right_section">
+            <!-- 판매자 정보 S -->
+            <div class="farmer_info">
+                <div class="farm">
+                    <span class="farm_title" th:text="*{farmer.farmTitle}"></span>
+                    <a class="farm_link" th:href="@{/board/list/sns_{id}(id=*{farmer.userId})}">
+                        <span th:text="#{농장_바로가기}"></span>
+                        <i class="xi-angle-right"></i>
+                    </a>
+                </div>
+                <button type="button" class="sbtn chat_btn" th:text="#{상품_문의}"></button>
 
-                <table class="table_sale">
-                    <tr th:if="*{consumerPrice > 0}">
-                        <th th:text="#{소비자가}" width="180"></th>
-                        <td>
-                            <del>
-                                <span class="money" th:text="*{consumerPrice}"></span>
+            </div>
+            <!-- 판매자 정보 E -->
+            <!-- 상품 대략적인 정보 S-->
+            <div class="product_info">
+                <form name="frmSave" method="post" th:action="@{/cart/save}" autocomplete="off" target="ifrmProcess">
+                    <input type="hidden" name="mode" value="CART">
+                    <input type="hidden" name="seq" th:value="*{seq}"> <!-- 상품 seq -->
+                    <h2 th:text="*{name}"></h2>
+
+                    <table class="table_sale">
+                        <tr th:if="*{consumerPrice > 0}">
+                            <th th:text="#{소비자가}" width="180"></th>
+                            <td>
+                                <del>
+                                    <span class="money" th:text="*{consumerPrice}"></span>
+                                    <span th:text="#{원}"></span>
+                                </del>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{판매가}"></th>
+                            <td>
+                                <span class="money" id="sale_price" th:text="*{salePrice}"></span>
                                 <span th:text="#{원}"></span>
-                            </del>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th th:text="#{판매가}"></th>
-                        <td>
-                            <span class="money" id="sale_price" th:text="*{salePrice}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{할인가}"></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th  th:text="#{배송}"></th>
+                            <td th:if="*{packageDelivery}" th:text="#{묶음배송}"></td>
+                            <td th:unless="*{packageDelivery}" th:text="#{개별배송}"></td>
+                        </tr>
+                        <tr>
+                            <th th:text="#{배송비}"></th>
+                            <td th:if="*{deliveryPrice > 0}">
+                                <span class="money" id="delivery_price" th:text="*{deliveryPrice}"></span>
+                                <span th:text="#{원}"></span>
+                            </td>
+                            <td th:unless="*{deliveryPrice > 0}" th:text="#{무료배송}"></td>
+                        </tr>
+                    </table>
+
+                    <div class="summary">
+                        <strong class="tit" th:text="#{총_상품금액}"></strong>
+                        <div class="info">
+                            <span id="total_price" class="money" th:text="*{salePrice + deliveryPrice}">
+                            </span>
                             <span th:text="#{원}"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th th:text="#{할인가}"></th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th  th:text="#{배송}"></th>
-                        <td th:if="*{packageDelivery}" th:text="#{묶음배송}"></td>
-                        <td th:unless="*{packageDelivery}" th:text="#{개별배송}"></td>
-                    </tr>
-                    <tr>
-                        <th th:text="#{배송비}"></th>
-                        <td th:if="*{deliveryPrice > 0}">
-                            <span class="money" id="delivery_price" th:text="*{deliveryPrice}"></span>
-                            <span th:text="#{원}"></span>
-                        </td>
-                        <td th:unless="*{deliveryPrice > 0}" th:text="#{무료배송}"></td>
-                    </tr>
-                </table>
-
-                <div class="summary">
-                    <strong class="tit" th:text="#{총_상품금액}"></strong>
-                    <div class="info">
-                        <span id="total_price" class="money" th:text="*{salePrice + deliveryPrice}">
-                        </span>
-                        <span th:text="#{원}"></span>
-                    </div>
-                </div>
-
-                <div class="selected_products">
-                    <input type="hidden" name="selectedNums" value="0">
-                    <div class="product_name" th:text="*{name}"></div>
-
-                    <div class="option_ea">
-                        <div class="ea_box">
-                            <input type="number" id="ea" name="ea_0" value="1" min="1" readonly>
-                            <button type="button" class="change_ea down" data-ea-id="ea" data-target-id="total_price" th:data-price="*{salePrice}">
-                                <i class="xi-minus"></i>
-                            </button>
-                            <button type="button" class="change_ea up" data-ea-id="ea" data-target-id="total_price" th:data-price="*{salePrice}">
-                                <i class="xi-plus"></i>
-                            </button>
                         </div>
-                        <!--// ea_box -->
                     </div>
-                    <!--// option_ea -->
-                </div>
-                <!--// selected_products -->
 
-                <!--// summary -->
-                <div class="btns">
-                    <button type="button" th:text="#{찜하기}" class="product_action" data-mode="WISH"></button>
-                    <button type="button" th:text="#{장바구니}" class="product_action" data-mode="CART"></button>
-                    <button type="button" th:text="#{구매하기}" class="product_action"  data-mode="DIRECT"></button>
-                </div>
-            </form>
+                    <div class="selected_products">
+                        <input type="hidden" name="selectedNums" value="0">
+                        <div class="product_name" th:text="*{name}"></div>
+
+                        <div class="option_ea">
+                            <div class="ea_box">
+                                <input type="number" id="ea" name="ea_0" value="1" min="1" readonly>
+                                <button type="button" class="change_ea down" data-ea-id="ea" data-target-id="total_price" th:data-price="*{salePrice}">
+                                    <i class="xi-minus"></i>
+                                </button>
+                                <button type="button" class="change_ea up" data-ea-id="ea" data-target-id="total_price" th:data-price="*{salePrice}">
+                                    <i class="xi-plus"></i>
+                                </button>
+                            </div>
+                            <!--// ea_box -->
+                        </div>
+                        <!--// option_ea -->
+                    </div>
+                    <!--// selected_products -->
+
+                    <!--// summary -->
+                    <div class="btns">
+                        <button type="button" th:text="#{찜하기}" class="product_action" data-mode="WISH"></button>
+                        <button type="button" th:text="#{장바구니}" class="product_action" data-mode="CART"></button>
+                        <button type="button" th:text="#{구매하기}" class="product_action"  data-mode="DIRECT"></button>
+                    </div>
+                </form>
+            </div>
+            <!-- 상품 대략적인 정보 E -->
         </div>
-        <!-- 상품 대략적인 정보 E -->
     </section>
 
     <section class="widget_tab">
