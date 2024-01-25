@@ -87,8 +87,8 @@
                 </div>
                 <div class="value_item" th:text="#{포인트사용}"></div>
                 <div class="value_price">
-                    <span class="money">0</span>
-                    <span th:text="#{원}"></span>
+                    <span class="money" th:text="*{usePoint}"></span>
+                    <span th:text="#{P}"></span>
                 </div>
             </div>
             <!-- 포인트 -->

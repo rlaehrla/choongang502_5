@@ -7,6 +7,8 @@ import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Member;
+import org.choongang.member.entities.Point;
+import org.choongang.member.service.PointInfoService;
 import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.order.service.OrderInfoService;
@@ -27,6 +29,8 @@ public class MypageController { //implements ExceptionProcessor {
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final OrderInfoService orderInfoService;
+    private final PointInfoService pointInfoService;
+
     @GetMapping
     public String myPage(Model model) {
         commonProcess("myPage", model);
@@ -34,6 +38,8 @@ public class MypageController { //implements ExceptionProcessor {
         ListData<OrderInfo> orderInfos = orderInfoService.getList(3);
         List<OrderInfo> orders = orderInfos.getItems();
 
+
+        model.addAttribute("point", pointInfoService.pointSum());
         model.addAttribute("orders", orders);
         return utils.tpl("member/mypage/mypage");
     }
@@ -80,6 +86,12 @@ public class MypageController { //implements ExceptionProcessor {
     @GetMapping("/point")
     public String point(Model model) {
         commonProcess("point", model);
+
+        ListData<Point> point = pointInfoService.getList();
+
+        model.addAttribute("totalPoint", pointInfoService.pointSum());
+        model.addAttribute("items", point.getItems());
+        model.addAttribute("pagination", point.getPagination());
         return utils.tpl("member/mypage/point");
     }
 

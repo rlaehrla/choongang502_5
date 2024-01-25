@@ -9,8 +9,13 @@ import org.choongang.cart.service.CartInfoService;
 import org.choongang.commons.AddressAssist;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Member;
+import org.choongang.member.entities.Point;
 import org.choongang.member.repositories.AddressRepository;
+import org.choongang.member.repositories.PointRepository;
 import org.choongang.member.service.AddressSaveService;
+import org.choongang.member.service.PointInfoService;
+import org.choongang.member.service.PointSaveService;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.constants.PayType;
 import org.choongang.order.controllers.RequestOrder;
@@ -19,6 +24,7 @@ import org.choongang.order.entities.OrderItem;
 import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.product.entities.Product;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +44,9 @@ public class OrderSaveService {
     private final MemberUtil memberUtil;
     private final AddressRepository addressRepository;
     private final HttpServletRequest request ;
+    private final PointInfoService pointInfoService;
+    private final PointSaveService pointSaveService;
+    private final PointRepository pointRepository;
 
     public OrderInfo save(RequestOrder form){
         List<Long> cartSeqs = form.getCartSeq();
@@ -47,7 +56,7 @@ public class OrderSaveService {
         int totalPrice = cartData.getTotalPrice();
         int totalDiscount = cartData.getTotalDiscount();
         int totalDeliveryPrice = cartData.getTotalDeliveryPrice();
-        int payPrice = cartData.getPayPrice();
+        int payPrice = cartData.getPayPrice() - form.getUsePoint();
 
 
         /* 주소 저장 S */
@@ -63,6 +72,8 @@ public class OrderSaveService {
         }
 
         /* 주소 저장 E */
+
+
 
         /* 주문 정보 저장 S */
         OrderInfo orderInfo = new OrderInfo();
@@ -83,6 +94,7 @@ public class OrderSaveService {
         orderInfo.setAddress(form.getAddr().getAddress());
         orderInfo.setAddressSub(form.getAddr().getAddressSub());
         orderInfo.setSeq(5L);
+        orderInfo.setUsePoint(form.getUsePoint());
 
         if(memberUtil.isLogin()){
             orderInfo.setMember(memberUtil.getMember());
@@ -91,6 +103,31 @@ public class OrderSaveService {
 
         orderInfoRepository.saveAndFlush(orderInfo);
         /* 주문 정보 저장 E */
+
+        if(form.getUsePoint() != 0){
+            /* 포인트 사용 저장 S */
+            Point usePoint = Point.builder()
+                    .point(form.getUsePoint() * -1)
+                    .member((Member)memberUtil.getMember())
+                    //.orderInfo(orderInfo)
+                    .build();
+
+            pointRepository.saveAndFlush(usePoint);
+            /* 포인트 사용 저장 E */
+
+            /* 포인트 적립 S */
+
+            int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
+
+            Point point = Point.builder()
+                    .member((Member)memberUtil.getMember())
+                    .point(pt)
+                    //.orderInfo(orderInfo)
+                    .build();
+
+            pointRepository.saveAndFlush(point);
+            /* 포인트 적립 E */
+        }
 
         /* 주문 상품 정보 저장 S */
         List<OrderItem> items = new ArrayList<>();

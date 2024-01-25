@@ -5,5 +5,20 @@
 <main layout:fragment="content">
 
 <h1>포인트 상세</h1>
+
+    <div class="pnt_summary">
+        <h2 th:text="#{사용가능_포인트}"></h2>
+        <div>
+            <span th:text="${totalPoint}"></span>
+            <span th:text="#{P}"></span>
+        </div>
+    </div>
+
+    <h2 th:text="#{상세내역}"></h2>
+    <table th:object="${items}">
+
+
+    </table>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </main>
 </html>

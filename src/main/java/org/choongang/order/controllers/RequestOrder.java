@@ -38,6 +38,8 @@ public class RequestOrder {
 
     private String deliveryMemo; // 배송 메모
 
+    private int usePoint;
+
     @NotBlank
     private String payType = PayType.LBT.name(); // 결제 수단
 

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -30,6 +31,34 @@ public class PointInfoService {
     private final Utils utils;
     private final HttpServletRequest request;
 
+    /**
+     * 본인의 포인트 조회
+     *
+     * @return
+     */
+    public int pointSum(){
+        QPoint point = QPoint.point1;
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        builder.and(point.member.seq.eq(memberUtil.getMember().getSeq()));
+
+        int sum = 0;
+
+        Iterator<Point> points =  pointRepository.findAll(builder).iterator();
+
+        while(points.hasNext()){
+            Point pt = points.next();
+            sum += pt.getPoint();
+        }
+
+        return sum;
+    }
+
+    /**
+     * 본인의 포인트 상세 출력
+     * @return
+     */
     public ListData<Point> getList(){
 
         QPoint point = QPoint.point1;
@@ -40,7 +69,7 @@ public class PointInfoService {
         int page = 1;
         int limit = utils.isMobile()? 5 : 10;
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(asc("createdAt")));
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
 
         Page<Point> data = pointRepository.findAll(builder, pageable);
 
@@ -48,9 +77,17 @@ public class PointInfoService {
 
         List<Point> items = data.getContent();
 
+        for(Point item : items){
+
+            System.out.println(item);
+
+        }
+
 
         return new ListData<>(items, pagination);
     }
+
+
 
 
 }
