@@ -1,5 +1,6 @@
 package org.choongang.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.board.controllers.comment.RequestComment;
@@ -29,8 +30,9 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController extends AbstractBoardController {
 
-    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService);
+
+    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     /**
@@ -40,8 +42,16 @@ public class BoardController extends AbstractBoardController {
      * @return
      */
     @GetMapping("/list/{bid}")
-    public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
+    public String list(@PathVariable("bid") String bid,
+                       @ModelAttribute BoardDataSearch search, Model model) {
+
         commonProcess(bid, "list", model);
+
+        // 특정 상품의 리뷰만
+        if (request.getParameter("productSeq") != null) {
+            Long productSeq = Long.valueOf(request.getParameter("productSeq"));
+            search.setProductSeq(productSeq);
+        }
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
 

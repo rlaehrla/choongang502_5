@@ -1,5 +1,6 @@
 package org.choongang.farmer.blog.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.board.controllers.AbstractBoardController;
@@ -33,8 +34,8 @@ import java.util.List;
 public class BlogController extends AbstractBoardController {
 
 
-    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService);
+    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     @GetMapping("/{farmerId}")
