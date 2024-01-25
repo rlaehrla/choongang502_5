@@ -31,7 +31,7 @@ public class RecipeDeleteService {
 
         Recipe data = recipeInfoService.get(seq);
         // 삭제 권한 체크
-        recipeAuthService.check("delete", seq);
+        /*recipeAuthService.check("delete", seq);*/
 
         String gid = data.getGid();
 
