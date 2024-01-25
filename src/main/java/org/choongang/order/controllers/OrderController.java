@@ -62,11 +62,6 @@ public class OrderController implements ExceptionProcessor {
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
         CartData data = cartInfoService.getCartInfo(mode, seq);
 
-        if(mode == CartType.DIRECT){
-            cartDeleteService.deleteCart();
-        }
-
-
         AbstractMember member = memberUtil.getMember();
 
         if(member != null){
