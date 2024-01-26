@@ -76,17 +76,16 @@ public class OrderController implements ExceptionProcessor {
     }
 
     /**
-     * 주문 상태 변경 저장
+     * 주문 정보 변경 저장
      */
     @GetMapping("/save")
     public String orderStatusSave(Model model) {
-        String status = request.getParameter("orderStatus") ;
         Long seq = Long.valueOf(request.getParameter("seq"));
 
-        orderSaveService.statusSave(seq, status);
+        orderSaveService.statusSave(seq);
 
         String script = String.format("alert('%s'); location.href='/admin/order/edit/%d';",
-                Utils.getMessage("주문_상태가_변경되었습니다.", "commons"), seq);
+                Utils.getMessage("주문_정보가_변경되었습니다.", "commons"), seq);
         model.addAttribute("script", script) ;
 
         return "common/_execute_script" ;

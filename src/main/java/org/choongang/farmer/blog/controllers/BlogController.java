@@ -21,6 +21,7 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
+import org.choongang.order.service.OrderItemInfoService;
 import org.choongang.product.entities.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +35,8 @@ import java.util.List;
 public class BlogController extends AbstractBoardController {
 
 
-    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     @GetMapping("/{farmerId}")
@@ -64,6 +65,16 @@ public class BlogController extends AbstractBoardController {
             model.addAttribute("products", products.getItems()) ;
 
         } else if (tab.equals("review")) {
+            String bid = "review" ;
+
+            ListData<BoardData> data = boardInfoService.getList(bid, search);
+
+            /* 게시판 설정 처리 */
+            board = configInfoService.get(bid);
+            model.addAttribute("board", board);
+
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
 
         } else if (tab.equals("sns")) {
             // 회원 가입 -> 농장 -> 게시판 하나 생성(blog_아이디)

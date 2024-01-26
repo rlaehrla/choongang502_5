@@ -9,11 +9,14 @@
 .item > a > *{
     margin-top: 7px;
 }
-.contentBox .item .imgBox {
+.contentBox .item .imgBox{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
 }
 .contentBox .item .imgBox img{
     width: 100%;
-    border-radius: 10px;
+    height: 100%;
 }
 .cate{
     margin-bottom: 10px;
@@ -32,17 +35,17 @@
     gap: 2px;
 }
 .pink{
-    color: #e96c7c;
+    color: var(--main-color);
 }
 .discount_arrow {
     width: 16px;
-    filter: invert(48%) sepia(80%) saturate(486%) hue-rotate(305deg) brightness(101%) contrast(83%);
+    filter: invert(39%) sepia(90%) saturate(642%) hue-rotate(320deg) brightness(92%) contrast(97%);
 }
 .star i {
-    color: #e96c7c;
+    color: var(--main-color);
 }
 .pagination .page.on {
-    background-color: #e96c7c;
+    background-color: var(--main-color);
     border: none;
 }
 /* 상품 리스트 E*/
