@@ -184,7 +184,7 @@ public class RecipeController implements ExceptionProcessor {
     private void commonProcess(Long seq, String mode, Model model) {
         // 글수정, 글삭제 권한 체크 필요함
         if(mode.equals("edit") || mode.equals("delete")) {
-            //recipeAuthService.check(mode, seq);
+            recipeAuthService.check(mode, seq);
         }
 
         recipe = recipeInfoService.get(seq);

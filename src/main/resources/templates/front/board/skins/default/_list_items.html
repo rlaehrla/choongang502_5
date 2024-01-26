@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="default">
+
    <div class="board_list layout_width">
       <div class="flex sb aic">
          <h1 th:replace="~{front/board/skins/default/_board_title::title}"></h1>
-         <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="write_btn"></a>
+          <th:block th:if="${@memberUtil.isFarmer() && @memberUtil.member.userId == #strings.substringAfter(board.bid,'_')}">
+                <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="write_btn"></a>
+          </th:block>
       </div>
 
       <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlTop)}" th:utext="${board.htmlTop}"></th:block>

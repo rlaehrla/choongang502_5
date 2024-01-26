@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
+    <section class="max-w-screen-lg ma">
     <h1 th:text="#{마이페이지}"></h1>
     <div class="row">
         <a th:href="@{/mypage/diary}" th:text="#{마이_다이어리}"></a>
@@ -37,6 +38,7 @@
     <div class="row">
         <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
     </div>
+    </section>
 </main>
 
 </html>

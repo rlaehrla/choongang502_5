@@ -23,7 +23,7 @@ main > aside { width: 208px; background: var(--main-color); }
 main > section { flex-grow: 1; padding: 50px; }
 
 main > aside > a { display: block; height: 71px; color: #dddee4; font-size: 1.385rem; text-align: center; line-height: 70px; position: relative; }
-main > aside > a + a { border-top: 1px solid #61729e; }
+main > aside > a + a { border-top: 1px solid var(--highlight-color); }
 main > aside > a i { color: #dddee4; font-size: 1.385rem; }
 main > aside > a.on, main > aside > a:hover { background: var(--highlight-color); font-weight: 500; }
 main > aside > a.on:after, main > aside > a:hover:after { content: ''; display: block; width: 8px; height: 100%; right: 0; top: 0; background: var(--sub-color); position: absolute; }
