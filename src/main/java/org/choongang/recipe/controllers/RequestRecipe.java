@@ -48,8 +48,9 @@ public class RequestRecipe {
 
     private List<FileInfo> mainImages;
 
-    private List<String> how;
-    private List<String> tip;
+    @NotBlank
+    private String how;
+    private String tip;
 
     public RequestRecipe() {
         om = new ObjectMapper();

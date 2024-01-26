@@ -47,15 +47,17 @@ public class Recipe extends Base implements AuthCheck {
     @Column(length = 60) //, nullable = false)
     private String subCategory;
 
-    @ToString.Exclude // StackOverflowError 해결 방안
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
-    private List<HowToCook> howToCook;
+    @Column(nullable = false)
+    private int amount;
+
+    @Lob
+    private String how;
+
+    @Lob
+    private String tip;
 
     //@ManyToMany
     //private List<String> tags = new ArrayList<>();
-
-    @Column(nullable = false)
-    private int amount;
 
     @Lob
     private String requiredIng; // JSON
@@ -66,9 +68,9 @@ public class Recipe extends Base implements AuthCheck {
     @Lob
     private String condiments; // 양념 JSON
 
+    // 재료 검색 (재료 + 부재료)
     @Column(length=150)
     private String keyword;
-
 
     @Transient
     private List<FileInfo> mainImages; // 대표 이미지, null X
