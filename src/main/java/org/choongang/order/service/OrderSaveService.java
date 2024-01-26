@@ -67,7 +67,11 @@ public class OrderSaveService {
 
 
         /* 주소 저장 S */
-        AddressAssist address = form.getAddr();
+        AddressAssist address = AddressAssist.builder()
+                .zoneCode(form.getZoneCode())
+                .address(form.getAddress())
+                .addressSub(form.getAddressSub())
+                .build();
 
         if(memberUtil.isLogin()){
             Address addr = addressRepository.findExists(memberUtil.getMember().getSeq(), address).orElse(null);
@@ -97,9 +101,9 @@ public class OrderSaveService {
         orderInfo.setTotalDiscount(totalDiscount);
         orderInfo.setTotalDeliveryPrice(totalDeliveryPrice);
         orderInfo.setPayPrice(payPrice);
-        orderInfo.setZoneCode(form.getAddr().getZoneCode());
-        orderInfo.setAddress(form.getAddr().getAddress());
-        orderInfo.setAddressSub(form.getAddr().getAddressSub());
+        orderInfo.setZoneCode(form.getZoneCode());
+        orderInfo.setAddress(form.getAddress());
+        orderInfo.setAddressSub(form.getAddressSub());
         orderInfo.setUsePoint(form.getUsePoint());
 
         if(memberUtil.isLogin()){
@@ -110,30 +114,33 @@ public class OrderSaveService {
         orderInfoRepository.saveAndFlush(orderInfo);
         /* 주문 정보 저장 E */
 
-        /* 포인트 사용 저장 S */
-        if(form.getUsePoint() != 0){
-            Point usePoint = Point.builder()
-                    .point(form.getUsePoint() * -1)
+        if(memberUtil.isLogin()){
+            /* 포인트 사용 저장 S */
+            if(form.getUsePoint() != 0){
+                Point usePoint = Point.builder()
+                        .point(form.getUsePoint() * -1)
+                        .member((Member)memberUtil.getMember())
+                        .orderNo(orderInfo.getOrderNo())
+                        .build();
+                System.out.println("사용포인트 : " + usePoint);
+                pointRepository.saveAndFlush(usePoint);
+
+            }
+            /* 포인트 사용 저장 E */
+            /* 포인트 적립 S */
+
+            int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
+
+            Point point = Point.builder()
                     .member((Member)memberUtil.getMember())
+                    .point(pt)
                     .orderNo(orderInfo.getOrderNo())
                     .build();
-            System.out.println("사용포인트 : " + usePoint);
-            pointRepository.saveAndFlush(usePoint);
+            System.out.println("적립포인트 : " + point);
+            pointRepository.saveAndFlush(point);
+            /* 포인트 적립 E */
 
         }
-        /* 포인트 사용 저장 E */
-        /* 포인트 적립 S */
-
-        int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
-
-        Point point = Point.builder()
-                .member((Member)memberUtil.getMember())
-                .point(pt)
-                .orderNo(orderInfo.getOrderNo())
-                .build();
-        System.out.println("적립포인트 : " + point);
-        pointRepository.saveAndFlush(point);
-        /* 포인트 적립 E */
 
         /* 주문 상품 정보 저장 S */
         List<OrderItem> items = new ArrayList<>();
