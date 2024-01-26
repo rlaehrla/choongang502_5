@@ -37,9 +37,49 @@ const recipeForm = {
         const inputEa = document.createElement("input");
         const closeButton = document.createElement("button");
         const buttonIcon = document.createElement("i");
-        buttonIcon.className = "xi-close";
 
-       if(name === 'requiredIng') {
+        if(name === 'requiredIng') {
+                   inputText.placeholder="예) 당근";
+                   inputEa.placeholder="1 개";
+
+               } else if (name === 'subIng') {
+                   inputText.placeholder="예) 달걀";
+                   inputEa.placeholder="1 개";
+
+               } else if (name === 'condiments') {
+                   inputText.placeholder="예) 소금";
+                   inputEa.placeholder="1 큰술";
+
+               } else if (name === 'how' || name === 'tip') {
+                   inputText.placeholder="만드는 방법을 입력하세요.";
+               }
+
+                rows.className = "item_box";
+                inputText.type = "text";
+                inputText.name = name;
+
+                closeButton.type = "button";
+                closeButton.className = "remove_item";
+                buttonIcon.className = "xi-close";
+
+                closeButton.appendChild(buttonIcon);
+
+                rows.appendChild(inputText);
+
+                   if(name !== 'how' && name !== 'tip') {
+                       inputEa.type="text";
+                       inputEa.name = `${name}Ea`;
+                       rows.appendChild(inputEa);
+                   }
+
+
+                rows.appendChild(closeButton);
+                closeButton.addEventListener("click", this.deleteItem);
+
+                return rows;
+
+
+    /*   if(name === 'requiredIng') {
                    inputText.placeholder="예) 당근";
                    inputEa.placeholder="1 개";
 
@@ -82,7 +122,7 @@ const recipeForm = {
                rows.appendChild(closeButton);
                closeButton.addEventListener("click", this.deleteItem);
 
-               return rows;
+               return rows;*/
            }
        };
 

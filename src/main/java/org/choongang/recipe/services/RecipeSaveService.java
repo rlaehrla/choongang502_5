@@ -36,7 +36,7 @@ public class RecipeSaveService {
         HowToCook howToCook = null;
         if(seq != null && mode.equals("edit")) { // 수정
             data = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
-            howToCook = howToCookRepository.findById(seq).orElseThrow(null);
+            howToCook = howToCookRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
         } else { // 작성
             data = new Recipe();
             data.setGid(form.getGid());
@@ -54,12 +54,11 @@ public class RecipeSaveService {
         data.setRequiredIng(form.getRequiredIngJSON());
         data.setSubIng(form.getSubIngJSON());
         data.setCondiments(form.getCondimentsJSON());
-
         data.setKeyword(getKeyword(form));
 
-/*        howToCook.setContent(form.getContent().toString());
-        howToCook.setRecipe(data);*/
-
+        howToCook.setRecipe(data);
+        howToCook.setHow(form.getHow());
+        howToCook.setTip(form.getTip());
 
         recipeRepository.saveAndFlush(data);
         howToCookRepository.saveAndFlush(howToCook);

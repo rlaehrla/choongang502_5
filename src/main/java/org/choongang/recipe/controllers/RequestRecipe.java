@@ -48,7 +48,7 @@ public class RequestRecipe {
 
     private List<FileInfo> mainImages;
 
-    private List<String> content;
+    private List<String> how;
     private List<String> tip;
 
     public RequestRecipe() {
