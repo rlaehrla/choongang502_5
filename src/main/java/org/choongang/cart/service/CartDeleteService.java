@@ -46,27 +46,18 @@ public class CartDeleteService {
     }
 
     /**
-     * CartType.Direct 일 때(바로구매)
-     * 장바구니 전체 삭제
-     *
+     * 구매상품 장바구니에서 삭제
+     * @param cartData
      */
-    public void deleteCart(){
-
-        Long memberSeq = memberUtil.getMember().getSeq();
-        QCartInfo cartInfo = QCartInfo.cartInfo;
-
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.and(cartInfo.member.seq.eq(memberSeq));
-        builder.and(cartInfo.mode.eq(CartType.CART));
-
-        Iterator<CartInfo> carts = cartInfoRepository.findAll(builder).iterator();
-
-        while(carts.hasNext()){
-            CartInfo cart = carts.next();
-            cartInfoRepository.delete(cart);
-
+    public void deleteCart(CartData cartData){
+        List<CartInfo> items = cartData.getItems();
+        for(CartInfo item : items){
+            cartInfoRepository.delete(item);
         }
+
         cartInfoRepository.flush();
 
     }
+
+
 }

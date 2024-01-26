@@ -100,9 +100,9 @@ public class OrderController implements ExceptionProcessor {
 
         validator.validate(form, errors);
 
-        if(errors.hasErrors()){
-            return utils.tpl("/");
-        }
+        /*if(errors.hasErrors()){
+
+        }*/
 
         OrderInfo orderInfo = orderSaveService.save(form);
 
