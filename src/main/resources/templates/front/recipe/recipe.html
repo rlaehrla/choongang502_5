@@ -5,39 +5,41 @@
 <main layout:fragment="content">
     <section th:replace="~{front/outlines/_banner::banner}">
     </section>
-    <a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
-    <h2 th:text="#{맞춤레시피}"></h2>
-    <div>
-        <ul>
-            <li th:each="recipe : ${맞춤레시피}" th:object="${recipe}">
-                <img th:src="*{썸네일링크}">
-                <p th:text="*{제목}"></p>
-                <p th:text="*{내용}"></p>
-            </li>
-        </ul>
-    </div>
-    <h2 th:text="#{공식레시피}"></h2>
-    <div>
-        <ul>
-            <li th:each="recipe : ${공식레시피}" th:object="${recipe}">
-                <img th:src="*{썸네일링크}">
-                <p th:text="*{제목}"></p>
-                <p th:text="*{내용}"></p>
-            </li>
-        </ul>
-    </div>
-    <h2 th:text="#{최신레시피}"></h2>
-    <div>
-        <ul>
-            <li th:each="recipe : ${최신레시피}" th:object="${recipe}">
-                <img th:src="*{썸네일링크}">
-                <p th:text="*{제목}"></p>
-                <p th:text="*{내용}"></p>
-            </li>
-        </ul>
+    <section class="max-w-screen-lg flex ma" style="flex-direction: column;">
+        <a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
+        <h2 th:text="#{맞춤레시피}"></h2>
         <div>
-            <a th:href="@{recipe/list}">모두 보기</a>
+            <ul>
+                <li th:each="recipe : ${맞춤레시피}" th:object="${recipe}">
+                    <img th:src="*{썸네일링크}">
+                    <p th:text="*{제목}"></p>
+                    <p th:text="*{내용}"></p>
+                </li>
+            </ul>
         </div>
-    </div>
+        <h2 th:text="#{공식레시피}"></h2>
+        <div>
+            <ul>
+                <li th:each="recipe : ${공식레시피}" th:object="${recipe}">
+                    <img th:src="*{썸네일링크}">
+                    <p th:text="*{제목}"></p>
+                    <p th:text="*{내용}"></p>
+                </li>
+            </ul>
+        </div>
+        <h2 th:text="#{최신레시피}"></h2>
+        <div>
+            <ul>
+                <li th:each="recipe : ${최신레시피}" th:object="${recipe}">
+                    <img th:src="*{썸네일링크}">
+                    <p th:text="*{제목}"></p>
+                    <p th:text="*{내용}"></p>
+                </li>
+            </ul>
+            <div>
+                <a th:href="@{recipe/list}">모두 보기</a>
+            </div>
+        </div>
+    </section>
 </main>
 </html>
