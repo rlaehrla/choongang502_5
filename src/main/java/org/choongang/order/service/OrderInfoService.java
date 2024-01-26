@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -81,8 +82,11 @@ public class OrderInfoService {
         andBuilder.and(orderInfo.createdAt.goe(refDay));
 
         /* 페이징 처리 */
-        int page = 1;
-        int limit = utils.isMobile() ? 5 : 10;
+        String pageStr = StringUtils.hasText(request.getParameter("page")) ?request.getParameter("page") : "1" ;
+        String limitStr = StringUtils.hasText(request.getParameter("limit")) ? request.getParameter("limit") : "10";
+
+        int page = Utils.onlyPositiveNumber(Integer.parseInt(pageStr), 1);
+        int limit = Utils.onlyPositiveNumber(Integer.parseInt(limitStr), 10);
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
 
@@ -95,7 +99,6 @@ public class OrderInfoService {
                 item.setProduct(product);
             }
         }
-
 
         Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
 
