@@ -47,13 +47,6 @@ public class BoardController extends AbstractBoardController {
 
         commonProcess(bid, "list", model);
 
-        // 특정 상품의 리뷰만
-        if (request.getParameter("productSeq") != null) {
-            Long productSeq = Long.valueOf(request.getParameter("productSeq"));
-            System.out.println("===========================" + productSeq);
-            search.setProductSeq(productSeq);
-        }
-
         ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         model.addAttribute("items", data.getItems());
