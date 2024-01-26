@@ -33,18 +33,18 @@ public class Recipe extends Base implements AuthCheck {
     @Column(length=65, nullable = false)
     private String gid = UUID.randomUUID().toString(); // 그룹 ID
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 100, nullable = false)
     private String rcpName;
 
-    @Column(length = 240)
+    @Lob
     private String rcpInfo;
 
     @Column(nullable = false)
-    private int EstimatedT;
+    private int estimatedT;
 
-    @Column(length = 20)//,nullable = false)
+    @Column(length = 60)//,nullable = false)
     private String category;
-    @Column(length = 20) //, nullable = false)
+    @Column(length = 60) //, nullable = false)
     private String subCategory;
 
     @ToString.Exclude // StackOverflowError 해결 방안
@@ -66,8 +66,15 @@ public class Recipe extends Base implements AuthCheck {
     @Lob
     private String condiments; // 양념 JSON
 
+    @Column(length=150)
+    private String keyword;
+
+
     @Transient
     private List<FileInfo> mainImages; // 대표 이미지, null X
+
+    @Transient
+    private List<FileInfo> profileImage; // 작성자 프로필 이미지
 
     @Transient
     private boolean editable; // 수정 가능 여부

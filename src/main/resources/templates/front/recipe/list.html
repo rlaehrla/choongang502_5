@@ -13,13 +13,6 @@
             <br><a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
         </div>
 
-
-        <div>
-            <th:block th:if="${recipes == null || recipes.isEmpty()}"
-            th:text="#{등록된_레시피가_없습니다.}">
-            </th:block>
-        </div>
-
         <div> <!-- 검색-->
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
                   autocomplete="off" th:object="${recipeDataSearch}">
@@ -33,22 +26,36 @@
                 <button type="submit" th:text="#{검색하기}"></button>
             </form>
         </div>
+        <div>
+            <th:block th:if="${recipes == null || recipes.isEmpty()}"
+                      th:text="#{등록된_레시피가_없습니다.}">
+            </th:block>
+        </div>
 
         <div class="contentBox">
-            [[${recipe}]]
-            <div class="itemList" th:each="recipe : ${recipes}" th:object="${recipe}">
+            <!--[[${recipes}]] <br><br>-->
+
+            <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}">
                 <ul>
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
-                        <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 400, 400, 'recipe_main')}"></th:block>
+                        <div class="imgBox">
+                            <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
+                        </div>
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>
                         <li th:text="*{requiredIng}"></li>
                         <li th:text="*{category}"></li>
                         <li th:text="*{subCategory}"></li>
-
                     </a>
 
-                    <!--      </a>-->
+                    <a th:href="@{임시}" th:if="*{member != null}">
+                        <li th:text="*{member.nickname}"></li>
+                        프로필 gid : <li th:text="*{member.gid}"></li>
+                        <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                            <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 150, 150, 'profile_img')}">
+                            </th:block>
+                        </th:block>
+                    </a>
                     좋아요
                     <br><br><br><br><br>
                 </ul>

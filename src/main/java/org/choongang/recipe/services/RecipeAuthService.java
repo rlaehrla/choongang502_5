@@ -1,18 +1,12 @@
 package org.choongang.recipe.services;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Request;
 import org.choongang.board.entities.AuthCheck;
-import org.choongang.board.service.GuestPasswordCheckException;
 import org.choongang.board.service.comment.CommentInfoService;
-import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.recipe.controllers.RequestRecipe;
-import org.choongang.recipe.entities.Recipe;
 import org.springframework.stereotype.Service;
 
 
@@ -78,8 +72,7 @@ public class RecipeAuthService{
 
         // 비회원이거나 농부 -> 로그인 페이지로 이동
         if(member == null || memberUtil.isFarmer()) {
-            // 로그인 페이지로
-            throw new UnAuthorizedException();
+            throw new UnAuthorizedException("로그인이 필요한 페이지입니다.");
         }
     }
 

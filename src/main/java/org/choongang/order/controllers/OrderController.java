@@ -18,11 +18,8 @@ import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.PointRepository;
 import org.choongang.member.service.PointInfoService;
 import org.choongang.order.entities.OrderInfo;
-import org.choongang.order.entities.OrderItem;
 import org.choongang.order.service.OrderInfoService;
-import org.choongang.order.service.OrderNotFoundException;
 import org.choongang.order.service.OrderSaveService;
-import org.choongang.product.entities.Product;
 import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -100,9 +97,12 @@ public class OrderController implements ExceptionProcessor {
 
         validator.validate(form, errors);
 
+
         /*if(errors.hasErrors()){
 
         }*/
+
+
 
         OrderInfo orderInfo = orderSaveService.save(form);
 
