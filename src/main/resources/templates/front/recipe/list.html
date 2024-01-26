@@ -61,18 +61,15 @@
                         <li th:text="*{category}"></li>
                         <li th:text="*{subCategory}"></li>
                     </a>
-                    <th:block th:if="${@memberUtil.isAdmin()}">
-                        <li th:text="#{여름지기마켓}"></li>
-                    </th:block>
-                    <th:block th:unless="${@memberUtil.isAdmin()}">
-                        <a th:href="@{임시}">
-                        닉네임 : <li th:if="*{member != null}" th:text="*{member.nickname}"></li>
-                        </a>
-                    </th:block>
+                    <div>
+                    <th:block th:if=*{authoritychk} th:text="#{여름지기마켓}"></th:block>
+                    <th:block th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
+
                     <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
                         <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 100, 100, 'profile_img')}">
                         </th:block>
                     </th:block>
+                    </div>
                     <br><br><br><br><br>
                 </ul>
             </div>

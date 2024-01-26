@@ -23,7 +23,9 @@ import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Authorities;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.QRecipe;
@@ -36,6 +38,7 @@ import org.springframework.util.StringUtils;
 import javax.sound.midi.Receiver;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -73,17 +76,20 @@ public class RecipeInfoService {
         String gid = recipe.getGid();
         String mgid = recipe.getMember().getGid();
 
+
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
         List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
 
         recipe.setMainImages(mainImages);
         recipe.setProfileImage(profileImage);
+
         /* 파일 정보 추가 E */
 
         /** 임시 !! */
         /* 수정, 삭제 권한 정보 처리 S */
         boolean editable = false, deletable = false, mine = false;
         AbstractMember _member = recipe.getMember(); // 작성한 회원
+        boolean authoritychk = false; // 작성자가 admin인지 체크
 
         // 관리자 -> 삭제, 수정 모두 가능
         if (memberUtil.isAdmin()) {
@@ -99,9 +105,15 @@ public class RecipeInfoService {
             mine = true;
         }
 
+        authoritychk =
+        _member.getAuthorities().stream()
+                        .map(Authorities::getAuthority)
+                                .anyMatch(a -> a == Authority.ADMIN || a == Authority.MANAGER);
+
         recipe.setEditable(editable);
         recipe.setDeletable(deletable);
         recipe.setMine(mine);
+        recipe.setAuthoritychk(authoritychk);
 
         // 수정 버튼 노출 여부
         // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
