@@ -6,12 +6,45 @@
     grid-template-columns: repeat(3, minmax(0,1fr));
     row-gap: 40px;
 }
-.contentBox .item {
+.item > a > *{
+    margin-top: 7px;
+}
+.contentBox .item .imgBox {
 }
 .contentBox .item .imgBox img{
     width: 100%;
+    border-radius: 10px;
+}
+.cate{
+    margin-bottom: 10px;
 }
 
+.font-semibold {
+    font-weight: 600;
+}
+.text-16px {
+    font-size: 16px;
+}
+.items-center {
+    align-items: center;
+}
+.gap-2px {
+    gap: 2px;
+}
+.pink{
+    color: #e96c7c;
+}
+.discount_arrow {
+    width: 16px;
+    filter: invert(48%) sepia(80%) saturate(486%) hue-rotate(305deg) brightness(101%) contrast(83%);
+}
+.star i {
+    color: #e96c7c;
+}
+.pagination .page.on {
+    background-color: #e96c7c;
+    border: none;
+}
 /* 상품 리스트 E*/
 
 /* 상품 상세 S */
