@@ -167,7 +167,6 @@ public class BoardInfoService {
         // 리뷰 게시판 --> 특정 상품의 리뷰만 조회
         if (request.getParameter("productSeq") != null) {
             Long productSeq = Long.valueOf(request.getParameter("productSeq"));
-            System.out.println("==============================" + productSeq);
             search.setProductSeq(productSeq);
             andBuilder.and(boardData.num1.eq(productSeq)) ;
         }

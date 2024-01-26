@@ -108,8 +108,20 @@ public class BlogEditController {
      * 리뷰관리 페이지
      */
     @GetMapping("/review")
-    public String reviews(Model model) {
+    public String reviews(@ModelAttribute BoardDataSearch search, Model model) {
         commonProcess("review", model);
+
+        String bid = "review" ;
+
+        ListData<BoardData> data = boardInfoService.getList(bid, search);
+
+        /* 게시판 설정 처리 */
+        board = configInfoService.get(bid); // 매번 DB조회
+        model.addAttribute("board", board);
+        commonProcess("review", model);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "/admin/farmer/blog/review" ;
     }
