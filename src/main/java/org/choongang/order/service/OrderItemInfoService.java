@@ -15,7 +15,6 @@ import org.choongang.order.controllers.OrderSearch;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderItem;
 import org.choongang.order.repositories.OrderItemRepository;
-import org.choongang.product.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -181,5 +180,13 @@ public class OrderItemInfoService {
     }
 
     public ListData<OrderItem> getAll(OrderSearch search) { return getAll(search, null) ; }
+
+    /**
+     * orderItem의 seq로 item 검색하여 반환
+     */
+    public OrderItem getOneItem(Long itemSeq) {
+        OrderItem item = orderItemRepository.findById(itemSeq).orElseGet(null) ;
+        return item ;
+    }
 
 }

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
-<!--    [[${orders}]]-->
+
     <h1>주문 내역 목록</h1>
 
     <h2>주문 내역 검색</h2>
@@ -105,6 +105,7 @@
                     [[*{status.getTitle()}]]
                 </td>
                 <td>
+                    <input type="hidden" name="orderInfoSeq" th:value="*{orderInfo.seq}">
                     <a th:href="@{/admin/order/edit/{seq}(seq=*{seq})}" class="sbtn">수정하기</a>
                 </td>
             </tr>
