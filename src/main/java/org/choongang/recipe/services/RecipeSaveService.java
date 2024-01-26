@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +27,9 @@ public class RecipeSaveService {
     private final FileUploadService fileUploadService;
     private ObjectMapper om;
 
-    public Recipe save(RequestRecipe form) {
+    public void save(RequestRecipe form) {
         String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode : "add";
-
         Long seq = form.getSeq();
 
         Recipe data = null;
@@ -43,7 +44,6 @@ public class RecipeSaveService {
 
             howToCook = new HowToCook();
             howToCook.setGid(form.getGid());
-
         }
         data.setRcpName(form.getRcpName());
         data.setRcpInfo(form.getRcpInfo());
@@ -51,52 +51,13 @@ public class RecipeSaveService {
         data.setCategory(form.getCategory());
         data.setSubCategory(form.getSubCategory());
         data.setAmount(form.getAmount());
-
         data.setRequiredIng(form.getRequiredIngJSON());
         data.setSubIng(form.getSubIngJSON());
         data.setCondiments(form.getCondimentsJSON());
-        System.out.println("data = " + data);
-        //JSON
-        /*ObjectMapper om = new ObjectMapper();*/
 
-        /*List<String> _requiredIng = new ArrayList<>();
-        String[] requiredIng = form.getRequiredIng();
-        String[] requiredIngEa = form.getRequiredIngEa();
-        if (requiredIng != null) {
-            for (int i = 0; i < requiredIng.length; i++) {
-                _requiredIng.add(String.format("%s_%s", requiredIng[i], requiredIngEa[i]));
-            }
-        }
+        data.setKeyword(getKeyword(form));
 
-        List<String> _subIng = new ArrayList<>();
-        String[] subIng = form.getSubIng();
-        String[] subIngEa = form.getSubIngEa();
-        if (subIng != null) {
-            for (int i = 0; i < subIng.length; i++) {
-                _requiredIng.add(String.format("%s_%s", subIng[i], subIngEa[i]));
-            }
-        }
-
-        List<String> _condiments = new ArrayList<>();
-        String[] condiments = form.getCondiments();
-        String[] condimentsEa = form.getCondimentsEa();
-        if (subIng != null) {
-            for (int i = 0; i < condiments.length; i++) {
-                _requiredIng.add(String.format("%s_%s", condiments[i], condimentsEa[i]));
-            }
-        }
-
-        try {
-            data.setRequiredIng(om.writeValueAsString(_requiredIng));
-            data.setSubIng(om.writeValueAsString(_subIng));
-            data.setCondiments(om.writeValueAsString(_condiments));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        // ---
-
-        howToCook.setContent(form.getContent().toString());
+/*        howToCook.setContent(form.getContent().toString());
         howToCook.setRecipe(data);*/
 
 
@@ -104,7 +65,32 @@ public class RecipeSaveService {
         howToCookRepository.saveAndFlush(howToCook);
 
         fileUploadService.processDone(data.getGid());
-
-        return data;
     }
+
+    // 재료로 검색
+    private String getKeyword(RequestRecipe form) {
+        String[] requiredIng = form.getRequiredIng();
+        String[] subIng = form.getSubIng();
+        String[] condiments = form.getCondiments();
+
+        List<String> keywords = new ArrayList<>();
+
+        if(requiredIng != null) {
+            Arrays.stream(requiredIng).map(s -> "__" + s.trim() + "__")
+                    .forEach(keywords::add);
+        }
+
+        if(subIng != null) {
+            Arrays.stream(subIng).map(s -> "__" + s.trim() + "__")
+                    .forEach(keywords::add);
+        }
+
+        if(condiments != null) {
+            Arrays.stream(condiments).map(s -> "__" + s.trim() + "__")
+                    .forEach(keywords::add);
+        }
+        return keywords.stream().distinct().collect(Collectors.joining()); // 공백 없이 문자열로 키워드 저장
+
+    }
+
 }

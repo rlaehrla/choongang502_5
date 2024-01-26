@@ -3,33 +3,31 @@
 <th:block th:fragment="form" th:object="${requestRecipe}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
+    [[${requestRecipe}]]
     <input type="hidden" name="gid" th:field="*{gid}">
     작성자 : <input type="text" name="poster" th:field="*{poster}">
 
-    <!-- JSON - 자바스크립트 사용하기 위함 -->
-<!--    <input type="hidden" name="requiredIngJSON" th:field="*{requiredIngJSON}">
-    <input type="hidden" name="subIngJSON" th:field="*{subIngJSON}">
-    <input type="hidden" name="condimentsJSON" th:field="*{condimentsJSON}">-->
-
+    <!--// main_image_box -->
     <div class="main_image_box">
-        <div class="upload_files" id="main_images" data-image-only="true"
-        data-location="recipe_main">
-            <th:block th:each="item : *{mainImages}">
-                <span th:replace="~{common/_image_file::item}"></span>
-            </th:block>
+        <div th:if="*{mainImages != null && !mainImages.isEmpty()}" class="upload_files uploaded"
+             id="main_images" data-image-only="true"
+             th:style="*{@utils.backgroundStyle(mainImages[0], 600, 600)}">
             <i class="xi-plus"></i>
             <div class="txt" th:text="#{대표_이미지_업로드}"></div>
         </div>
-        <div class="thumbs"></div>
+        <!-- 이미지 없을 때-->
+        <div th:unless="*{mainImages != null && !mainImages.isEmpty()}" class="upload_files"
+             id="main_images" data-image-only="true">
+            <i class="xi-plus"></i>
+            <div class="txt" th:text="#{대표_이미지_업로드}"></div>
+        </div>
+
+        <div class="thumbs">
+            <th:block th:if="*{mainImages != null}" th:each="item : *{mainImages}">
+                <th:block th:replace="~{common/_image_file::item}"></th:block>
+            </th:block>
+        </div>
     </div>
-
-    <div class="uploaded_files" id="editor_files">
-
-    </div>
-
-
-
-
     <!--// main_image_box -->
 
     <div class="rows recipe_name">
@@ -37,7 +35,7 @@
         <div class="error" th:each="err : ${#fields.errors('rcpName')}" th:text="${err}"></div>
     </div>
     <div class="rows">
-        <textarea th:field="*{rcpInfo}" th:placeholder="#{레시피에_대한_간단한_설명을_덧붙여주세요.}"></textarea>
+        <textarea name="rcpInfo" th:field="*{rcpInfo}" th:placeholder="#{레시피에_대한_간단한_설명을_덧붙여주세요.}"></textarea>
     </div>
 
     <div class="stit" th:text="#{예상_소요_시간}"></div>
@@ -62,18 +60,17 @@
         <div class="stit" th:text="#{카테고리}"></div>
         <select name="category" th:field="*{category}">
             <option value="" th:text="#{요리_분류}"></option>
-<!--            <option th:value="*{korean}" th:text="#{한식}"></option>-->
         </select>
         <select name="subCategory" th:field="*{subCategory}">
             <option value="" th:text="#{요리_종류}"></option>
-<!--            <option th:value="*{rice}" th:text="#{볶음밥/덮밥}"></option>-->
         </select>
     </div>
+
     <div class="rows">
         <div class="stit" th:text="#{기준량}"></div>
         <div class="amount_box">
             <button type="button" class="down"><i class="xi-minus"></i></button>
-            <input type="number" name="amount" min="1" max="10"  th:field="*{amount}">
+            <input type="number" name="amount" min="1" max="10" th:field="*{amount}">
             <button type="button" class="up"><i class="xi-plus"></i></button>
             <th:block th:text="#{인분}"></th:block>
         </div>
@@ -82,27 +79,40 @@
         <div class="stit" th:text="#{필수재료}"></div>
 
         <div class="input_item_box" id="requiredIng">
-
-            <div class="item_box" th:if="*{requiredIng != null}">
-                <input type="text" name="requiredIng" id="content_requiredIng" th:text="*{requiredIng}">
-                <input type="text" name="requiredIngEa" th:text="*{requiredIngEa}">
+            <div class="item_box" th:if="*{requiredIng != null}"
+                 th:each="item, status : *{requiredIng}">
+                <input placeholder="예) 당근" type="text" name="requiredIng" th:value="${item}">
+                <input placeholder="1 개" type="text" name="requiredIngEa" th:value="${requestRecipe.requiredIngEa[status.index]}">
+                <button type="button" class="remove_item"><i class="xi-close"></i></button>
             </div>
-
         </div>
         <button type="button" th:text="#{추가}" data-id="requiredIng" data-name="requiredIng" class="add_input_item"></button>
     </div>
     <div class="rows">
         <div class="stit" th:text="#{부재료}"></div>
-
-        <div class="input_item_box" id="subIng"></div>
+        <div class="input_item_box" id="subIng">
+            <div class="item_box" th:if="*{subIng != null}"
+                 th:each="item, status : *{subIng}">
+                <input placeholder="예) 당근" type="text" name="subIng" th:value="${item}">
+                <input placeholder="1 개" type="text" name="subIngEa" th:value="${requestRecipe.subIngEa[status.index]}">
+                <button type="button" class="remove_item"><i class="xi-close"></i></button>
+            </div>
+        </div>
         <button type="button" th:text="#{추가}" data-id="subIng" data-name="subIng" class="add_input_item"></button>
     </div>
     <div class="rows">
         <div class="stit" th:text="#{양념}"></div>
-
-        <div class="input_item_box" id="condiments"></div>
+        <div class="input_item_box" id="condiments">
+            <div class="item_box" th:if="*{condiments != null}"
+                 th:each="item, status : *{condiments}">
+                <input placeholder="예) 당근" type="text" name="condiments" th:value="${item}">
+                <input placeholder="1 개" type="text" name="condimentsEa" th:value="${requestRecipe.condimentsEa[status.index]}">
+                <button type="button" class="remove_item"><i class="xi-close"></i></button>
+            </div>
+        </div>
         <button type="button" th:text="#{추가}" data-id="condiments" data-name="condiments" class="add_input_item"></button>
     </div>
+
     <!-- 만드는 방법 -->
     <div>
         <div class="rows">
@@ -113,15 +123,13 @@
             <div class="input_item_box" id="howto"></div>
             <button type="button" th:text="#{단계_추가}" data-id="howto" data-name="howto" class="add_input_item"></button>
         </div>
-
         <div class="rows">
             <div class="stit" th:text="#{TIP}"></div>
-            <!--<input type="text" id="tip_[seq]" th:field="*{tip}">-->
-
             <div class="input_item_box" id="tip"></div>
             <button type="button" th:text="#{TIP_추가}" data-id="tip" data-name="tip" class="add_input_item"></button>
         </div>
     </div>
+
     <th:block th:replace="~{common/_file_tpl::image1_tpl}"></th:block>
 </th:block>
 
