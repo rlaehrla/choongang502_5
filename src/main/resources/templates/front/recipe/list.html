@@ -13,19 +13,31 @@
             <br><a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
         </div>
 
-        <div> <!-- 검색-->
+        <div> <!-- 검색 S -->
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
-                  autocomplete="off" th:object="${recipeDataSearch}">
-                <select name="sopt" th:field="*{sopt}">
-                    <option value="all" th:text="#{전체}"></option>
-                    <option value="rcpName" th:text="#{레시피_이름}"></option>
-                    <option value="member" th:text="#{작성자}"></option>
-                </select>
-                <input type="text" name="skey" th:field="*{skey}"
-                       th:placeholder="#{요리나 재료를 검색!}">
-                <button type="submit" th:text="#{검색하기}"></button>
+                  th:object="${recipeDataSearch}">
+                <div>
+                    <select name="sopt" th:field="*{sopt}">
+                        <option value="all" th:text="#{전체}"></option>
+                        <option value="rcpName" th:text="#{레시피_이름}"></option>
+                        <option value="rcpIng" th:text="#{재료}"></option>
+                        <option value="member" th:text="#{작성자}"></option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}"
+                           th:placeholder="#{요리나 재료를 검색!}">
+                    <button type="submit" th:text="#{검색하기}"></button>
+                </div>
+                <!-- 재료 -->
+                <div>
+                    <th:block th:each="ing : ${ingredients}" name="sopt" th:field="*{sopt}">
+                        <button type="submit" value="rcpIng" th:text="${ing}"></button>
+                    </th:block>
+                </div>
             </form>
+
+
         </div>
+        <!-- 검색 E -->
         <div>
             <th:block th:if="${recipes == null || recipes.isEmpty()}"
                       th:text="#{등록된_레시피가_없습니다.}">
@@ -47,16 +59,18 @@
                         <li th:text="*{category}"></li>
                         <li th:text="*{subCategory}"></li>
                     </a>
-
-                    <a th:href="@{임시}" th:if="*{member != null}">
-                        <li th:text="*{member.nickname}"></li>
-                        프로필 gid : <li th:text="*{member.gid}"></li>
-                        <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                            <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 150, 150, 'profile_img')}">
-                            </th:block>
+                    <th:block th:if="${@memberUtil.isAdmin()}">
+                        <li th:text="#{여름지기마켓}"></li>
+                    </th:block>
+                    <th:block th:unless="${@memberUtil.isAdmin()}">
+                        <a th:href="@{임시}">
+                        닉네임 : <li th:if="*{member != null}" th:text="*{member.nickname}"></li>
+                        </a>
+                    </th:block>
+                    <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                        <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 100, 100, 'profile_img')}">
                         </th:block>
-                    </a>
-                    좋아요
+                    </th:block>
                     <br><br><br><br><br>
                 </ul>
             </div>

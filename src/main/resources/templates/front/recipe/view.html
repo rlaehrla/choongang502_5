@@ -30,7 +30,12 @@
         <div><!-- 멤버, 레시피 정보 출력 -->
             <div>
                 <a th:href="@{임시}">
-                    닉네임 : <th:block th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
+                    <tr th:if="${@memberUtil.isAdmin()}">
+                        <th:block th:text="#{여름지기마켓}"></th:block>
+                    </tr>
+                    <tr th:unless="${@memberUtil.isAdmin()}">
+                        닉네임 : <th:block th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
+                    </tr>
                     <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
                         <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 150, 150, 'profile_img')}">
                         </th:block>

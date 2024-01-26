@@ -31,7 +31,6 @@ public class RecipeAuthService{
      *      비회원, 농부 X
      */
     public void check(String mode, Long seq) {
-        System.out.println("check!");
         if(memberUtil.isAdmin()) { // 관리자는 체크 불필요
             return;
         }
