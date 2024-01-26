@@ -19,6 +19,7 @@
 
          <li th:unless="${items == null || items.isEmpty()}"
              th:each="item : ${items}" th:object="${item}" class="item">
+             [[${item}]]
              <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
                  <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
                <h3 th:text="*{subject}"></h3>
