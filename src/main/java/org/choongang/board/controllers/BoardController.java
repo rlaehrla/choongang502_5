@@ -19,6 +19,8 @@ import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.service.MemberInfoService;
+import org.choongang.order.entities.OrderItem;
+import org.choongang.order.service.OrderItemInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -31,8 +33,8 @@ import java.util.List;
 public class BoardController extends AbstractBoardController {
 
 
-    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     /**
@@ -106,6 +108,13 @@ public class BoardController extends AbstractBoardController {
             form.setPoster(member.getUsername());
         }
 
+        // 리뷰 게시판인 경우 상품정보 가져오기
+        if (bid != null && bid.equals("review")) {
+            Long productSeq = Long.valueOf(request.getParameter("productSeq"));
+            OrderItem item = orderItemInfoService.getOneItem(productSeq) ;
+            model.addAttribute("item", item) ;
+        }
+
         return utils.tpl("board/write");
     }
 
@@ -125,6 +134,8 @@ public class BoardController extends AbstractBoardController {
 
         return utils.tpl("board/update");
     }
+
+
     @GetMapping("/reply/{seq}")
     public String reply(@PathVariable("seq") Long parentSeq,
                         @ModelAttribute RequestBoard form, Model model) {

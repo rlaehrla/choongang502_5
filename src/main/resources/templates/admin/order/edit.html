@@ -15,7 +15,7 @@
                 <th width="310">주문번호</th>
                 <td th:text="*{orderNo}"></td>
                 <th width="310">주문일시</th>
-                <td th:text="*{createdAt}"></td>
+                <td th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></td>
             </tr>
             <tr>
                 <th>주문자 명</th>
