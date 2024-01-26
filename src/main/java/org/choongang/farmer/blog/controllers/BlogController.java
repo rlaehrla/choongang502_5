@@ -65,6 +65,16 @@ public class BlogController extends AbstractBoardController {
             model.addAttribute("products", products.getItems()) ;
 
         } else if (tab.equals("review")) {
+            String bid = "review" ;
+
+            ListData<BoardData> data = boardInfoService.getList(bid, search);
+
+            /* 게시판 설정 처리 */
+            board = configInfoService.get(bid);
+            model.addAttribute("board", board);
+
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
 
         } else if (tab.equals("sns")) {
             // 회원 가입 -> 농장 -> 게시판 하나 생성(blog_아이디)
