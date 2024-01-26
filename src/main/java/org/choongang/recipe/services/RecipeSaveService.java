@@ -85,10 +85,10 @@ public class RecipeSaveService {
                     .forEach(keywords::add);
         }
 
-        if(condiments != null) {
+/*        if(condiments != null) {
             Arrays.stream(condiments).map(s -> "__" + s.trim() + "__")
                     .forEach(keywords::add);
-        }
+        }*/
         return keywords.stream().distinct().collect(Collectors.joining()); // 공백 없이 문자열로 키워드 저장
 
     }
