@@ -38,16 +38,16 @@
                 <th>주문상태</th>
                 <td>
                     <select name="orderStatus" th:value="*{status}">
-                        <option value="READY" th:selected="*{status.getTitle()} == '주문 접수 전'">주문 접수 전</option>
-                        <option value="ORDER" th:selected="*{status.getTitle()} == '주문 접수'">주문 접수</option>
-                        <option value="IN_CASH" th:selected="*{status.getTitle()} == '입금 확인'">입금 확인</option>
-                        <option value="PREPARE" th:selected="*{status.getTitle()} == '상품 준비중'">상품 준비중</option>
-                        <option value="DELIVERY" th:selected="*{status.getTitle()} == '배송중'">배송중</option>
-                        <option value="ARRIVAL" th:selected="*{status.getTitle()} == '배송완료'">배송완료</option>
-                        <option value="DONE" th:selected="*{status.getTitle()} == '주문완료'">주문완료</option>
-                        <option value="CANCEL" th:selected="*{status.getTitle()} == '입금확인 전 취소'">입금확인 전 취소</option>
-                        <option value="REFUND" th:selected="*{status.getTitle()} == '입금 후 취소'">입금 후 취소</option>
-                        <option value="EXCHANGE" th:selected="*{status.getTitle()} == '교환'">교환</option>
+                        <option value="READY" th:selected="*{status.title} == '주문 접수 전'">주문 접수 전</option>
+                        <option value="ORDER" th:selected="*{status.title} == '주문 접수'">주문 접수</option>
+                        <option value="IN_CASH" th:selected="*{status.title} == '입금 확인'">입금 확인</option>
+                        <option value="PREPARE" th:selected="*{status.title} == '상품 준비중'">상품 준비중</option>
+                        <option value="DELIVERY" th:selected="*{status.title} == '배송중'">배송중</option>
+                        <option value="ARRIVAL" th:selected="*{status.title} == '배송완료'">배송완료</option>
+                        <option value="DONE" th:selected="*{status.title} == '주문완료'">주문완료</option>
+                        <option value="CANCEL" th:selected="*{status.title} == '입금확인 전 취소'">입금확인 전 취소</option>
+                        <option value="REFUND" th:selected="*{status.title} == '입금 후 취소'">입금 후 취소</option>
+                        <option value="EXCHANGE" th:selected="*{status.title} == '교환'">교환</option>
                     </select>
                     <button type="submit" class="sbtn">주문 상태 변경</button>
                 </td>
@@ -85,6 +85,25 @@
                 <td th:text="*{payPrice} + '원'"></td>
             </tr>
         </table>
+
+        <h2>배송 정보</h2>
+        <table class="table_cols mb30">
+            <tr>
+                <th width="310">배송업체</th>
+                <td>
+                    <input type="text" name="deliveryCompany" th:field="${item.deliveryCompany}"
+                           th:disabled="*{status.title != '배송중'}?'disabled'">
+                </td>
+                <th width="310">송장번호</th>
+                <td>
+                    <input type="text" name="deliveryInvoice" th:field="${item.deliveryInvoice}"
+                           th:disabled="*{status.title != '배송중'}?'disabled'">
+                </td>
+            </tr>
+        </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">주문 정보 변경</button>
+        </div>
     </form>
 </section>
 </html>

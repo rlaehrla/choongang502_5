@@ -4,7 +4,6 @@ package org.choongang.order.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.cart.entities.CartInfo;
-import org.choongang.cart.repositories.CartInfoRepository;
 import org.choongang.cart.service.CartData;
 import org.choongang.cart.service.CartDeleteService;
 import org.choongang.cart.service.CartInfoService;
@@ -26,7 +25,6 @@ import org.choongang.order.entities.OrderItem;
 import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.product.entities.Product;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -174,10 +172,12 @@ public class OrderSaveService {
 
 
     /**
-     * 주문 상태 변경 저장
+     * 주문 상태 및 배송 정보 변경 저장
      */
-    public void statusSave(Long orderSeq, String status) {
-        status = request.getParameter("orderStatus") ;
+    public void statusSave(Long orderSeq) {
+        String status = request.getParameter("orderStatus") ;
+        String deliveryCompany = request.getParameter("deliveryCompany") ;
+        String deliveryInvoice = request.getParameter("deliveryInvoice") ;
 
         OrderInfo info = orderInfoService.get(orderSeq) ;
         info.setStatus(OrderStatus.valueOf(status));
@@ -186,6 +186,8 @@ public class OrderSaveService {
 
         OrderItem item = orderItemRepository.findById(orderSeq).orElseGet(null) ;
         item.setStatus(OrderStatus.valueOf(status));
+        item.setDeliveryCompany(deliveryCompany);
+        item.setDeliveryInvoice(deliveryInvoice);
 
         orderItemRepository.saveAndFlush(item) ;
     }
