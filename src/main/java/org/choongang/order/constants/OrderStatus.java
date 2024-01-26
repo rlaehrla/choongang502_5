@@ -4,25 +4,31 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum OrderStatus {
-    READY("주문 접수 전"), // 주문 접수 전
-    ORDER("주문 접수"), // 주문 접수
-    IN_CASH("입금 확인"), // 입금 확인
-    PREPARE("상품 준비중"), // 상품 준비중
-    DELIVERY("배송중"), // 배송중
-    ARRIVAL("배송완료"), // 배송완료
-    DONE("주문완료"), // 주문완료
-    CANCEL("입금확인 전 취소"), // 입금확인 전 취소
-    REFUND("입금 후 취소"), // 입금 후 취소
-    EXCHANGE("교환"); // 교환
+    READY("주문 접수 전", false), // 주문 접수 전
+    ORDER("주문 접수", true), // 주문 접수
+    IN_CASH("결제 완료", true), // 결제 완료
+    PREPARE("상품 준비중", false), // 상품 준비중
+    DELIVERY("배송중", true), // 배송중
+    ARRIVAL("배송완료", false), // 배송완료
+    DONE("주문완료", true), // 주문완료
+    CANCEL("입금확인 전 취소", true), // 입금확인 전 취소
+    REFUND("입금 후 취소", true), // 입금 후 취소
+    EXCHANGE("교환", true); // 교환
 
     private final String title;
+    private final boolean emailStatus; // 이메일 전송 주문 단계 여부
 
-    OrderStatus(String title){
+    OrderStatus(String title, boolean emailStatus){
         this.title = title;
+        this.emailStatus = emailStatus;
     }
 
     public String getTitle(){
         return title;
+    }
+
+    public boolean isEmailStatus() {
+        return emailStatus;
     }
 
     public List<String[]> getTitles() {

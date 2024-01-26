@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -67,8 +68,11 @@ public class PointInfoService {
 
         builder.and(point.member.seq.eq(memberUtil.getMember().getSeq()));
 
-        int page = 1;
-        int limit = utils.isMobile()? 5 : 10;
+        String pageStr = StringUtils.hasText(request.getParameter("page")) ?request.getParameter("page") : "1" ;
+        String limitStr = StringUtils.hasText(request.getParameter("limit")) ? request.getParameter("limit") : "10";
+
+        int page = Utils.onlyPositiveNumber(Integer.parseInt(pageStr), 1);
+        int limit = Utils.onlyPositiveNumber(Integer.parseInt(limitStr), 10);
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
 

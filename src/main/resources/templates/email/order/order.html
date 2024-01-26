@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body th:object="${orderInfo}">
+        <h1>주문접수 안내</h1>
+        <dl>
+            <dt>주문번호</dt>
+            <dd th:text="*{seq}"></dd>
+        </dl>
+        <dl>
+            <dt>주문자명</dt>
+            <dd th:text="*{orderName}"></dd>
+        </dl>
+    </body>
+</html>

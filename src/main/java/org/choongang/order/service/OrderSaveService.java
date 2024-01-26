@@ -44,10 +44,9 @@ public class OrderSaveService {
     private final MemberUtil memberUtil;
     private final AddressRepository addressRepository;
     private final HttpServletRequest request ;
-    private final PointInfoService pointInfoService;
-    private final PointSaveService pointSaveService;
     private final PointRepository pointRepository;
     private final CartDeleteService cartDeleteService;
+    private final OrderStatusService orderStatusService;
 
     public OrderInfo save(RequestOrder form){
         List<Long> cartSeqs = form.getCartSeq();
@@ -59,9 +58,7 @@ public class OrderSaveService {
         int totalDeliveryPrice = cartData.getTotalDeliveryPrice();
         int payPrice = cartData.getPayPrice() - form.getUsePoint();
 
-        /* 장바구니에서 주문 상품 삭제 S */
-        cartDeleteService.deleteCart(cartData);
-        /* 장바구니에서 주문 상품 삭제 E */
+
 
 
         /* 주소 저장 S */
@@ -164,7 +161,10 @@ public class OrderSaveService {
         orderItemRepository.saveAllAndFlush(items);
         /* 주문 상품 정보 저장 E */
 
+        /* 장바구니에서 주문 상품 삭제 */
+        cartDeleteService.deleteCart(cartData);
 
+        orderStatusService.change(orderInfo.getSeq(), OrderStatus.ORDER);
 
         return orderInfo;
 

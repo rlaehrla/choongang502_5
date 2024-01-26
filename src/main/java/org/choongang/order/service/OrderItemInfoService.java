@@ -57,8 +57,11 @@ public class OrderItemInfoService {
         builder.and(orderItem.createdAt.goe(refDay));
 
         /* 페이징 처리 */
-        int page = 1;
-        int limit = utils.isMobile()? 5 : 10;
+        String pageStr = StringUtils.hasText(request.getParameter("page")) ?request.getParameter("page") : "1" ;
+        String limitStr = StringUtils.hasText(request.getParameter("limit")) ? request.getParameter("limit") : "10";
+
+        int page = Utils.onlyPositiveNumber(Integer.parseInt(pageStr), 1);
+        int limit = Utils.onlyPositiveNumber(Integer.parseInt(limitStr), 10);
 
         Pageable pageable = PageRequest.of(page - 1, limit);
 
