@@ -94,6 +94,9 @@ public class Recipe extends Base implements AuthCheck {
     @Transient
     private List<CommentData> comments; // 댓글 목록
 
+    @Transient
+    private boolean authoritychk;
+
 
 }
 
