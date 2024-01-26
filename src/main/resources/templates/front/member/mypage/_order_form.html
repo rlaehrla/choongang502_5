@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="form">
+
     <div>
         <th:block th:unless="${orders != null && !orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
 
@@ -73,12 +74,12 @@
                         <td class="td-controller row">
                             <div class="OrderTableCardButtonWrapper">
                                 <div class="OrderTableCardButtonItem">
-                                    <a class="btn btn-s btn-point"
-                                       type="button"
-                                       th:href="@{/board/list/review?productSeq={seq}(seq=*{product.seq})}"
+                                    <button class="btn btn-s btn-point"
+                                       type="button" th:disabled="*{status.title!='주문완료'}?'disabled'"
+                                       th:onclick="|location.href='@{/board/write/review?productSeq={seq}(seq=*{product.seq})}'|"
                                        data-modal-id="modal-review"
                                        data-modal-trigger="modal-link"
-                                     th:text="#{후기_작성}"></a>
+                                     th:text="#{후기_작성}"></button>
                                 </div>
                                 <div class="OrderTableCardButtonItem">
                                     <a th:href="*{'https://search.naver.com/search.naver?where=nexearch&sm=top_sug.pre&fbm=0&acr=1&acq=qoth&qdt=0&ie=utf8&query='+deliveryCompany + '+' + deliveryInvoice}"
