@@ -494,7 +494,7 @@ li {
     padding: 20px 0 50px 0;
 }
 
-.product_main {
+.imgBox .product_main {
     width: 250px;
     height: 250px;
     object-fit: cover;
