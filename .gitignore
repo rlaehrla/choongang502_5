@@ -38,4 +38,4 @@ out/
 
 application-dev.*
 
-!**/src/main/java/org/choongang/member/controllers/JoinValidator/
+src/main/generated/
