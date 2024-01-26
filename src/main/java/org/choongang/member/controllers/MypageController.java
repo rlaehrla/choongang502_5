@@ -3,6 +3,7 @@ package org.choongang.member.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
+import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
@@ -36,7 +37,7 @@ public class MypageController { //implements ExceptionProcessor {
         commonProcess("myPage", model);
 
         ListData<OrderInfo> orderInfos = orderInfoService.getList(3);
-        List<OrderInfo> orders = orderInfos.getItems();
+        List<OrderInfo> orders = orderInfos.getItems().stream().limit(5).toList();
 
 
         model.addAttribute("point", pointInfoService.pointSum());
@@ -73,8 +74,10 @@ public class MypageController { //implements ExceptionProcessor {
 
         ListData<OrderInfo> orderInfos = orderInfoService.getList();
         List<OrderInfo> orders = orderInfos.getItems();
+        Pagination pagination = orderInfos.getPagination();
 
         model.addAttribute("orders", orders);
+        model.addAttribute("pagination", pagination);
         return utils.tpl("member/mypage/orders");
     }
 

@@ -40,7 +40,7 @@
                     <select name="orderStatus" th:value="*{status}">
                         <option value="READY" th:selected="*{status.title} == '주문 접수 전'">주문 접수 전</option>
                         <option value="ORDER" th:selected="*{status.title} == '주문 접수'">주문 접수</option>
-                        <option value="IN_CASH" th:selected="*{status.title} == '입금 확인'">입금 확인</option>
+                        <option value="IN_CASH" th:selected="*{status.title} == '결제 완료'">결제 완료</option>
                         <option value="PREPARE" th:selected="*{status.title} == '상품 준비중'">상품 준비중</option>
                         <option value="DELIVERY" th:selected="*{status.title} == '배송중'">배송중</option>
                         <option value="ARRIVAL" th:selected="*{status.title} == '배송완료'">배송완료</option>
