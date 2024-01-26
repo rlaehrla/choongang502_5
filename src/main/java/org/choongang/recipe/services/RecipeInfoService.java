@@ -71,13 +71,13 @@ public class RecipeInfoService {
     private void addRecipe(Recipe recipe) {
         /* 파일 정보 추가 S */
         String gid = recipe.getGid();
-        //String mgid = recipe.getMember().getGid();
+        String mgid = recipe.getMember().getGid();
 
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
-        //List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
+        List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
 
         recipe.setMainImages(mainImages);
-        //recipe.setProfileImage(profileImage);
+        recipe.setProfileImage(profileImage);
         /* 파일 정보 추가 E */
 
         /** 임시 !! */
@@ -229,18 +229,6 @@ public class RecipeInfoService {
 
         sopt = StringUtils.hasText(sopt) ?  sopt : "all";
 
-
-
-/*        if(StringUtils.hasText(sopt)){
-            if(sopt.equals("all")) {
-                sopt = "all";
-            } else if(sopt.equals("rcpName")) {
-                sopt = "rcpname";
-            } else if(sopt.equals("member")) {
-                sopt = "member";
-            }
-        }*/
-
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
@@ -249,7 +237,7 @@ public class RecipeInfoService {
             BooleanExpression userIdCond = recipe.member.userId.contains(skey);
             BooleanExpression rcpIngCond = recipe.keyword.contains("__" + skey + "__");
 
-            if (sopt.equals("rcpname")) { // 제목
+            if (sopt.equals("rcpName")) { // 제목
                 andBuilder.and(rcpCond);
             } else if (sopt.equals("member")) { // 닉네임 + 아이디 (OR)
                 BooleanBuilder orBuilder = new BooleanBuilder();

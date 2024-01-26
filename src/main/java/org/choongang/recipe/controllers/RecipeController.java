@@ -52,7 +52,7 @@ public class RecipeController implements ExceptionProcessor {
     public String write(@ModelAttribute RequestRecipe form, Model model) {
         commonProcess("add", model);
         // member, admin만 등록 가능
-        //recipeAuthService.accessCheck(form);
+        recipeAuthService.accessCheck(form);
 
         return utils.tpl("recipe/add");
     }
@@ -70,7 +70,7 @@ public class RecipeController implements ExceptionProcessor {
 
         RequestRecipe form = recipeInfoService.getForm(seq);
 
-        //recipeAuthService.check("edit", seq);
+        recipeAuthService.check("edit", seq);
         model.addAttribute("requestRecipe", form);
 
         return utils.tpl("recipe/edit");
@@ -93,7 +93,6 @@ public class RecipeController implements ExceptionProcessor {
             return utils.tpl("recipe/" + mode);
         }
         // 레시피 저장 처리
-        //Recipe recipe = recipeSaveService.save(form);
         recipeSaveService.save(form);
 
         return "redirect:/recipe/list"; // 레서피 목록
@@ -108,11 +107,13 @@ public class RecipeController implements ExceptionProcessor {
 
         ListData<Recipe> data = recipeInfoService.getList(search);
 
+        List<String> ingredients = recipeInfoService.getIngredients();
         List<String> addCss = new ArrayList<>();
         addCss.add("product/style");
 
         model.addAttribute("addCss", addCss);
         model.addAttribute("recipes", data.getItems());
+        model.addAttribute("ingredients", ingredients);
         model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("recipe/list");
@@ -127,7 +128,6 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq,"view", model);
-
 
         return utils.tpl("recipe/view");
     }
