@@ -104,9 +104,9 @@ public class OrderController implements ExceptionProcessor {
             model.addAttribute("requestOrder", form);
 
             List<Long> seq = form.getCartSeq();
-            CartType mode = form.getCartType();
-            CartData cartData = cartInfoService.getCartInfo(mode, seq);
-
+            CartType cartType = form.getCartType();
+            CartData cartData = cartInfoService.getCartInfo(cartType, seq);
+            model.addAttribute("cartType", cartType);
             model.addAttribute("mode", "order");
             model.addAttribute("cartData", cartData);
             return utils.tpl("order/order_form");
