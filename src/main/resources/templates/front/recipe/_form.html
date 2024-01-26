@@ -77,7 +77,6 @@
     </div>
     <div class="rows">
         <div class="stit" th:text="#{필수재료}"></div>
-
         <div class="input_item_box" id="requiredIng">
             <div class="item_box" th:if="*{requiredIng != null}"
                  th:each="item, status : *{requiredIng}">
@@ -93,7 +92,7 @@
         <div class="input_item_box" id="subIng">
             <div class="item_box" th:if="*{subIng != null}"
                  th:each="item, status : *{subIng}">
-                <input placeholder="예) 당근" type="text" name="subIng" th:value="${item}">
+                <input placeholder="예) 달걀" type="text" name="subIng" th:value="${item}">
                 <input placeholder="1 개" type="text" name="subIngEa" th:value="${requestRecipe.subIngEa[status.index]}">
                 <button type="button" class="remove_item"><i class="xi-close"></i></button>
             </div>
@@ -105,8 +104,8 @@
         <div class="input_item_box" id="condiments">
             <div class="item_box" th:if="*{condiments != null}"
                  th:each="item, status : *{condiments}">
-                <input placeholder="예) 당근" type="text" name="condiments" th:value="${item}">
-                <input placeholder="1 개" type="text" name="condimentsEa" th:value="${requestRecipe.condimentsEa[status.index]}">
+                <input placeholder="예) 소금" type="text" name="condiments" th:value="${item}">
+                <input placeholder="1 큰술" type="text" name="condimentsEa" th:value="${requestRecipe.condimentsEa[status.index]}">
                 <button type="button" class="remove_item"><i class="xi-close"></i></button>
             </div>
         </div>
@@ -117,15 +116,23 @@
     <div>
         <div class="rows">
             <div class="stit" th:text="#{만드는_방법}"></div>
-            <input type="text" id="content_1" th:field="*{content}">
-            <input type="text" id="content_2" th:field="*{content}">
-
-            <div class="input_item_box" id="howto"></div>
-            <button type="button" th:text="#{단계_추가}" data-id="howto" data-name="howto" class="add_input_item"></button>
+            <div class="input_item_box" id="how">
+                <div class="item_box" th:if="*{how != null}" th:each="item, status : *{how}">
+                    <!-- 숫자 로고 -->
+                    <input placeholder="만드는 방법을 입력하세요." type="text" name="how" th:value="${item}">
+                    <button type="button" class="remove_item"><i class="xi-close"></i></button>
+                </div>
+            </div>
+            <button type="button" th:text="#{단계_추가}" data-id="how" data-name="how" class="add_input_item"></button>
         </div>
         <div class="rows">
-            <div class="stit" th:text="#{TIP}"></div>
-            <div class="input_item_box" id="tip"></div>
+            <div class="input_item_box" id="tip">
+                <div class="item_box" th:if="*{tip != null}" th:each="item : *{tip}">
+                    <!-- 팁 로고 -->
+                    <input placeholder="만드는 방법을 입력하세요." type="text" name="tip" th:value="${item}">
+                    <button type="button" class="remove_item"><i class="xi-close"></i></button>
+                </div>
+            </div>
             <button type="button" th:text="#{TIP_추가}" data-id="tip" data-name="tip" class="add_input_item"></button>
         </div>
     </div>

@@ -28,8 +28,10 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Authorities;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
+import org.choongang.recipe.entities.HowToCook;
 import org.choongang.recipe.entities.QRecipe;
 import org.choongang.recipe.entities.Recipe;
+import org.choongang.recipe.repositories.HowToCookRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,7 @@ public class RecipeInfoService {
 
     private final EntityManager em;
     private final RecipeRepository recipeRepository;
+    private final HowToCookRepository howToCookRepository;
     private final HttpServletRequest request;
     //private final CommentInfoService commentInfoService;
 
@@ -69,6 +72,9 @@ public class RecipeInfoService {
         recipe.setComments(comments); // 상세보기할때만 댓글 필요*/
 
         return recipe;
+    }
+    public HowToCook getHow(Long seq) {
+        return howToCookRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
     }
 
     private void addRecipe(Recipe recipe) {
@@ -135,6 +141,8 @@ public class RecipeInfoService {
                         .distinct()
                         .toList();
     }
+
+
 
 
     /**
@@ -219,7 +227,7 @@ public class RecipeInfoService {
      */
     public ListData<Recipe> getList(RecipeDataSearch search) {
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
-        int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
+        int limit = Utils.onlyPositiveNumber(search.getLimit(), 10);
         int offset = (page - 1) * limit;
 
         QRecipe recipe = QRecipe.recipe;
