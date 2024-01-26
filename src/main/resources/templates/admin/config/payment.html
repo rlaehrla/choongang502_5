@@ -26,29 +26,10 @@
                     <input type="text" id="apiSecret" th:field="*{apiSecret}" />
                 </td>
             </tr>
-            <tr>
-                <th>결제 수단</th>
-                <td>
-                    <input type="checkbox" name="LBTEnabled" value="true" th:field="*{LBTEnabled}" id="LBTEnabled">
-                    <label for="LBTEnabled">무통장입금</label>
-                    <input type="checkbox" name="vaccountEnabled" value="true" th:field="*{vaccountEnabled}" id="vaccountEnabled">
-                    <label for="vaccountEnabled">가상계좌</label>
-                    <input type="checkbox" name="creditCardEnabled" value="true" th:field="*{creditCardEnabled}" id="creditCardEnabled">
-                    <label for="creditCardEnabled">신용카드</label>
-                    <input type="checkbox" name="bankTransferEnabled" value="true" th:field="*{bankTransferEnabled}" id="bankTransferEnabled">
-                    <label for="bankTransferEnabled">계좌이체</label>
-                </td>
-            </tr>
             <!-- 추가적인 결제 설정 필드들을 필요에 따라 추가 -->
         </table>
         <table class="table_cols">
             <h2>결제 약관 설정</h2>
-            <tr>
-                <th width="180">결제내용 동의</th>
-                <td>
-                    <textarea name="paymentAgree" th:field="*{paymentAgree}"></textarea>
-                </td>
-            </tr>
             <tr>
                 <th>결제대행 서비스 이용 위한 <br />개인정보 제3자 제공 위탁 동의</th>
                 <td>

@@ -125,6 +125,17 @@ public class OrderController implements ExceptionProcessor {
         return "common/_execute_script";
     }
 
+
+    @GetMapping("/payFail")
+    public String payFail(Model model){
+
+        String script="alert('결제를 취소하였습니다.');"
+                +"history.back();";
+
+        model.addAttribute("script", script);
+        return "common/_execute_script";
+    }
+
     @GetMapping("/detail/{seq}")
     public String detail(@PathVariable("seq") Long seq, Model model){
          commonProcess("detail", model);

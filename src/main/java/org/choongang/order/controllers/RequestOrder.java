@@ -9,7 +9,6 @@ import org.choongang.cart.service.CartData;
 import org.choongang.commons.AddressAssist;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
-import org.choongang.order.constants.PayType;
 
 import java.util.List;
 
@@ -48,8 +47,6 @@ public class RequestOrder {
 
     private int usePoint = 0;
 
-    @NotBlank
-    private String payType = PayType.LBT.name(); // 결제 수단
 
     private String depositor; // 무통장 입금일 경우 입금자 명
 
