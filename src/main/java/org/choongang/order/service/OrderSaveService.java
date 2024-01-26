@@ -100,7 +100,6 @@ public class OrderSaveService {
         orderInfo.setZoneCode(form.getAddr().getZoneCode());
         orderInfo.setAddress(form.getAddr().getAddress());
         orderInfo.setAddressSub(form.getAddr().getAddressSub());
-        orderInfo.setSeq(5L);
         orderInfo.setUsePoint(form.getUsePoint());
 
         if(memberUtil.isLogin()){

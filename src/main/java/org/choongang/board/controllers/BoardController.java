@@ -50,6 +50,7 @@ public class BoardController extends AbstractBoardController {
         // 특정 상품의 리뷰만
         if (request.getParameter("productSeq") != null) {
             Long productSeq = Long.valueOf(request.getParameter("productSeq"));
+            System.out.println("===========================" + productSeq);
             search.setProductSeq(productSeq);
         }
 
