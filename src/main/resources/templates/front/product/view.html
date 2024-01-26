@@ -111,7 +111,31 @@
             <!-- 상품 대략적인 정보 E -->
         </div>
     </section>
+    <section class="product_tabs">
+        <ul class="tabs">
+            <li class="tab on">
+                <input type="radio" name="tab" id="detail" class="tab" value="detail" checked>
+                <label for="detail">상세</label>
+            </li>
+            <li class="tab">
+                <input type="radio" name="tab" id="review" class="tab" value="review">
+                <label for="review">후기</label>
+            </li>
+            <li class="tab">
+                <input type="radio" name="tab" id="exchange" class="tab" value="exchange">
+                <label for="exchange">배송, 교환/반품</label>
+            </li>
+        </ul>
 
+        <div class="tab_content" id="tab_content_detail" th:utext="*{description}"></div>
+        <div class="tab_content dn" id="tab_content_review">
+            후기
+        </div>
+        <div class="tab_content dn" id="tab_content_exchange">
+            교환반품
+        </div>
+    </section>
+    <!--
     <section class="widget_tab">
         <ul class="tabs">
             <li class="tab on">
@@ -129,7 +153,8 @@
         </ul>
         <div class="tab_content">
         </div>
-    </section>
+
+    </section> -->
 </main>
 </html>
 
