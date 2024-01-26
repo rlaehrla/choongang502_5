@@ -18,7 +18,6 @@ import org.choongang.member.service.AddressSaveService;
 import org.choongang.member.service.PointInfoService;
 import org.choongang.member.service.PointSaveService;
 import org.choongang.order.constants.OrderStatus;
-import org.choongang.order.constants.PayType;
 import org.choongang.order.controllers.RequestOrder;
 import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
@@ -91,7 +90,6 @@ public class OrderSaveService {
         orderInfo.setReceiverCellphone(form.getReceiverCellPhone());
         orderInfo.setDeliveryMemo(form.getDeliveryMemo());
         orderInfo.setStatus(OrderStatus.READY);
-        orderInfo.setPayType(PayType.valueOf(form.getPayType()));
         orderInfo.setTotalPrice(totalPrice);
         orderInfo.setTotalDiscount(totalDiscount);
         orderInfo.setTotalDeliveryPrice(totalDeliveryPrice);
