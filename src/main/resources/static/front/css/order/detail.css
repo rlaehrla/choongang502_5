@@ -104,8 +104,8 @@
 }
 .btn-point {
     color: #fff;
-    background: #e96c7c;
-    border: 1px solid #e96c7c;
+    background: #21BF73;
+    border: 1px solid #21BF73;
 }
 .OrderTableCardButtonWrapper {
     width: 100%;
@@ -240,7 +240,7 @@
     font-size: 14px;
 }
 .highlight.pink {
-    color: #e96c7c;
+    color: #21BF73;
 }
 .clf:after{
     content: '';
