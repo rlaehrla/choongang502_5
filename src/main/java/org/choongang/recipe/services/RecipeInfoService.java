@@ -11,12 +11,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.choongang.board.controllers.RequestBoard;
-import org.choongang.board.entities.BoardData;
-import org.choongang.board.entities.CommentData;
-import org.choongang.board.service.comment.CommentInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -28,19 +23,13 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Authorities;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
-import org.choongang.recipe.entities.HowToCook;
 import org.choongang.recipe.entities.QRecipe;
 import org.choongang.recipe.entities.Recipe;
-import org.choongang.recipe.repositories.HowToCookRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import javax.sound.midi.Receiver;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
@@ -49,9 +38,7 @@ public class RecipeInfoService {
 
     private final EntityManager em;
     private final RecipeRepository recipeRepository;
-    private final HowToCookRepository howToCookRepository;
     private final HttpServletRequest request;
-    //private final CommentInfoService commentInfoService;
 
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
@@ -72,9 +59,6 @@ public class RecipeInfoService {
         recipe.setComments(comments); // 상세보기할때만 댓글 필요*/
 
         return recipe;
-    }
-    public HowToCook getHow(Long seq) {
-        return howToCookRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
     }
 
     private void addRecipe(Recipe recipe) {
