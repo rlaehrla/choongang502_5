@@ -30,12 +30,9 @@ public class HowToCook extends Base {
     private Recipe recipe;
 
     @Column(length=150) //, nullable = false)
-    private String content;
+    private List<String> how;
 
-    @Column(length=150) //, nullable = false)
-    private String tip;
+    @Column(length=150)
+    private List<String> tip;
 
-
-    @Transient
-    private List<FileInfo> imageFiles;
 }
