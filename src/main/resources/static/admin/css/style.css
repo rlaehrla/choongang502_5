@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 * { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; }
-:root{
-    --main-color: #596b99;
-}
+
 html { font-size: 13px; }
 body { margin: 0; }
 a { text-decoration: none; }
@@ -27,8 +25,8 @@ main > section { flex-grow: 1; padding: 50px; }
 main > aside > a { display: block; height: 71px; color: #dddee4; font-size: 1.385rem; text-align: center; line-height: 70px; position: relative; }
 main > aside > a + a { border-top: 1px solid #61729e; }
 main > aside > a i { color: #dddee4; font-size: 1.385rem; }
-main > aside > a.on, main > aside > a:hover { background: #3c4e7a; font-weight: 500; }
-main > aside > a.on:after, main > aside > a:hover:after { content: ''; display: block; width: 8px; height: 100%; right: 0; top: 0; background: #00d0d7; position: absolute; }
+main > aside > a.on, main > aside > a:hover { background: var(--highlight-color); font-weight: 500; }
+main > aside > a.on:after, main > aside > a:hover:after { content: ''; display: block; width: 8px; height: 100%; right: 0; top: 0; background: var(--sub-color); position: absolute; }
 
 nav.submenus { box-shadow: 1px 1px 5px #cdced5; height: 60px; background: #fff; border-radius: 5px; margin-bottom: 50px; display: flex; align-items: center; }
 nav.submenus a { height: 60px; line-height: 60px; padding: 0 40px; font-size: 1.385rem; color: #222; }
