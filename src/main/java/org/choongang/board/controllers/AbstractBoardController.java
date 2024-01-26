@@ -14,6 +14,7 @@ import org.choongang.farmer.blog.service.SellingInfoService;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.service.MemberInfoService;
+import org.choongang.order.service.OrderItemInfoService;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,8 @@ public abstract class AbstractBoardController implements ExceptionProcessor{
     protected final BoardInfoService boardInfoService;
     protected final BoardDeleteService boardDeleteService;
     protected final BoardAuthService boardAuthService;
+
+    protected final OrderItemInfoService orderItemInfoService ;
 
     protected final MemberUtil memberUtil;
     protected final MemberInfoService memberInfoService ;
