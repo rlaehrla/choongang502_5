@@ -57,7 +57,7 @@ public class productController {
 
         commonProcess("view", null, model);
 
-
+        /* 리뷰 글 리스트 출력 S */
         String bid = "review" ;
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
@@ -68,6 +68,7 @@ public class productController {
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
+        /* 리뷰 글 리스트 출력 E */
 
         Product product = productInfoService.get(seq);
 
