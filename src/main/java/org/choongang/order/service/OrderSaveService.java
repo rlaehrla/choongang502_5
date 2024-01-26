@@ -4,7 +4,9 @@ package org.choongang.order.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.cart.entities.CartInfo;
+import org.choongang.cart.repositories.CartInfoRepository;
 import org.choongang.cart.service.CartData;
+import org.choongang.cart.service.CartDeleteService;
 import org.choongang.cart.service.CartInfoService;
 import org.choongang.commons.AddressAssist;
 import org.choongang.member.MemberUtil;
@@ -47,6 +49,7 @@ public class OrderSaveService {
     private final PointInfoService pointInfoService;
     private final PointSaveService pointSaveService;
     private final PointRepository pointRepository;
+    private final CartDeleteService cartDeleteService;
 
     public OrderInfo save(RequestOrder form){
         List<Long> cartSeqs = form.getCartSeq();
@@ -57,6 +60,10 @@ public class OrderSaveService {
         int totalDiscount = cartData.getTotalDiscount();
         int totalDeliveryPrice = cartData.getTotalDeliveryPrice();
         int payPrice = cartData.getPayPrice() - form.getUsePoint();
+
+        /* 장바구니에서 주문 상품 삭제 S */
+        cartDeleteService.deleteCart(cartData);
+        /* 장바구니에서 주문 상품 삭제 E */
 
 
         /* 주소 저장 S */
@@ -104,30 +111,30 @@ public class OrderSaveService {
         orderInfoRepository.saveAndFlush(orderInfo);
         /* 주문 정보 저장 E */
 
+        /* 포인트 사용 저장 S */
         if(form.getUsePoint() != 0){
-            /* 포인트 사용 저장 S */
             Point usePoint = Point.builder()
                     .point(form.getUsePoint() * -1)
                     .member((Member)memberUtil.getMember())
                     .orderNo(orderInfo.getOrderNo())
                     .build();
-
+            System.out.println("사용포인트 : " + usePoint);
             pointRepository.saveAndFlush(usePoint);
-            /* 포인트 사용 저장 E */
 
-            /* 포인트 적립 S */
-
-            int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
-
-            Point point = Point.builder()
-                    .member((Member)memberUtil.getMember())
-                    .point(pt)
-                    .orderNo(orderInfo.getOrderNo())
-                    .build();
-
-            pointRepository.saveAndFlush(point);
-            /* 포인트 적립 E */
         }
+        /* 포인트 사용 저장 E */
+        /* 포인트 적립 S */
+
+        int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
+
+        Point point = Point.builder()
+                .member((Member)memberUtil.getMember())
+                .point(pt)
+                .orderNo(orderInfo.getOrderNo())
+                .build();
+        System.out.println("적립포인트 : " + point);
+        pointRepository.saveAndFlush(point);
+        /* 포인트 적립 E */
 
         /* 주문 상품 정보 저장 S */
         List<OrderItem> items = new ArrayList<>();
@@ -152,6 +159,7 @@ public class OrderSaveService {
 
         orderItemRepository.saveAllAndFlush(items);
         /* 주문 상품 정보 저장 E */
+
 
 
         return orderInfo;

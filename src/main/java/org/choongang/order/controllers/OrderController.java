@@ -98,6 +98,12 @@ public class OrderController implements ExceptionProcessor {
         validator.validate(form, errors);
 
 
+        /*if(errors.hasErrors()){
+
+        }*/
+
+
+
         OrderInfo orderInfo = orderSaveService.save(form);
 
         String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"

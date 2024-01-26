@@ -96,17 +96,17 @@
                                     <span th:text="#{원}"></span>
                                 </div>
                             </div>
-                            <div class="value_item">
+                            <div class="value_item" th:if="${@memberUtil.isLogin()}">
                                 <div class="value_name" th:text="#{포인트사용}"></div>
                                 <div class="value_price">
-                                <span class="money" th:if="${usePoint != 0}" th:text="${usePoint}"></span>
-                                <span th:unless="${usePoint != 0}">0</span>
+                                <span class="money" th:if="${usePoint != 0 && usePoint != null}" th:text="${usePoint}"></span>
+                                <span th:unless="${usePoint != 0 && usePoint != null}">0</span>
                                 <span th:text="#{원}"></span>
                             </div>
                             </div>
                         </div>
                         <!-- 포인트 -->
-                        <div class="row point">
+                        <div class="row point" th:if="${@memberUtil.isLogin()}">
                             <div class="clf">
                                 <b class="fl pb" th:text="#{포인트적립}"></b>
                                 <div class="fr pb">
