@@ -33,11 +33,13 @@ public class QRecipe extends EntityPathBase<Recipe> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final NumberPath<Integer> EstimatedT = createNumber("EstimatedT", Integer.class);
+    public final NumberPath<Integer> estimatedT = createNumber("estimatedT", Integer.class);
 
     public final StringPath gid = createString("gid");
 
     public final ListPath<HowToCook, QHowToCook> howToCook = this.<HowToCook, QHowToCook>createList("howToCook", HowToCook.class, QHowToCook.class, PathInits.DIRECT2);
+
+    public final StringPath keyword = createString("keyword");
 
     public final org.choongang.member.entities.QAbstractMember member;
 

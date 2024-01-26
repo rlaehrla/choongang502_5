@@ -3,12 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
-<!--[[${info}]]-->
-<!--[[${info.orderItems[0].product}]]-->
+
     <h1>주문 상세 정보</h1>
 
-    <form name="frmOrderDetail" method="get" th:action="@{/admin/order/save}" th:object="${info}">
+    <form name="frmOrderDetail" method="get" th:action="@{/admin/order/save}" th:object="${item.orderInfo}">
         <input type="hidden" name="seq" th:value="*{seq}">
+
         <h2>주문 기본 정보</h2>
         <table class="table_cols mb30">
             <tr>
