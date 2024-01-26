@@ -6,6 +6,11 @@
 
     <div class="max-w-screen-lg ma" th:if="${orderInfo != null}" th:object="${orderInfo}">
         <h1 th:text="#{주문상세}"></h1>
+        <div>
+            <span th:text="#{주문번호}"></span>
+            :
+            <span th:text="*{orderNo}"></span>
+        </div>
         <table class="order_detail table_cols mb30">
             <colgroup>
                 <col>
@@ -125,7 +130,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="account-name" th:text="#{결제방식}"></div>
-                        <div></div>
+                        <div th:text="*{payType.title}"></div>
                     </div>
                     <div class="col total_payment">
                         <div class="order_flex">

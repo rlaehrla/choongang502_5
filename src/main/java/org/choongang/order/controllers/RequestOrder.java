@@ -4,6 +4,7 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.choongang.cart.constants.CartType;
 import org.choongang.cart.service.CartData;
 import org.choongang.commons.AddressAssist;
 import org.choongang.member.entities.AbstractMember;
@@ -16,6 +17,8 @@ import java.util.List;
 public class RequestOrder {
 
     private List<Long> cartSeq; // 장바구니 등록 번호
+
+    private CartType cartType;
 
     @NotBlank
     private String orderName; // 주문자 이름
@@ -34,7 +37,12 @@ public class RequestOrder {
     private String receiverCellPhone; // 받는분 번호
 
     @NotBlank
-    private AddressAssist addr; // 받는사람 주소
+    private String zoneCode; // 받는사람 우편번호
+
+    @NotBlank
+    private String address; // 받는사람 주소
+
+    private String addressSub; // 받는사람 세부주소
 
     private String deliveryMemo; // 배송 메모
 

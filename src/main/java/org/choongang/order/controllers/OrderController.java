@@ -1,5 +1,6 @@
 package org.choongang.order.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.controllers.PaymentConfig;
 import org.choongang.admin.config.service.ConfigInfoService;
@@ -21,6 +22,7 @@ import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.service.OrderInfoService;
 import org.choongang.order.service.OrderSaveService;
 import org.choongang.product.service.ProductInfoService;
+import org.eclipse.angus.mail.imap.protocol.MODSEQ;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -67,10 +69,11 @@ public class OrderController implements ExceptionProcessor {
 
 
     @GetMapping
-    public String order(@RequestParam(name="seq", required = false) List<Long> seq, Model model) {
+    public String order(@RequestParam(name="seq", required = false) List<Long> seq, @ModelAttribute RequestOrder form, Model model) {
         commonProcess("order", model);
 
         CartType mode = seq == null || seq.isEmpty() ? CartType.DIRECT : CartType.CART;
+        model.addAttribute("cartType", mode);
         CartData data = cartInfoService.getCartInfo(mode, seq);
 
         AbstractMember member = memberUtil.getMember();
@@ -93,15 +96,21 @@ public class OrderController implements ExceptionProcessor {
     }
 
     @PostMapping
-    public String orderPs(RequestOrder form, Errors errors, Model model){
+    public String orderPs(@Valid RequestOrder form, Errors errors, Model model){
 
         validator.validate(form, errors);
 
+        if(errors.hasErrors()){
+            model.addAttribute("requestOrder", form);
 
-        /*if(errors.hasErrors()){
+            List<Long> seq = form.getCartSeq();
+            CartType mode = form.getCartType();
+            CartData cartData = cartInfoService.getCartInfo(mode, seq);
 
-        }*/
-
+            model.addAttribute("mode", "order");
+            model.addAttribute("cartData", cartData);
+            return utils.tpl("order/order_form");
+        }
 
 
         OrderInfo orderInfo = orderSaveService.save(form);
