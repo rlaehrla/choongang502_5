@@ -116,9 +116,8 @@ public class BlogEditController {
         ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         /* 게시판 설정 처리 */
-        board = configInfoService.get(bid); // 매번 DB조회
+        board = configInfoService.get(bid);
         model.addAttribute("board", board);
-        commonProcess("review", model);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
@@ -162,6 +161,7 @@ public class BlogEditController {
             addScript.add("farmer/blog_intro") ;
         } else if (mode.equals("review")) {
             pageTitle = "리뷰관리" ;
+
         } else if (mode.equals("sns")) {
             pageTitle = "소식관리" ;
             addScript.add("board/form");

@@ -2,9 +2,13 @@ package org.choongang.product.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.product.controllers.ProductSearch;
+import org.choongang.board.controllers.BoardDataSearch;
+import org.choongang.board.entities.Board;
+import org.choongang.board.entities.BoardData;
+import org.choongang.board.service.BoardInfoService;
+import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
-
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Product;
 import org.choongang.product.service.ProductInfoService;
@@ -25,6 +29,9 @@ import java.util.List;
 public class productController {
     private final Utils utils;
     private final ProductInfoService productInfoService;
+    private final BoardInfoService boardInfoService;
+    private final BoardConfigInfoService configInfoService; // 게시판 설정 조회 서비스
+    private Board board; // 게시판 설정
 
     /**
      * 상품 목록
@@ -46,9 +53,22 @@ public class productController {
     }
 
     @GetMapping("/detail/{seq}")
-    public String productView(@PathVariable("seq") Long seq, Model model) {
+    public String productView(@ModelAttribute BoardDataSearch search, @PathVariable("seq") Long seq, Model model) {
 
         commonProcess("view", null, model);
+
+
+        String bid = "review" ;
+
+        ListData<BoardData> data = boardInfoService.getList(bid, search);
+
+        /* 게시판 설정 처리 */
+        board = configInfoService.get(bid);
+        model.addAttribute("board", board);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
         Product product = productInfoService.get(seq);
 
         model.addAttribute("product", product);
@@ -66,9 +86,8 @@ public class productController {
     }
 
     @GetMapping("/detail/{seq}/review")
-    public String productReview(@PathVariable("seq") Long seq, Model model){
+    public void productReview(@PathVariable("seq") Long seq, Model model){
 
-        return utils.tpl("product/detail_sub/_review");
     }
 
 
