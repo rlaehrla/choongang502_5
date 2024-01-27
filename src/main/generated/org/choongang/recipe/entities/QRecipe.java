@@ -37,7 +37,7 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final StringPath gid = createString("gid");
 
-    public final ListPath<HowToCook, QHowToCook> howToCook = this.<HowToCook, QHowToCook>createList("howToCook", HowToCook.class, QHowToCook.class, PathInits.DIRECT2);
+    public final StringPath how = createString("how");
 
     public final StringPath keyword = createString("keyword");
 
@@ -57,6 +57,8 @@ public class QRecipe extends EntityPathBase<Recipe> {
     public final StringPath subCategory = createString("subCategory");
 
     public final StringPath subIng = createString("subIng");
+
+    public final StringPath tip = createString("tip");
 
     public QRecipe(String variable) {
         this(Recipe.class, forVariable(variable), INITS);
