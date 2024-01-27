@@ -2,16 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{front/layouts/main}">
-<main class="max-w-screen-lg flex ma" layout:fragment="content">
+<main layout:fragment="content">
     <h1 th:text="#{로그인}"></h1>
-    <form name="frmLogin" method="post" th:action="@{/member/login}" autocomplete="off">
+    <form name="frmLogin" class="login_frm" method="post" th:action="@{/member/login}" autocomplete="off">
         <input type="hidden" name="redirectURL"
                th:if="${param.redirectURL != null}" th:value="${param.redirectURL}">
 
-        <input type="radio" name="mType" id="member" value="M" checked>
-        <label for="member">일반회원</label>
-        <input type="radio" name="mType" id="farmer" value="F">
-        <label for="farmer">농장주인 회원</label>
+        <div class="tabs">
+            <input type="radio" name="mType" id="member" value="M" checked>
+            <label for="member" class="tab">일반회원</label>
+
+            <input type="radio" name="mType" id="farmer" value="F">
+            <label for="farmer" class="tab">농장주인 회원</label>
+        </div>
+
 
         <dl>
             <dt th:text="#{아이디}"></dt>
@@ -33,11 +37,11 @@
             <label for="autoLogin" th:text="#{자동_로그인}"></label>
         </div>
 
+        <a th:href="@{/member/find_pw}" class="find_pw" th:text="#{비밀번호_찾기}"></a>
+
         <button type="submit" th:text="#{로그인}"></button>
 
         <div class="error" th:if="${session.Global_error != null}" th:text="${session.Global_error}"></div>
-
-        <a th:href="@{/member/find_pw}" th:text="#{비밀번호_찾기}"></a>
     </form>
 </main>
 </html>
