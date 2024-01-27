@@ -43,6 +43,12 @@ window.addEventListener("DOMContentLoaded", function() {
 
    /* 상품 수량 증가, 감소 처리 E */
 
+    /* 장바구니 수량 변경 S */
+    const changeEaEls = document.getElementsByClassName("change_ea");
 
+    for (const el of changeEaEls) {
+        el.addEventListener("click", productDetails.changeEa);
+    }
+    /* 장바구니 수량 변경 E */
 
 });

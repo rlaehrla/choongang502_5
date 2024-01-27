@@ -139,7 +139,7 @@
                     <th th:text="#{상품합계}"></th>
                     <td>
                         <span class="money" id="total_price" th:text="${cartData.totalPrice}"></span>
-                        <th:block th:text="#{원}"></th:block>
+                        <th:block th:text="#{돈단위}"></th:block>
                     </td>
                 </tr>
                 <tr>
@@ -147,7 +147,7 @@
                     <td>
                         <th:block th:if="${cartData.totalDeliveryPrice > 0}">
                             <span class="money" th:text="${cartData.totalDeliveryPrice}"></span>
-                            <th:block th:text="#{원}"></th:block>
+                            <th:block th:text="#{돈단위}"></th:block>
                         </th:block>
                         <th:block th:unless="${cartData.totalDeliveryPrice > 0}" th:text="#{무료배송}"></th:block>
                     </td>
@@ -157,7 +157,7 @@
                     <th th:text="#{상품할인}"></th>
                     <td>
                         <span class="money" th:text="${cartData.totalDiscount * -1}"></span>
-                        <th:block th:text="#{원}"></th:block>
+                        <th:block th:text="#{돈단위}"></th:block>
                     </td>
                 </tr>
 
@@ -178,7 +178,7 @@
                     <th th:text="#{결제금액}"></th>
                     <td>
                         <span id="pay_price" class="money" th:text="${cartData.payPrice}"></span>
-                        <th:block th:text="#{원}"></th:block>
+                        <th:block th:text="#{돈단위}"></th:block>
                     </td>
                 </tr>
                 <tr>

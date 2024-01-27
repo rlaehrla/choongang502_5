@@ -18,7 +18,8 @@
                 <div class="flex items-center gap-2px">
                     <div class="font-semibold pink  text-16px" th:if="*{discount != 0}">
                        <th:block th:text="*{discount}"></th:block>
-                       <th:block th:text="#{%}"></th:block>
+                        <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
+                       <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
                     </div>
                     <div class="font-semibold text-16px">
                         <th:block th:text="*{consumerPrice}"></th:block>

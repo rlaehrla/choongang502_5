@@ -5,7 +5,7 @@
 <main layout:fragment="content">
     <section th:replace="~{front/outlines/_banner::banner}">
     </section>
-    <section class="max-w-screen-lg flex ma"> <!-- 추천레시피 -->
+    <section class="max-w-screen-lg flex ma">
         <h1 th:text="#{추천레시피}"></h1>
         <ul>
             <li th:each="recipe : ${추천레시피}" th:object="${recipe}">
