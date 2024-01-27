@@ -184,35 +184,34 @@
                 <tr>
                     <th th:text="#{결제약관_동의}"></th>
                     <td>
-                        <textarea th:text="${paymentConfig.paymentAgree}" readonly></textarea>
+                        <textarea th:text="${paymentConfig.personalInfoEntrust}" readonly></textarea>
                         <input type="checkbox" value="true" name="agree" id="agree" th:field="*{agree}">
                         <label for="agree" th:text="#{동의}"></label>
                         <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
                     </td>
                 </tr>
-                <tr>
-                    <th th:text="#{결제방식}"></th>
-                    <td>
-                        <input type="radio" name="payType" value="LBT" id="payType_LBT" th:field="*{payType}">
-                        <label for="payType_LBT" th:text="#{무통장입금}"></label>
-                        <input type="radio" name="payType" value="VACCOUNT" id="payType_VACCOUNT" th:field="*{payType}">
-                        <label for="payType_VACCOUNT" th:text="#{가상계좌}"></label>
-                        <input type="radio" name="payType" value="CARD" id="payType_CARD" th:field="*{payType}">
-                        <label for="payType_CARD" th:text="#{신용카드}"></label>
-                        <input type="radio" name="payType" value="DIRECT" id="payType_DIRECT" th:field="*{payType}">
-                        <label for="payType_DIRECT" th:text="#{계좌이체}"></label>
-                        <div class="error" th:each="err : ${#fields.errors('payType')}" th:text="${err}"></div>
-                    </td>
-                </tr>
             </table>
         </div>
-
-
         <button type="button" id="paymentButton">결제하기</button>
     </form>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script>
+
+        const productNames = document.querySelector(".product_name");
+        let prName = '';
+
+        if(Array.isArray(productNames)){
+            prName = productNames[0].innerText + '외 ' + (productNames.length() - 1) + '건';
+        }else{
+            prName = productNames.innerText;
+        }
+
+
+
+        const payPrice = document.querySelector("#pay_price");
+        const finalPrice = Number(payPrice.innerText.replace(/\,/g, ''));
+
         $(document).ready(function(){
             // 버튼을 클릭했을 때 실행될 함수
             $("#paymentButton").click(function(){
@@ -224,8 +223,8 @@
                     pg : 'kakaopay',
                     pay_method : 'card',
                     merchant_uid : 'merchant_' + new Date().getTime(),
-                    name : '여름지기 사이트 결제',
-                    amount : 1000,
+                    name : prName,
+                    amount : finalPrice,
                     buyer_email : 'gg',
                     buyer_name : 'gg',
                     buyer_tel : '33',
@@ -261,11 +260,8 @@
                         //성공시 이동할 페이지
                         location.href='/order/paySuccess?msg='+msg;
                     } else {
-                        msg = '결제에 실패하였습니다.';
-                        msg += '에러내용 : ' + rsp.error_msg;
                         //실패시 이동할 페이지
                         location.href="/order/payFail";
-                        alert(msg);
                     }
                 });
             });

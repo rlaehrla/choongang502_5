@@ -111,20 +111,29 @@ public class MypageController { //implements ExceptionProcessor {
 
 
 
-
-
     private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "myPage";
+        String pageTitle = "마이페이지";
+
         List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
         List<String> addCommonCss = new ArrayList<>();    // 공통 자바스크립트
         List<String> addCss = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
         if(mode.equals("orders") || mode.equals("myPage")){
+
+            pageTitle = mode.equals("myPage") ? "마이페이지" : "주문 내역";
+
             addCss.add("member/mypage/order");
+        }else if(mode.equals("recentlyview")){
+            addScript.add("member/mypage/recently");
+            pageTitle = "최근 본 상품";
         }
         addCommonScript.add("tab");
         addCommonCss.add("tab");
 
+
+        model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCss", addCss);
         model.addAttribute("addScript", addScript);
         model.addAttribute("addCommonScript", addCommonScript);

@@ -1,0 +1,134 @@
+/* 전체 폼 스타일 */
+.login_frm {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드와 에러 메시지 스타일 */
+dl {
+    margin-bottom: 15px;
+    display: flex;/**/
+    flex-direction: column;/**/
+}
+
+dt {
+    margin-bottom: 5px;
+}
+
+dl dt, dl dd {
+    width: 100%;
+}
+
+.id_input_box,
+input[type="password"] {
+    border-width: thin;
+}
+
+.id_input_box,
+input[type="password"],
+.loginBtn {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.error {
+    color: red;
+    margin-top: 5px;
+    font-size: small;
+    font-weight: 500;
+}
+
+/* 체크박스와 레이블 스타일 */
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* 제출 버튼 스타일 */
+.loginBtn {
+    background-color: #e64848;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: x-large;
+    font-weight: 500;
+}
+
+/* 전역 에러 메시지 스타일 */
+.error.global {
+    color: red;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* 링크 스타일 */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+/* 탭 스타일 */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.tab {
+    padding: 10px 15px;
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+.tab:hover {
+    background-color: #e64848;
+}
+
+.tab.active {
+    background-color: #e64848;
+    color: white;
+}
+
+/* 회원 타입 라디오 버튼 숨기기 */
+input[type="radio"] {
+    display: none;
+}
+
+/* 회원 타입 라디오 버튼 대신 탭 스타일 적용 */
+input[type="radio"] + label {
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #e64848;
+    color: white;
+}
+
+/* 입력 필드와 에러 메시지 간격 조정 */
+dl {
+    margin-bottom: 10px;
+}
+
+dt {
+    line-height: 38.4px;
+    font-size: medium;
+    font-weight: 500;
+}
+
+.find_pw {
+    margin-bottom: 30px;
+    text-align: left;
+}

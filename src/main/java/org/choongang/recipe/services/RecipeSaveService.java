@@ -1,14 +1,10 @@
 package org.choongang.recipe.services;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.MemberUtil;
 import org.choongang.recipe.controllers.RequestRecipe;
-import org.choongang.recipe.entities.HowToCook;
 import org.choongang.recipe.entities.Recipe;
-import org.choongang.recipe.repositories.HowToCookRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,7 +19,6 @@ import java.util.stream.Collectors;
 public class RecipeSaveService {
     private final MemberUtil memberUtil;
     private final RecipeRepository recipeRepository;
-    private final HowToCookRepository howToCookRepository;
     private final FileUploadService fileUploadService;
     private ObjectMapper om;
 
@@ -33,17 +28,13 @@ public class RecipeSaveService {
         Long seq = form.getSeq();
 
         Recipe data = null;
-        HowToCook howToCook = null;
         if(seq != null && mode.equals("edit")) { // 수정
             data = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
-            howToCook = howToCookRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
         } else { // 작성
             data = new Recipe();
             data.setGid(form.getGid());
             data.setMember(memberUtil.getMember());
 
-            howToCook = new HowToCook();
-            howToCook.setGid(form.getGid());
         }
         data.setRcpName(form.getRcpName());
         data.setRcpInfo(form.getRcpInfo());
@@ -55,13 +46,10 @@ public class RecipeSaveService {
         data.setSubIng(form.getSubIngJSON());
         data.setCondiments(form.getCondimentsJSON());
         data.setKeyword(getKeyword(form));
-
-        howToCook.setRecipe(data);
-        howToCook.setHow(form.getHow());
-        howToCook.setTip(form.getTip());
+        data.setHow(form.getHow());
+        data.setTip(form.getTip());
 
         recipeRepository.saveAndFlush(data);
-        howToCookRepository.saveAndFlush(howToCook);
 
         fileUploadService.processDone(data.getGid());
     }

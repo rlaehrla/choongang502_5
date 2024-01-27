@@ -11,7 +11,7 @@ import org.choongang.file.entities.FileInfo;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+/*@Data
 @Entity
 @Builder
 @NoArgsConstructor
@@ -35,4 +35,4 @@ public class HowToCook extends Base {
     @Column(length=150)
     private List<String> tip;
 
-}
+}*/

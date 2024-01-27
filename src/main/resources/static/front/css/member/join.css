@@ -1,0 +1,126 @@
+/* 전체 폼 스타일 */
+.frmJoin {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 회원 타입 선택 탭 스타일 */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.tab {
+    padding: 10px 15px;
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+.tab:hover {
+    background-color: #e64848;
+}
+
+.tab.active {
+    background-color: #e64848;
+    color: white;
+}
+
+/* 회원 타입 라디오 버튼 숨기기 */
+input[type="radio"] {
+    display: none;
+}
+
+/* 회원 타입 라디오 버튼 대신 탭 스타일 적용 */
+input[type="radio"] + label {
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #e64848;
+    color: white;
+}
+
+/* 입력 필드와 에러 메시지 간격 조정 */
+dt {
+    width: 180px;
+    font-size: medium;
+    font-weight: 400;
+    margin-top: 14.5px;
+}
+
+dl {
+    margin-bottom: 10px;
+}
+
+/* 입력 필드 공통 스타일 */
+dl dd {
+    position: relative;
+}
+
+.input_text {
+    width: 350px;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    float: right;
+    border-radius: 5px;
+    border-width: thin;
+}
+
+/* 버튼 스타일 */
+.btn {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: #F2F2F2;
+    color: black;
+    border: #e64848 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #e64848;
+    color: #fff;
+}
+
+/* 에러 메시지 스타일 */
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+/* 프로필 이미지 스타일 */
+#profile_image {
+    width: 100%;
+    height: 150px;
+    background-color: #f2f2f2;
+    margin-bottom: 10px;
+}
+
+/* 약관 동의 스타일 */
+.terms_agree {
+    margin-bottom: 10px;
+}
+
+.joinBtn {
+    width: 100%;
+    padding: 15px;
+    background-color: #e64848;
+    color: #fff;
+    font-size: large;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

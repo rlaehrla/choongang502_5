@@ -125,3 +125,18 @@ const autoHyphen = (target) => {
    .replace(/[^0-9]/g, '')
    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 }
+
+
+/** 상품 상세 유입시 상품번호 로컬 스토리지에 저장 */
+if (location.href.indexOf("product/detail/") != -1) {
+    const regex = /.*product\/detail\/(\d*)/;
+    if (regex.test(location.href)) {
+        const productNo = regex.exec(location.href)[1];
+
+        const productItems = JSON.parse(localStorage.getItem("productItems")) || {};
+        productItems[`p_${productNo}`] = [productNo, Date.now()];
+
+        localStorage.setItem("productItems", JSON.stringify(productItems));
+
+    }
+}

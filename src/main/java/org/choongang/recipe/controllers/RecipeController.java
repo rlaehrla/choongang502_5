@@ -6,8 +6,7 @@ import org.choongang.board.controllers.RequestBoard;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.member.MemberUtil;
-import org.choongang.member.entities.AbstractMember;
-import org.choongang.recipe.entities.HowToCook;
+
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
@@ -36,7 +35,6 @@ public class RecipeController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final RecipeAuthService recipeAuthService;
     private Recipe recipe;
-    private HowToCook howToCook;
 
     @GetMapping
     public String recipe(Model model) {
@@ -192,13 +190,12 @@ public class RecipeController implements ExceptionProcessor {
         }
 
         recipe = recipeInfoService.get(seq);
-        howToCook = recipeInfoService.getHow(seq);
-        System.out.println("방법 = " + howToCook);
+        System.out.println("recipe = " + recipe);
+
 
         commonProcess(mode, model);
 
         model.addAttribute("recipe", recipe);
-        model.addAttribute("howToCook", howToCook);
     }
 
 

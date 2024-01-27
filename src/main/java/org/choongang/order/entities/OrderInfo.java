@@ -10,7 +10,6 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
 import org.choongang.member.entities.Point;
 import org.choongang.order.constants.OrderStatus;
-import org.choongang.order.constants.PayType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +70,6 @@ public class OrderInfo extends Base {
     private int payPrice; // 주문 시점 결제 금액
 
     private int usePoint; // 포인트 사용 금액
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
-    private PayType payType;
 
     private String depositor; // 무통장 입금 입금자명
 

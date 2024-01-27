@@ -16,10 +16,6 @@
                     <th:block th:text="#{작성자}"></th:block> :
                     <th:block th:text="*{poster}"></th:block>
                     <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
-                     <th:block th:if="*{member != null}" sec:authorize="isAuthenticated()">
-                        <button type="button" th:if="*{@followService.followed(member.userId)}" class="follow_action unfollow" th:data-user-id="*{member.userId}">UnFollow</button>
-                        <button type="button" th:unless="*{@followService.followed(member.userId)}" class="follow_action" th:data-user-id="*{member.userId}">Follow</button>
-                   </th:block>
                 </span>
 
                 <span>
@@ -49,12 +45,6 @@
                 <a th:href="@{/file/download/{seq}(seq=*{seq})}" th:text="*{fileName}"></a>
             </li>
         </ul>
-
-        <div class="share_btns">
-            <button sec:authorize="isAuthenticated()" class="save_post" th:data-seq="*{seq}" th:classappend="*{@saveBoardDataService.saved(seq)} ? 'on'">
-                <i class="xi-star"></i>
-            </button>
-        </div>
 
         <div class="board_btns">
             <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="btn"></a>
