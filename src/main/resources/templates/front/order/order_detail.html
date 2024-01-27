@@ -63,7 +63,7 @@
                                    <div th:unless="*{optionName != null}" th:text="*{product.name}" class="value_name"></div>
                                    <div class="value_price">
                                        <span class="money" th:text="*{totalPrice}"></span>
-                                       <span th:text="#{원}"></span>
+                                       <span th:text="#{돈단위}"></span>
                                    </div>
                                </div>
                                <!-- 상품당 배송비-->
@@ -71,7 +71,7 @@
                                    <div class="value_name" th:text="#{배송비}"></div>
                                    <div class="value_price">
                                        <span class="money" th:text="*{product.deliveryPrice}"></span>
-                                       <span th:text="#{원}"></span>
+                                       <span th:text="#{돈단위}"></span>
                                    </div>
                                </div>
                            </div>
@@ -84,21 +84,21 @@
                                 <div class="value_name" th:text="#{상품금액}"></div>
                                 <div class="value_price">
                                     <span class="money" th:text="*{totalPrice}"></span>
-                                    <span th:text="#{원}"></span>
+                                    <span th:text="#{돈단위}"></span>
                                 </div>
                             </div>
                             <div class="value_item">
                                 <div class="value_name" th:text="#{배송비}"></div>
                                 <div class="value_price">
                                     <span class="money" th:text="*{totalDeliveryPrice}"></span>
-                                    <span th:text="#{원}"></span>
+                                    <span th:text="#{돈단위}"></span>
                                 </div>
                             </div>
                             <div class="value_item">
                                 <div class="value_name" th:text="#{할인금액}"></div>
                                 <div class="value_price">
                                     <span class="money" th:text="*{totalDiscount}"></span>
-                                    <span th:text="#{원}"></span>
+                                    <span th:text="#{돈단위}"></span>
                                 </div>
                             </div>
                             <div class="value_item" th:if="${@memberUtil.isLogin()}">
@@ -106,7 +106,7 @@
                                 <div class="value_price">
                                 <span class="money" th:if="${usePoint != 0 && usePoint != null}" th:text="${usePoint}"></span>
                                 <span th:unless="${usePoint != 0 && usePoint != null}">0</span>
-                                <span th:text="#{원}"></span>
+                                <span th:text="#{돈단위}"></span>
                             </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                             <div class="order_name" th:text="#{총결제금액}"></div>
                             <div class="order_price">
                                 <span class="money" th:text="*{payPrice}"></span>
-                                <span th:text="#{원}"></span>
+                                <span th:text="#{돈단위}"></span>
                             </div>
                         </div>
                     </div>

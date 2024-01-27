@@ -13,6 +13,7 @@ import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.farmer.management.menus.FarmerMenu;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.MemberInfoService;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.time.Month;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.Objects;
 @Controller("adminProductController")
 @RequiredArgsConstructor
 @RequestMapping({"/admin/product", "/farmer/product"})
+@SessionAttributes("requestProduct")
 public class ProductController implements ExceptionProcessor {
 
     private final HttpServletRequest request;
@@ -50,6 +53,7 @@ public class ProductController implements ExceptionProcessor {
     private final CategoryDeleteService categoryDeleteService;
     private final ProductDisplayService productDisplayService;
     private final ConfigInfoService configInfoService;
+    private final FileInfoService fileInfoService;
 
 
     @ModelAttribute("menuCode")
@@ -66,6 +70,10 @@ public class ProductController implements ExceptionProcessor {
         return AdminMenu.getMenus("product");
     }
 
+    @ModelAttribute("requestProduct")
+    public RequestProduct requestProduct() {
+        return new RequestProduct();
+    }
 
     @GetMapping("/select")
     public String selectCate(Model model){
@@ -173,17 +181,28 @@ public class ProductController implements ExceptionProcessor {
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestProduct form, Errors errors, Model model){
+    public String save(@Valid RequestProduct form, Errors errors, Model model, SessionStatus status){
         String mode = form.getMode();
         commonProcess(mode, model);
 
         productValidator.validate(form, errors);
 
         if(errors.hasErrors()){
+            if(memberUtil.isAdmin()){
+                List<Farmer> farmers = memberInfoService.getFarmerList();
+                model.addAttribute("farmers", farmers);
+            }
+            String gid = form.getGid();
+            form.setEditorImages(fileInfoService.getList(gid, "description"));
+            form.setMainImages(fileInfoService.getList(gid, "product_main"));
+            form.setListImages(fileInfoService.getList(gid, "product_list"));
+
             return "admin/product/" + mode;
         }
 
         productSaveService.save(form);
+
+        status.setComplete();
 
         return "redirect:/admin/product";
 
@@ -197,7 +216,7 @@ public class ProductController implements ExceptionProcessor {
        /* if(!memberUtil.isAdmin()){
             throw new UnAuthorizedException();
         }
-*/
+        */
         List<Category> items = categoryInfoService.getList();
         Month[] months = Month.values();
 

@@ -73,7 +73,11 @@
                 <td>
                     <input type="text" th:name="${'cateNm_' + status.index}" th:value="*{cateNm}">
                 </td>
-                <td th:text="*{months}"></td>
+                <td>
+                    <th:block th:if="*{months != null && !months.isEmpty()}" th:each="month : *{months}">
+                        <span th:text="${month.getValue() + '월 '}"></span>
+                    </th:block>
+                </td>
                 <td>
                     <a th:href="@{/admin/product?cateCd={cateCd}(cateCd=*{cateCd})}" class="sbtn">상품관리</a>
                     <a th:href="@{/product/{cateCd}(cateCd=*{cateCd})}" class="sbtn on" target="_blank">미리보기</a>

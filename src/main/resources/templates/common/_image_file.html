@@ -4,6 +4,6 @@
     <a th:href="@{/file/delete/{seq}(seq=*{seq})}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
         <i class="xi-close"></i>
     </a>
-    <div class="inner" th:style="${@utils.backgroundStyle(item)}"></div>
+    <div class="inner" th:style="${@utils.backgroundStyle(item, 350, 350)}"></div>
 </div>
 </html>

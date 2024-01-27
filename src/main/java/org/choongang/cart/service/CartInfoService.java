@@ -88,9 +88,9 @@ public class CartInfoService {
         int totalPrice = salePrice * ea;
         int totalDiscount = 0;
         if (type == DiscountType.PERCENT) { // % 할인
-            totalDiscount = (int)Math.round(totalPrice * discount / 100.0);
+            totalDiscount += (int)Math.round(totalPrice * discount * ea / 100.0);
         } else { // 고정 금액 할인
-            totalDiscount = discount;
+            totalDiscount += ea * discount;
         }
 
         item.setTotalPrice(totalPrice);
@@ -137,7 +137,7 @@ public class CartInfoService {
             if (type == DiscountType.PERCENT) { // % 할인
                 totalDiscount += Math.round(salePrice * ea * discount / 100.0);
             } else { // 고정금액 할인
-                totalDiscount += discount;
+                totalDiscount += ea * discount;
             }
 
             // 배송비

@@ -82,7 +82,6 @@
             <td>
                 <input type="number" name="consumerPrice" th:field="*{consumerPrice}" min="0">
                 <div class="error" th:each="err : ${#fields.errors('consumerPrice')}" th:text="${err}"></div>
-
             </td>
         </tr>
         <tr>

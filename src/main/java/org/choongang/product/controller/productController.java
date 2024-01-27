@@ -58,16 +58,16 @@ public class productController {
         commonProcess("view", null, model);
 
         /* 리뷰 글 리스트 출력 S */
-        String bid = "review" ;
+       // String bid = "review" ;
 
-        ListData<BoardData> data = boardInfoService.getList(bid, search);
+        //ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         /* 게시판 설정 처리 */
-        board = configInfoService.get(bid);
-        model.addAttribute("board", board);
+       // board = configInfoService.get(bid);
+       // model.addAttribute("board", board);
 
-        model.addAttribute("items", data.getItems());
-        model.addAttribute("pagination", data.getPagination());
+        //model.addAttribute("items", data.getItems());
+        //model.addAttribute("pagination", data.getPagination());
         /* 리뷰 글 리스트 출력 E */
 
         Product product = productInfoService.get(seq);

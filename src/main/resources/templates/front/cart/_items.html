@@ -10,9 +10,9 @@
             </th>
             <th colspan="2" th:text="#{상품정보}"></th>
             <th th:text="#{상품가}"></th>
+            <th th:text="#{할인}"></th>
             <th th:text="#{수량}"></th>
             <th th:text="#{합계}"></th>
-            <th th:text="#{할인}"></th>
         </tr>
         </thead>
         <tbody>
@@ -37,14 +37,20 @@
             </td>
             <td>
                 <span class="money" th:text="*{ product.salePrice}" th:id="${'sale_price_' + status.index}"></span>
-                <span th:text="#{원}"></span>
+                <span th:text="#{돈단위}"></span>
+            </td>
+            <td>
+                <span class="money" th:id="${'discount_'+status.index}" th:text="*{totalDiscount}"></span>
+                <input type="hidden" th:id="${'discount_type_'+status.index}" value="원">
+                <span th:text="#{돈단위}"></span>
             </td>
             <td th:if="${mode == null || mode != 'order'}">
                 <input type="number" th:name="${'ea_' + status.index}" th:value="*{ea}" th:id="${'ea_' + status.index}">
-                <button type="button" class="change_ea down" th:data-ea-id="${'ea_' + status.index}" th:data-target-id="${'total_price_' + status.index}" th:data-price="*{product.salePrice}">
+                <button type="button" class="change_ea down" th:data-total-price="${'total_price_'+ status.index}" th:data-sale-price="${'sale_price_' + status.index}" th:data-discount="${'discount_' + status.index}" th:data-discount-type="${'discount_type_' + status.index}" th:data-ea-id="${'ea_' + status.index}" th:data-target-id="${'total_price_' + status.index}" th:data-price="*{product.salePrice}">
+
                     <i class="xi-minus"></i>
                 </button>
-                <button type="button" class="change_ea up" th:data-ea-id="${'ea_' + status.index}" th:data-target-id="${'total_price_' + status.index}" th:data-price="*{product.salePrice}">
+                <button type="button" class="change_ea up" th:data-total-price="${'total_price_'+ status.index}" th:data-sale-price="${'sale_price_' + status.index}" th:data-discount="${'discount_' + status.index}" th:data-discount-type="${'discount_type_' + status.index}" th:data-ea-id="${'ea_' + status.index}" th:data-target-id="${'total_price_' + status.index}" th:data-price="*{product.salePrice}">
                     <i class="xi-plus"></i>
                 </button>
             </td>
@@ -54,11 +60,7 @@
             </td>
             <td>
                 <span class="money" th:text="*{totalPrice}" th:id="${'total_price_' + status.index}"></span>
-                <span th:text="#{원}"></span>
-            </td>
-            <td>
-                <span class="money" th:text="*{totalDiscount}"></span>
-                <span th:text="#{원}"></span>
+                <span th:text="#{돈단위}"></span>
             </td>
         </tr>
         </tbody>

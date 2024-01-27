@@ -9,7 +9,12 @@ window.addEventListener("DOMContentLoaded", function() {
     /* 이미지 본문 추가 이벤트 처리 S */
     const insertImages = document.getElementsByClassName("insert_image");
     for (const el of insertImages) {
-        el.addEventListener("click", (e) => insertImage(e.currentTarget.dataset.url));
+       el.addEventListener("click", function() {
+           const parentId = this.parentElement.parentElement.id;
+           const url = this.dataset.url;
+
+           insertImage(url);
+       });
     }
     /* 이미지 본문 추가 이벤트 처리 E */
 

@@ -60,4 +60,13 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     /* 판매상세 하위탭 전환 처리 E */
+
+    /* 구매 수량 변경  S */
+
+    const changeEaEls = document.getElementsByClassName("change_ea");
+
+    for (const el of changeEaEls) {
+        el.addEventListener("click", productDetails.changeEa);
+    }
+    /* 구매 수량 변경  E */
 });
