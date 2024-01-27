@@ -5,7 +5,7 @@
         <dl>
             <dt th:text="#{농장이름}"></dt>
             <dd>
-                <input type="text" name="farmTitle" th:field="*{farmTitle}">
+                <input type="text" class="input_text" name="farmTitle" th:field="*{farmTitle}">
                 <div class="error" th:each="err : ${#fields.errors('farmTitle')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -14,8 +14,8 @@
             <dt th:text="#{사업자_번호}"></dt>
             <dd>
                 <div class="b_no_box">
-                    <input type="text" name="businessPermitNum" th:field="*{businessPermitNum}">
-                    <button type="button" th:text="#{확인하기}" id="bNoVerify"></button>
+                    <input type="text" class="input_text" name="businessPermitNum" th:field="*{businessPermitNum}">
+                    <button type="button" class="btn" th:text="#{확인하기}" id="bNoVerify"></button>
                 </div>
                 <div class="b_no_ok"></div>
 
@@ -23,7 +23,7 @@
 
                 <div>
                     <div id="attached_file"></div>
-                    <button type="button" th:text="#{사업자등록증_업로드}" class="upload_files"
+                    <button type="button" th:text="#{사업자등록증_업로드}" class="btn upload_files"
                             data-location="business_permit"></button>
                 </div>
             </dd>
