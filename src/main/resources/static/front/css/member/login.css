@@ -1,8 +1,10 @@
 /* 전체 폼 스타일 */
-form {
+.login_frm {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 /* 제목 스타일 */
@@ -26,14 +28,14 @@ dl dt, dl dd {
     width: 100%;
 }
 
-input[type="text"],
+.id_input_box,
 input[type="password"] {
     border-width: thin;
 }
 
-input[type="text"],
+.id_input_box,
 input[type="password"],
-button {
+.loginBtn {
     width: 100%;
     padding: 15px;
     box-sizing: border-box;
@@ -54,7 +56,7 @@ input[type="checkbox"] {
 }
 
 /* 제출 버튼 스타일 */
-button {
+.loginBtn {
     background-color: #e64848;
     color: white;
     padding: 10px 15px;
@@ -124,11 +126,6 @@ dt {
     line-height: 38.4px;
     font-size: medium;
     font-weight: 500;
-}
-
-.login_frm {
-    margin-top: 50px;
-    margin-bottom: 50px;
 }
 
 .find_pw {

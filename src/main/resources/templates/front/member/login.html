@@ -20,7 +20,7 @@
         <dl>
             <dt th:text="#{아이디}"></dt>
             <dd>
-                <input type="text" name="username" th:value="${session.username}">
+                <input type="text" class="id_input_box" name="username" th:value="${session.username}">
                 <div class="error" th:if="${session.NotBlank_username != null}" th:text="${session.NotBlank_username}"></div>
             </dd>
         </dl>
@@ -39,7 +39,7 @@
 
         <a th:href="@{/member/find_pw}" class="find_pw" th:text="#{비밀번호_찾기}"></a>
 
-        <button type="submit" th:text="#{로그인}"></button>
+        <button class="loginBtn" type="submit" th:text="#{로그인}"></button>
 
         <div class="error" th:if="${session.Global_error != null}" th:text="${session.Global_error}"></div>
     </form>
