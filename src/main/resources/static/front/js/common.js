@@ -57,13 +57,13 @@ const productDetails = {
 
           const ordTotalPrice = document.querySelector("#ordTotalPrice");
           const payPrice = document.querySelector("#ordPayPrice");
-
-          const totalDiscount = document.querySelector("#ordTotalDiscount").innerText;
+          const ordDeliveryPrice = document.querySelector("#ordTotalDeliveryPrice").innerText;
+          const totalDiscount = document.querySelector("#ordTotalDiscount");
 
           if(ordTotalPrice != null){
-
-              ordTotalPrice.innerText = (Number(ordTotalPrice.innerText.replace(/\,/g, '')) + Number(i) * price).toLocaleString();
-              payPrice.innerText = (Number(ordTotalPrice.innerText.replace(/\,/g, '')) + Number(deliveryPrice.replace(/\,/g, '')) - Number(totalDiscount.replace(/\,/g, ''))).toLocaleString();
+              totalDiscount.innerText = (Number(totalDiscount.innerText.replace(/,/g, '')) + Number(salePrice) - Number(lastPrice)).toLocaleString();
+              ordTotalPrice.innerText = (Number(ordTotalPrice.innerText.replace(/,/g, '')) + Number(i) * price).toLocaleString();
+              payPrice.innerText = (Number(ordTotalPrice.innerText.replace(/,/g, '')) + Number(ordDeliveryPrice.replace(/,/g, '')) - Number(totalDiscount.innerText.replace(/,/g, ''))).toLocaleString();
 
           }
     }
