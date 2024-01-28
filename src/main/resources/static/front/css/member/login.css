@@ -57,6 +57,7 @@ input[type="checkbox"] {
 
 /* 제출 버튼 스타일 */
 .loginBtn {
+    margin-top: 20px;
     background-color: #e64848;
     color: white;
     padding: 10px 15px;
@@ -75,7 +76,7 @@ input[type="checkbox"] {
 
 /* 링크 스타일 */
 a {
-    display: block;
+    /*display: block;*/
     text-align: center;
     margin-top: 15px;
 }
@@ -85,6 +86,7 @@ a {
     justify-content: center;
     margin-bottom: 20px;
     font-weight: 500;
+    font-size: larger;
 }
 
 .tab {

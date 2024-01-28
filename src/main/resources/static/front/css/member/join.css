@@ -17,6 +17,7 @@ h1 {
     justify-content: center;
     margin-bottom: 20px;
     font-weight: 500;
+    font-size: larger;
 }
 
 .tab {
@@ -78,7 +79,8 @@ dl dd {
 
 /* 버튼 스타일 */
 .btn {
-    width: 100%;
+    width: 350px;
+    float: right;
     padding: 15px;
     box-sizing: border-box;
     margin-bottom: 10px;
@@ -97,20 +99,49 @@ dl dd {
 /* 에러 메시지 스타일 */
 .error {
     color: red;
-    margin-top: 5px;
+    margin: 5px 35px;
+    font-size: small;
+    font-weight: 500;
+    display: inline-flex;
+    float: right;
 }
 
-/* 프로필 이미지 스타일 */
-#profile_image {
-    width: 100%;
-    height: 150px;
-    background-color: #f2f2f2;
+.upload_files {
+    margin-top: 10px;
+}
+
+.file_tpl_box {
+    display: inline-block;
+    float: right;
+}
+
+/* 약관 스타일*/
+.terms_title {
+    font-size: medium;
+    margin: 15px 0px;
+}
+
+.terms {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.terms_agree label {
+    display: inline-block;
     margin-bottom: 10px;
+    font-size: medium;
 }
 
 /* 약관 동의 스타일 */
+.terms_agree input[type="checkbox"] {
+    margin-right: 5px;
+}
+
 .terms_agree {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .joinBtn {
@@ -123,4 +154,28 @@ dl dd {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.confirmed {
+    display: inline-block;
+    float: right;
+    margin: 5px;
+}
+
+.auth_inner {
+    float: none;
+    display: inline-flex;
+}
+
+#auth_num {
+    width: 175;
+    margin: 0px 20px 10px 75px;
+    border-radius: 5px;
+    border-width: thin;
+}
+
+#auth_count {
+    font-size: medium;
+    line-height: 50.8px;
+    padding-bottom: 10px;
 }
