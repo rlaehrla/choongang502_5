@@ -4,6 +4,7 @@
       layout:decorate="~{front/layouts/main}">
 
 <main layout:fragment="content">
+
     <div>
         <h1>레시피 모두 보기</h1>
         <div class="total">
@@ -49,7 +50,7 @@
         </div>
 
         <div class="contentBox">
-            <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}">
+            <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}" th:if="*{recipe.active}">
                 <ul>
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                         <div class="imgBox">

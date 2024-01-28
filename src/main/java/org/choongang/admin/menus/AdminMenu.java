@@ -28,6 +28,12 @@ public class AdminMenu {
                 new MenuDetail("add", "게시판등록", "/admin/board/add"),
                 new MenuDetail("posts", "게시글관리", "/admin/board/posts")
         ));
+
+        adminMenus.put("recipe", Arrays.asList(
+                new MenuDetail("list", "레시피리스트", "/admin/recipe"),
+                new MenuDetail("add", "레시피분류", "/admin/recipe/category")
+        ));
+
         adminMenus.put("product", Arrays.asList(
                 new MenuDetail("list", "상품리스트", "/admin/product"),
                 new MenuDetail("add", "상품등록", "/admin/product/add"),

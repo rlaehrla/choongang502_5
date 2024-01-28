@@ -50,11 +50,11 @@ public class Recipe extends Base implements AuthCheck {
     @Column(nullable = false)
     private int amount;
 
-    @Lob
-    private String how;
+    //@Lob
+    private String[] how;
 
-    @Lob
-    private String tip;
+    //@Lob
+    private String[] tip;
 
     //@ManyToMany
     //private List<String> tags = new ArrayList<>();
@@ -98,6 +98,8 @@ public class Recipe extends Base implements AuthCheck {
 
     @Transient
     private boolean authoritychk;
+
+    private boolean active;// 노출 여부 : true -> 소비자 페이지 노출
 
 
 }

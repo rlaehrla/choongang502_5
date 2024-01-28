@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.board.controllers.RequestBoard;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 
+import org.choongang.product.entities.Category;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
@@ -32,7 +34,6 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeInfoService recipeInfoService;
     private final RecipeDeleteService recipeDeleteService;
 
-    private final MemberUtil memberUtil;
     private final RecipeAuthService recipeAuthService;
     private Recipe recipe;
 
@@ -76,6 +77,21 @@ public class RecipeController implements ExceptionProcessor {
         return utils.tpl("recipe/edit");
     }
 
+    @GetMapping("/select")
+    public String selectCate(Model model){
+        //List<Category> categories = categoryInfoService.getList();
+
+        List<String> addCss = new ArrayList<>();
+        addCss.add("recipe/select");
+        List<String> addJs = new ArrayList<>();
+        addJs.add("recipe/select");
+
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addJs);
+
+        return "recipe/select_category";
+    }
+
 
     /**
      * 저장하기
@@ -109,7 +125,6 @@ public class RecipeController implements ExceptionProcessor {
         ListData<Recipe> data = recipeInfoService.getList(search);
 
         List<String> ingredients = recipeInfoService.getIngredients();
-
 
         List<String> addCss = new ArrayList<>();
         addCss.add("product/style");
@@ -160,6 +175,7 @@ public class RecipeController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
+
         if (mode.equals("add") || mode.equals("edit")) {
             addCss.add("recipe/style");
             addCommonScript.add("fileManager");
@@ -190,7 +206,7 @@ public class RecipeController implements ExceptionProcessor {
         }
 
         recipe = recipeInfoService.get(seq);
-        System.out.println("recipe = " + recipe);
+        System.out.println("레시피 = " + recipe);
 
 
         commonProcess(mode, model);
