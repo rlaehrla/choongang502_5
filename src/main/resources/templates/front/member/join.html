@@ -20,13 +20,16 @@
             <dd>
                 <div>
                     <input type="text" class="input_text" name="email" th:field="*{email}"  th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
+                    <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
                     <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}"
                             type="button" class="btn" id="email_verify" th:text="#{인증코드전송}"></button>
                 </div>
                 <div class="auth_box">
                     <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
-                        <input type="text" class="input_text" id="auth_num" th:placeholder="#{인증코드_입력}">
-                        <span id="auth_count">03:00</span>
+                        <div class="auth_inner">
+                            <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
+                            <div id="auth_count">03:00</div>
+                        </div>
                         <button type="button" class="btn" id="email_confirm" th:text="#{확인}" disabled></button>
                         <button type="button" class="btn" id="email_re_verify" th:text="#{재전송}" disabled></button>
                     </th:block>
@@ -34,14 +37,13 @@
                         <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
                     </th:block>
                 </div>
-                <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
             </dd>
         </dl>
 
         <dl>
             <dt th:text="#{아이디}"></dt>
             <dd>
-                <input type="text" class="input_text" name="userId" th:field="*{userId}">
+                <input type="text" class="input_text" name="userId" th:field="*{userId}" placeholder="6자 이상 입력하세요.">
                 <button type="button" class="btn" id="userId_dup_check" th:text="#{중복_확인}"></button>
                 <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
                 <div class="id_check_ok"></div>
@@ -119,13 +121,14 @@
         <th:block th:replace="~{front/member/_join_farmer::member}"></th:block>
         <!--추가 항목을 분리-->
 
-        <div th:text="#{회원가입_약관}"></div>
+        <div class="terms_title" th:text="#{회원가입_약관}"></div>
         <div class="terms" th:utext="${@utils.nl2br(siteConfig.joinTerms)}"></div>
         <div class="terms_agree">
             <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
             <label for="agree" th:text="#{회원가입_약관에_동의합니다.}"></label>
 
-            <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
+            <div class="error" style="display: block; float: none; margin: 5px;"
+                 th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
         <button type="submit" class="joinBtn" th:text="#{가입하기}"></button>
     </form>
