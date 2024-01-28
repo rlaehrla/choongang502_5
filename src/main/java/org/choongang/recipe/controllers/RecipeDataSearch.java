@@ -22,6 +22,8 @@ public class RecipeDataSearch {
     private String rcpName;
     private String requiredIng;
 
+    private String nickName;
+
     private String sopt; // 검색 옵션
     private String skey; // 검색 키워드
 

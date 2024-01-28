@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @Service
@@ -127,8 +128,6 @@ public class RecipeInfoService {
     }
 
 
-
-
     /**
      * 수정하기
      * Recipe 엔터티 -> RequestRecipe
@@ -209,6 +208,8 @@ public class RecipeInfoService {
      * @param search
      * @return
      */
+
+
     public ListData<Recipe> getList(RecipeDataSearch search) {
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 10);
@@ -217,21 +218,19 @@ public class RecipeInfoService {
         QRecipe recipe = QRecipe.recipe;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-
-
         /* 검색 조건 처리 S */
         String category = search.getCategory();
         String subCategory = search.getSubCategory();
-        if(StringUtils.hasText(category)) {
+        if (StringUtils.hasText(category)) {
             andBuilder.and(recipe.category.eq(category.trim()));
         }
-        if(StringUtils.hasText(subCategory)) {
+        if (StringUtils.hasText(subCategory)) {
             andBuilder.and(recipe.subCategory.eq(subCategory.trim()));
         }
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
 
-        sopt = StringUtils.hasText(sopt) ?  sopt : "all";
+        sopt = StringUtils.hasText(sopt) ? sopt : "all";
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
@@ -260,27 +259,28 @@ public class RecipeInfoService {
                 andBuilder.and(orBuilder);
             }
         }
-            /* 검색 조건 처리 E */
-            PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
-            List<Recipe> items = new JPAQueryFactory(em)
-                    .selectFrom(recipe)
-                    .leftJoin(recipe.member)
-                    .fetchJoin()
-                    .offset(offset) // 시작 번호
-                    .limit(limit)
-                    .where(andBuilder)
-                    .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
-                    // 최신게시글 순서로 정렬
-                    .fetch();
+        /* 검색 조건 처리 E */
+        PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
+        List<Recipe> items = new JPAQueryFactory(em)
+                .selectFrom(recipe)
+                .leftJoin(recipe.member)
+                .fetchJoin()
+                .offset(offset) // 시작 번호
+                .limit(limit)
+                .where(andBuilder)
+                .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
+                // 최신게시글 순서로 정렬
+                .fetch();
 
-            // 게시글 전체 갯수
-            int total = (int) recipeRepository.count(andBuilder);
-            Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+        // 게시글 전체 갯수
+        int total = (int) recipeRepository.count(andBuilder);
+        Pagination pagination = new Pagination(page, (int) total, 10, limit, request);
 
-            // 이미지
-            items.forEach(this::addRecipe);
+        // 이미지
+        items.forEach(this::addRecipe);
 
-            return new ListData<>(items, pagination);
+        return new ListData<>(items, pagination);
+
     }
 }
 
