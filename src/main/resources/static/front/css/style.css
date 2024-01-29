@@ -30,6 +30,11 @@ dd { flex-grow: 1; }
 .flex-1 {
 flex : 1 1 0%
 }
+
+.flex-center{
+    display: flex;
+    align-items: center;
+}
 /* 중간 정렬? E*/
 
 /* header */

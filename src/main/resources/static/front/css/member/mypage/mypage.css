@@ -1,43 +1,106 @@
-.title{
-   width: 700px;
-   font-size: 26px;
-   font-weight: 700;
-   text-align: center;
-}
-
+/*전체 정렬*/
 .content{
     width: 700px;
     align-items: center;
-    padding-left: 20px;
+}
+/* 제목 정렬 */
+.title{
+   width: 100%;
+   font-size: 22px;
+   font-weight: 700;
+   text-align: center;
+}
+/* 구분선 */
+.contour{
+    background: #F5F5F7;
+    width: 100%;
+    height: 14px;
+    margin-top: 40px;
+    margin-bottom: 16px;
 }
 
-.item-center{
-    align-items: center;
+/* 기타 연결 처리 S */
+.row{
+    justify-content: space-between;
+    height: 80px;
+    width: 100%;
+    text-align: left;
+}
+.sub{
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 10px;
+    background: #fff;
+    padding: 5px 16px;
+    line-height: 1;
+    font-weight: 700;
+    font-size: 18px;
+}
+.sub > p{
+    flex-grow: 1;
+    margin: 0;
+}
+.sub > i{
+    line-height: 1;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
+/* 기타 연결 처리 E */
+/* 다이어리 버튼 S */
 .diary{
     border-radius: 10px;
     background: var(--main-color);
-    padding: 19px 16px;
+    padding: 5px 16px;
+    line-height: 1;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.diary > p{
+    color: #fff;
+    flex-grow: 1;
 }
 
 .diary > i{
     color: #fff;
     line-height: 1;
 }
+/* 다이어리 버튼 E */
 
-.diary > a{
-    flex-grow: 1;
+
+/* 주문내역 S */
+.recentOrder >p:first-of-type{
     font-size: 22px;
     line-height: 1;
     font-weight: 700;
-    color: #fff;
+
 }
-
-
-.recentOrder{
+.recent{
+    width: 100%;
+    height: 24px;
+}
+.orderAll{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    width: 100%;
+    border-radius: 10px;
     font-size: 18px;
-    line-height: 1;
     font-weight: 700;
-    color: #314155;
+    background: var(--sub-color);
+
+}
+/* 주문내역 E */
+
+.sub #point{
+    flex-grow: 1;
+}
+#totalPnt{
+    margin-top: -10px;
+    font-size: 16px;
+    line-height: 24px;
+    overflow: hidden;
+    color: #414b5a !important;
 }
