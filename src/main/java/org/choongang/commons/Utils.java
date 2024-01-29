@@ -6,28 +6,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.config.controllers.ApiConfig;
+import org.choongang.admin.banner.entity.Banner;
+import org.choongang.admin.banner.service.BannerInfoService;
 import org.choongang.admin.config.controllers.BasicConfig;
-import org.choongang.admin.config.service.ConfigInfoService;
-import org.choongang.commons.api.BusinessPermit;
-import org.choongang.commons.api.BusinessPermitData;
-import org.choongang.configs.FileProperties;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -40,6 +26,7 @@ public class Utils {
     private final HttpServletRequest request;
     private final HttpSession session;
     private final FileInfoService fileInfoService;
+    private final BannerInfoService bannerInfoService;
 
     private static final ResourceBundle commonsBundle;
     private static final ResourceBundle validationsBundle;
@@ -286,6 +273,10 @@ public class Utils {
 
         return "{}";
 
+    }
+
+    public List<Banner> getBanners(String groupCode) {
+        return bannerInfoService.getList(groupCode);
     }
 
 }

@@ -49,8 +49,8 @@ public class AdminMenu {
                 new MenuDetail("add", "상담등록", "/admin/customer/add")
         ));
         adminMenus.put("banner", Arrays.asList(
-                new MenuDetail("list", "배너", "/admin/banner"),
-                new MenuDetail("add", "배너등록", "/admin/banner/add")
+                new MenuDetail("group", "배너관리", "/admin/banner"),
+                new MenuDetail("add", "배너등록", "/admin/banner/group")
         ));
 
 

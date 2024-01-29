@@ -1,32 +1,31 @@
 package org.choongang.admin.banner.controllers;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.choongang.file.entities.FileInfo;
-
-import java.util.List;
-import java.util.UUID;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class RequestBanner {
 
     private String mode = "add";
 
-    private Long seq; // 배너 번호
+    private Long seq;
 
     @NotBlank
-    private String bannerWhere; // 배너 사용 위치
+    private String groupCode; // 배너 그룹 코드
 
     @NotBlank
-    @Size(max = 1000, message = "가로 크기는 최대 1000까지 입력 가능합니다.")
-    private String horizontal; // 가로 크기
+    private String bName;
 
-    @NotBlank
-    @Size(max = 500, message = "세로 크기는 최대 500까지 입력 가능합니다.")
-    private String vertical; // 세로 크기
+    private String bLink; // 배너 링크
+    private String target = "_self";
 
-    private String gid = UUID.randomUUID().toString(); // 그룹 ID
+    private long listOrder;
 
-    private List<FileInfo> bannerImage; // 배너 이미지
+    private boolean active;
+
+    private MultipartFile[] files;
+
+    private FileInfo bannerImage;
 }
