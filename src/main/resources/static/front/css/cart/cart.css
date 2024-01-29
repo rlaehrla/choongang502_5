@@ -1,0 +1,108 @@
+/* 장바구니 메인 */
+.cart_title {
+    padding-left: 20px;
+
+}
+
+/* 장바구니 테이블 스타일 */
+.cart_items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+.cart_items th, .cart_items td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: small;
+    text-align: center;
+}
+
+.cart_items th {
+    background-color: #f2f2f2;
+}
+
+.imgBox {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+#prod_name {
+    border-left: none;
+    text-align: left;
+}
+
+.cart_items input[type="checkbox"] {
+    margin: 0;
+}
+
+input[type="number" i] {
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+    font-weight: 500;
+    border-color: #ccc;
+    border-width: thin;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* 장바구니 총계 영역 스타일 */
+.cart_summary {
+    margin-top: 20px;
+    font-size: medium;
+    font-weight: 500;
+    padding-left: 20px;
+}
+
+.cart_summary span.money {
+    font-weight: bold;
+    color: #C21010;
+}
+
+/* 장바구니 버튼 스타일 */
+.action_btns {
+    margin-top: 20px;
+}
+
+.cart_action {
+    padding: 5px 10px;
+    margin-right: 10px;
+    font-weight: 500;
+    border-width: thin;
+    border: none;
+    border-radius: 5px;
+    font-size: small;
+    cursor: pointer;
+}
+
+/* 장바구니 수량 조절 버튼 스타일 */
+.change_ea {
+    padding: 5px;
+    background-color: var(--main-color);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* 장바구니 수량 조절 버튼 아이콘 스타일 */
+.change_ea i {
+    font-size: 18px;
+    color: #fff;
+}
+
+/* 선택된 상품 삭제 버튼 스타일 */
+.cart_action[data-mode="delete"], .cart_action[data-mode="delete_all"] {
+    /*background-color: #E64848;*/
+}
+
+.cart_action[data-mode="order"], .cart_action[data-mode="order_all"] {
+    background-color: var(--highlight-color);
+    color: #fff;
+}

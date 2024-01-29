@@ -102,11 +102,15 @@ public class CartController implements ExceptionProcessor {
         String pageTitle="장바구니";
 
         List<String> addScript = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+
         if (mode.equals("list")) { // 장바구니 상품 목록
             pageTitle = "장바구니";
+            addCss.add("cart/cart");
         }
 
         addScript.add("cart/cart");
         model.addAttribute("addScript", addScript);
+        model.addAttribute("addCss", addCss);
     }
 }

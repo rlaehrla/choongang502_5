@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form" th:object="${requestBanner}">
+    <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
+    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+    <table class="table_cols">
+        <tr>
+            <th width="180">배너그룹</th>
+            <td>
+                <select name="groupCode" th:field="*{groupCode}">
+                    <option th:each="item : ${bannerGroups}" th:value="${item.groupCode}" th:text="${item.groupName}"></option>
+                </select>
+                <div class="error" th:each="err : ${#fields.errors('groupCode')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <th>배너명</th>
+            <td>
+                <input type="text" name="bName" th:field="*{bName}">
+                <div class="error" th:each="err : ${#fields.errors('bName')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <th>배너링크</th>
+            <td>
+                <div class="input_grp">
+                    <input type="text" name="bLink" th:field="*{bLink}">
+                    <select name="target" th:field="*{target}">
+                        <option value="_self">_self</option>
+                        <option value="_parent">_parent</option>
+                        <option value="_top">_top</option>
+                        <option value="_blank">_blank</option>
+                    </select>
+                </div>
+                <div class="error" th:each="err : ${#fields.errors('bLink')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <th>사용여부</th>
+            <td>
+                <input type="radio" name="active" value="true" id="active_true" th:field="*{active}">
+                <label for="active_true">사용</label>
+
+                <input type="radio" name="active" value="false" id="active_false" th:field="*{active}">
+                <label for="active_false">미사용</label>
+                <div class="error" th:each="err : ${#fields.errors('active')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <th>진열가중치</th>
+            <td>
+                <input type="number" name="listOrder" th:field="*{listOrder}">
+                <div class="error" th:each="err : ${#fields.errors('listOrder')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <th>배너이미지</th>
+            <td>
+                <a th:if="*{bannerImage != null}" th:href="*{bannerImage.fileUrl}" target="_blank">
+                    <img th:src="*{bannerImage.fileUrl}" style="max-width: 600px; display: block;">
+                </a>
+                <input type="file" name="files" th:field="*{files}">
+                <div class="error" th:each="err : ${#fields.errors('files')}" th:text="${err}"></div>
+            </td>
+        </tr>
+    </table>
+</th:block>
+</html>
