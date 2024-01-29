@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<section class="rank-sec" name="recipeRank" th:fragment="recipe">
+    <div class="max-w-screen-lg flex ma" th:each="recipe : recipeRank" th:object="${recipe}">
+        <!--<img class="rank-img" th:src="랭킹사진링크">-->
+        <a th:href="@{레시피게시물링크}">
+            <div>
+                <strong type="text" th:text="#{레시피제목}"></strong>
+                <p th:text="#{상품태그}"></p>
+            </div>
+            <p th:text="#{좋아요}"></p>
+            <img th:src="#{프로필사진링크}">
+            <p th:text="#{글쓴이}"></p>
+        </a>
+    </div>
+</section>
+</html>
