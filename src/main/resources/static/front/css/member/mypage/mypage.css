@@ -1,0 +1,43 @@
+.title{
+   width: 700px;
+   font-size: 26px;
+   font-weight: 700;
+   text-align: center;
+}
+
+.content{
+    width: 700px;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.item-center{
+    align-items: center;
+}
+
+.diary{
+    border-radius: 10px;
+    background: var(--main-color);
+    padding: 19px 16px;
+}
+
+.diary > i{
+    color: #fff;
+    line-height: 1;
+}
+
+.diary > a{
+    flex-grow: 1;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 700;
+    color: #fff;
+}
+
+
+.recentOrder{
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 700;
+    color: #314155;
+}

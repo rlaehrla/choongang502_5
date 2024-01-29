@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <section th:fragment="mainMenu">
         <div class="cate_all">
-            <a th:text="#{전체_카테고리}" id="allCate"></a>
             <a th:href="@{/best}" th:text="#{BEST}"></a>
             <a th:href="@{/product/GRAIN}" th:text="#{곡물}"></a>
             <a th:href="@{/product/VEGETABLE}" th:text="#{채소}"></a>
@@ -10,6 +9,5 @@
             <a th:href="@{/recipe}" th:text="#{레시피}"></a>
             <a th:href="@{/faq}" th:text="#{자주_묻는_질문}"></a>
         </div>
-    <div th:replace="~{front/outlines/_category_all::all_categories}"></div>
     </section>
 </html>
