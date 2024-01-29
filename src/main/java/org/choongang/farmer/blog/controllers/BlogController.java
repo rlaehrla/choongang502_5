@@ -53,6 +53,8 @@ public class BlogController extends AbstractBoardController {
         BlogIntroPost introSum = confInfoService.get(farmerId + "_sum", BlogIntroPost.class).orElseGet(BlogIntroPost::new) ;
         model.addAttribute("introSum", introSum) ;
 
+        List<String> addCss = new ArrayList<>() ;
+
         model.addAttribute("tab", tab);
 
         if (tab.equals("intro")) {
@@ -63,6 +65,9 @@ public class BlogController extends AbstractBoardController {
         } else if (tab.equals("sales")) {
             ListData<Product> products = sellingInfoService.getSellingList(farmerId, productSearch) ;
             model.addAttribute("products", products.getItems()) ;
+            model.addAttribute("pagination", products.getPagination()) ;
+
+            addCss.add("product/style") ;
 
         } else if (tab.equals("review")) {
             String bid = "review" ;
@@ -86,8 +91,6 @@ public class BlogController extends AbstractBoardController {
             model.addAttribute("items", data.getItems());
             model.addAttribute("pagination", data.getPagination());
         }
-
-        List<String> addCss = new ArrayList<>() ;
         addCss.add("blog/style");
 
         model.addAttribute("addCss", addCss);
