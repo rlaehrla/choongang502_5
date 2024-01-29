@@ -12,7 +12,6 @@ import org.choongang.member.entities.Farmer;
 import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.controllers.OrderSearch;
-import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderItem;
 import org.choongang.order.repositories.OrderItemRepository;
@@ -189,7 +188,7 @@ public class OrderItemInfoService {
      * orderItem의 seq로 item 검색하여 반환
      */
     public OrderItem getOneItem(Long itemSeq) {
-        OrderItem item = orderItemRepository.findById(itemSeq).orElseGet(null) ;
+        OrderItem item = orderItemRepository.findById(itemSeq).orElse(null) ;
         return item ;
     }
 
