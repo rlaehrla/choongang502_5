@@ -113,6 +113,7 @@ public class OrderController implements ExceptionProcessor {
         }
 
 
+
         OrderInfo orderInfo = orderSaveService.save(form);
 
         String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
@@ -123,6 +124,12 @@ public class OrderController implements ExceptionProcessor {
 
 
         return "common/_execute_script";
+    }
+
+    @GetMapping("/paySuccess")
+    public String paySuccess(@RequestParam(name = "msg", required = false) String msg, Model model) {
+        model.addAttribute("msg", msg);
+        return "order/pay_success";
     }
 
 
