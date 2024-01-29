@@ -28,7 +28,7 @@
             <td>
                 <input th:if="${mode == null || mode != 'order'}" type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
                  <input th:unless="${mode == null || mode != 'order'}" type="hidden" name="cartSeq" th:value="*{seq}">
-                <a th:href="@{/product/detail/{seq}(seq=*{product.seq})}">
+                <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{product.seq})}">
                     <th:block th:if="*{mainImage != null}" th:utext="*{@utils.printThumb(mainImage, 80, 80, 'product_image')}"></th:block>
                 </a>
             </td>
