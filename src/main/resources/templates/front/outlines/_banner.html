@@ -2,29 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="banner">
    <div class="slide slide_wrap">
-      <div class="slide_item item1">
-         <a href="http://localhost:3000/">
-            <img src="./image/1.jpg"/>
-         </a>
-      </div>
-      <div class="slide_item item2">
-         <a href="http://localhost:3000/">
-            <img src="./image/2.jpg"/>
-         </a>
-      </div>
-      <div class="slide_item item3">
-         <a href="http://localhost:3000/">
-            <img src="./image/4.jpeg"/>
-         </a>
-      </div>
-      <div class="slide_item item4">
-         <a href="http://localhost:3000/">
-            <img src="./image/5.jpeg"/>
-         </a>
-      </div>
-      <div class="slide_item item5">
-         <a href="http://localhost:3000/">
-            <img src="./image/4.jpeg"/>
+       <div class="slide_item item1" th:each="banner : ${@utils.getBanners('main')}" th:object="${banner}">
+         <a th:if="*{bannerImage != null}" th:href="*{bLink}" th:target="*{target}">
+            <img th:src="*{bannerImage.fileUrl}">
          </a>
       </div>
       <div class="btns">
@@ -33,5 +13,19 @@
       </div>
       <ul class="slide_pagination"></ul>
    </div>
+</section>
+<section th:fragment="recipe">
+    <div class="slide slide_wrap">
+        <div class="slide_item item1" th:each="banner : ${@utils.getBanners('recipe')}" th:object="${banner}">
+            <a th:if="*{bannerImage != null}" th:href="*{bLink}" th:target="*{target}">
+                <img th:src="*{bannerImage.fileUrl}">
+            </a>
+        </div>
+        <div class="btns">
+            <div class="slide_prev_button slide_button">◀</div>
+            <div class="slide_next_button slide_button">▶</div>
+        </div>
+        <ul class="slide_pagination"></ul>
+    </div>
 </section>
 </html>

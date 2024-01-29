@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section th:replace="~{front/outlines/_banner::banner}">
+    <section th:replace="~{front/outlines/_banner::recipe}">
     </section>
     <section class="max-w-screen-lg ma">
         <a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
