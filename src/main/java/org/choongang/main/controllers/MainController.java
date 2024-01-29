@@ -12,9 +12,11 @@ import org.choongang.product.entities.Product;
 import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -79,5 +81,38 @@ public class MainController implements ExceptionProcessor {
     public String question(Model model){
 
         return utils.tpl("main/question");
+    }
+
+    @GetMapping("/faq")
+    public String faq(Model model) {
+
+
+
+
+
+        return utils.tpl("board/faq");
+    }
+
+    private void commonProcess(String mode, Model model){
+        mode = StringUtils.hasText(mode) ? mode : "main";
+        String pageTitle = null;
+
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+        List<String> addCommonCss = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+
+
+
+        if(mode.equals("faq")){
+            pageTitle = "자주 묻는 질문";
+            addCss.add("board/faq");
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
+        model.addAttribute("addCommonCss", addCommonCss);
+        model.addAttribute("addCss", addCss);
     }
 }
