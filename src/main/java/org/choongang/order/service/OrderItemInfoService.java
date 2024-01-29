@@ -12,6 +12,7 @@ import org.choongang.member.entities.Farmer;
 import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.controllers.OrderSearch;
+import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderItem;
 import org.choongang.order.repositories.OrderItemRepository;
@@ -191,5 +192,7 @@ public class OrderItemInfoService {
         OrderItem item = orderItemRepository.findById(itemSeq).orElseGet(null) ;
         return item ;
     }
+
+
 
 }

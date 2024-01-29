@@ -47,6 +47,7 @@ public class RequestOrder {
 
     private int usePoint = 0;
 
+    private int payPrice;
 
     private String depositor; // 무통장 입금일 경우 입금자 명
 

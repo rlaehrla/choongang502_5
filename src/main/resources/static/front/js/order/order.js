@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const usePoint = document.querySelector("#use_point");
     const payPrice = document.querySelector("#pay_price");
     const totalPrice = document.querySelector("#total_price").innerText.replace(/,/g, "");
-
+    const payPriceVal = document.querySelector("#pay_price_val");
     pointBtn.addEventListener("click", function(){
         let total = Number(totalPoint.replace(/,/g, ""));
         let use = Number(usePoint.innerText);
@@ -45,7 +45,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 const price = payPrice.innerText.replace(/,/g, "");
 
                const _payPrice = Number(frmOrder.totalPrice.value) + Number(frmOrder.totalDeliveryPrice.value) - Number(frmOrder.totalDiscount.value) - Number(frmOrder.usePoint.value);
-               console.log(_payPrice);
+               payPriceVal.innerText = _payPrice;
                payPrice.innerText = _payPrice.toLocaleString();
             }else{
                 alert('보유포인트보다 적게 입력해주세요.');
