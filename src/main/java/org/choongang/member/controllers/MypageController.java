@@ -121,8 +121,12 @@ public class MypageController { //implements ExceptionProcessor {
         List<String> addScript = new ArrayList<>();
 
         if(mode.equals("orders") || mode.equals("myPage")){
-
-            pageTitle = mode.equals("myPage") ? "마이페이지" : "주문 내역";
+            if(mode.equals("myPage")){
+                pageTitle = "마이페이지";
+                addCss.add("member/mypage/mypage");
+            }else{
+                pageTitle = "주문 내역";
+            }
 
             addCss.add("member/mypage/order");
         }else if(mode.equals("recentlyview")){
