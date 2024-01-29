@@ -86,9 +86,7 @@ public class MainController implements ExceptionProcessor {
     @GetMapping("/faq")
     public String faq(Model model) {
 
-
-
-
+        commonProcess("faq", model);
 
         return utils.tpl("board/faq");
     }
