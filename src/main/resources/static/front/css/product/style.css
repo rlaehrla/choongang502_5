@@ -71,17 +71,19 @@
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
 .product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
 
-.product_detail .tabs .tab.on a { color: #fff; }
+.product_detail .tabs a { color: #fff; }
 
 .product_detail .desc_content { margin: 25px 0 100px; }
 
-.product_detail .selected_products { border: 1px solid #222; padding: 10px; border-radius: 3px; background: #f8f8f8; margin-bottom: 20px; }
+.product_detail .selected_products { border: 1px solid #ccc; padding: 10px; border-radius: 3px; background: #f8f8f8; margin-bottom: 20px; }
 .product_detail .selected_products + .selected_products { margin-top: 5px; }
 .product_detail .selected_products .product_name { font-weight: 500; font-size: 0.95rem; margin-bottom: 5px; font-size: 1.2rem; }
 .product_detail .selected_products .option_ea { display: flex; justify-content: space-between; }
 
-.product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; }
+.product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; font-size: larger; }
 .product_detail .ea_box button { width: 40px; height: 40px; background: #ddd; color: #fff; cursor: pointer; border: 0; }
+.product_main { margin-top: 30px; }
+.farm_link { font-weight: 400; font-size: larger; }
 
 /* 상품 정보 테이블 */
 .table_sale {
@@ -187,14 +189,11 @@
 .tabs {
     list-style: none;
     display: flex;
-    margin-top: 20px;
 }
 
 .tab {
-    /*border: 1px solid #ccc;
-    border-bottom: none;
-    text-decoration: none;*/
-    padding: 10px 20px;
+    text-decoration: none;
+    /* padding: 10px 20px; */
     font-size: medium;
     font-weight: 500;
     color: #333;
@@ -208,19 +207,25 @@
 
 .tab label {
     display: block;
-    padding: 10px;
     cursor: pointer;
+    padding: 10px 20px;
 }
 
-.tab.on {
+.tab input[type="radio"]:checked + label {
     background-color: var(--highlight-color);
+    color: #fff;
 }
 
-.tab.on label {
+label:hover {
+    background-color: var(--main-color);
     color: #fff;
 }
 
 /* 탭 콘텐츠 */
+.tab_content {
+    border-top: 1px solid #ccc;
+}
+
 .tab_content.on {
     display: block;
     margin-top: 20px;

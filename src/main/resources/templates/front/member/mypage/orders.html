@@ -3,8 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <h1>전체 주문 내역</h1>
-    <th:block th:replace="~{front/member/mypage/_order_form::form}"></th:block>
-
+    <div class="max-w-screen-lg ma content">
+        <h1>전체 주문 내역</h1>
+        <th:block th:replace="~{front/member/mypage/_order_form::form}"></th:block>
+    </div>
 </main>
 </html>

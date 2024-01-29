@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.choongang.commons.entities.Base;
+import org.choongang.member.entities.Farmer;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.product.entities.Product;
 import org.choongang.product.entities.ProductOption;
@@ -35,6 +36,7 @@ public class OrderItem extends Base {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productSeq")
     private Product product;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productOptionSeq")
