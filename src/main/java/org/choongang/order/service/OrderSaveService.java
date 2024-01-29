@@ -115,7 +115,6 @@ public class OrderSaveService {
                         .member((Member)memberUtil.getMember())
                         .orderNo(orderInfo.getOrderNo())
                         .build();
-                System.out.println("사용포인트 : " + usePoint);
                 pointRepository.saveAndFlush(usePoint);
 
             }
@@ -129,7 +128,6 @@ public class OrderSaveService {
                     .point(pt)
                     .orderNo(orderInfo.getOrderNo())
                     .build();
-            System.out.println("적립포인트 : " + point);
             pointRepository.saveAndFlush(point);
             /* 포인트 적립 E */
 
