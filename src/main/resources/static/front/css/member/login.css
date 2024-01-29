@@ -31,6 +31,7 @@ dl dt, dl dd {
 .id_input_box,
 input[type="password"] {
     border-width: thin;
+    font-size: medium;
 }
 
 .id_input_box,
@@ -132,5 +133,12 @@ dt {
 
 .find_pw {
     margin-bottom: 30px;
-    text-align: left;
+    font-weight: 400;
+    font-size: larger;
+    padding-left: 200px;
+}
+
+label[for="autoLogin"] {
+    font-weight: 400;
+    font-size: larger;
 }
