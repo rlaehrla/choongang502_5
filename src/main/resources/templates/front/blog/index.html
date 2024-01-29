@@ -4,18 +4,18 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content" class="layout_width">
 
-    <section th:object="${farmer}">
+    <section class="farm_main_sec" th:object="${farmer}">
         <th:block th:if="*{profileImage != null}"
-                  th:utext="*{@utils.printThumb(profileImage.seq, 300, 300, 'profile_image')}">
+                  th:utext="*{@utils.printThumb(profileImage.seq, 320, 320, 'profile_image')}">
         </th:block>
+        <div class="farmInfo">
+            <h1 id="farmTitle" th:text="*{farmTitle}"></h1>
+            <h3 id="introSum" th:text="${introSum.introContent}">우리 농장에 오신 걸 환영합니다.</h3>
+            <h4 id="sales_volume">판매량 : </h4>
+        </div>
+        <button type="button" class="chatBtn"><i class="xi-forum"></i> 1 : 1 문의 채팅</button>
+    </section>
 
-        <h1 th:text="*{farmTitle}"></h1>
-        <h3 th:text="${introSum.introContent}">우리 농장에 오신 걸 환영합니다.</h3>
-    </section>
-    <section>
-        <h3>판매량 : </h3>
-        <button type="button">1 : 1 문의 채팅</button>
-    </section>
 
     <div class="tabs">
         <a href="?tab=intro" class="tab" th:classappend="${tab == 'intro'} ? 'on'">농장소개</a>
@@ -38,7 +38,6 @@
             <th:block th:replace="~{front/blog/_sns::sns}"></th:block>
         </th:block>
     </div>
-
 
 </main>
 </html>

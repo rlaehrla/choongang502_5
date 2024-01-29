@@ -24,6 +24,8 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final org.choongang.commons.entities.QBase _super = new org.choongang.commons.entities.QBase(this);
 
+    public final BooleanPath active = createBoolean("active");
+
     public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
 
     public final StringPath category = createString("category");
@@ -37,7 +39,7 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final StringPath gid = createString("gid");
 
-    public final StringPath how = createString("how");
+    public final ArrayPath<String[], String> how = createArray("how", String[].class);
 
     public final StringPath keyword = createString("keyword");
 
@@ -58,7 +60,7 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final StringPath subIng = createString("subIng");
 
-    public final StringPath tip = createString("tip");
+    public final ArrayPath<String[], String> tip = createArray("tip", String[].class);
 
     public QRecipe(String variable) {
         this(Recipe.class, forVariable(variable), INITS);
