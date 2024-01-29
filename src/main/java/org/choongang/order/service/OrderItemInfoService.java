@@ -15,6 +15,7 @@ import org.choongang.order.controllers.OrderSearch;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderItem;
 import org.choongang.order.repositories.OrderItemRepository;
+import org.choongang.product.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -74,48 +75,6 @@ public class OrderItemInfoService {
         return new ListData<>(items, pagination);
     }
 
-    /**
-     * 최근 month개월 이내 판매량 상위 mount개 농장 추출
-     * @param mount
-     * @param month - 0 : 기간 상관 없이 추출
-     * @return
-     */
-    public List<Farmer> topFarmer(int mount, int month){
-
-        LocalDateTime refDay = LocalDateTime.now().minusMonths(month);
-        if(month == 0){
-            refDay = LocalDateTime.MIN;
-        }
-
-        //List<Object[]> objs = orderItemRepository.getEaSum(refDay);
-
-        List<Object[]> farmers = new ArrayList<>();
-
-        /*for(Object[] obj : objs){
-            Product product = (Product) obj[0];
-            Farmer farmer = farmerRepository.findById(product.getFarmer().getSeq()).orElse(null);
-            int sum = (Integer) obj[1];
-
-            if(farmer != null){
-                Object[] temp = {farmer, sum};
-                farmers.add(temp);
-            }
-        }*/
-
-        farmers.sort((o1, o2) -> ((Integer) o2[1]) - ((Integer) o1[1]));
-
-
-        List<Farmer> farmer = new ArrayList<>();
-
-        for(Object[] obj : farmers){
-            Farmer frm = (Farmer) obj[0];
-            farmer.add(frm);
-        }
-        mount = farmer.size() < mount ? farmer.size() : mount;
-        farmer = farmer.stream().limit(mount).toList();
-
-        return farmer;
-    }
 
     /**
      * 모든 주문 내역 조회
