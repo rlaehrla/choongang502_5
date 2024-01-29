@@ -1,6 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="blog">
+   <div class="board_list layout_width">
+      <div class="flex sb aic">
+         <h1 th:replace="~{front/board/skins/blog/_board_title::title}"></h1>
+          <th:block th:if="${@memberUtil.isFarmer() && @memberUtil.member.userId == #strings.substringAfter(board.bid,'_')}">
+              <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="write_btn"></a>
+          </th:block>
+      </div>
 
+      <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlTop)}" th:utext="${board.htmlTop}"></th:block>
+
+      <div class="total">
+         Total : <th:block
+              th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
+      </div>
+
+      <ul class="review_items">
+         <li th:if="${items == null || items.isEmpty()}" class="no_data"
+             th:text="#{조회된_게시글이_없습니다.}"></li>
+
+         <li th:unless="${items == null || items.isEmpty()}"
+             th:each="item : ${items}" th:object="${item}" class="item">
+<!--             [[${item}]]-->
+             <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
+                 <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
+               <h3 th:text="*{subject}"></h3>
+            </a>
+
+            <div class="post_info">
+                    <span class="poster">
+                        작성자 :
+                        <th:block th:text="*{poster}"></th:block>
+                        <th:block th:if="*{member != null}"
+                                  th:text="*{'(' + member.userId + ')'}"></th:block>
+                    </span>
+               <span class="view_count">
+                        조회수 :
+                        <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
+                    </span>
+
+               작성일 : <span class="post_date"
+                     th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+            </div>
+            <!--// post_info -->
+             <!-- 리뷰 본문 내용 -->
+             <div>
+                 <th:block th:utext="*{content}"></th:block>
+             </div>
+         </li>
+      </ul>
+
+       <!--// list_search -->
+      <div class="list_search">
+         <form name="frmSearch" method="get" th:action="@{/board/list/{bid}(bid=${board.bid})}" autocomplete="off" th:object="${boardDataSearch}">
+            <select name="sopt" th:field="*{sopt}">
+               <option value="SUBJECT" th:text="#{제목}"></option>
+               <option value="CONTENT" th:text="#{내용}"></option>
+               <option value="SUBJECT_CONTENT" th:text="#{제목_내용}"></option>
+               <option value="POSTER" th:text="#{작성자}"></option>
+            </select>
+            <input type="text" name="skey" th:field="*{skey}"
+                   th:placeholder="#{검색어를_입력하세요.}">
+            <button type="submit" th:text="#{검색하기}"></button>
+         </form>
+      </div>
+      <!--// list_search -->
+
+      <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+
+      <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlBottom)}" th:utext="${board.htmlBottom}"></th:block>
+
+   </div>
+   <!--// board_list -->
 </th:block>
 </html>
