@@ -61,26 +61,29 @@
 .product_detail .product_main .farmer_info .farm .farm_title { font-weight: bold; font-size: 1.305rem; align-items: center; }
 .product_detail .product_main .farmer_info .farm .farm_link { position: absolute; top: 8px; right: 10px; }
 .product_detail .product_main .farmer_info .farm .farm_link * { line-height: 30px; }
-.product_detail .product_main .farmer_info .chat_btn { margin-top: 10px; }
+.product_detail .product_main .farmer_info { margin-top: 10px; }
 .product_detail .thumbs { display: flex; height: 80px; margin-top: 10px; }
 .product_detail .thumbs .thumb { width: 80px; cursor: pointer; }
 .product_detail .thumbs .thumb + .thumb { margin-left: 3px; }
+.farm_title { color: var(--main-color); }
 
 .product_detail .tabs { display: flex; align-items: center; }
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
 .product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
 
-.product_detail .tabs .tab.on a { color: #fff; }
+.product_detail .tabs a { color: #fff; }
 
 .product_detail .desc_content { margin: 25px 0 100px; }
 
-.product_detail .selected_products { border: 1px solid #222; padding: 10px; border-radius: 3px; background: #f8f8f8; }
+.product_detail .selected_products { border: 1px solid #ccc; padding: 10px; border-radius: 3px; background: #f8f8f8; margin-bottom: 20px; }
 .product_detail .selected_products + .selected_products { margin-top: 5px; }
-.product_detail .selected_products .product_name { font-weight: 500; font-size: 0.95rem; margin-bottom: 5px; }
+.product_detail .selected_products .product_name { font-weight: 500; font-size: 0.95rem; margin-bottom: 5px; font-size: 1.2rem; }
 .product_detail .selected_products .option_ea { display: flex; justify-content: space-between; }
 
-.product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; }
+.product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; font-size: larger; }
 .product_detail .ea_box button { width: 40px; height: 40px; background: #ddd; color: #fff; cursor: pointer; border: 0; }
+.product_main { margin-top: 30px; }
+.farm_link { font-weight: 400; font-size: larger; }
 
 /* 상품 정보 테이블 */
 .table_sale {
@@ -102,7 +105,7 @@
 /* 가격 정보 */
 .money {
     font-weight: bold;
-    color: #e44d26; /* 주황색으로 가격 강조 */
+    color: var(--main-color);
 }
 
 .discount_type {
@@ -127,7 +130,7 @@
 }
 
 /* 선택된 상품 섹션 */
-.selected_products {
+.selected_products{
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 15px;
@@ -150,25 +153,52 @@
 
 /* 버튼 스타일 */
 .product_action {
-    padding: 10px 15px;
+    padding: 5px 10px;
+    font-size: small;
+    font-weight: 500;
     margin-right: 10px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: var(--main-color);
     color: #fff;
     border: none;
     border-radius: 5px;
+}
+
+.chat_btn {
+    padding: 5px 10px;
+    font-size: small;
+    font-weight: 500;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: var(--sub-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.buyBtn {
+    background-color: var(--highlight-color);
+}
+
+.incartBtn {
+    background-color: var(--sub-color);
 }
 
 /* 탭 스타일 */
 .tabs {
     list-style: none;
     display: flex;
-    margin-top: 20px;
 }
 
 .tab {
-    border: 1px solid #ccc;
-    border-bottom: none;
+    text-decoration: none;
+    /* padding: 10px 20px; */
+    font-size: medium;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .tab input[type="radio"] {
@@ -177,21 +207,23 @@
 
 .tab label {
     display: block;
-    padding: 10px;
     cursor: pointer;
+    padding: 10px 20px;
 }
 
-.tab.on {
-    background-color: #007bff;
+.tab input[type="radio"]:checked + label {
+    background-color: var(--highlight-color);
+    color: #fff;
 }
 
-.tab.on label {
+label:hover {
+    background-color: var(--main-color);
     color: #fff;
 }
 
 /* 탭 콘텐츠 */
 .tab_content {
-    display: none;
+    border-top: 1px solid #ccc;
 }
 
 .tab_content.on {

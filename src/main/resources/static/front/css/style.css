@@ -371,6 +371,7 @@ li {
     border-radius: 10px;
 }
 
+
 .btn{
     display: inline-block;
     text-align: center;
@@ -388,4 +389,18 @@ li {
     color: #fff;
     background: #21BF73;
     border: 1px solid var(--sub-color);
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.farmRanking {
+    padding: 0 0 0 360px;
+}
+.center-line {
+    height: 100%;
+    border-left: 1px solid #ccc;
+    margin: 0 20px;
+
 }
