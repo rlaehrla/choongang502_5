@@ -75,6 +75,7 @@ dl dd {
     float: right;
     border-radius: 5px;
     border-width: thin;
+    font-size: medium;
 }
 
 /* 버튼 스타일 */
@@ -89,6 +90,8 @@ dl dd {
     border: #e64848 1px solid;
     border-radius: 5px;
     cursor: pointer;
+    font-size: larger;
+    font-weight: 400;
 }
 
 .btn:hover {
@@ -172,6 +175,8 @@ dl dd {
     margin: 0px 20px 10px 75px;
     border-radius: 5px;
     border-width: thin;
+    padding: 15px;
+    font-size: medium;
 }
 
 #auth_count {
