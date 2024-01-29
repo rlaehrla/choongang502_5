@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="blog">
-    <th:block th:replace="~{front/board/skins/blog/_list_items::blog}"></th:block>
+    <div class="max-w-screen-lg ma">
+        <th:block th:replace="~{front/board/skins/blog/_list_items::blog}"></th:block>
+    </div>
 </th:block>
 </html>

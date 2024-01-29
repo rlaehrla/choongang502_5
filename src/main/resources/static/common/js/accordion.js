@@ -9,10 +9,9 @@ window.addEventListener("DOMContentLoaded", function() {
         for (const button of buttons) {
             button.addEventListener("click", function() {
                 const parentEl = this.parentElement;
-                console.log(this);
-
                 const targetEls = parentEl.getElementsByClassName(targetClass);
                 const downBtn = document.getElementsByClassName("xi-angle-down");
+
                 for (const ta of targetEls) {
                     const classList = ta.classList;
                     if (classList.contains("hidden")) {

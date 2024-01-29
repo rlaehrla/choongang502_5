@@ -1,6 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+
 <th:block th:fragment="blog">
+    <th:block layout:fragment="addScript">
+        <script th:src="@{/common/js/accordion.js}"></script>
+    </th:block>
    <div class="board_list layout_width">
       <div class="flex sb aic">
          <h1 th:replace="~{front/board/skins/blog/_board_title::title}"></h1>
@@ -16,38 +22,48 @@
               th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
       </div>
 
-      <ul class="review_items">
+      <ul class="review_items toggle_action" data-button-class="faq-toggle" data-target-class="faq-text">
          <li th:if="${items == null || items.isEmpty()}" class="no_data"
              th:text="#{조회된_게시글이_없습니다.}"></li>
 
          <li th:unless="${items == null || items.isEmpty()}"
              th:each="item : ${items}" th:object="${item}" class="item">
-<!--             [[${item}]]-->
-             <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
-                 <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
-               <h3 th:text="*{subject}"></h3>
-            </a>
+            <!--[[${item}]]-->
 
-            <div class="post_info">
+
+
+             <div class="sns-container">
+             <div class="faq">
+             <div class="faq-title">
+                <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
+                    <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
+                    <h3 th:text="*{subject}"></h3>
+                </a>
                     <span class="poster">
                         작성자 :
                         <th:block th:text="*{poster}"></th:block>
                         <th:block th:if="*{member != null}"
                                   th:text="*{'(' + member.userId + ')'}"></th:block>
                     </span>
-               <span class="view_count">
+                    <span class="view_count">
                         조회수 :
                         <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
                     </span>
 
-               작성일 : <span class="post_date"
+                        작성일 : <span class="post_date"
                      th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+                <!--// post_info -->
+                <div class="faq-text hidden">
+                    <th:block th:utext="*{content}"></th:block>
+                </div>
+                <!-- 리뷰 본문 내용 -->
+
+                <button class="faq-toggle">
+                    <i class="fas xi-angle-down"></i>
+                </button>
             </div>
-            <!--// post_info -->
-             <!-- 리뷰 본문 내용 -->
-             <div>
-                 <th:block th:utext="*{content}"></th:block>
-             </div>
+            </div>
+            </div>
          </li>
       </ul>
 
