@@ -58,8 +58,6 @@ public class OrderSaveService {
         int payPrice = cartData.getPayPrice() - form.getUsePoint();
 
 
-
-
         /* 주소 저장 S */
         AddressAssist address = AddressAssist.builder()
                 .zoneCode(form.getZoneCode())
@@ -138,6 +136,7 @@ public class OrderSaveService {
 
         for(CartInfo cartItem : cartItems){
             Product product = cartItem.getProduct();
+
             OrderItem item = OrderItem.builder()
                     .product(product)
                     .optionName(product.getOptionName())

@@ -8,11 +8,13 @@
 
         <!-- 내용 -->
         <div>
-            <div class="row">
-                <a class="flex-center diary" th:href="@{/mypage/diary}">
-                    <p th:text="#{마이_다이어리}"></p>
-                    <i class="xi-angle-right"></i>
-                </a>
+            <div class="space">
+                <div class="row">
+                    <a class="flex-center diary" th:href="@{/mypage/diary}">
+                        <p th:text="#{마이_다이어리}"></p>
+                        <i class="xi-angle-right"></i>
+                    </a>
+                </div>
             </div>
             <div class="contour"></div>
             <div class="space">
@@ -61,8 +63,10 @@
                     </a>
                 </div>
             </div>
-            <div class="row flex-center">
-                <a th:href="@{/member/logout}" th:text="#{로그아웃}" class="flex-center sub"></a>
+            <div class="space">
+                <div class="row flex-center">
+                    <a th:href="@{/member/logout}" th:text="#{로그아웃}" class="flex-center sub"></a>
+                </div>
             </div>
         </div>
     </section>
