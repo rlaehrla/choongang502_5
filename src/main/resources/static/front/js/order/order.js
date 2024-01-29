@@ -53,11 +53,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         }
 
-
-
     });
-
-
 
     /* 포인트 사용 E */
 
