@@ -321,6 +321,13 @@ li {
 }
 /* main - 배너 슬라이드 E */
 
+.hidden {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
 
 .latestProducts {
     display: flex;
