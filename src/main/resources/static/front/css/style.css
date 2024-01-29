@@ -370,3 +370,22 @@ li {
 .imgBox img{
     border-radius: 10px;
 }
+
+.btn{
+    display: inline-block;
+    text-align: center;
+}
+.btn-white{
+    color: #333;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+.btn-s{
+    padding: 6px 12px;
+    font-size: 12px;
+}
+.btn-point {
+    color: #fff;
+    background: #21BF73;
+    border: 1px solid var(--sub-color);
+}
