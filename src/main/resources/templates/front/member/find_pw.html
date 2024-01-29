@@ -5,22 +5,22 @@
 <main layout:fragment="content">
     <h1 th:text="#{비밀번호_찾기}"></h1>
 
-    <form name="frmFindPw" method="post" th:action="@{/member/find_pw}" autocomplete="off" th:object="${requestFindPw}">
+    <form name="frmFindPw" class="login_frm" method="post" th:action="@{/member/find_pw}" autocomplete="off" th:object="${requestFindPw}">
         <dl>
             <dt th:text="#{이메일}"></dt>
             <dd>
-                <input type="text" name="email" th:field="*{email}">
+                <input type="text" class="id_input_box" name="email" th:field="*{email}">
                 <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
             </dd>
         </dl>
         <dl>
             <dt th:text="#{회원명}"></dt>
             <dd>
-                <input type="text" name="email" th:field="*{name}">
+                <input type="text" class="id_input_box" name="email" th:field="*{name}">
                 <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
             </dd>
         </dl>
-        <button type="submit" th:text="#{비밀번호_찾기}"></button>
+        <button type="submit" class="find_pw_btn" th:text="#{비밀번호_찾기}"></button>
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     </form>
 </main>
