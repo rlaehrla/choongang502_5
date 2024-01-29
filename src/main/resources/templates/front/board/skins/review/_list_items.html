@@ -39,11 +39,11 @@
 
                작성일 : <span class="post_date"
                      th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+               별점 <th:block th:text="*{num2}"></th:block>
             </div>
             <!--// post_info -->
              <!-- 리뷰 본문 내용 -->
              <div>
-                 별점 <th:block th:text="*{num2}"></th:block>
                  <th:block th:utext="*{content}"></th:block>
              </div>
          </li>

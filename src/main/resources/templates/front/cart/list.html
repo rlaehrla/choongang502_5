@@ -3,8 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main class="max-w-screen-lg ma" layout:fragment="content">
-    <h1 th:text="#{장바구니}"></h1>
-    <form name="frmCart" method="post" th:action="@{/cart}" autocomplete="off" target="ifrmProcess"  th:object="${cartData}">
+    <h1 class="cart_title" th:text="#{장바구니}"></h1>
+    <form name="frmCart" class="frmCart" method="post" th:action="@{/cart}" autocomplete="off" target="ifrmProcess"  th:object="${cartData}">
         <input type="hidden" name="mode" value="edit">
 
         <th:block th:replace="~{front/cart/_items::items}"></th:block>
