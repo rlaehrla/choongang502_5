@@ -222,6 +222,7 @@ public class MemberController implements ExceptionProcessor {
 
         } else if (mode.equals("find_pw")) { // 비밀번호 찾기
             pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
+            addCss.add("member/login");
         } else if (mode.equals("cart")) {
             // 장바구니
             pageTitle = Utils.getMessage("장바구니", "commons");

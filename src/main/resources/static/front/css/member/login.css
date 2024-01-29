@@ -142,3 +142,19 @@ label[for="autoLogin"] {
     font-weight: 400;
     font-size: larger;
 }
+
+.find_pw_btn {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: var(--sub-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: x-large;
+    font-weight: 500;
+}
