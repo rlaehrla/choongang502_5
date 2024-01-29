@@ -33,8 +33,6 @@ public class QOrderInfo extends EntityPathBase<OrderInfo> {
 
     public final StringPath deliveryMemo = createString("deliveryMemo");
 
-    public final StringPath depositor = createString("depositor");
-
     public final org.choongang.member.entities.QAbstractMember member;
 
     //inherited

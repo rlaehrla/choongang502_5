@@ -71,9 +71,6 @@ public class OrderInfo extends Base {
 
     private int usePoint; // 포인트 사용 금액
 
-    private String depositor; // 무통장 입금 입금자명
-
-
     @ToString.Exclude
     @OneToMany(mappedBy = "orderInfo", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
