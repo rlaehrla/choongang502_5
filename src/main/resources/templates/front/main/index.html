@@ -5,8 +5,11 @@
 <main layout:fragment="content">
     <section th:replace="~{front/outlines/_banner::banner}">
     </section>
+
+        <div class="recommendedRecipes">
+            <h1 th:text="#{추천레시피}"></h1>
+        </div>
     <section class="max-w-screen-lg flex ma">
-        <h1 th:text="#{추천레시피}"></h1>
         <ul>
             <li th:each="recipe : ${추천레시피}" th:object="${recipe}">
                 <a th:href="@{레시피게시물링크}">

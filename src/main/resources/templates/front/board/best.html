@@ -3,24 +3,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <h2 class="max-w-screen-lg flex ma">농장 랭킹</h2>
-    <section th:replace="~{front/outlines/_best_farm::farm}">
-    </section>
-    <section class="rank-sec" name="recipeRank">
-
-        <h2>레시피 랭킹</h2>
-        <div th:each="recipe : ${recipeRank}" th:object="${recipe}">
-            <img th:src="랭킹사진링크">
-            <a th:href="@{레시피게시물링크}">
-                <div>
-                    <strong type="text" th:text="#{레시피제목}"></strong>
-                    <p th:text="#{상품태그}"></p>
-                </div>
-                <p th:text="#{좋아요}"></p>
-                <img th:src="#{프로필사진링크}">
-                <p th:text="#{글쓴이}"></p>
-            </a>
+    <div class="flex-container max-w-screen-lg">
+        <div class="farmRanking">
+            <h2>농장 랭킹</h2>
+            <section th:replace="~{front/outlines/_best_farm::farm}"></section>
         </div>
-    </section>
+        <div class="center-line"></div>
+        <div class="recipeRanking">
+            <h2>레시피 랭킹</h2>
+            <section th:replace="~{front/outlines/_best_recipe::recipe}"></section>
+        </div>
+    </div>
 </main>
 </html>

@@ -370,3 +370,17 @@ li {
 .imgBox img{
     border-radius: 10px;
 }
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.farmRanking {
+    padding: 0 0 0 360px;
+}
+.center-line {
+    height: 100%;
+    border-left: 1px solid #ccc;
+    margin: 0 20px;
+}
