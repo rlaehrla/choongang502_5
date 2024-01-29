@@ -23,6 +23,12 @@
     background-color: #f2f2f2;
 }
 
+.imgBox {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
 #prod_name {
     border-left: none;
     text-align: left;
@@ -74,14 +80,6 @@ input[type="number"]::-webkit-inner-spin-button {
     border-radius: 5px;
     font-size: small;
     cursor: pointer;
-}
-
-/* 장바구니 테이블 내 아이템 이미지 스타일 */
-.cart_items img {
-    max-width: 80px;
-    max-height: 80px;
-    display: block;
-    margin: 0 auto;
 }
 
 /* 장바구니 수량 조절 버튼 스타일 */
