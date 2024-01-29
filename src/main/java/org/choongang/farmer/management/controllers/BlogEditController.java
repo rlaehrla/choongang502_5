@@ -137,6 +137,7 @@ public class BlogEditController {
 
         /* 게시판 설정 처리 */
         board = configInfoService.get(bid); // 매번 DB조회
+        System.out.println("=================" + board);
         model.addAttribute("board", board);
         commonProcess("sns", model);
 

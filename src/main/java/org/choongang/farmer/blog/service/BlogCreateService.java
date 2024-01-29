@@ -34,7 +34,7 @@ public class BlogCreateService {
             form.setActive(true);
             form.setBName(farmTitle + "의 소식");
             form.setUseEditor(true);
-            form.setSkin("review");
+            form.setSkin("blog");
             form.setUseUploadImage(true);
             form.setUseUploadFile(true);
             form.setWriteAccessType("FARMER");
