@@ -35,6 +35,8 @@
                 </th:block>
             </tr>
             <tr>
+                <th width="310">결제 금액</th>
+                <td th:text="*{payPrice} + '원'"></td>
                 <th>주문상태</th>
                 <td>
                     <select name="orderStatus" th:value="*{status}">
@@ -73,16 +75,6 @@
                 <td th:text="*{orderItems[0].product.deliveryPrice + '원'}"></td>
                 <th>할인금액</th>
                 <td th:text="*{totalDiscount + '원'}"></td>
-            </tr>
-        </table>
-
-        <h2>결제 정보</h2>
-        <table class="table_cols mb30">
-            <tr>
-                <th width="310">결제 수단</th>
-                <td th:text="*{payType.getTitle()}"></td>
-                <th width="310">결제 금액</th>
-                <td th:text="*{payPrice} + '원'"></td>
             </tr>
         </table>
 
