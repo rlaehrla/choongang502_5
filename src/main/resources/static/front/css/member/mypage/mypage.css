@@ -2,6 +2,7 @@
 .content{
     width: 700px;
     align-items: center;
+    flex-wrap: wrap;
 }
 /* 제목 정렬 */
 .title{
@@ -25,6 +26,7 @@
     height: 80px;
     width: 100%;
     text-align: left;
+    flex-wrap: wrap;
 }
 .sub{
     width: 100%;
@@ -35,6 +37,7 @@
     line-height: 1;
     font-weight: 700;
     font-size: 18px;
+    margin-bottom: 16px;
 }
 .sub > p{
     flex-grow: 1;
@@ -44,6 +47,11 @@
     line-height: 1;
     flex-shrink: 0;
     margin-left: auto;
+}
+
+.no-data{
+    font-size: 18px;
+
 }
 
 /* 기타 연결 처리 E */
@@ -78,7 +86,8 @@
 }
 .recent{
     width: 100%;
-    height: 24px;
+    height: auto;
+    padding-bottom: 10px;
 }
 .orderAll{
     display: flex;
@@ -92,6 +101,8 @@
     background: var(--sub-color);
 
 }
+
+
 /* 주문내역 E */
 
 .sub #point{
