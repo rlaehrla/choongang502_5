@@ -50,15 +50,11 @@
 
 .tabs {
     display: flex;
-    margin-bottom: 20px;
 }
 
 .tab {
     text-decoration: none;
     padding: 10px 20px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     font-size: medium;
     font-weight: 500;
     color: #333;
