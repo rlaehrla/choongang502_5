@@ -82,7 +82,6 @@
 
 .product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; font-size: larger; }
 .product_detail .ea_box button { width: 40px; height: 40px; background: #ddd; color: #fff; cursor: pointer; border: 0; }
-.product_main { margin-top: 30px; }
 .farm_link { font-weight: 400; font-size: larger; }
 
 /* 상품 정보 테이블 */
