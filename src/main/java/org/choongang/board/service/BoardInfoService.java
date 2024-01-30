@@ -57,13 +57,13 @@ public class BoardInfoService {
      */
     public BoardData get(Long seq) {
         BoardData boardData = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
-        
+
         addBoardData(boardData);
 
         // 댓글 목록
         List<CommentData> comments = commentInfoService.getList(seq);
         boardData.setComments(comments); // 상세보기할때만 댓글 필요
-        
+
         return boardData;
     }
 
@@ -164,6 +164,11 @@ public class BoardInfoService {
             andBuilder.and(boardData.category.eq(category));
         }
 
+        Long num1 = search.getNum1();
+        if (num1 != null) {
+            andBuilder.and(boardData.num1.eq(num1)) ;
+        }
+
         /* 검색 조건 처리 E */
 
         PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
@@ -194,7 +199,7 @@ public class BoardInfoService {
      *
      * @param boardData
      */
-    public void addBoardData(BoardData boardData) {
+    private void addBoardData(BoardData boardData) {
 
         /* 파일 정보 추가 S */
         String gid = boardData.getGid();

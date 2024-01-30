@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<dl th:fragment="item">
+
+    <h2>구매 상품 정보</h2>
+    <table class="table_cols" th:object="${orderItem}">
+        <tr>
+            <th colspan="2">구매 상품명</th>
+            <th>상품금액</th>
+            <th>판매자</th>
+        </tr>
+        <tr>
+            <td width="100">
+                <th:block th:if="*{product != null && product.listImages != null && !product.listImages.isEmpty()}"
+                th:utext="*{@utils.printThumb(product.listImages[0], 100, 100, 'image')}"></th:block>
+            </td>
+            <td th:text="*{productName}"></td>
+            <td>
+                <th:block th:text="*{totalPrice > 1000 ? #numbers.formatInteger(totalPrice, 3, 'COMMA') : totalPrice}"></th:block>
+                <th:block th:text="#{돈단위}"></th:block>
+            </td>
+            <td>
+                <th:block th:if="*{product.farmer != null}"
+                          th:text="*{product.farmer.username + '(' + product.farmer.userId + ')'}"></th:block>
+            </td>
+        </tr>
+    </table>
+</dl>
+
+</html>

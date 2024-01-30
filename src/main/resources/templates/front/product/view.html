@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content" class="product_detail layout_width" th:object="${product}" >
+<main layout:fragment="content" class="product_detail layout_width" th:object="${product}">
     <section class="product_main">
         <!-- 상품 메인 이미지 S -->
         <div class="product_images">
@@ -35,12 +34,6 @@
                     <input type="hidden" name="mode" value="CART">
                     <input type="hidden" name="seq" th:value="*{seq}"> <!-- 상품 seq -->
                     <h2 th:text="*{name}"></h2>
-
-                    <div class="share_btns" >
-                        <button  class="save_post" th:data-seq="*{seq}" th:classappend="*{@saveBoardDataService.saved(seq)} ? 'on'">
-                            <i class="xi-star"></i>
-                        </button>
-                    </div>
 
                     <table class="table_sale">
                         <tr th:if="*{consumerPrice > 0}">
@@ -140,7 +133,7 @@
 
         <div class="tab_content" id="tab_content_detail" th:utext="*{description}"></div>
         <div class="tab_content dn" id="tab_content_review">
-            <th:block th:replace="~{front/board/skins/review/_list_items::review}"></th:block>
+            <th:block th:replace="~{front/board/skins/review/_detail_list_items::review}"></th:block>
         </div>
         <div class="tab_content dn" id="tab_content_exchange">
             교환반품

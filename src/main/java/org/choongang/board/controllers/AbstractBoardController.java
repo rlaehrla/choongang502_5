@@ -8,6 +8,7 @@ import org.choongang.board.entities.Board;
 import org.choongang.board.entities.BoardData;
 import org.choongang.board.service.*;
 import org.choongang.board.service.config.BoardConfigInfoService;
+import org.choongang.board.service.review.ReviewAuthService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.farmer.blog.service.SellingInfoService;
@@ -34,6 +35,7 @@ public abstract class AbstractBoardController implements ExceptionProcessor{
     protected final BoardInfoService boardInfoService;
     protected final BoardDeleteService boardDeleteService;
     protected final BoardAuthService boardAuthService;
+    protected final ReviewAuthService reviewAuthService ;
 
     protected final OrderItemInfoService orderItemInfoService ;
 
@@ -63,8 +65,6 @@ public abstract class AbstractBoardController implements ExceptionProcessor{
 
         List<String> addCommonCss = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
-
-        addScript.add("board/common"); // 게시판 공통 스크립트
 
         /* 게시판 설정 처리 S */
         board = configInfoService.get(bid);
