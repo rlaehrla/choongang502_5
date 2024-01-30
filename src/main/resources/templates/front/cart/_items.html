@@ -4,15 +4,15 @@
     <table class="cart_items">
         <thead>
         <tr>
-            <th th:if="${mode == null || mode != 'order'}">
+            <th width="50" th:if="${mode == null || mode != 'order'}">
                 <input type="checkbox" class="checkall" data-target-name="chk" id="checkall">
                 <label for="checkall"></label>
             </th>
             <th colspan="2" th:text="#{상품정보}"></th>
-            <th th:text="#{상품가}"></th>
-            <th th:text="#{할인}"></th>
-            <th th:text="#{수량}"></th>
-            <th th:text="#{합계}"></th>
+            <th width="150" th:text="#{상품가}"></th>
+            <th width="100" th:text="#{할인}"></th>
+            <th width="150" th:text="#{수량}"></th>
+            <th width="150" th:text="#{합계}"></th>
         </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
                 <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
                 <label th:for="${'chk_' + status.index}"></label>
             </td>
-            <td>
+            <td width="100">
                 <input th:if="${mode == null || mode != 'order'}" type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
                  <input th:unless="${mode == null || mode != 'order'}" type="hidden" name="cartSeq" th:value="*{seq}">
                 <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{product.seq})}">

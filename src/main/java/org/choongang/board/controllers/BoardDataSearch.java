@@ -27,5 +27,5 @@ public class BoardDataSearch {
 
     private String category; // 게시판 분류
 
-    private Long productSeq ;    // 상품 일련번호 | num1
+    private Long num1 ;    // 상품 일련번호 | num1
 }

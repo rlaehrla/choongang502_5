@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="review">
+    <div class="board_list layout_width">
+        <div class="flex sb aic">
+            <h1 th:replace="~{front/board/skins/review/_board_title::title}"></h1>
+        </div>
+
+        <div class="total">
+            Total : <th:block
+                th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
+        </div>
+
+        <ul class="review_items toggle_action" data-button-class="content_view" data-target-class="content">
+            <li th:if="${items == null || items.isEmpty()}" class="no_data"
+                th:text="#{조회된_게시글이_없습니다.}"></li>
+
+            <li th:unless="${items == null || items.isEmpty()}"
+                th:each="item : ${items}" th:object="${item}" class="item">
+
+                <div class="item_top">
+                    <div class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
+                        <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
+                        <h3 th:text="*{subject}"></h3>
+                    </div>
+
+                    <div class="post_info">
+                        <span class="poster">
+                            작성자 :
+                            <th:block th:text="*{poster}"></th:block>
+                            <th:block th:if="*{member != null}"
+                                      th:text="*{'(' + member.userId + ')'}"></th:block>
+                        </span>
+                        <span class="view_count">
+                            조회수 :
+                            <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
+                        </span>
+
+                        작성일 : <span class="post_date"
+                                    th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+                        별점 <th:block th:text="*{num2}"></th:block>
+                    </div>
+                    <!--// post_info -->
+                </div>
+                <button class="content_view">
+                    <i class="xi-angle-down"></i>
+                </button>
+
+                <!-- 리뷰 본문 내용 -->
+                <div class="content hidden">
+                    <th:block th:utext="*{content}"></th:block>
+                    <div class="board_btns">
+                        <a th:if="*{showEditButton}" th:href="@{/board/update/{seq}(seq=*{seq})}" th:text="#{글수정}" class="btn"></a>
+                        <a th:if="*{showDeleteButton}" th:href="@{/board/delete/{seq}(seq=*{seq})}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
+                        <a th:if="${board.useReply}" th:href="@{/board/reply/{seq}(seq=*{seq})}" th:text="#{답글}" class="btn"></a>
+                    </div>
+                    <!--// btns-->
+                </div>
+            </li>
+        </ul>
+
+        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+
+    </div>
+    <!--// board_list -->
+</th:block>
+</html>
