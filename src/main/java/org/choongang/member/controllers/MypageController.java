@@ -167,6 +167,10 @@ public class MypageController implements ExceptionProcessor {
             addScript.add("member/mypage/recently");
             addCss.add("product/style");
             pageTitle = "최근 본 상품";
+        }else if(mode.equals("point")){
+            pageTitle = "포인트 상세";
+            addCss.add("member/mypage/point");
+            addCss.add("member/mypage/mypage");
         }
         addCommonScript.add("tab");
         addCommonCss.add("tab");
