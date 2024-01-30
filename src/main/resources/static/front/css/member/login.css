@@ -59,7 +59,7 @@ input[type="checkbox"] {
 /* 제출 버튼 스타일 */
 .loginBtn {
     margin-top: 20px;
-    background-color: #e64848;
+    background-color: var(--main-color);
     color: white;
     padding: 10px 15px;
     border: none;
@@ -96,13 +96,9 @@ a {
     cursor: pointer;
 }
 
-.tab:hover {
-    background-color: #e64848;
-}
-
-.tab.active {
-    background-color: #e64848;
-    color: white;
+.tab:hover, .tab.active{
+    background-color: var(--main-color);
+    color: #fff;
 }
 
 /* 회원 타입 라디오 버튼 숨기기 */
@@ -116,7 +112,7 @@ input[type="radio"] + label {
 }
 
 input[type="radio"]:checked + label {
-    background-color: #e64848;
+    background-color: var(--main-color);
     color: white;
 }
 

@@ -31,6 +31,14 @@ public class OrderStatusService {
     private final OrderStatusHistoryRepository orderStatusHistoryRepository;
     private final ConfigInfoService configInfoService;
 
+
+    /**
+     * 주문 상태 변경
+     * @param orderSeq : OrderInfo Seq
+     * @param orderItemSeq : OrderItem Seq
+     * @param status : 변경 후 상태
+     * @param manualSendEmail : 기본으로 이메일 보낼지 여부
+     */
     public void change(Long orderSeq, List<Long> orderItemSeq, OrderStatus status, boolean manualSendEmail){
         OrderInfo orderInfo = orderInfoService.get(orderSeq);
         List<OrderItem> items = orderInfo.getOrderItems();

@@ -15,6 +15,7 @@ import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Member;
 import org.choongang.member.entities.Point;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.PointRepository;
@@ -151,6 +152,18 @@ public class OrderController implements ExceptionProcessor {
     public String paySuccess(@PathVariable("seq") Long seq){
 
         orderStatusService.change(seq, OrderStatus.IN_CASH);
+        OrderInfo orderInfo = orderInfoService.get(seq);
+
+        /* 포인트 적립 S */
+        int pt = (int)Math.round(0.05 * (orderInfo.getPayPrice() - orderInfo.getUsePoint()));
+
+        Point point = Point.builder()
+                .member((Member)memberUtil.getMember())
+                .point(pt)
+                .orderNo(orderInfo.getOrderNo())
+                .build();
+        pointRepository.saveAndFlush(point);
+        /* 포인트 적립 E */
 
         return "redirect:/order/detail/" + seq;
     }
