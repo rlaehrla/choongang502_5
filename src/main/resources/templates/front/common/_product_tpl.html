@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script th:fragment="item" type="text/html" id="product_item_tpl">
+<li>
+    <a href="/product/detail/[seq]">
+        <div class="image_box">[image]</div>
+        <div class="cate text-16px">[cate]</div>
+        <div class="font-semibold text-16px">[name]</div>
+        <div class="flex items-center gap-2px">
+            <div class="font-semibold pink text-16px">
+                [discount][discountType]
+            </div>
+            <div class="font-semibold text-16px">
+                <span class="money">[consumerPrice]</span>
+                <span th:text="#{돈단위}"></span>
+            </div>
+            <th:block if="[discount] != 0">
+                <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
+            </th:block>
+        </div>
+        <div class="star">
+            <i class="xi-star"></i>
+            <span th:text="${평점}"></span>
+        </div>
+    </a>
+</li>
+</script>
+</html>
