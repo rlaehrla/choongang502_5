@@ -9,6 +9,7 @@ import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 
 import org.choongang.product.entities.Category;
+import org.choongang.product.entities.Product;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
@@ -177,13 +178,13 @@ public class RecipeController implements ExceptionProcessor {
 
 
         if (mode.equals("add") || mode.equals("edit")) {
-            addCss.add("recipe/style");
             addCommonScript.add("fileManager");
             addScript.add("recipe/form");
             pageTitle = Utils.getMessage("레서피_작성", "commons");
         } else if (mode.equals("view")) {
             pageTitle = recipe.getRcpName();
     }
+        addCss.add("recipe/style");
         addScript.add("recipe/detail");
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCommonScript", addCommonScript);

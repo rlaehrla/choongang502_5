@@ -1,100 +1,115 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-
-
-<main layout:fragment="content" class="product_detail" th:object="${recipe}">
-    <h1>상세보기</h1>
-    [[${recipe}]]<br><br>
-    <div class="product_main">
+<main layout:fragment="content" class="product_detail layout_width" th:object="${recipe}">
+    <!-- [[${recipe}]]<br><br>-->
+    <section class="product_main">
         <div class="product_images">
             <div class="main_image">
                 <img th:if="*{mainImages != null && !mainImages.isEmpty()}" th:src="*{mainImages[0].fileUrl}">
             </div>
+            <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
+                <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}"
+                     class="thumb" th:data-url="${thumb.fileUrl}"></div>
+            </div>
         </div>
-        <div class="thumbs" th:if="*{mainImages != null && !mainImages.isEmpty()}" >
-            <div th:each="thumb : *{mainImages}" th:style="${@utils.backgroundStyle(thumb)}"
-                 class="thumb" th:data-url="${thumb.fileUrl}"></div>
-        </div>
-    </div>
+        <div class="right_section">
+            <div><!-- 멤버, 레시피 정보 출력 -->
+                <div class="farmer_info">
+                    <div class="farm">
+                        <a th:href="@{임시}">
+                            <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                                <th:block  class="profile_img" th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                                </th:block>
+                            </th:block>
+                            <span class="recipe_poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
+                            <span class="recipe_poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="product_info">
+                    <span class="rcp_title" th:text=*{rcpName}></span>
+                    <div>
+                        <th:block th:text="*{EstimatedT} + #{분_컷}"></th:block>
+                        <th:block th:text="*{category}"></th:block><br>
+                        <hr style="margin-top: 24px; margin-bottom: 24px;">
+                        <div>
+                        <th:block th:text="*{rcpInfo}"></th:block><br>
+                        </div>
+                    </div>
 
-    <div>
-        <th:block th:if="${@memberUtil.isMember()}">
-        <!--<th:block th:if="*{showDeleteButton || showEditButton}">-->
-            <a th:if="*{showDeleteButton}" th:href="@{/recipe/edit/{seq}(seq=*{seq})}"
-               th:text="#{수정}" class="btn"></a><br><br>
-            <a th:if="*{showEditButton}" th:href="@{/recipe/delete/{seq}(seq=*{seq})}"
-               th:text="#{삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
-        </th:block>
-        <div><!-- 멤버, 레시피 정보 출력 -->
-            <div>
-                <a th:href="@{임시}">
-                    닉네임 :
-                    <th:block th:if=*{authoritychk} th:text="#{여름지기마켓}"></th:block>
-                    <th:block th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
-
-                    <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                        <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 150, 150, 'profile_img')}">
+                    <div class="btns">
+                        <th:block th:if="${@memberUtil.isMember()}">
+                            <a th:if="*{showEditButton}" th:href="@{/recipe/edit/{seq}(seq=*{seq})}">
+                                <button type="button" th:text="#{수정하기}" class="product_action"></button>
+                            </a>
+                            <a th:if="*{showDeleteButton}" th:href="@{/recipe/delete/{seq}(seq=*{seq})}"><button type="button" th:text="#{삭제하기}" class="product_action incartBtn" onclick="return confirm('정말 삭제하겠습니까?');"></button>
+                            </a>
                         </th:block>
-                    </th:block>
-                </a>
-            </div>
-            <div>
-                <th:block th:text=*{rcpName}></th:block>
-            </div>
-
-            <div>
-                <th:block th:text="*{EstimatedT} + #{분_컷}"></th:block>
-                <th:block th:text="*{category + '-' +subCategory}"></th:block><br>
-                <th:block th:text="*{rcpInfo}"></th:block><br>
-                <th:block th:text="#{해쉬태그}"></th:block><br>
-                <th:block th:text="#{댓글}"></th:block><br>
+                    </div>
+                </div>
             </div>
         </div>
-        <br><br><br><br><br><br><br>
+    </section>
 
-        <div> <!-- 재료/만드는 방법-->
-            <div><!-- 재료 -->
-                <a href="#ing" th:text="#{재료}"></a> | <a href="#howTo" th:text="#{만드는_방법}"></a> <!-- 클릭 시 위치로 이동 -->
-                <br><br><br><br><br><br><br>
-                <a id="ing"><h2 th:text="#{재료}"></h2></a>
-                <th:block th:text="*{amount} + #{인분_기준}"></th:block>
+    <section class="product_tabs">
+        <ul class="tabs">
+            <li class="tab">
+                <input type="radio" name="tab" id="ings" value="ings" checked>
+                <label for="ings">재료</label>
+            </li>
+            <li class="tab">
+                <input type="radio" name="tab" id="howto" value="howto">
+                <label for="howto">만드는 방법</label>
+            </li>
+        </ul>
 
-                <h3 th:text="#{주재료}"></h3>
-                <ul th:each="required: *{requiredIng}">
-                    <li th:text="${required}"></li>
-                </ul>
-
-                <h3 th:text="#{부재료}"></h3>
-                <ul th:each="sub: *{subIng}">
-                    <li th:text="${sub}"></li>
-                </ul>
-
-                <h3 th:text="#{양념}"></h3>
-                <ul th:each="cond: *{condiments}">
-                    <li th:text="${cond}"></li>
-                </ul>
+        <div class="tab_content" id="tab_content_ings">
+            <div class="content">
+                <span class="ings" th:text="#{재료}"></span>
+                <span class="amount" th:text="*{amount} + #{인분_기준}"></span>
             </div>
-
-            <br><br><br><br><br><br><br>
-
-            <div class="howTo"> <!-- 만드는 방법 -->
-                <a id="howTo"><p th:text="#{만드는_방법}"></p></a>
-
-                    <ul th:each="h, status: *{how}">
-                        <li th:text="${status.count} + ' ' + ${h}"></li>
+            <div class="sub_content">
+                <div class="border">
+                    <span class="sub" th:text="#{주재료}"></span>
+                    <ul th:each="required: *{requiredIng}">
+                        <li th:text="${required}"></li>
                     </ul>
+                </div>
+            </div>
+            <div class="sub_content">
+                <div class="border">
+                    <span class="sub" th:text="#{부재료}"></span>
+                    <ul th:each="sub: *{subIng}">
+                        <li th:text="${sub}"></li>
+                    </ul>
+                </div>
+            </div>
 
-
-                <ul th:each="t: *{tip}">
-                    <li th:text="#{TIP} + ' ' + ${t}"></li>
-                </ul>
-                <br><br><br><br><br>
+            <div class="sub_content">
+                <div class="border">
+                    <span class="sub" th:text="#{양념}"></span>
+                    <ul th:each="cond: *{condiments}">
+                        <li th:text="${cond}"></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="tab_content dn" id="tab_content_howto">
+            <div class="content">
+                <span class="ings" th:text="#{만드는_방법}"></span>
+            </div>
+            <ul th:each="h, status: *{how}">
+                <li th:text="${status.count} + ' ' + ${h}"></li>
+            </ul>
+            <ul th:each="t: *{tip}">
+                <li th:text="#{TIP} + ' ' + ${t}"></li>
+            </ul>
+        </div>
+
+    </section>
+
 
 </main>
 </html>
