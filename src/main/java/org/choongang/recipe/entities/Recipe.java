@@ -1,5 +1,6 @@
 package org.choongang.recipe.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.choongang.board.entities.AuthCheck;
@@ -56,8 +57,6 @@ public class Recipe extends Base implements AuthCheck {
     //@Lob
     private String[] tip;
 
-    //@ManyToMany
-    //private List<String> tags = new ArrayList<>();
 
     @Lob
     private String requiredIng; // JSON
@@ -94,6 +93,7 @@ public class Recipe extends Base implements AuthCheck {
     private boolean showDeleteButton; // 삭제 버튼 노출 여부
 
     @Transient
+    @JsonIgnore
     private List<CommentData> comments; // 댓글 목록
 
     @Transient

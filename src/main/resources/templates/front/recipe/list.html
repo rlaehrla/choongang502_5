@@ -4,83 +4,113 @@
       layout:decorate="~{front/layouts/main}">
 
 <main layout:fragment="content">
+    <section class="max-w-screen-lg ma">
+        <div>
+            <h1>레시피 모두 보기</h1>
+            <div class="total">
+                Total : <th:block
+                    th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
+                <br><br>
+                <a th:href="@{/recipe/add}"><button class="product_action addbtn" type="button"  th:text="#{레시피올리기}"></button>
+                </a>
+            </div>
 
-    <div>
-        <h1>레시피 모두 보기</h1>
-        <div class="total">
-            Total : <th:block
-                th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
-            <br><br>
-            <a th:href="@{/recipe/add}"><button class="product_action .incartBtn" type="button"  th:text="#{레시피올리기}"></button>
-            </a>
-        </div>
-
-        <div> <!-- 검색 S -->
-            <form name="frmSearch" method="get" th:action="@{/recipe/list}"
-                  th:object="${recipeDataSearch}">
-                <div>
-                    <select name="sopt" id="sopt" th:field="*{sopt}">
-                        <option value="all" th:text="#{전체}"></option>
-                        <option value="rcpName" th:text="#{레시피_이름}"></option>
-                        <option value="rcpIng" th:text="#{재료}"></option>
-                        <option value="member" th:text="#{작성자}"></option>
-                    </select>
-                    <input type="text" id="skey" name="skey" th:field="*{skey}"
-                           th:placeholder="#{요리나재료를검색!}">
-                    <button type="submit" class="xi-search"></button>
-                </div>
-            </form>
+            <div class="rcpsearchBox"> <!-- 검색 S -->
+                <form name="searchFrm" method="get" th:action="@{/recipe/list}"
+                      th:object="${recipeDataSearch}">
+                    <div class="search_container">
+                        <div class="form_list_input">
+                            <select class="search_select" name="sopt" id="sopt" th:field="*{sopt}">
+                                <option value="all" th:text="#{전체}"></option>
+                                <option value="rcpName" th:text="#{레시피_이름}"></option>
+                                <option value="rcpIng" th:text="#{재료}"></option>
+                                <option value="member" th:text="#{작성자}"></option>
+                            </select>
+                            <input type="text" id="skey" name="skey" th:field="*{skey}"
+                                   th:placeholder="#{요리나재료를검색!}" size="40">
+                            <button type="submit" class="xi-search"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <!-- 재료 -->
-            <form name="frmSearch" method="get" th:action="@{/recipe/list}"
-                  th:object="${recipeDataSearch}">
-                <div>
-                    <button class="product_action .ingBtn" name="skey" value="" th:text="#{전체}"></button>
-
-                    <input type="hidden" name="sopt" value="rcpIng">
-                    <th:block th:each="ing : ${ingredients}" >
-                        <button class="product_action .ingBtn" name="skey" th:value="${ing}" th:text="${ing}">
-                        </button>
-                    </th:block>
-                </div>
-            </form>
+            <div class="ing_searchBox">
+                <form name="frmSearch" method="get" th:action="@{/recipe/list}"
+                      th:object="${recipeDataSearch}">
+                    <div>
+                        <button class="product_action ingBtn" name="skey" value="" th:text="#{전체}"></button>
+                        <input type="hidden" name="sopt" value="rcpIng">
+                        <th:block th:each="ing : ${ingredients}" >
+                            <button class="product_action ingBtn" name="skey" th:value="${ing}" th:text="${ing}">
+                            </button>
+                        </th:block>
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- 검색 E -->
-        <div>
+
+        <div class="contentBox product">
             <th:block th:if="${recipes == null || recipes.isEmpty()}"
                       th:text="#{등록된_레시피가_없습니다.}">
             </th:block>
-        </div>
-
-        <div class="contentBox">
             <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}" th:if="*{recipe.active}">
                 <ul>
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                         <div class="imgBox">
-                            <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
+                            <th:block th:block th:if="*{mainImages != null && mainImages.size() != 0}" th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
+                            <div class="imgBox_in cate">
+                                <form name="frmSearch" method="get" th:action="@{/recipe/list}">
+                                    <th:block th:each="re : *{requiredIngP}">
+                                        <input type="hidden" name="sopt" value="rcpIng">
+                                        <button class="product_action ingBtn" name="skey" th:value="${re}"
+                                                th:text="${re}">
+                                        </button>
+                                    </th:block>
+                                </form>
+                            </div>
                         </div>
-                        <div>
-                            <th:block th:if=*{authoritychk} th:text="#{여름지기마켓}"></th:block>
-                            <th:block th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
+                        <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
 
-                            <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                                <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                    </a>
+                        <div class="post_list">
+                            <a th:href="@{임시}">
+                                <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                                    <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                                    </th:block>
                                 </th:block>
-                            </th:block>
+                                <span class="poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
+                                <span class="poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
+                            </a>
                         </div>
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>
-                        <li th:text="*{requiredIng}"></li>
                         <li th:text="*{category}"></li>
-                    </a>
 
                     <br><br><br><br><br>
                 </ul>
             </div>
         </div>
-    </div>
-    <!-- 임시 페이지네이션 -->
+
+    </section>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+    <script>
+        function change_btn(e) {
+        var btns = document.querySelectorAll(".button");
+        btns.forEach(function (btn, i) {
+        if (e.currentTarget == btn) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+        });
+        console.log(e.currentTarget);
+        }
+
+    </script>
 </main>
+
+
 
 
 </html>

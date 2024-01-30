@@ -136,8 +136,35 @@ public class RecipeInfoService {
 
         recipe.setMainImages(mainImages);
         recipe.setProfileImage(profileImage);
-
         /* 파일 정보 추가 E */
+
+        /* 재료 가져오기 S */
+        try {
+            ObjectMapper om = new ObjectMapper();
+
+            if (StringUtils.hasText(recipe.getRequiredIng())) {
+                List<String[]> requiredIngTmp = om.readValue(recipe.getRequiredIng(), new TypeReference<>() {});
+
+                // 필수 재료 내용
+                String[] requiredIng = requiredIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+
+                recipe.setRequiredIngP(requiredIng);
+            }
+            if (StringUtils.hasText(recipe.getSubIng())) {
+                List<String[]> subIngTmp = om.readValue(recipe.getSubIng(), new TypeReference<>() {});
+                // 부재료 내용
+                String[] subIng = subIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                recipe.setSubIngP(subIng);
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
+        /* 재료 가져오기 E */
 
         /** 임시 !! */
         /* 수정, 삭제 권한 정보 처리 S */
@@ -294,7 +321,6 @@ public class RecipeInfoService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("데이터 = " + data);
 
         return data;
 
@@ -376,6 +402,7 @@ public class RecipeInfoService {
 
         // 이미지
         items.forEach(this::addRecipe);
+
 
         return new ListData<>(items, pagination);
 
