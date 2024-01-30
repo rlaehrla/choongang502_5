@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.choongang.commons.entities.BaseMember;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.member.entities.AbstractMember;
-import org.choongang.member.entities.Member;
 
 import java.util.List;
 import java.util.UUID;
@@ -75,9 +74,9 @@ public class BoardData extends BaseMember implements AuthCheck{
     @Column(length = 150)
     private String ua; // User-Agent : 브라우저 정보
 
-    private Long num1; // 추가 필드 : 정수
-    private Long num2; // 추가 필드 : 정수
-    private Long num3; // 추가 필드 : 정수
+    private long num1; // 추가 필드 : 상품 번호(productSeq)
+    private long num2; // 추가 필드 : 상품 평점
+    private long num3; // 추가 필드 : 주문 번호(orderItemSeq)
 
     @Column(length = 100)
     private String text1; // 추가 필드 : 한줄 텍스트

@@ -8,14 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
-import org.choongang.member.entities.Farmer;
 import org.choongang.member.repositories.FarmerRepository;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.controllers.OrderSearch;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.entities.QOrderItem;
 import org.choongang.order.repositories.OrderItemRepository;
-import org.choongang.product.entities.Product;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +25,6 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.desc;
@@ -36,6 +34,7 @@ import static org.springframework.data.domain.Sort.Order.desc;
 public class OrderItemInfoService {
 
     private final OrderItemRepository orderItemRepository ;
+    private final ProductInfoService productInfoService ;
     private final Utils utils ;
     private final HttpServletRequest request;
     private final EntityManager em;
@@ -147,7 +146,10 @@ public class OrderItemInfoService {
      * orderItem의 seq로 item 검색하여 반환
      */
     public OrderItem getOneItem(Long itemSeq) {
-        OrderItem item = orderItemRepository.findById(itemSeq).orElse(null) ;
+        OrderItem item = orderItemRepository.findById(itemSeq).orElseThrow(OrderItemNotFoundException::new) ;  // 없으면 예외 던짐
+
+        productInfoService.addProductInfo(item.getProduct());    // product 정보 가공
+
         return item ;
     }
 
