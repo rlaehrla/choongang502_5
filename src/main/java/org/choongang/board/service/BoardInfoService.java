@@ -199,7 +199,7 @@ public class BoardInfoService {
      *
      * @param boardData
      */
-    private void addBoardData(BoardData boardData) {
+    public void addBoardData(BoardData boardData) {
 
         /* 파일 정보 추가 S */
         String gid = boardData.getGid();
