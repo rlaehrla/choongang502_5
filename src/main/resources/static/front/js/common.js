@@ -51,9 +51,9 @@ const productDetails = {
 
           if(deliveryPrice != null){
               const el = deliveryPrice.innerText.replace(/,/g, "") * 1;
-              totalPrice.innerText = (lastPrice * i + el).toLocaleString();
+              totalPrice.innerText = (Number(lastPrice) * ea + el).toLocaleString();
           }else{
-              totalPrice.innerText = (Number(lastPrice) * i).toLocaleString();
+              totalPrice.innerText = (Number(lastPrice) * ea).toLocaleString();
           }
 
 
