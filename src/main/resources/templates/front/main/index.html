@@ -126,12 +126,22 @@
         });
     </script>
 
-    <div class="main_best">
+    <div class="main_best max-w-screen-lg ma">
+        <div class="best_list">
         <h2>베스트</h2>
-        <li><a href="http://localhost:3000/" th:text="#{전체}"></a></li> <!-- 경로 - 지도와 맵핑 해야함 -->
-        <li><a href="http://localhost:3000/product/GRAIN" th:text="#{곡물}"></a></li>
-        <li><a href="http://localhost:3000/product/VEGETABLE" th:text="#{채소}"></a></li>
-        <li><a href="http://localhost:3000/product/FRUIT" th:text="#{과일}"></a></li>
+            <div class="" th:each="farm : farmRank" th:object="${farmRank}">
+                <!--<img class="rank-img" th:src    ="랭킹사진링크">-->
+                <a th:href="@{농장링크}">
+                    <div>
+                        <strong th:text="#{총판매량}"></strong>
+                        <p th:text="#{한줄소개}"></p>
+                    </div>
+                    <p th:text="#{찜}"></p>
+                    <img th:src="#{프로필사진링크}">
+                    <p th:text="#{농장이름}"></p>
+                </a>
+            </div>
+        </div>
     </div>
 
 </main>
