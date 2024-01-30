@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <h1 th:text="#{비회원_주문조회}"></h1>
+    <form name="frmNonmember" class="login_frm" method="post" th:action="@{/member/not}" autocomplete="off" th:field="${requestNonmember}">
+        <dl>
+            <dt th:text="#{주문번호}"></dt>
+            <dd>
+                <input type="number" class="id_input_box" name="orderNo">
+            </dd>
+            <dt th:text="#{주문자_전화번호}"></dt>
+            <dd>
+                <input type="text" class="id_input_box" name="orderCellPhone" oninput="autoHyphen(this)">
+            </dd>
+        </dl>
+
+        <button class="loginBtn" type="submit" th:text="#{주문내역_조회하기}"></button>
+
+        <div class="error" th:if="${session.Global_error != null}" th:text="${session.Global_error}"></div>
+    </form>
+</main>
+</html>
