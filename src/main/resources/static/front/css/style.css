@@ -389,7 +389,7 @@ li {
     color: #fff;
     background: #21BF73;
     border: 1px solid var(--sub-color);
-
+}
 .flex-container {
     display: flex;
     justify-content: space-between;
