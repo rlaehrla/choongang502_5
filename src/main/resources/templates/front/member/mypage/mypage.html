@@ -19,6 +19,9 @@
         </div>
     </div>
     <div class="row">
+        <a th:href="@{/mypage/save_post}" th:text="#{찜_게시글}"></a>
+    </div>
+    <div class="row">
         <th:block th:text="#{마이_포인트}"></th:block><br>
         <div>
             <a th:href="@{/mypage/point}">
@@ -37,9 +40,6 @@
     </div>
     <div class="row">
         <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
-    </div>
-    <div class="row">
-        <a th:href="@{/mypage/save_post}" th:text="#{찜_게시글}"></a>
     </div>
     </section>
 </main>
