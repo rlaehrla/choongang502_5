@@ -30,7 +30,7 @@ public class RequestRecipe {
     private String rcpName; // 글 제목
     private String rcpInfo; // 글 소개
 
-    //@NotBlank
+    @NotBlank
     private int estimatedT;
 
     private String category;

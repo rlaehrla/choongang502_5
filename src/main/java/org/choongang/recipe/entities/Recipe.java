@@ -101,6 +101,20 @@ public class Recipe extends Base implements AuthCheck {
 
     private boolean active;// 노출 여부 : true -> 소비자 페이지 노출
 
+    @Transient
+    private String[] requiredIngP;
+    @Transient
+    private String[] requiredIngEaP;
+
+    @Transient
+    private String[] subIngP;
+    @Transient
+    private String[] subIngEaP;
+
+    @Transient
+    private String[] condimentsP;
+    @Transient
+    private String[] condimentsEaP;
 
 }
 

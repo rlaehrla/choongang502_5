@@ -44,7 +44,11 @@ window.addEventListener("DOMContentLoaded", function() {
                 usePoint.setAttribute("readonly", true);
                 const price = payPrice.innerText.replace(/,/g, "");
 
-               const _payPrice = Number(frmOrder.totalPrice.value) + Number(frmOrder.totalDeliveryPrice.value) - Number(frmOrder.totalDiscount.value) - Number(frmOrder.usePoint.value);
+               let _payPrice = Number(frmOrder.totalPrice.value) + Number(frmOrder.totalDeliveryPrice.value) - Number(frmOrder.totalDiscount.value) - Number(frmOrder.usePoint.value);
+
+               if(!_payPrice){
+                 _payPrice = 0;
+               }
                payPriceVal.innerText = _payPrice;
                payPrice.innerText = _payPrice.toLocaleString();
             }else{

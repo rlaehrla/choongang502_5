@@ -104,8 +104,8 @@
                             <div class="value_item" th:if="${@memberUtil.isLogin()}">
                                 <div class="value_name" th:text="#{포인트사용}"></div>
                                 <div class="value_price">
-                                <span class="money" th:if="${usePoint != 0 && usePoint != null}" th:text="${usePoint}"></span>
-                                <span th:unless="${usePoint != 0 && usePoint != null}">0</span>
+                                <span class="money" th:if="*{usePoint != null}" th:text="*{usePoint}"></span>
+                                <span th:unless="*{usePoint != null}">0</span>
                                 <span th:text="#{돈단위}"></span>
                             </div>
                             </div>
@@ -115,7 +115,8 @@
                             <div class="clf">
                                 <b class="fl pb" th:text="#{포인트적립}"></b>
                                 <div class="fr pb">
-                                    <b class="highlight pink" th:text="${getPoint+'P'}"></b>
+                                    <b class="highlight pink" th:if="${getPoint != null }"th:text="${getPoint+'P'}"></b>
+                                    <b class="highlight pink" th:unless="${getPoint != null }">0P</b>
                                 </div>
                                 <div class="fl" th:text="#{적립기준}"></div>
                                 <div class="fr" th:text="#{적립기준_상세}"></div>

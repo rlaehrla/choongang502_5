@@ -3,38 +3,41 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
+<div class="max-w-screen-lg ma content">
+    <h1 class="title">포인트 상세</h1>
 
-<h1>포인트 상세</h1>
-
-    <div class="pnt_summary">
-        <h2 th:text="#{사용가능_포인트}"></h2>
+    <div class="pnt_summary txt_group_justify">
+        <span th:text="#{사용가능_포인트}"></span>
         <div>
             <span th:text="${totalPoint}"></span>
             <span th:text="#{P}"></span>
         </div>
     </div>
 
-    <h2 th:text="#{상세내역}"></h2>
-    <table class="table_cols">
+    <h2 th:text="#{상세내역}" class="sub_title"></h2>
+    <table class="table_pnt">
         <tr>
+            <th th:text="#{날짜}"></th>
             <th th:text="#{주문번호}"></th>
             <th th:text="#{메세지}"></th>
             <th th:text="#{포인트}"></th>
         </tr>
         <tr th:if="${items != null && items.size() >0}" th:each="item : ${items}" th:object="${item}">
-            <td th:if="*{orderNo != 0}">
+            <td th:text="*{createdAt.toLocalDate()}"></td>
+            <td th:if="*{orderNo != 0 && orderNo != null}">
                <a th:href="@{/order/detail/{seq}(seq=*{@memberUtil.findSeq(orderNo)})}">
                    <span th:text="*{orderNo}"></span>
                    <i class="xi-angle-right"></i>
                </a>
             </td>
-            <td th:unless="*{orderNo != 0}"></td>
-            <td th:unless="*{#strings.isEmpty(message)}" th:text="*{messages}"></td>
+            <td th:unless="*{orderNo != 0 && orderNo != null}"></td>
+            <td th:unless="*{#strings.isEmpty(message)}" th:text="*{message}"></td>
             <td th:if="*{#strings.isEmpty(message)}"></td>
-            <td th:text="*{point}"></td>
+            <td th:classappend="*{point < 0} ? 'pink'" th:text="*{point}"></td>
         </tr>
 
     </table>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</div>
 </main>
 </html>
