@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
@@ -44,6 +45,13 @@ public class OrderInfoService {
 
         OrderInfo orderInfo = orderInfoRepository.findById(seq).orElseThrow(OrderNotFoundException::new);
 
+        if(orderInfo.getMember() != null){
+            if(!memberUtil.isLogin() || (!memberUtil.isAdmin() && (memberUtil.getMember().getSeq() != orderInfo.getMember().getSeq()))){
+                throw new UnAuthorizedException();
+            }
+        }
+
+
         List<OrderItem> items = orderInfo.getOrderItems();
         for(OrderItem item : items){
             Product product = productInfoService.get(item.getProduct().getSeq());
@@ -64,6 +72,9 @@ public class OrderInfoService {
      */
     public ListData<OrderInfo> getList(int month){
 
+        if(!memberUtil.isLogin()){
+            throw new UnAuthorizedException();
+        }
         /* 3개월 이내 내역 조회 */
         QOrderInfo orderInfo = QOrderInfo.orderInfo;
 
@@ -113,6 +124,23 @@ public class OrderInfoService {
      */
     public ListData<OrderInfo> getList(){
         return getList(0);
+    }
+
+
+    /**
+     * 비회원 주문조회
+     * @param orderNo
+     * @param orderCellPhone
+     * @return
+     */
+    public OrderInfo getNonmember(Long orderNo, String orderCellPhone){
+        QOrderInfo orderInfo = QOrderInfo.orderInfo;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(orderInfo.orderNo.eq(orderNo));
+        builder.and(orderInfo.orderCellphone.eq(orderCellPhone));
+        builder.and(orderInfo.member.isNull());
+
+        return orderInfoRepository.findOne(builder).orElse(null);
     }
 
 }

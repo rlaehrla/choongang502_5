@@ -6,11 +6,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.service.*;
+import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.service.OrderInfoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -39,6 +43,8 @@ public class MemberController implements ExceptionProcessor {
     private final MemberDeleteService memberDeleteService ;
     private final HttpServletResponse response;
     private final HttpSession session ;
+    private final NonmemberValidator nonmemberValidator;
+    private final OrderInfoService orderInfoService;
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
@@ -200,6 +206,39 @@ public class MemberController implements ExceptionProcessor {
 
     }
 
+
+    /**
+     * 비회원 주문조회
+     * @param model
+     * @return
+     */
+    @GetMapping("/not")
+    public String notMember(@ModelAttribute RequestNonmember form, Model model){
+        commonProcess("not", model);
+
+
+        return utils.tpl("member/member_not");
+    }
+
+    @PostMapping("/not")
+    public String notMemberPs(@Valid RequestNonmember form, Errors errors, Model model){
+
+        nonmemberValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+
+            return utils.tpl("member/member_not");
+        }
+
+        OrderInfo orderInfo = orderInfoService.getNonmember(form.getOrderNo(), form.getOrderCellPhone());
+
+        if(orderInfo == null){
+            throw new AlertBackException("올바르지 않은 주문번호/주문자 전화번호 입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        return "redirect:/order/detail/" + orderInfo.getSeq();
+    }
+
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "join";
         String pageTitle = Utils.getMessage("회원가입", "commons");
@@ -232,6 +271,9 @@ public class MemberController implements ExceptionProcessor {
             addScript.add("member/form");
             addCommonScript.add("address");
             addCommonScript.add("fileManager");
+        } else if (mode.equals("not")) {
+            pageTitle = "비회원 주문조회";
+            addCss.add("member/login");
         }
 
         model.addAttribute("pageTitle", pageTitle);

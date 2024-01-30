@@ -50,14 +50,47 @@ textarea { border: 1px solid #d5d5d5; width: 100%; resize: none; height: 100px; 
     grid-template-columns: repeat(3, minmax(0,1fr));
     row-gap: 40px;
 }
-.contentBox .item {
+.item > a > *{
+    margin-top: 7px;
+}
+
+.contentBox .item .imgBox{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
 }
 .contentBox .item .imgBox img{
     width: 100%;
+    height: 100%;
 }
+.item .post_list * { position:relative; display: flex; align-items: center; }
+
+.item .poster { color: var(--main-color); font-weight: bold; font-size: 1.305rem; align-items: center; }
+
+
+.cate{
+    margin-bottom: 10px;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+.text-16px {
+    font-size: 16px;
+}
+.items-center {
+    align-items: center;
+}
+.gap-2px {
+    gap: 2px;
+}
+
+label:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
 /* 레시피 리스트 E */
-
-
 
 
 /* 레시피 상세 S */
@@ -73,13 +106,26 @@ textarea { border: 1px solid #d5d5d5; width: 100%; resize: none; height: 100px; 
     border: none;
     border-radius: 5px;
 }
+.addbtn {
+    margin: 10px 0;
+}
 
 .incartBtn {
     background-color: var(--sub-color);
 }
 
 .ingBtn {
-    background-color: #fff;
+    color: #887B7B;
+    border: 1px solid #D3D2D2;
+    background-color: #F6F4F4;
+
+}
+.ingBtn:hover {
+    background-color: var(--highlight-color);
+    color: #fff;
+ }
+.clicked {
+    color: gold;
 }
 
 .product_name {
@@ -87,6 +133,76 @@ textarea { border: 1px solid #d5d5d5; width: 100%; resize: none; height: 100px; 
     font-size: 1rem;
     margin-bottom: 5px;
 }
+
+/* 검색 S */
+.rcpsearchBox {
+    position: absolute;
+    width: 500px; /* 원하는 너비로 조절 */
+    color: #887B7B;
+    border: 1px solid #F6F4F4;
+    background-color: #F6F4F4;
+    border-radius: 10px; /* 테두리 없앴을 때의 둥글기 정도 */
+    padding: 0 10px /* 필요에 따라 내부 여백을 조절할 수 있습니다. */
+
+}
+
+.rcpsearchBox .searchFrm {
+    /*right: 5px; *//**//* 원하는 위치 조절 *//*
+    transform: translateY(-50%);*/
+    padding: 5px;
+    background-color: #F6F4F4; /* 버튼의 배경색을 원하는 색상으로 지정 */
+    color: white; /* 버튼 텍스트 색상을 흰색으로 지정 */
+    border-radius: 5px; /* 테두리 둥글기 정도 조절 */
+}
+
+.rcpsearchBox .searchFrm .search_container {
+    /* width: fit-content; /* 내용의 크기에 맞게 넓이 지정 */
+    width: 100%;
+}
+
+.ing_searchBox {
+    margin: 70px 0;
+
+}
+
+.form_list_input{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.form_list_input .search_select {
+     color: #444;
+     background-color: #F6F4F4;
+     border: 0px;
+     border-right: 1px solid #D3D2D2;
+}
+
+.form_list_input input[type="text"] {
+    margin-left: 20px;
+    background-color: #F6F4F4;
+    height: 44px;
+    color: black;
+    border: none;
+}
+
+.form_list_input input[type="text"]::placeholder {
+    color: gray; /* placeholder 텍스트의 색상을 흰색으로 지정 */
+    font-size: 15px;
+}
+
+.xi-search::before {
+  /*  content: '\1F50E';*/
+    font-size: 20px; /* 아이콘 크기 조절 */
+}
+
+.xi-search {
+    border: none; /* 테두리 없애기 */
+    height: 44px;
+    cursor: pointer;
+    background: none;
+}
+/* 검색 E */
 
 /* 탭 스타일 */
 .tabs {
@@ -146,6 +262,7 @@ label:hover {
 .product_detail .thumbs .thumb { width: 80px; cursor: pointer; }
 .product_detail .thumbs .thumb + .thumb { margin-left: 3px; }
 .recipe_poster { color: var(--main-color); }
+
 
 .product_detail .tabs { display: flex; align-items: center; }
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
