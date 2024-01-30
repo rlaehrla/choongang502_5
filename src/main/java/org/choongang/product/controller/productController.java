@@ -124,6 +124,7 @@ public class productController {
             pageTitle = "상품 상세";
 
             addCommonScript.add("tab");
+            addCommonScript.add("accordion");
             addCommonCss.add("tab");
             addScript.add("product/detail");
             addCss.add("product/style");
