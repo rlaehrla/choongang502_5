@@ -37,7 +37,7 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeInfoService recipeInfoService;
     private final RecipeSaveService recipeSaveService;
     private final RecipeDeleteService recipeDeleteService;
-    private final RecipeCategoryValidator recipeCategoryValidator;
+/*    private final RecipeCategoryValidator recipeCategoryValidator;*/
 
     @ModelAttribute("menuCode")
     public String getMenuCode(){
