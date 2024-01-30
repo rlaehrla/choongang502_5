@@ -3,8 +3,12 @@
 <section th:fragment="farm">
     <div class="max-w-screen-lg ma">
         <div class="flex" th:each="farm, status : *{farmers}" th:object="${farm}">
+
             <a th:href="@{/farm/blog/{id}(id=*{userId})}">
-                <div th:text="${status.count}"></div>
+                <div th:if="${status.index < 3}">
+                    <img src="../image/ranking-01.png">
+                </div>
+                <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
                 <div>
                     <span th:text="*{salePoint}"></span>
                 </div>

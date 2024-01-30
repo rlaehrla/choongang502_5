@@ -23,7 +23,7 @@ const boardLib = {
 
 window.addEventListener("DOMContentLoaded", function() {
     /* 찜하기 처리 S */
-    const savePosts = document.getElementByClassName("save_post");
+    const savePosts = document.getElementsByClassName("save_post");
     for (const el of savePosts) {
         el.addEventListener("click", function() {
             // data-seq : 게시글 번호
