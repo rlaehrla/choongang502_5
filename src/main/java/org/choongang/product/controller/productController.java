@@ -60,6 +60,8 @@ public class productController {
         /* 리뷰 글 리스트 출력 S */
         String bid = "review" ;
 
+        search.setNum1(seq);
+        search.setLimit(10);
         ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         /* 게시판 설정 처리 */
@@ -124,6 +126,7 @@ public class productController {
             pageTitle = "상품 상세";
 
             addCommonScript.add("tab");
+            addCommonScript.add("accordion");
             addCommonCss.add("tab");
             addScript.add("product/detail");
             addCss.add("product/style");

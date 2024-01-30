@@ -9,13 +9,14 @@ import org.choongang.board.entities.BoardData;
 import org.choongang.board.entities.QBoardData;
 import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.repositories.BoardRepository;
+import org.choongang.board.service.review.ReviewScoreService;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.MemberUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.beans.Encoder;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class BoardSaveService {
     private final FileUploadService fileUploadService;
     private final MemberUtil memberUtil;
     private final HttpServletRequest request;
-
+    private final ReviewScoreService reviewScoreService ;
 
     private final PasswordEncoder encoder;
 
@@ -83,9 +84,9 @@ public class BoardSaveService {
         data.setEditorView(data.getBoard().isUseEditor());
 
         // 추가 필드 - 정수
-        data.setNum1(form.getNum1());
-        data.setNum2(form.getNum2());
-        data.setNum3(form.getNum3());
+        data.setNum1(Objects.requireNonNullElse(form.getNum1(), 0L));
+        data.setNum2(Objects.requireNonNullElse(form.getNum1(), 0L));
+        data.setNum3(Objects.requireNonNullElse(form.getNum1(), 0L));
 
         // 추가 필드 - 한줄 텍스트
         data.setText1(form.getText1());
@@ -107,6 +108,11 @@ public class BoardSaveService {
         // 공지글 처리 - 관리자만 가능
         if (memberUtil.isLogin()) {
             data.setNotice(form.getNotice()); // 관리자만 공지글 업데이트
+        }
+
+        // 상품 후기일 때(상품번호가 있고, bid가 review일 때) 평점 평균 업데이트
+        if (data.getBoard().getBid().equals("review") && form.getNum1() != null) {
+            reviewScoreService.update(form.getNum1());
         }
 
         boardDataRepository.saveAndFlush(data);

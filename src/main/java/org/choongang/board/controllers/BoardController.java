@@ -10,8 +10,10 @@ import org.choongang.board.service.BoardDeleteService;
 import org.choongang.board.service.BoardInfoService;
 import org.choongang.board.service.BoardSaveService;
 import org.choongang.board.service.config.BoardConfigInfoService;
+import org.choongang.board.service.review.ReviewAuthService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.farmer.blog.service.SellingInfoService;
 import org.choongang.file.entities.FileInfo;
@@ -21,6 +23,7 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.service.OrderItemInfoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,8 +36,8 @@ import java.util.List;
 public class BoardController extends AbstractBoardController {
 
 
-    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     /**
@@ -100,7 +103,9 @@ public class BoardController extends AbstractBoardController {
      */
     @GetMapping("/write/{bid}")
     public String write(@PathVariable("bid") String bid,
-                        @ModelAttribute RequestBoard form, Model model ) {
+                        @ModelAttribute RequestBoard form,
+                        @RequestParam(name="orderItemSeq", required = false) Long orderItemSeq,
+                        Model model ) {
         commonProcess(bid, "write", model);
 
         if (memberUtil.isLogin()) {
@@ -110,9 +115,16 @@ public class BoardController extends AbstractBoardController {
 
         // 리뷰 게시판인 경우 상품정보 가져오기
         if (bid != null && bid.equals("review")) {
-            Long productSeq = Long.valueOf(request.getParameter("productSeq"));
-            OrderItem item = orderItemInfoService.getOneItem(productSeq) ;
-            model.addAttribute("item", item) ;
+            if (orderItemSeq == null) {
+                throw new AlertBackException(Utils.getMessage("Required.orderItemSeq"), HttpStatus.BAD_REQUEST);
+            }
+
+
+            reviewAuthService.check(orderItemSeq);
+
+            OrderItem orderItem = orderItemInfoService.getOneItem(orderItemSeq);
+
+            model.addAttribute("orderItem", orderItem);
         }
 
         return utils.tpl("board/write");
