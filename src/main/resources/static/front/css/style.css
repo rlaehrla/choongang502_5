@@ -363,7 +363,7 @@ li {
     color: var(--highlight-color);
 }
 
-.product_main {
+.imgBox .product_main {
     width: 250px;
     height: 250px;
     object-fit: cover;
