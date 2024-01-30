@@ -60,6 +60,8 @@ public class productController {
         /* 리뷰 글 리스트 출력 S */
         String bid = "review" ;
 
+        search.setNum1(seq);
+        search.setLimit(10);
         ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         /* 게시판 설정 처리 */
