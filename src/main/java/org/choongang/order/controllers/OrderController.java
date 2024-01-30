@@ -12,9 +12,11 @@ import org.choongang.cart.service.CartInfoService;
 import org.choongang.cart.service.CartSaveService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Member;
 import org.choongang.member.entities.Point;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.PointRepository;
@@ -151,6 +153,18 @@ public class OrderController implements ExceptionProcessor {
     public String paySuccess(@PathVariable("seq") Long seq){
 
         orderStatusService.change(seq, OrderStatus.IN_CASH);
+        OrderInfo orderInfo = orderInfoService.get(seq);
+
+        /* 포인트 적립 S */
+        int pt = (int)Math.round(0.05 * (orderInfo.getPayPrice() - orderInfo.getUsePoint()));
+
+        Point point = Point.builder()
+                .member((Member)memberUtil.getMember())
+                .point(pt)
+                .orderNo(orderInfo.getOrderNo())
+                .build();
+        pointRepository.saveAndFlush(point);
+        /* 포인트 적립 E */
 
         return "redirect:/order/detail/" + seq;
     }
@@ -171,18 +185,9 @@ public class OrderController implements ExceptionProcessor {
 
          OrderInfo orderInfo = orderInfoService.get(seq);
 
-         List<Point> points = pointRepository.findByOrderNo(orderInfo.getOrderNo()).orElse(null);
 
-         if(points != null && points.size() > 0){
-             for(Point point : points){
-                 if(point.getPoint() > 0){
-                     model.addAttribute("getPoint", point.getPoint());
-                 }else {
-                     model.addAttribute("usePoint", point.getPoint());
-                 }
-             }
-         }
-
+         int getPoint = (int) Math.round(orderInfo.getPayPrice()* 0.05);
+         model.addAttribute("getPoint", getPoint);
          model.addAttribute("orderInfo", orderInfo);
          return utils.tpl("order/order_detail");
     }

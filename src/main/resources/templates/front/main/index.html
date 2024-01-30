@@ -30,16 +30,17 @@
     </div>
     <section class="inSeasonProducts" id="inSeasonProductsContainer">
             <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
-                <a th:href="@{/product/detail/{seq}(seq=*{seq})}">
-                    <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}">
+                    <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                    <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
                     <div th:text="*{name}"></div>
-                    <div class="productText flex">
-                    <span th:if="*{discount != 0}">
-                       <th:block th:text="*{discount + '%'}"></th:block>
-                    </span>
-                        <div class="consumerPrice">
-                            <span th:text="*{consumerPrice}"></span>
-                        </div>
+                    <div class="productText">
+                        <span th:text="*{consumerPrice}"></span>
+                        <span th:text="#{돈단위}"></span>
+                        <span th:if="*{discount != 0}">
+                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                           <th:block th:text="#{%}"></th:block>
+                        </span>
                     </div>
                     <div>
                         <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
@@ -48,6 +49,7 @@
                         <i class="xi-star"></i>
                         <span th:text="${평점}"></span>
                     </div>
+
                 </a>
             </div>
     </section>
@@ -60,13 +62,13 @@
             <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                 <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
                 <div th:text="*{name}"></div>
-                <div class="productText flex">
+                <div class="productText">
+                    <span th:text="*{consumerPrice}"></span>
+                    <span th:text="#{돈단위}"></span>
                     <span th:if="*{discount != 0}">
-                       <th:block th:text="*{discount + '%'}"></th:block>
-                    </span>
-                    <div class="consumerPrice">
-                        <span th:text="*{consumerPrice}"></span>
-                    </div>
+                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                           <th:block th:text="#{%}"></th:block>
+                        </span>
                 </div>
                 <div>
                     <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>

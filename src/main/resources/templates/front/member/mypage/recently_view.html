@@ -3,12 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <h1 th:text="#{최근_본_상품}"></h1>
+    <div class="max-w-screen-lg ma">
+        <h1 th:text="#{최근_본_상품}"></h1>
 
-    <!-- 최근 본 상품을 표시할 목록 -->
-    <div id="recentlyViewed">
+        <!-- 최근 본 상품을 표시할 목록 -->
+        <ul id="recentlyViewed">
 
+        </ul>
     </div>
-
-    </main>
+<script th:replace="~{front/common/_product_tpl::item}"></script>
+</main>
 </html>

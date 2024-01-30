@@ -6,6 +6,7 @@ import org.choongang.board.service.GuestPasswordCheckException;
 import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.CommonException;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,4 +45,17 @@ public interface ExceptionProcessor {
 
         return "error/common";
     }
+
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    default String unAuthoHandler(Model model){
+
+        model.addAttribute("script", "alert('로그인이 필요한 페이지입니다.');" +
+                "location.href='/member/login';");
+
+
+
+        return "common/_execute_script";
+    }
+
 }

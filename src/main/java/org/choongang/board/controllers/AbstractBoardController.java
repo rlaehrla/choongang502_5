@@ -64,6 +64,8 @@ public abstract class AbstractBoardController implements ExceptionProcessor{
         List<String> addCommonCss = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
 
+        addScript.add("board/common"); // 게시판 공통 스크립트
+
         /* 게시판 설정 처리 S */
         board = configInfoService.get(bid);
 
