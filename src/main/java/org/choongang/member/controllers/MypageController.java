@@ -142,6 +142,7 @@ public class MypageController { //implements ExceptionProcessor {
             addCss.add("member/mypage/order");
         }else if(mode.equals("recentlyview")){
             addScript.add("member/mypage/recently");
+            addCss.add("product/style");
             pageTitle = "최근 본 상품";
         }
         addCommonScript.add("tab");

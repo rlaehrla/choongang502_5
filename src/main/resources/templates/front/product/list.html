@@ -25,7 +25,9 @@
                         <th:block th:text="*{consumerPrice}"></th:block>
                         <th:block th:text="#{돈단위}"></th:block>
                     </div>
-                    <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
+                    <th:block th:if="*{discount != 0}">
+                        <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
+                    </th:block>
                 </div>
                 <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
                 <div class="star">
