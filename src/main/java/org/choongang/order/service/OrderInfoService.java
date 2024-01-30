@@ -115,4 +115,20 @@ public class OrderInfoService {
         return getList(0);
     }
 
+
+    /**
+     * 비회원 주문조회
+     * @param orderNo
+     * @param orderCellPhone
+     * @return
+     */
+    public OrderInfo getNonmember(Long orderNo, String orderCellPhone){
+        QOrderInfo orderInfo = QOrderInfo.orderInfo;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(orderInfo.orderNo.eq(orderNo));
+        builder.and(orderInfo.orderCellphone.eq(orderCellPhone));
+
+        return orderInfoRepository.findOne(builder).orElse(null);
+    }
+
 }

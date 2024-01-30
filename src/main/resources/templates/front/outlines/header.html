@@ -24,7 +24,8 @@
                     <th:block sec:authorize="isAnonymous()"> <!-- 미 로그인 상태 -->
                         <a th:href="@{/member/login}" th:text="#{로그인}"></a>
                         <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
-                        <a th:href="@{/cart}">장바구니</a>
+                        <a th:href="@{/cart}" th:text="#{장바구니}"></a>
+                        <a th:href="@{/member/not}" th:text="#{비회원_주문조회}"></a>
                     </th:block>
                 </div>
                 <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->

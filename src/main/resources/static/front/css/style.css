@@ -123,11 +123,11 @@ flex : 1 1 0%
     text-align: center;
     font-size: 15px;
 }
-.user .loginPlz a:nth-child(1) {
-    margin-right: 10px; /* 회원가입창 */
+.user .loginPlz a {
+    margin-right: 10px;
 }
-.user .loginPlz a:nth-child(2) {
-    margin-right: 10px; /* 로그인창 */
+.user .loginPlz a:last-of-child {
+    margin-right: 0px;
 }
 .user .idMenu, .user .loginPlz {
     position: absolute;
@@ -155,7 +155,7 @@ header .site_top a:hover { text-decoration: underline; }
 header .logo_search > div { display: flex; align-items: center; justify-content: space-between; height: 100px; }
 header .logo_search .search { display: flex; }
 
-header nav { background: #596b99; }
+header nav { background: var(--main-color); }
 header nav > .inner a { display: inline-block; height: 45px; line-height: 45px; padding: 0 25px; min-width: 120px; text-align: center; color: #fff; font-size: 1.35rem; }
 header nav > .inner a:hover { background: #222; }
 /* 헤더 공통 E */
