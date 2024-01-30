@@ -188,9 +188,14 @@
     margin-top: 10px;
     cursor: pointer;
     background-color: var(--sub-color);
-    color: #fff;
     border: none;
     border-radius: 5px;
+}
+.chat_btn > *{
+    color: #fff;
+}
+.chat_btn:hover{
+    background-color: #2a7a54;
 }
 
 .buyBtn {

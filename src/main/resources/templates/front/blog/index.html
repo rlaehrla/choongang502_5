@@ -13,7 +13,10 @@
             <h3 id="introSum" th:text="${introSum.introContent}">우리 농장에 오신 걸 환영합니다.</h3>
             <h4 id="sales_volume">판매량 : </h4>
         </div>
-        <button type="button" class="chatBtn"><i class="xi-forum"></i> 1 : 1 문의 채팅</button>
+        <button type="button" class="chatBtn">
+            <i class="xi-forum"></i>
+            <span th:text="#{문의채팅}"></span>
+        </button>
     </section>
 
 

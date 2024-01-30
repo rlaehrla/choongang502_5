@@ -5,6 +5,8 @@ import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.FarmerInfoService;
@@ -28,8 +30,7 @@ public class MainController implements ExceptionProcessor {
 
     private final Utils utils;
     private final ProductInfoService productInfoService;
-    private final OrderItemInfoService orderItemInfoService;
-    private final OrderItemRepository orderItemRepository;
+    private final FileInfoService fileInfoService;
     private final FarmerInfoService farmerInfoService;
 
     @ModelAttribute("addCss")
@@ -41,14 +42,22 @@ public class MainController implements ExceptionProcessor {
     public String index(@ModelAttribute ProductSearch form, Model model) {
 
 
-        // 판매량 상위 5명 농부 추출
+        /* 농장 랭킹 S */
         MemberSearch search = new MemberSearch();
         search.setLimit(5);
         search.setPage(1);
 
         ListData<Farmer> farmerData = farmerInfoService.topFarmer(search);
         List<Farmer> farmers = farmerData.getItems().stream().limit(5).toList();
+        for(Farmer farmer : farmers){
+            List<FileInfo> profileImage =  fileInfoService.getListDone(farmer.getGid());
+
+            if(!profileImage.isEmpty() && profileImage != null){
+                farmer.setProfileImage(profileImage.get(0));
+            }
+        }
         model.addAttribute("farmers", farmers);
+        /* 농장 랭킹 E */
 
 
         // 최신상품 불러오기

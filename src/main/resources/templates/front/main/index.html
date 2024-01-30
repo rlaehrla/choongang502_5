@@ -126,21 +126,23 @@
         });
     </script>
 
-    <div class="main_best max-w-screen-lg ma">
-        <div class="best_list">
-        <h2>베스트</h2>
-            <div class="" th:each="farm : farmRank" th:object="${farmRank}">
-                <!--<img class="rank-img" th:src    ="랭킹사진링크">-->
-                <a th:href="@{농장링크}">
-                    <div>
-                        <strong th:text="#{총판매량}"></strong>
-                        <p th:text="#{한줄소개}"></p>
-                    </div>
-                    <p th:text="#{찜}"></p>
-                    <img th:src="#{프로필사진링크}">
-                    <p th:text="#{농장이름}"></p>
-                </a>
-            </div>
+    <div class="max-w-screen-lg ma">
+        <div class="flex" th:each="farm, status : *{farmers}" th:object="${farm}">
+            <a th:href="@{/farm/blog/{id}(id=*{userId})}">
+                <div th:if="${status.index < 3}">
+
+                </div>
+                <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
+                <div>
+                    <span th:text="*{salePoint}"></span>
+                </div>
+                <!--<p th:text="#{찜}"></p>-->
+                <div class="imgBox">
+                    <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
+                    <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
+                </div>
+                <p th:text="*{farmTitle}"></p>
+            </a>
         </div>
     </div>
 
