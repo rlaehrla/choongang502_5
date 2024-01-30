@@ -145,7 +145,7 @@ public class MypageController implements ExceptionProcessor {
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
-        return utils.tpl("mypage/save_post");
+        return utils.tpl("member/mypage/save_post");
     }
 
     private void commonProcess(String mode, Model model) {
@@ -187,17 +187,7 @@ public class MypageController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("찜_게시글", "commons");
 
             addScript.add("board/common");
-            addScript.add("mypage/save_post");
-        } else if (mode.equals("follow")) {
-            addCommonScript.add("follow");
-
-        } else if (mode.equals("profile")) {
-            pageTitle = Utils.getMessage("회원정보_수정", "commons");
-            addCommonScript.add("fileManager");
-            addScript.add("mypage/profile");
-
-        } else if (mode.equals("resign")) {
-            pageTitle = Utils.getMessage("회원_탈퇴", "commons");
+            addScript.add("member/mypage/save_post");
         }
     }
 

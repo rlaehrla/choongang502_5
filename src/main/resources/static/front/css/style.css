@@ -351,24 +351,26 @@ li {
     font-size: 20px;
 }
 
-
 .productText {
-    text-decoration: line-through;
+    gap: 3px;
     color: black;
-    font-size: small;
+    justify-content: center;
 }
-
+.consumerPrice{
+        text-decoration: line-through;
+}
+.productText > span {
+    color: var(--highlight-color);
+}
 
 .imgBox .product_main {
     width: 250px;
     height: 250px;
     object-fit: cover;
+    border-radius: 10px;
 }
 .xi-star {
     color: var(--main-color);
-}
-.imgBox img{
-    border-radius: 10px;
 }
 
 
