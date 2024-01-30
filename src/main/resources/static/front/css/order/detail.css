@@ -90,23 +90,7 @@
 .td-controller .btn {
     width: 100%;
 }
-.btn{
-    display: inline-block;
-}
-.btn-white{
-    color: #333;
-    border: 1px solid #ccc;
-    background: #fff;
-}
-.btn-s{
-    padding: 6px 12px;
-    font-size: 12px;
-}
-.btn-point {
-    color: #fff;
-    background: #21BF73;
-    border: 1px solid #21BF73;
-}
+
 .OrderTableCardButtonWrapper {
     width: 100%;
     display: flex;

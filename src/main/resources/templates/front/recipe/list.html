@@ -4,12 +4,15 @@
       layout:decorate="~{front/layouts/main}">
 
 <main layout:fragment="content">
+
     <div>
         <h1>레시피 모두 보기</h1>
         <div class="total">
             Total : <th:block
                 th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
-            <br><a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
+            <br><br>
+            <a th:href="@{/recipe/add}"><button class="product_action .incartBtn" type="button"  th:text="#{레시피올리기}"></button>
+            </a>
         </div>
 
         <div> <!-- 검색 S -->
@@ -24,18 +27,18 @@
                     </select>
                     <input type="text" id="skey" name="skey" th:field="*{skey}"
                            th:placeholder="#{요리나재료를검색!}">
-                    <button type="submit" th:text="#{검색하기}"></button>
+                    <button type="submit" class="xi-search"></button>
                 </div>
             </form>
             <!-- 재료 -->
             <form name="frmSearch" method="get" th:action="@{/recipe/list}"
                   th:object="${recipeDataSearch}">
                 <div>
-                    <button name="skey" value="" th:text="#{전체}">
-                    </button>
+                    <button class="product_action .ingBtn" name="skey" value="" th:text="#{전체}"></button>
+
                     <input type="hidden" name="sopt" value="rcpIng">
                     <th:block th:each="ing : ${ingredients}" >
-                        <button name="skey" th:value="${ing}" th:text="${ing}">
+                        <button class="product_action .ingBtn" name="skey" th:value="${ing}" th:text="${ing}">
                         </button>
                     </th:block>
                 </div>
@@ -49,27 +52,27 @@
         </div>
 
         <div class="contentBox">
-            <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}">
+            <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}" th:if="*{recipe.active}">
                 <ul>
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                         <div class="imgBox">
                             <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
                         </div>
+                        <div>
+                            <th:block th:if=*{authoritychk} th:text="#{여름지기마켓}"></th:block>
+                            <th:block th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
+
+                            <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                                <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                                </th:block>
+                            </th:block>
+                        </div>
                         <li th:text="*{rcpName}"></li>
                         <li th:text="*{rcpInfo}"></li>
                         <li th:text="*{requiredIng}"></li>
                         <li th:text="*{category}"></li>
-                        <li th:text="*{subCategory}"></li>
                     </a>
-                    <div>
-                    <th:block th:if=*{authoritychk} th:text="#{여름지기마켓}"></th:block>
-                    <th:block th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></th:block>
 
-                    <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                        <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 100, 100, 'profile_img')}">
-                        </th:block>
-                    </th:block>
-                    </div>
                     <br><br><br><br><br>
                 </ul>
             </div>

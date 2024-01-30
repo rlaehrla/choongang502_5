@@ -5,32 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.choongang.commons.entities.Base;
+import org.choongang.commons.entities.BaseMember;
 import org.choongang.file.entities.FileInfo;
 
-import java.util.List;
-import java.util.UUID;
-
+@Data
+@Builder
 @Entity
-@Data @Builder
-@NoArgsConstructor @AllArgsConstructor
-public class Banner extends Base {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(indexes = @Index(name="idx_banner_basic", columnList = "listOrder DESC, createdAt ASC"))
+public class Banner extends BaseMember {
+    @Id
+    @GeneratedValue
+    private Long seq;
 
-    @Id @GeneratedValue
-    private Long seq; // 배너 번호
+    @Column(length = 60, nullable = false)
+    private String bName; // 배너명
 
-    private String bannerWhere; // 배너 사용 위치
+    private String bLink; // 배너 링크
+    private String target = "_self"; // 배너 타켓
 
-    @Column
-    private String horizontal; // 가로 크기
+    private long listOrder; // 진열 순서
 
-    @Column
-    private String vertical; // 세로 크기
+    private boolean active; // 노출 여부
 
-    @Column(length=65, nullable = false)
-    private String gid = UUID.randomUUID().toString(); // 그룹 ID
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "groupCode")
+    private BannerGroup bannerGroup;
 
     @Transient
-    private List<FileInfo> bannerImage; // 배너 이미지
-
+    private FileInfo bannerImage;
 }

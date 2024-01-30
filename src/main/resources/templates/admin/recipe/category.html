@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/main}">
+<section layout:fragment="content">
+    <h1>레시피 분류</h1>
+    <h2>카테고리 분류</h2>
+    <form name="frmPs" method="post" th:action="@{/admin/recipe/category}" target="ifrmProcess"
+          autocomplete="off" th:object="${requestRecipeCategory}">
+        <table class="table_cols">
+            <tr>
+                <th width="180">요리 분류</th>
+                <td>
+                    <input type="text" name="category" th:field="*{category}">
+                </td>
+            </tr>
+            <tr>
+                <th width="180">요리 종류</th>
+                <td width="300">
+                    <input type="text" name="subCategory" th:field="*{subCategory}">
+                </td>
+            </tr>
+        </table>
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">등록하기</button>
+        </div>
+    </form>
+
+
+
+
+
+
+</section>
+
+</html>

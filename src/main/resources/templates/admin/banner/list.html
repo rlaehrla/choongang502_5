@@ -3,6 +3,57 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
-
+    <h1>배너 목록</h1>
+    <form name="frmList" method="post" th:action="@{/admin/banner/list}" target="ifrmProcess" autocomplete="off">
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th width="40">
+                    <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
+                    <label for="checkall"></label>
+                </th>
+                <th width="400" colspan="2">배너</th>
+                <th width="200">사용여부</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${items == null || items.isEmpty()}">
+                <td colspan="4" class="no_data">등록된 배너가 없습니다.</td>
+            </tr>
+            <tr th:unless="${items == null || items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
+                <td>
+                    <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
+                    <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}">
+                    <label th:for="${'chk_' + status.index}"></label>
+                </td>
+                <td width="100">
+                    <a th:if="*{bannerImage != null}" th:utext="*{@utils.printThumb(bannerImage.seq, 100, 100, 'image')}" th:href="*{bannerImage.fileUrl}" target="_blank"></a>
+                </td>
+                <td th:text="*{bName}" width="300"></td>
+                <td align="center">
+                    <input type="radio" th:name="${'active_' + status.index}" value="true" th:checked="*{active}" th:id="${'active_' + status.index + '_true'}">
+                    <label th:for="${'active_' + status.index + '_true'}">사용</label>
+                    <input type="radio" th:name="${'active_' + status.index}" value="false" th:checked="*{!active}" th:id="${'active_' + status.index + '_false'}">
+                    <label th:for="${'active_' + status.index + '_false'}">미사용</label>
+                </td>
+                <td>
+                    <a th:href="@{/admin/banner/edit/{seq}(seq=*{seq})}" class="sbtn">
+                        <i class="xi-pen"></i> 수정하기
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table_actions" th:unless="${items == null || items.isEmpty()}">
+            <button type="button" class="form_action sbtn" data-mode="delete" data-form-name="frmList">
+                선택 배너 삭제하기
+            </button>
+            <button type="button" class="form_action sbtn on" data-mode="edit" data-form-name="frmList">
+                선택 배너 수정하기
+            </button>
+        </div>
+    </form>
 </section>
 </html>

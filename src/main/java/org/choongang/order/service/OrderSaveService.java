@@ -58,8 +58,6 @@ public class OrderSaveService {
         int payPrice = cartData.getPayPrice() - form.getUsePoint();
 
 
-
-
         /* 주소 저장 S */
         AddressAssist address = AddressAssist.builder()
                 .zoneCode(form.getZoneCode())
@@ -115,23 +113,11 @@ public class OrderSaveService {
                         .member((Member)memberUtil.getMember())
                         .orderNo(orderInfo.getOrderNo())
                         .build();
-                System.out.println("사용포인트 : " + usePoint);
                 pointRepository.saveAndFlush(usePoint);
 
             }
             /* 포인트 사용 저장 E */
-            /* 포인트 적립 S */
 
-            int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
-
-            Point point = Point.builder()
-                    .member((Member)memberUtil.getMember())
-                    .point(pt)
-                    .orderNo(orderInfo.getOrderNo())
-                    .build();
-            System.out.println("적립포인트 : " + point);
-            pointRepository.saveAndFlush(point);
-            /* 포인트 적립 E */
 
         }
 
@@ -140,6 +126,7 @@ public class OrderSaveService {
 
         for(CartInfo cartItem : cartItems){
             Product product = cartItem.getProduct();
+
             OrderItem item = OrderItem.builder()
                     .product(product)
                     .optionName(product.getOptionName())

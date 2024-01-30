@@ -17,7 +17,7 @@
                 <div  class="font-semibold text-16px"th:text="*{name}"></div>
 
                 <div class="flex items-center gap-2px">
-                    <div class="font-semibold pink  text-16px" th:if="*{discount != 0}">
+                    <div class="font-semibold pink text-16px" th:if="*{discount != 0}">
                        <th:block th:text="*{discount}"></th:block>
                         <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
                        <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
@@ -26,7 +26,9 @@
                         <th:block th:text="*{consumerPrice}"></th:block>
                         <th:block th:text="#{돈단위}"></th:block>
                     </div>
-                    <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
+                    <th:block th:if="*{discount != 0}">
+                        <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
+                    </th:block>
                 </div>
                 <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
                 <div class="star">

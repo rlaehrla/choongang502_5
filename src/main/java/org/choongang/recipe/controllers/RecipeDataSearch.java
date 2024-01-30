@@ -2,6 +2,9 @@ package org.choongang.recipe.controllers;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Data
 public class RecipeDataSearch {
     private int page = 1; // 기본값 1page
@@ -22,12 +25,18 @@ public class RecipeDataSearch {
     private String rcpName;
     private String requiredIng;
 
+    private String nickName;
+
     private String sopt; // 검색 옵션
     private String skey; // 검색 키워드
 
-    // 관리자 페이지에서 관리
     private String category;
     private String subCategory;
+
+    // 관리자 페이지
+    private List<Long> seq;
+    private LocalDate sdate; // 등록일 기준 날짜 검색
+    private LocalDate edate;
 
 
 

@@ -5,8 +5,11 @@
 <main layout:fragment="content">
     <section th:replace="~{front/outlines/_banner::banner}">
     </section>
+
+        <div class="recommendedRecipes">
+            <h1 th:text="#{추천레시피}"></h1>
+        </div>
     <section class="max-w-screen-lg flex ma">
-        <h1 th:text="#{추천레시피}"></h1>
         <ul>
             <li th:each="recipe : ${추천레시피}" th:object="${recipe}">
                 <a th:href="@{레시피게시물링크}">
@@ -28,7 +31,8 @@
     <section class="inSeasonProducts" id="inSeasonProductsContainer">
             <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
                 <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}">
-                    <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                    <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                    <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
                     <div th:text="*{name}"></div>
                     <div class="productText">
                         <span th:text="*{consumerPrice}"></span>
@@ -81,57 +85,53 @@
     <div class="kakao_map" id="map" style="width:550px;height:550px;"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30c3d31753d6d4b0cc09566b021bca87"></script>
     <script>
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        var mapContainer = document.getElementById('map'),
             mapOption = {
-                    center: new kakao.maps.LatLng(35.57369961857038, 128.90045742636414), //지도의 중심좌표.
-                    level: 13 //지도의 레벨(확대, 축소 정도)
-                };
-var map = new kakao.maps.Map(mapContainer, mapOption);
+                center: new kakao.maps.LatLng(35.67369961857038, 128.80045742636414),
+                level: 13
+            };
 
-// 여러 개의 마커와 인포윈도우 정보를 가지고 있는 배열
-var markerInfos = [
-    { position: new kakao.maps.LatLng(33.450701, 126.570667), content: '<div style="padding:5px;">제주도농부 감귤<br><a href="http://localhost:3000/product/fruit" style="color:blue">상품페이지로 이동</a></div>' },
-    { position: new kakao.maps.LatLng(35.871363377967015, 128.60212567442213), content: '<div style="padding:5px;">대구농부 찹쌀<br><a href="http://localhost:3000/product/grain" style="color:blue">상품페이지로 이동</a></div>' },
-    { position: new kakao.maps.LatLng(36.99102811180967, 127.92615735554446), content: '<div style="padding:5px;">충주농부 사과<br><a href="http://localhost:3000/product/fruit" style="color:blue">상품페이지로 이동</a></div>'},
-    // ... 추가적인 마커 정보들
-];
+        var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 마커와 인포윈도우를 담을 배열
-var markers = [];
-var infowindows = [];
+        var markerInfos = [
+            { position: new kakao.maps.LatLng(33.450701, 126.570667), content: '<div style="padding:5px;">제주도농부 감귤<br><a href="http://localhost:3000/product/FRUIT" style="color:blue">상품페이지로 이동</a></div>', imageUrl: 'https://cdn.pixabay.com/photo/2016/02/23/17/38/fruit-1218149_1280.png' },
+            { position: new kakao.maps.LatLng(35.871363377967015, 128.60212567442213), content: '<div style="padding:5px;">대구농부 찹쌀<br><a href="http://localhost:3000/product/GRAIN" style="color:blue">상품페이지로 이동</a></div>', imageUrl: 'https://cdn.pixabay.com/photo/2014/12/22/00/03/bag-576707_1280.png' },
+            { position: new kakao.maps.LatLng(36.99102811180967, 127.92615735554446), content: '<div style="padding:5px;">충주농부 사과<br><a href="http://localhost:3000/product/FRUIT" style="color:blue">상품페이지로 이동</a></div>', imageUrl: 'https://cdn.pixabay.com/photo/2016/10/30/18/01/apple-1783882_1280.png' },
+            // ... 추가적인 마커 정보들
+        ];
 
-// 각 마커 정보에 대해 반복
-markerInfos.forEach(function(markerInfo) {
-    // 마커를 생성합니다
-    var marker = new kakao.maps.Marker({
-        position: markerInfo.position
-    });
+        var markers = [];
+        var infowindows = [];
 
-    // 마커가 지도 위에 표시되도록 설정합니다
-    marker.setMap(map);
+        markerInfos.forEach(function(markerInfo) {
+            var markerImage = new kakao.maps.MarkerImage(markerInfo.imageUrl, new kakao.maps.Size(30, 30), {offset: new kakao.maps.Point(15, 30)});
 
-    // 마커를 배열에 추가합니다
-    markers.push(marker);
+            var marker = new kakao.maps.Marker({
+                position: markerInfo.position,
+                image: markerImage
+            });
 
-    // 인포윈도우를 생성합니다
-    var infowindow = new kakao.maps.InfoWindow({
-        position: markerInfo.position,
-        content: markerInfo.content
-    });
+            marker.setMap(map);
 
-    // 인포윈도우를 배열에 추가합니다
-    infowindows.push(infowindow);
+            markers.push(marker);
 
-    // 인포윈도우를 엽니다
-    infowindow.open(map, marker);
-});
+            var infowindow = new kakao.maps.InfoWindow({
+                position: markerInfo.position,
+                content: markerInfo.content
+            });
+
+            infowindows.push(infowindow);
+
+            infowindow.open(map, marker);
+        });
     </script>
+
     <div class="main_best">
         <h2>베스트</h2>
         <li><a href="http://localhost:3000/" th:text="#{전체}"></a></li> <!-- 경로 - 지도와 맵핑 해야함 -->
-        <li><a href="http://localhost:3000/" th:text="#{곡물}"></a></li>
-        <li><a href="http://localhost:3000/" th:text="#{채소}"></a></li>
-        <li><a href="http://localhost:3000/" th:text="#{과일}"></a></li>
+        <li><a href="http://localhost:3000/product/GRAIN" th:text="#{곡물}"></a></li>
+        <li><a href="http://localhost:3000/product/VEGETABLE" th:text="#{채소}"></a></li>
+        <li><a href="http://localhost:3000/product/FRUIT" th:text="#{과일}"></a></li>
     </div>
 
 </main>

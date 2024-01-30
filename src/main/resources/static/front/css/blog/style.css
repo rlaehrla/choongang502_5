@@ -1,2 +1,100 @@
-.tabs a { display: inline-block; padding: 7px 20px; background: #d5d5d5; border-radius: 10px; }
-.tabs a.on { background: #222; color: #fff; }
+/*.tabs a { display: inline-block; padding: 7px 20px; background: #d5d5d5; border-radius: 10px; }
+.tabs a.on { background: #222; color: #fff; }*/
+
+.layout_width {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.farm_main_sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 50px 20px;
+}
+
+.farm_main_sec img {
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.farmInfo {
+    margin: 50px;
+    flex-grow: 1;
+}
+
+#farmTitle, #introSum {
+    margin: 0;
+}
+
+#farmTitle {
+    margin-bottom: 20px;
+    font-size: xx-large;
+    color: #333;
+}
+
+#introSum {
+    margin-left: 20px;
+    font-size: large;
+    font-weight: 500;
+    color: #666;
+}
+
+#sales_volume {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: larger;
+    font-weight: 500;
+    color: #333;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: medium;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab:hover {
+    background-color: #E64848;
+    color: #fff;
+}
+
+.tab.on {
+    background-color: #C21010;
+    color: #fff;
+}
+
+.tab_content {
+    background-color: #fff;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+}
+
+.chatBtn {
+    background-color: #21BF73;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.3em;
+    cursor: pointer;
+    border-radius: 5px;
+    line-height: 2rem;
+}
+
+.xi-forum {
+    color: #fff;
+    font-size: 1.3em;
+    line-height: 2rem;
+}
+
+.chatBtn:hover {
+    background-color: #2a7a54;
+}

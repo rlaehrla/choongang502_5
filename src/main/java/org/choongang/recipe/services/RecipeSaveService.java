@@ -1,11 +1,15 @@
 package org.choongang.recipe.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertException;
 import org.choongang.file.service.FileUploadService;
 import org.choongang.member.MemberUtil;
+import org.choongang.product.entities.Product;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.recipe.repositories.RecipeRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,7 +24,7 @@ public class RecipeSaveService {
     private final MemberUtil memberUtil;
     private final RecipeRepository recipeRepository;
     private final FileUploadService fileUploadService;
-    private ObjectMapper om;
+    private final Utils utils;
 
     public void save(RequestRecipe form) {
         String mode = form.getMode();
@@ -48,6 +52,7 @@ public class RecipeSaveService {
         data.setKeyword(getKeyword(form));
         data.setHow(form.getHow());
         data.setTip(form.getTip());
+        data.setActive(true);
 
         recipeRepository.saveAndFlush(data);
 
@@ -78,6 +83,31 @@ public class RecipeSaveService {
         }*/
         return keywords.stream().distinct().collect(Collectors.joining()); // 공백 없이 문자열로 키워드 저장
 
+    }
+
+
+    /**
+     * 관리자 페이지에서 수정
+     * @param chks
+     */
+    public void saveList(List<Integer> chks) {
+        if (chks == null || chks.isEmpty()) {
+            throw new AlertException("수정할 상품을 선택하세요.", HttpStatus.BAD_REQUEST);
+        }
+
+        for (int chk : chks) {
+            Long seq = Long.valueOf(utils.getParam("seq_" + chk));
+
+            Recipe recipe = recipeRepository.findById(seq).orElse(null);
+            if (recipe == null) continue;
+
+            boolean active = Boolean.valueOf(utils.getParam("active_" + chk));
+
+            recipe.setActive(active);
+            recipeRepository.save(recipe);
+        }
+
+        recipeRepository.flush();
     }
 
 }

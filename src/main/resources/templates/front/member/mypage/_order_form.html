@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="form">
+<div th:fragment="form">
 
-    <div>
-        <th:block th:unless="${orders != null && !orders.isEmpty()}" th:text="#{주문내역_없음}"></th:block>
+    <div class="content">
+        <div class="no-data" th:unless="${orders != null && !orders.isEmpty()}" th:text="#{주문내역_없음}"></div>
 
-        <th:block th:if="${orders != null && !orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
+        <div th:if="${orders != null && !orders.isEmpty()}" th:each="order : ${orders}" th:object="${order}">
             <table class="table_order">
                 <colgroup>
                     <col>
-                    <col style="width:120px">
-                    <col style="width:120px">
+                    <col style="width:100px">
+                    <col style="width:100px">
                 </colgroup>
                 <!-- 주문당 요악 S -->
                 <thead>
                 <tr>
-                    <th th:text="*{createdAt}"></th>
-                    <th colspan="2">
+                    <th class="order-no" th:text="*{createdAt.toLocalDate()}"></th>
+                    <th colspan="2" id="price">
                         <a th:href="@{/order/detail/{seq}(seq=*{seq})}">
                             <span th:text="*{payPrice}"></span>
+                            <span th:text="#{돈단위}"></span>
                             <i class="xi-angle-right"></i>
                         </a>
                     </th>
@@ -60,7 +61,7 @@
                             </td>
                          <!--농장 설명-->
                         <td class="td-controller wow-b row fixed">
-                            <div class="col">
+                            <div class="col farm">
                                 <span class="txt" th:text="*{product.farmer.farmTitle}"></span>
                             </div>
                             <div class="col">
@@ -94,8 +95,8 @@
                 </div>
                 <!-- 상품당 요악 E -->
             </table>
-        </th:block>
+        </div>
         <th:block th:replace="~{common/_pagination::pagination}"></th:block>
     </div>
-</th:block>
+</div>
 </html>

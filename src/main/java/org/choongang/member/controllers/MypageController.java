@@ -9,11 +9,19 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.AbstractMember;
+import org.choongang.member.entities.Member;
 import org.choongang.member.entities.Point;
 import org.choongang.member.service.PointInfoService;
 import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.entities.OrderItem;
+import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.order.service.OrderInfoService;
+import org.choongang.product.entities.Product;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -31,10 +39,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MypageController implements ExceptionProcessor {
     private final Utils utils;
-    private final MemberUtil memberUtil;
+    private final FileInfoService fileInfoService;
     private final OrderInfoService orderInfoService;
     private final PointInfoService pointInfoService;
     private final SaveBoardDataService saveBoardDataService;
+    private final ProductInfoService productInfoService;
 
     @GetMapping
     public String myPage(Model model) {
@@ -43,6 +52,13 @@ public class MypageController implements ExceptionProcessor {
         ListData<OrderInfo> orderInfos = orderInfoService.getList(3);
         List<OrderInfo> orders = orderInfos.getItems().stream().limit(5).toList();
 
+        for(OrderInfo order : orders){
+            List<OrderItem> items = order.getOrderItems();
+            for(OrderItem item : items){
+                Product product = productInfoService.get(item.getProduct().getSeq());
+                item.setProduct(product);
+            }
+        }
 
         model.addAttribute("point", pointInfoService.pointSum());
         model.addAttribute("orders", orders);
@@ -142,12 +158,14 @@ public class MypageController implements ExceptionProcessor {
         List<String> addScript = new ArrayList<>();
 
         if(mode.equals("orders") || mode.equals("myPage")){
+            pageTitle = mode.equals("orders") ? "마이페이지" : "주문 내역";
 
-            pageTitle = mode.equals("myPage") ? "마이페이지" : "주문 내역";
+            addCss.add("member/mypage/mypage");
 
             addCss.add("member/mypage/order");
         }else if(mode.equals("recentlyview")){
             addScript.add("member/mypage/recently");
+            addCss.add("product/style");
             pageTitle = "최근 본 상품";
         }
         addCommonScript.add("tab");

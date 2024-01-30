@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/main}">
+<section layout:fragment="content">
+    <h1>배너 등록</h1>
+    <form name="frmSave" method="post" th:action="@{/admin/banner/save}" autocomplete="off" enctype="multipart/form-data">
+        <input type="hidden" name="mode" value="edit">
+        <th:block th:replace="~{admin/banner/_form::form}"></th:block>
+
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">수정하기</button>
+        </div>
+    </form>
+</section>
+</html>

@@ -1,47 +1,50 @@
-window.addEventListener("DOMContentLoaded", function(){
+window.addEventListener("DOMContentLoaded", async function(){
 
     // localStorage에 있는 product 불러오기
     const productItems = JSON.parse(localStorage.getItem("productItems"));
 
+    const { ajaxLoad } = commonLib;
+
     if(productItems != null){
 
-        const key = Object.keys(productItems);
+        const qs = Object.values(productItems).sort((a, b) => b[1] - a[1]).map(a => `seq=${a[0]}`).join("&");
+        const url = `/api/mypage/recentlyview?${qs}`;
+
         const recentlyViewed = document.querySelector("#recentlyViewed");
+        const tpl = document.getElementById("product_item_tpl").innerHTML;
+        const domParser = new DOMParser();
+        try {
+            const result = await ajaxLoad('GET', url, null, 'json');
+            if (result.success) {
+                const items = result.data;
+                for (const item of items) {
+                    let html = tpl;
+                    const type = item.discountType == 'PERCENT' ? '%' : '원';
+                    html = html.replace(/\[seq\]/g, item.seq)
+                                .replace(/\[image\]/g, item.listImages.length > 0 ?
+                                             `<img src=${item.listImages[0].fileUrl} width='100' height='100'>`
+                                             : "<div width='100' height='100'></div>")
+                                .replace(/\[cate\]/g, item.category.cateNm)
+                                .replace(/\[name\]/g, item.name)
+                                .replace(/\[discount\]/g, item.discount != 0? item.discount : '')
+                                .replace(/\[discountType\]/g, item.discount != 0? type : '')
+                                .replace(/\[consumerPrice\]/g, item.consumerPrice);
 
-        for(let el of key){
+                    const dom = domParser.parseFromString(html, "text/html");
 
-            el = el.replace(/^p\_/g, '');
-            const html =  "<div class='item'>"
-                             +"<a href='@{/product/detail/[seq])}' >"
-                            +"    <div class='imgBox'>"
-                            +"        <th:block th:if='*{listImages != null && listImages.size() != 0}' th:utext='*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}'></th:block>"
-                            +"    </div>"
-                            +"    <th:block th:unless='*{listImages != null && listImages.size() != 0}' width='100px' height='100px'></th:block>"
-
-                            +"    <div class='cate  text-16px' th:each='cate : *{category}'>"
-                            +"        <span th:text='${cate.cateNm}'></span>"
-                            +"    </div>"
-                            +"    <div  class='font-semibold text-16px'th:text='*{name}'></div>"
-                            +"    <div class='flex items-center gap-2px'>"
-                            +"        <div class='font-semibold pink  text-16px' th:if='*{discount != 0}'>"
-                            +"           <th:block th:text='*{discount}'></th:block>"
-                            +"           <th:block th:text='#{%}'></th:block>"
-                            +"        </div>"
-                            +"        <div class='font-semibold text-16px'>"
-                            +"            <th:block th:text='*{consumerPrice}'></th:block>"
-                            +"            <th:block th:text='#{돈단위}'></th:block>"
-                            +"        </div>"
-                            +"        <img class='discount_arrow' th:src='@{/image/discount-arrow.svg}'>"
-                            +"    </div>"
-                            +"    <div class='star'>"
-                            +"        <i class='xi-star'></i>"
-                            +"        <span th:text='${평점}'></span>"
-                            +"    </div>"
-                            +"</a>"
-                         +"</div>";
-
-            console.log(html.replace(/\[seq\]/g, el));
-            recentlyViewed.innerHtml = html.replace(/\[seq\]/g, el);
+                    const li = dom.querySelector("li");
+                    recentlyViewed.appendChild(li);
+                }
+            }
+        } catch (err) {
+            console.error(err);
         }
+
+
+
+
+
     }
-})
+});
+
+

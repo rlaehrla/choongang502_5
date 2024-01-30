@@ -61,24 +61,185 @@
 .product_detail .product_main .farmer_info .farm .farm_title { font-weight: bold; font-size: 1.305rem; align-items: center; }
 .product_detail .product_main .farmer_info .farm .farm_link { position: absolute; top: 8px; right: 10px; }
 .product_detail .product_main .farmer_info .farm .farm_link * { line-height: 30px; }
-.product_detail .product_main .farmer_info .chat_btn { margin-top: 10px; }
+.product_detail .product_main .farmer_info { margin-top: 10px; }
 .product_detail .thumbs { display: flex; height: 80px; margin-top: 10px; }
 .product_detail .thumbs .thumb { width: 80px; cursor: pointer; }
 .product_detail .thumbs .thumb + .thumb { margin-left: 3px; }
+.farm_title { color: var(--main-color); }
 
 .product_detail .tabs { display: flex; align-items: center; }
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
 .product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
 
-.product_detail .tabs .tab.on a { color: #fff; }
+.product_detail .tabs a { color: #fff; }
 
 .product_detail .desc_content { margin: 25px 0 100px; }
 
-.product_detail .selected_products { border: 1px solid #222; padding: 10px; border-radius: 3px; background: #f8f8f8; }
+.product_detail .selected_products { border: 1px solid #ccc; padding: 10px; border-radius: 3px; background: #f8f8f8; margin-bottom: 20px; }
 .product_detail .selected_products + .selected_products { margin-top: 5px; }
-.product_detail .selected_products .product_name { font-weight: 500; font-size: 0.95rem; margin-bottom: 5px; }
+.product_detail .selected_products .product_name { font-weight: 500; font-size: 0.95rem; margin-bottom: 5px; font-size: 1.2rem; }
 .product_detail .selected_products .option_ea { display: flex; justify-content: space-between; }
 
-.product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; }
+.product_detail .ea_box input[type='number'] { width: 50px; text-align: right; height: 40px; border: 1px solid #d5d5d5; font-size: larger; }
 .product_detail .ea_box button { width: 40px; height: 40px; background: #ddd; color: #fff; cursor: pointer; border: 0; }
+.product_main { margin-top: 30px; }
+.farm_link { font-weight: 400; font-size: larger; }
+
+/* 상품 정보 테이블 */
+.table_sale {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table_sale th, .table_sale td {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.table_sale th {
+    width: 180px;
+}
+
+/* 가격 정보 */
+.money {
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+.discount_type {
+    font-weight: bold;
+    color: #007bff; /* 파란색으로 할인 종류 강조 */
+}
+
+/* 요약 섹션 */
+.summary {
+    margin-top: 20px;
+}
+
+.tit {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.info {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #e44d26; /* 주황색으로 총 상품 금액 강조 */
+}
+
+/* 선택된 상품 섹션 */
+.selected_products{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.product_name {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.option_ea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* 상품 상세 E */
+
+/* 버튼 스타일 */
+.product_action {
+    padding: 5px 10px;
+    font-size: small;
+    font-weight: 500;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.chat_btn {
+    padding: 5px 10px;
+    font-size: small;
+    font-weight: 500;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: var(--sub-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.buyBtn {
+    background-color: var(--highlight-color);
+}
+
+.incartBtn {
+    background-color: var(--sub-color);
+}
+
+/* 탭 스타일 */
+.tabs {
+    list-style: none;
+    display: flex;
+}
+
+.tab {
+    text-decoration: none;
+    /* padding: 10px 20px; */
+    font-size: medium;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab input[type="radio"] {
+    display: none;
+}
+
+.tab label {
+    display: block;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.tab input[type="radio"]:checked + label {
+    background-color: var(--highlight-color);
+    color: #fff;
+}
+
+label:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+/* 탭 콘텐츠 */
+.tab_content {
+    border-top: 1px solid #ccc;
+}
+
+.tab_content.on {
+    display: block;
+    margin-top: 20px;
+}
+
+/* 기타 스타일 */
+.content_width {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+    .product_detail {
+        flex-direction: column;
+    }
+}

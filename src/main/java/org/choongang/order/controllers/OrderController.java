@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.controllers.PaymentConfig;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.cart.constants.CartType;
+import org.choongang.cart.entities.CartInfo;
 import org.choongang.cart.service.CartData;
 import org.choongang.cart.service.CartDeleteService;
 import org.choongang.cart.service.CartInfoService;
@@ -14,13 +15,21 @@ import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Address;
+import org.choongang.member.entities.Member;
 import org.choongang.member.entities.Point;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.PointRepository;
 import org.choongang.member.service.PointInfoService;
+import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.entities.OrderInfo;
+import org.choongang.order.entities.OrderItem;
+import org.choongang.order.repositories.OrderInfoRepository;
+import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.order.service.OrderInfoService;
+import org.choongang.order.service.OrderItemInfoService;
 import org.choongang.order.service.OrderSaveService;
+import org.choongang.order.service.OrderStatusService;
+import org.choongang.product.entities.Product;
 import org.choongang.product.service.ProductInfoService;
 import org.eclipse.angus.mail.imap.protocol.MODSEQ;
 import org.springframework.stereotype.Controller;
@@ -44,12 +53,11 @@ public class OrderController implements ExceptionProcessor {
     private final OrderValidator validator;
     private final OrderSaveService orderSaveService;
     private final OrderInfoService orderInfoService;
-    private final CartDeleteService cartDeleteService;
-    private final ProductInfoService productInfoService;
-    private final CartSaveService cartSaveService;
     private final PointInfoService pointInfoService;
     private final ConfigInfoService configInfoService;
     private final PointRepository pointRepository;
+    private final OrderStatusService orderStatusService;
+    private final OrderItemRepository orderItemRepository;
 
     @ModelAttribute("paymentConfig")
     public PaymentConfig paymentConfig() {
@@ -112,19 +120,53 @@ public class OrderController implements ExceptionProcessor {
             return utils.tpl("order/order_form");
         }
 
-
         OrderInfo orderInfo = orderSaveService.save(form);
+        Long seq = orderInfo.getSeq();
+        List<OrderItem> orderItems = orderItemRepository.findByOrderInfo(orderInfo).orElse(null);
+        if(orderInfo.getPayPrice() == 0){
+            String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
+                    + "location.replace('/order/detail/"+ seq+"');";
 
-        String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
-                + "location.replace('/order/detail/"+ orderInfo.getSeq()+"');";
+            model.addAttribute("script", script);
 
+            return "common/_execute_script";
+        }else{
 
-        model.addAttribute("script", script);
+            String productNm = orderItems.get(0).getProductName();
 
+            if(orderItems.size() > 1){
+                productNm += "외 " + (orderItems.size() - 1) + "건";
+            }
+            int payPrice = orderInfo.getPayPrice();
 
-        return "common/_execute_script";
+            String script = "const prName='" + productNm + "'; const payPrice=" + payPrice + "; const seq = " + seq + ";";
+
+            model.addAttribute("script", script);
+
+            return utils.tpl("order/payment");
+        }
+
     }
 
+    @GetMapping("/paySuccess/{seq}")
+    public String paySuccess(@PathVariable("seq") Long seq){
+
+        orderStatusService.change(seq, OrderStatus.IN_CASH);
+        OrderInfo orderInfo = orderInfoService.get(seq);
+
+        /* 포인트 적립 S */
+        int pt = (int)Math.round(0.05 * (orderInfo.getPayPrice() - orderInfo.getUsePoint()));
+
+        Point point = Point.builder()
+                .member((Member)memberUtil.getMember())
+                .point(pt)
+                .orderNo(orderInfo.getOrderNo())
+                .build();
+        pointRepository.saveAndFlush(point);
+        /* 포인트 적립 E */
+
+        return "redirect:/order/detail/" + seq;
+    }
 
     @GetMapping("/payFail")
     public String payFail(Model model){
