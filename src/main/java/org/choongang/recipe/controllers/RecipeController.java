@@ -124,13 +124,7 @@ public class RecipeController implements ExceptionProcessor {
         commonProcess("list", model);
 
         ListData<Recipe> data = recipeInfoService.getList(search);
-
         List<String> ingredients = recipeInfoService.getIngredients();
-
-        List<String> addCss = new ArrayList<>();
-        addCss.add("product/style");
-
-        model.addAttribute("addCss", addCss);
         model.addAttribute("recipes", data.getItems());
         model.addAttribute("ingredients", ingredients);
         model.addAttribute("pagination", data.getPagination());
@@ -207,9 +201,7 @@ public class RecipeController implements ExceptionProcessor {
         }
 
         recipe = recipeInfoService.get(seq);
-        System.out.println("레시피 = " + recipe);
-
-
+        Recipe ingsP = recipeInfoService.getIngsP(seq);
         commonProcess(mode, model);
 
         model.addAttribute("recipe", recipe);
