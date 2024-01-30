@@ -15,6 +15,7 @@
                     <span th:text="${cate.cateNm}"></span>
                 </div>
                 <div  class="font-semibold text-16px"th:text="*{name}"></div>
+
                 <div class="flex items-center gap-2px">
                     <div class="font-semibold pink  text-16px" th:if="*{discount != 0}">
                        <th:block th:text="*{discount}"></th:block>
