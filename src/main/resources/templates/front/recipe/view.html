@@ -35,7 +35,7 @@
                         <th:block th:text="*{category}"></th:block><br>
                         <hr style="margin-top: 24px; margin-bottom: 24px;">
                         <div>
-                        <th:block th:text="*{rcpInfo}"></th:block><br>
+                            <th:block th:text="*{rcpInfo}"></th:block><br>
                         </div>
                     </div>
 
@@ -72,27 +72,41 @@
             </div>
             <div class="sub_content">
                 <div class="border">
-                    <span class="sub" th:text="#{주재료}"></span>
-                    <ul th:each="required: *{requiredIng}">
-                        <li th:text="${required}"></li>
-                    </ul>
+                    <div>
+                        <span class="sub" th:text="#{주재료}"></span>
+                    </div>
+                    <div>
+                        <th:block th:each="requiredP, status : *{requiredIngP}">
+                            <span th:text="${requiredP}"></span>
+                            <span th:text="${recipe.requiredIngEaP[status.index]}"></span>
+                        </th:block>
+                    </div>
                 </div>
             </div>
             <div class="sub_content">
                 <div class="border">
-                    <span class="sub" th:text="#{부재료}"></span>
-                    <ul th:each="sub: *{subIng}">
-                        <li th:text="${sub}"></li>
-                    </ul>
+                    <div>
+                        <span class="sub" th:text="#{부재료}"></span>
+                    </div>
+                    <div>
+                        <th:block th:each="subP, status : *{subIngP}">
+                            <span th:text="${subP}"></span>
+                            <span th:text="${recipe.subIngEaP[status.index]}"></span>
+                        </th:block>
+                    </div>
                 </div>
             </div>
-
             <div class="sub_content">
                 <div class="border">
-                    <span class="sub" th:text="#{양념}"></span>
-                    <ul th:each="cond: *{condiments}">
-                        <li th:text="${cond}"></li>
-                    </ul>
+                    <div>
+                        <span class="sub" th:text="#{양념}"></span>
+                    </div>
+                    <div>
+                        <th:block th:each="conP, status : *{condimentsP}">
+                            <span th:text="${conP}"></span>
+                            <span th:text="${recipe.condimentsEaP[status.index]}"></span>
+                        </th:block>
+                    </div>
                 </div>
             </div>
         </div>

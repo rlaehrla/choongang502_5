@@ -69,6 +69,53 @@ public class RecipeInfoService {
     public Recipe get(Long seq) {
         Recipe recipe = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
 
+        try {
+            ObjectMapper om = new ObjectMapper();
+
+            if (StringUtils.hasText(recipe.getRequiredIng())) {
+                List<String[]> requiredIngTmp = om.readValue(recipe.getRequiredIng(), new TypeReference<>() {});
+
+                // 필수 재료 내용
+                String[] requiredIng = requiredIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                // 필수 재료 수량
+                String[] requiredIngEa = requiredIngTmp.stream().map(s -> s[1])
+                        .toArray(String[]::new);
+
+                recipe.setRequiredIngP(requiredIng);
+                recipe.setRequiredIngEaP(requiredIngEa);
+            }
+            if (StringUtils.hasText(recipe.getSubIng())) {
+                List<String[]> subIngTmp = om.readValue(recipe.getSubIng(), new TypeReference<>() {});
+
+                // 부재료 내용
+                String[] subIng = subIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                String[] subIngEa = subIngTmp.stream().map(s -> s[1])
+                        .toArray(String[]::new);
+                recipe.setSubIngP(subIng);
+                recipe.setSubIngEaP(subIngEa);
+            }
+
+            if (StringUtils.hasText(recipe.getCondiments())) {
+                List<String[]> condimentsTmp = om.readValue(recipe.getCondiments(), new TypeReference<>() {});
+
+                // 양념 내용
+                String[] condiments = condimentsTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                // 양념 수량
+                String[] condimentsEa = condimentsTmp.stream().map(s -> s[1])
+                        .toArray(String[]::new);
+
+                recipe.setCondimentsP(condiments);
+                recipe.setCondimentsEaP(condimentsEa);
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
         addRecipe(recipe);
 
         // 댓글 추가 필요
@@ -142,6 +189,7 @@ public class RecipeInfoService {
                         .distinct()
                         .toList();
     }
+
 
 
     /**
@@ -219,6 +267,39 @@ public class RecipeInfoService {
         return form;
     }
 
+    public Recipe getIngsP(Long seq){
+        Recipe data = get(seq);
+
+        try {
+            ObjectMapper om = new ObjectMapper();
+
+            if (StringUtils.hasText(data.getRequiredIng())) {
+                List<String[]> requiredIngTmp = om.readValue(data.getRequiredIng(), new TypeReference<>() {});
+
+                // 필수 재료 내용
+                String[] requiredIng = requiredIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+
+                data.setRequiredIngP(requiredIng);
+            }
+            if (StringUtils.hasText(data.getSubIng())) {
+                List<String[]> subIngTmp = om.readValue(data.getSubIng(), new TypeReference<>() {});
+
+                // 부재료 내용
+                String[] subIng = subIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                data.setSubIngP(subIng);
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println("데이터 = " + data);
+
+        return data;
+
+    }
+
     /**
      * 목록 조회하기
      * @param search
@@ -287,6 +368,7 @@ public class RecipeInfoService {
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 최신게시글 순서로 정렬
                 .fetch();
+
 
         // 게시글 전체 갯수
         int total = (int) recipeRepository.count(andBuilder);
