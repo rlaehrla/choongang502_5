@@ -1,13 +1,29 @@
-window.addEventListener("DOMContentLoaded", function(){
+window.addEventListener("DOMContentLoaded", async function(){
 
     // localStorage에 있는 product 불러오기
     const productItems = JSON.parse(localStorage.getItem("productItems"));
 
+    const { ajaxLoad } = commonLib;
+
     if(productItems != null){
 
-        const key = Object.keys(productItems);
+        const qs = Object.values(productItems).sort((a, b) => b[1] - a[1]).map(a => `seq=${a[0]}`).join("&");
+        const url = `/api/product/recent?${qs}`;
+
+
+        try {
+            const result = await ajaxLoad('GET', url, null, 'json');
+
+        } catch (err) {
+            console.error(err);
+        }
+
+
+       // const key = Object.keys(productItems);
         const recentlyViewed = document.querySelector("#recentlyViewed");
 
+
+        /*
         for(let el of key){
 
             el = el.replace(/^p\_/g, '');
@@ -43,5 +59,6 @@ window.addEventListener("DOMContentLoaded", function(){
             console.log(html.replace(/\[seq\]/g, el));
             recentlyViewed.innerHtml = html.replace(/\[seq\]/g, el);
         }
+        */
     }
-})
+});
