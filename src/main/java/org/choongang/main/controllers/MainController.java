@@ -5,6 +5,9 @@ import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.member.controllers.MemberSearch;
+import org.choongang.member.entities.Farmer;
+import org.choongang.member.service.FarmerInfoService;
 import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.order.service.OrderInfoService;
 import org.choongang.order.service.OrderItemInfoService;
@@ -27,6 +30,7 @@ public class MainController implements ExceptionProcessor {
     private final ProductInfoService productInfoService;
     private final OrderItemInfoService orderItemInfoService;
     private final OrderItemRepository orderItemRepository;
+    private final FarmerInfoService farmerInfoService;
 
     @ModelAttribute("addCss")
     public String[] addCss() {
@@ -37,10 +41,19 @@ public class MainController implements ExceptionProcessor {
     public String index(@ModelAttribute ProductSearch form, Model model) {
 
 
-        ListData<Product> data = productInfoService.getList(form, false, true);
+        // 판매량 상위 5명 농부 추출
+        MemberSearch search = new MemberSearch();
+        search.setLimit(5);
+        search.setPage(1);
 
+        ListData<Farmer> farmerData = farmerInfoService.topFarmer(search);
+        List<Farmer> farmers = farmerData.getItems().stream().limit(5).toList();
+        model.addAttribute("farmers", farmers);
+
+
+        // 최신상품 불러오기
+        ListData<Product> data = productInfoService.getList(form, false, true);
         model.addAttribute("items", data.getItems());
-        //System.out.println(orderItemInfoService.topFarmer(1, 1));
 
         // 현재 월에 제철인 상품 목록 가져오기
         List<Product> inSeasonProducts = productInfoService.getInSeasonProducts();
