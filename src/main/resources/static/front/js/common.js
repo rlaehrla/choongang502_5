@@ -18,7 +18,9 @@ const productDetails = {
             const classList = this.classList;
             if (classList.contains('down')) {
                 ea--;
-                i--;
+                if(ea != 0){
+                    i--;
+                }
             } else {
                 ea++;
                 i++;
@@ -49,7 +51,7 @@ const productDetails = {
 
           if(deliveryPrice != null){
               const el = deliveryPrice.innerText.replace(/,/g, "") * 1;
-              totalPrice.innerText = (lastPrice * ea + el).toLocaleString();
+              totalPrice.innerText = (Number(lastPrice) * ea + el).toLocaleString();
           }else{
               totalPrice.innerText = (Number(lastPrice) * ea).toLocaleString();
           }
@@ -61,7 +63,7 @@ const productDetails = {
           const totalDiscount = document.querySelector("#ordTotalDiscount");
 
           if(ordTotalPrice != null){
-              totalDiscount.innerText = (Number(totalDiscount.innerText.replace(/,/g, '')) + Number(salePrice) - Number(lastPrice)).toLocaleString();
+              totalDiscount.innerText = (Number(totalDiscount.innerText.replace(/,/g, '')) + i * (Number(salePrice) - Number(lastPrice))).toLocaleString();
               ordTotalPrice.innerText = (Number(ordTotalPrice.innerText.replace(/,/g, '')) + Number(i) * price).toLocaleString();
               payPrice.innerText = (Number(ordTotalPrice.innerText.replace(/,/g, '')) + Number(ordDeliveryPrice.replace(/,/g, '')) - Number(totalDiscount.innerText.replace(/,/g, ''))).toLocaleString();
 

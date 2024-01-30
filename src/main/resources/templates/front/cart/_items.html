@@ -59,7 +59,7 @@
                 <span th:text="#{개}"></span>
             </td>
             <td>
-                <span class="money" th:text="*{totalPrice}" th:id="${'total_price_' + status.index}"></span>
+                <span class="money" th:text="*{totalPrice - totalDiscount}" th:id="${'total_price_' + status.index}"></span>
                 <span th:text="#{돈단위}"></span>
             </td>
         </tr>

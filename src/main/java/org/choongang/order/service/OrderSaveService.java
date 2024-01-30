@@ -117,17 +117,7 @@ public class OrderSaveService {
 
             }
             /* 포인트 사용 저장 E */
-            /* 포인트 적립 S */
 
-            int pt = (int)Math.round(0.05 * (totalPrice - form.getUsePoint()));
-
-            Point point = Point.builder()
-                    .member((Member)memberUtil.getMember())
-                    .point(pt)
-                    .orderNo(orderInfo.getOrderNo())
-                    .build();
-            pointRepository.saveAndFlush(point);
-            /* 포인트 적립 E */
 
         }
 

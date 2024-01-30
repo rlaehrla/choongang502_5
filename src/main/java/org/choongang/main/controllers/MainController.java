@@ -104,7 +104,6 @@ public class MainController implements ExceptionProcessor {
 
         if(mode.equals("faq")){
             pageTitle = "자주 묻는 질문";
-            addCss.add("board/faq");
         }
 
         model.addAttribute("pageTitle", pageTitle);

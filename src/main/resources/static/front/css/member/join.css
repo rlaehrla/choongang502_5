@@ -27,11 +27,11 @@ h1 {
 }
 
 .tab:hover {
-    background-color: #e64848;
+    background-color: var(--main-color);
 }
 
 .tab.active {
-    background-color: #e64848;
+    background-color: var(--main-color);
     color: white;
 }
 
@@ -46,7 +46,7 @@ input[type="radio"] + label {
 }
 
 input[type="radio"]:checked + label {
-    background-color: #e64848;
+    background-color: var(--main-color);
     color: white;
 }
 
@@ -87,7 +87,7 @@ dl dd {
     margin-bottom: 10px;
     background-color: #F2F2F2;
     color: black;
-    border: #e64848 1px solid;
+    border: var(--main-color) 1px solid;
     border-radius: 5px;
     cursor: pointer;
     font-size: larger;
@@ -95,7 +95,7 @@ dl dd {
 }
 
 .btn:hover {
-    background-color: #e64848;
+    background-color: var(--main-color);
     color: #fff;
 }
 
@@ -150,7 +150,7 @@ dl dd {
 .joinBtn {
     width: 100%;
     padding: 15px;
-    background-color: #e64848;
+    background-color: var(--main-color);
     color: #fff;
     font-size: large;
     font-weight: 500;

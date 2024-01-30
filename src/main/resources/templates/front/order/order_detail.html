@@ -115,7 +115,8 @@
                             <div class="clf">
                                 <b class="fl pb" th:text="#{포인트적립}"></b>
                                 <div class="fr pb">
-                                    <b class="highlight pink" th:text="${getPoint+'P'}"></b>
+                                    <b class="highlight pink" th:if="${getPoint != null }"th:text="${getPoint+'P'}"></b>
+                                    <b class="highlight pink" th:unless="${getPoint != null }">0P</b>
                                 </div>
                                 <div class="fl" th:text="#{적립기준}"></div>
                                 <div class="fr" th:text="#{적립기준_상세}"></div>

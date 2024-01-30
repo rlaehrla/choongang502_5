@@ -29,7 +29,7 @@
                </a>
             </td>
             <td th:unless="*{orderNo != 0}"></td>
-            <td th:unless="*{#strings.isEmpty(message)}" th:text="*{messages}"></td>
+            <td th:unless="*{#strings.isEmpty(message)}" th:text="*{message}"></td>
             <td th:if="*{#strings.isEmpty(message)}"></td>
             <td th:text="*{point}"></td>
         </tr>
