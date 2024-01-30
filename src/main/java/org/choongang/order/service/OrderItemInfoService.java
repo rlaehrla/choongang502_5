@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.tools.ISupportsMessageContext;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -152,6 +153,30 @@ public class OrderItemInfoService {
 
         return item ;
     }
+
+    public Long sumFarmersSale(Farmer farmer){
+        QOrderItem orderItem = QOrderItem.orderItem;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        LocalDateTime refDay = LocalDateTime.now().minusMonths(3);
+        builder.and(orderItem.createdAt.goe(refDay));
+        builder.and(orderItem.product.farmer.eq(farmer));
+
+        Iterator<OrderItem> iterator = orderItemRepository.findAll(builder).iterator();
+
+        Long salePoint = 0L;
+
+        while(iterator.hasNext()){
+            OrderItem item = iterator.next();
+            if(item.getStatus() == OrderStatus.DONE){
+                salePoint += item.getEa();
+            }
+        }
+
+        return salePoint;
+    }
+
+
 
 
 
