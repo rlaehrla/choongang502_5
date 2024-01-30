@@ -6,6 +6,9 @@ import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.commons.Utils;
 import org.choongang.email.service.EmailMessage;
 import org.choongang.email.service.EmailSendService;
+import org.choongang.member.entities.Farmer;
+import org.choongang.member.repositories.FarmerRepository;
+import org.choongang.member.service.MemberEditService;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.entities.OrderInfo;
 import org.choongang.order.entities.OrderItem;
@@ -30,7 +33,8 @@ public class OrderStatusService {
     private final OrderInfoService orderInfoService;
     private final OrderStatusHistoryRepository orderStatusHistoryRepository;
     private final ConfigInfoService configInfoService;
-
+    private final OrderItemInfoService orderItemInfoService;
+    private final FarmerRepository farmerRepository;
 
     /**
      * 주문 상태 변경
@@ -57,6 +61,12 @@ public class OrderStatusService {
             if(orderInfo.getStatus().ordinal() < item.getStatus().ordinal()){
                 cnt++;
             }
+
+            Farmer farmer = item.getProduct().getFarmer();
+            Long salePoint = orderItemInfoService.sumFarmersSale(farmer);
+            farmer.setSalePoint(salePoint);
+
+            farmerRepository.saveAndFlush(farmer);
         }
 
         orderItemRepository.saveAllAndFlush(items);
@@ -67,9 +77,6 @@ public class OrderStatusService {
             orderInfo.setStatus(status);
             nextStatus = orderInfo.getStatus();
         }
-
-
-
 
         orderInfoRepository.flush();
 

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content">
+<main layout:fragment="content" >
     <section class="contentBox product max-w-screen-lg ma">
         <div class="item" th:each="item : ${items}" th:object="${item}">
             <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
@@ -14,7 +14,8 @@
                 <div class="cate  text-16px" th:each="cate : *{category}">
                     <span th:text="${cate.cateNm}"></span>
                 </div>
-                <div  class="font-semibold text-16px" th:text="*{name}"></div>
+                <div  class="font-semibold text-16px"th:text="*{name}"></div>
+
                 <div class="flex items-center gap-2px">
                     <div class="font-semibold pink text-16px" th:if="*{discount != 0}">
                        <th:block th:text="*{discount}"></th:block>
