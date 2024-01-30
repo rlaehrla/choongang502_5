@@ -3,72 +3,44 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section class="max-w-screen-lg ma content">
-        <h1 class="title" th:text="#{마이페이지}"></h1>
-
-        <!-- 내용 -->
+    <section class="max-w-screen-lg ma">
+    <h1 th:text="#{마이페이지}"></h1>
+    <div class="row">
+        <a th:href="@{/mypage/diary}" th:text="#{마이_다이어리}"></a>
+    </div>
+    <div class="row">
+        <a th:href="@{/cart}" th:text="#{장바구니}"></a>
+    </div>
+    <div class="row">
+        <p th:text="#{최신_주문내역}"></p>
+        <th:block th:replace="~{front/member/mypage/_order_form::form}"></th:block>
         <div>
-            <div class="space">
-                <div class="row">
-                    <a class="flex-center diary" th:href="@{/mypage/diary}">
-                        <p th:text="#{마이_다이어리}"></p>
-                        <i class="xi-angle-right"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="contour"></div>
-            <div class="space">
-                <div class="recentOrder">
-                    <p th:text="#{최신_주문내역}"></p>
-                    <div class="recent">
-                        <div th:replace="~{front/member/mypage/_order_form::form}"></div>
-                    </div>
-                    <div>
-                        <a class="orderAll" th:href="@{/mypage/orders}" th:text="#{전체_주문내역}"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="contour"></div>
-            <div class="space">
-                <div class="row flex-center">
-                    <a th:href="@{/cart}" class="flex-center sub">
-                        <p th:text="#{장바구니}"></p>
-                        <i class="xi-angle-right"></i>
-                    </a>
-                </div>
-                <div class="row flex-center">
-                    <a th:href="@{/mypage/point}" class="flex-center sub">
-                        <div id="point">
-                            <p th:text="#{마이_포인트}"></p>
-                            <div id="totalPnt">
-                                <span th:text="#{포인트}"></span>
-                                :
-                                <span th:text="${point}"></span>
-                                <span th:text="#{P}"></span>
-                            </div>
-                        </div>
-                        <i class="xi-angle-right"></i>
-                    </a>
-                </div>
-                <div class="row flex-center">
-                    <a th:href="@{/member/info}" class="flex-center sub">
-                        <p th:text="#{회원_정보}"></p>
-                        <i class="xi-angle-right"></i>
-                    </a>
-                </div>
-                <div class="row flex-center">
-                    <a th:href="@{/mypage/recentlyview}" class="flex-center sub">
-                        <p th:text="#{최근_본_상품}"></p>
-                        <i class="xi-angle-right"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="space">
-                <div class="row flex-center">
-                    <a th:href="@{/member/logout}" th:text="#{로그아웃}" class="flex-center sub"></a>
-                </div>
-            </div>
+            <a th:href="@{/mypage/orders}" th:text="#{전체_주문내역}"></a>
         </div>
+    </div>
+    <div class="row">
+        <th:block th:text="#{마이_포인트}"></th:block><br>
+        <div>
+            <a th:href="@{/mypage/point}">
+                <span th:text="#{포인트}"></span>
+                :
+                <span th:text="${point}"></span>
+                <span th:text="#{P}"></span>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <a th:href="@{/member/info}" th:text="#{회원_정보}"></a>
+    </div>
+    <div class="row">
+        <a th:href="@{/mypage/recentlyview}" th:text="#{최근_본_상품}"></a>
+    </div>
+    <div class="row">
+        <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
+    </div>
+    <div class="row">
+        <a th:href="@{/mypage/save_post}" th:text="#{찜_게시글}"></a>
+    </div>
     </section>
 </main>
 

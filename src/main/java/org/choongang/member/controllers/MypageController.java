@@ -1,8 +1,11 @@
 package org.choongang.member.controllers;
 
 
-import groovyjarjarantlr4.v4.gui.JFileChooserConfirmOverwrite;
 import lombok.RequiredArgsConstructor;
+import org.choongang.board.controllers.BoardDataSearch;
+import org.choongang.board.entities.BoardData;
+import org.choongang.board.service.SaveBoardDataService;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -23,8 +26,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +37,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
-public class MypageController { //implements ExceptionProcessor {
+public class MypageController implements ExceptionProcessor {
     private final Utils utils;
     private final FileInfoService fileInfoService;
     private final OrderInfoService orderInfoService;
     private final PointInfoService pointInfoService;
+    private final SaveBoardDataService saveBoardDataService;
     private final ProductInfoService productInfoService;
 
     @GetMapping
@@ -123,11 +129,28 @@ public class MypageController { //implements ExceptionProcessor {
         return utils.tpl("member/mypage/recently_view");
     }
 
+    /**
+     * 찜 게시글 목록
+     *
+     * @param search
+     * @param model
+     * @return
+     */
+    @GetMapping("/save_post")
+    public String savePost(@ModelAttribute BoardDataSearch search, Model model) {
+        commonProcess("save_post", model);
 
+        ListData<BoardData> data = saveBoardDataService.getList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/save_post");
+    }
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "myPage";
-        String pageTitle = "마이페이지";
+        String pageTitle = Utils.getMessage("마이페이지", "commons");
 
         List<String> addCommonScript = new ArrayList<>();    // 공통 자바스크립트
         List<String> addCommonCss = new ArrayList<>();    // 공통 자바스크립트
@@ -158,6 +181,24 @@ public class MypageController { //implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addCommonCss", addCommonCss);
+
+
+        if (mode.equals("save_post")) { // 찜한 게시글 페이지
+            pageTitle = Utils.getMessage("찜_게시글", "commons");
+
+            addScript.add("board/common");
+            addScript.add("mypage/save_post");
+        } else if (mode.equals("follow")) {
+            addCommonScript.add("follow");
+
+        } else if (mode.equals("profile")) {
+            pageTitle = Utils.getMessage("회원정보_수정", "commons");
+            addCommonScript.add("fileManager");
+            addScript.add("mypage/profile");
+
+        } else if (mode.equals("resign")) {
+            pageTitle = Utils.getMessage("회원_탈퇴", "commons");
+        }
     }
 
 
