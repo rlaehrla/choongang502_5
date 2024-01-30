@@ -4,7 +4,7 @@
       layout:decorate="~{admin/layouts/main}">
 <section layout:fragment="content">
 <h1>레시피 리스트</h1>
-    <h2>상품 검색</h2>
+    <h2>레시피 검색</h2>
     <form name="frmSearch" method="get" th:action="@{/admin/recipe}" autocomplete="off" th:object="${recipeDataSearch}">
         <table class="table_cols mb30">
             <tr>
@@ -17,24 +17,29 @@
                 </td>-->
             </tr>
             <tr>
-                <th>게시판 이름</th>
+                <th>게시판 ID</th>
                 <td>
-                    <input type="hidden" th:field="*{sopt}">
-                    <input type="text" name="rcpName" th:field="*{skey}">
+                    <input type="number" name="seq" min="0" th:field="*{seq}">
                 </td>
             </tr>
-<!--            <tr>
-                <th>작성자</th>
+            <tr>
+                <th>게시판 이름</th>
                 <td>
-                    <input type="text" name="name" th:field="*{skey}">
+                    <input type="text" name="name" th:field="*{rcpName}">
                 </td>
-            </tr>-->
+            </tr>
+            <tr>
+                <th>작성자 닉네임</th>
+                <td>
+                    <input type="text" name="name" th:field="*{nickName}">
+                </td>
+            </tr>
             <tr>
                 <th>상품 등록일</th>
                 <td>
-<!--                    <input type="date" name="sdate" th:field="*{sdate}">
+                    <input type="date" name="sdate" th:field="*{sdate}">
                     ~
-                    <input type="date" name="edate" th:field="*{edate}">-->
+                    <input type="date" name="edate" th:field="*{edate}">
                 </td>
             </tr>
         </table>
@@ -55,7 +60,7 @@
                 </th>
                 <th width="100">게시판 ID</th>
                 <th nowrap colspan="2">게시판 이름</th>
-                <th width="150">작성자 닉네임</th>
+                <th width="100">작성자 닉네임</th>
                 <th width="100">노출여부</th>
                 <th width="250"></th>
             </tr>

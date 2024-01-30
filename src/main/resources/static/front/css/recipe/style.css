@@ -57,13 +57,109 @@ textarea { border: 1px solid #d5d5d5; width: 100%; resize: none; height: 100px; 
 }
 /* 레시피 리스트 E */
 
+
+
+
 /* 레시피 상세 S */
+/* 버튼 스타일 */
+.product_action {
+    padding: 5px 10px;
+    font-size: small;
+    font-weight: 500;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.incartBtn {
+    background-color: var(--sub-color);
+}
+
+.ingBtn {
+    background-color: #fff;
+}
+
+.product_name {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* 탭 스타일 */
+.tabs {
+    list-style: none;
+    display: flex;
+}
+
+.tab {
+    text-decoration: none;
+    /* padding: 10px 20px; */
+    font-size: medium;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab input[type="radio"] {
+    display: none;
+}
+
+.tab label {
+    display: block;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.tab input[type="radio"]:checked + label {
+    background-color: var(--highlight-color);
+    color: #fff;
+}
+
+label:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
+/* 탭 콘텐츠 */
+.tab_content {
+    border-top: 1px solid #ccc;
+}
+
+.tab_content.on {
+    display: block;
+    margin-top: 20px;
+}
+.product_main { margin-top: 30px; }
 .product_detail { max-width: 1000px; }
 .product_detail .product_main { display: flex; margin-bottom: 100px; }
-.product_detail .product_main .product_images { width: 550px; margin-right: 30px; }
-.product_detail .product_main .product_images .main_image { width: 500px; height: 500px; }
-.product_detail .product_main .product_images .main_image img { width: 100%; height: 100%; }
-
-
+.product_detail .product_main .product_images { width: 450px; margin-right: 30px; }
+.product_detail .product_main .main_image img { width: 100%; }
+.product_detail .product_main .right_section { flex-grow: 1;  }
+.product_detail .product_main .product_info { margin-top: 5px;}
+.product_detail .product_main .farmer_info .farm * {position:relative; display: flex; align-items: center; }
+.product_detail .product_main .farmer_info .farm .recipe_poster { font-weight: bold; font-size: 1.305rem; align-items: center; }
+.product_detail .product_main .farmer_info { margin-top: 10px; }
 .product_detail .thumbs { display: flex; height: 80px; margin-top: 10px; }
+.product_detail .thumbs .thumb { width: 80px; cursor: pointer; }
+.product_detail .thumbs .thumb + .thumb { margin-left: 3px; }
+.recipe_poster { color: var(--main-color); }
+
+.product_detail .tabs { display: flex; align-items: center; }
+.product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
+.product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
+.tab_content .content { margin-top: 15px; }
+.tab_content .content .ings { margin: 5px; font-weight: bold; font-size: 1.7rem; align-items: center; }
+.tab_content .content .amount { margin: 5px; font-weight: bold; font-size: 1.205rem; align-items: center;  color: var(--sub-color); }
+
+.tab_content .sub_content { margin: 30px 10px; }
+.tab_content .sub_content .border{ margin: 30px; width: 300px; height: 100px; border: 1px solid #d5d5d5; border-radius: 10px; margin: 5px; padding: 20px;}
+.tab_content .sub_content .sub { margin: 5px; font-weight: bold; font-size: 1.205rem; }
+
+.product_detail .product_main .product_info .rcp_title { font-weight: bold; font-size: 1.93rem; }
+
+
 /* 레시피 상세 E */
+
