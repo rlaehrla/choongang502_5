@@ -116,7 +116,7 @@
 
                     <!--// summary -->
                     <div class="btns">
-                        <button type="button"  class="save_post product_action" th:data-seq="*{seq}" data-refresh="true" th:classappend="*{@productWishService.saved(seq)} ? 'on'"
+                        <button type="button" id="save_post" class="save_post product_action" th:data-seq="*{seq}" data-refresh="true" th:classappend="*{@productWishService.saved(seq)} ? 'on'"
                                 th:text="#{찜하기}"></button>
                         <button type="button" th:text="#{장바구니}" class="product_action incartBtn" data-mode="CART"></button>
                         <button type="button" th:text="#{구매하기}" class="product_action buyBtn"  data-mode="DIRECT"></button>

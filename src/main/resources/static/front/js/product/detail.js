@@ -22,9 +22,8 @@ window.addEventListener("DOMContentLoaded", function() {
         for (const el of productActions) {
             el.addEventListener("click", function() {
                 const mode = this.dataset.mode;
-                if (mode == 'WISH') { // 찜하기
-                    continue;
-                } else { // 장바구니, 바로구매
+                if (mode != 'WISH') {
+                     // 장바구니, 바로구매
                     frmSave.mode.value = mode;
                     frmSave.submit();
                 }
@@ -69,4 +68,16 @@ window.addEventListener("DOMContentLoaded", function() {
         el.addEventListener("click", productDetails.changeEa);
     }
     /* 구매 수량 변경  E */
+
+
+    /* 찜하기 버튼 문구 수정 S */
+    const savePost = document.querySelector("#save_post");
+
+    if(savePost.classList.contains("on")){
+        savePost.innerText="찜하기 해제";
+    }else{
+        savePost.innerText="찜하기";
+    }
+
+    /* 찜하기 버튼 문구 수정 E */
 });
