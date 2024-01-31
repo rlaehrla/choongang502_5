@@ -9,15 +9,15 @@
           autocomplete="off" th:object="${requestRecipeCategory}">
         <table class="table_cols">
             <tr>
-                <th width="180">요리 분류</th>
+                <th width="180">레시피 분류 코드</th>
                 <td>
-                    <input type="text" name="category" th:field="*{category}">
+                    <input type="text" name="category" th:field="*{cateCd}">
                 </td>
             </tr>
             <tr>
-                <th width="180">요리 종류</th>
+                <th width="180">레시피 분류명</th>
                 <td width="300">
-                    <input type="text" name="subCategory" th:field="*{subCategory}">
+                    <input type="text" name="subCategory" th:field="*{cateNm}">
                 </td>
             </tr>
         </table>

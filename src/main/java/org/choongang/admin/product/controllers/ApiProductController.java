@@ -22,7 +22,6 @@ public class ApiProductController implements ExceptionRestProcessor {
 
     @GetMapping("/select")
     public JSONData<List<Category>> searchCategory(CategorySearch search) {
-        System.out.println(search);
         List<Category> items = categoryInfoService.getList(search);
 
         return new JSONData<>(items);

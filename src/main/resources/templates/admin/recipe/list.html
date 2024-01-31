@@ -9,21 +9,25 @@
         <table class="table_cols mb30">
             <tr>
                 <th>카테고리</th>
-<!--                <td>
-                    <th:block th:each="cate : ${cateCd}">
-                        <input type="checkbox" name="cateCd" th:value="${cate}" th:id="${cate}" th:field="*{cateCd}">
-                        <label th:for="${cate}" th:text="${cate}"></label>
+                <td>
+                    <th:block th:if="*{#strings.isEmpty(cateCd)}">
+                        <button type="button" name="cate_select" id="cate_select" class="sbtn">분류코드 선택</button>
+                        <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
                     </th:block>
-                </td>-->
+                    <th:block th:unless="*{#strings.isEmpty(cateCd)}">
+                        <button type="button" name="cate_select" id="cate_select" class="sbtn on" th:text="*{@recipeUtils.findCateNm(cateCd)}"></button>
+                        <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
+                    </th:block>
+                </td>
             </tr>
             <tr>
-                <th>게시판 ID</th>
+                <th>레시피 번호</th>
                 <td>
                     <input type="number" name="seq" min="0" th:field="*{seq}">
                 </td>
             </tr>
             <tr>
-                <th>게시판 이름</th>
+                <th>레시피명</th>
                 <td>
                     <input type="text" name="name" th:field="*{rcpName}">
                 </td>
@@ -58,8 +62,8 @@
                     <input type="checkbox" class="checkall" id="checkall" data-target-name="chk">
                     <label for="checkall"></label>
                 </th>
-                <th width="100">게시판 ID</th>
-                <th nowrap colspan="2">게시판 이름</th>
+                <th width="100">레시피 번호</th>
+                <th nowrap colspan="2">레시피명</th>
                 <th width="100">작성자 닉네임</th>
                 <th width="100">노출여부</th>
                 <th width="250"></th>
@@ -107,6 +111,11 @@
         </div>
     </form>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+    <script>
+        const { popup } = commonLib;
+        const cate_select = document.getElementById("cate_select");
+        cate_select.onclick = () => popup.open('/admin/recipe/select', 450, 450);
+    </script>
 </section>
 
 </html>
