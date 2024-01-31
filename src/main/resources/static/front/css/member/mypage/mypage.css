@@ -1,6 +1,5 @@
 /*전체 정렬*/
 .content{
-    width: 700px;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -185,10 +184,12 @@
     position: absolute;
     top: 0;
     right: 0;
+    margin-right: 20px;
 }
 
 .td-controller {
     vertical-align: middle;
+    width: 180px;
 }
 .td-controller .col + .col {
     margin-top: 5px;
@@ -221,5 +222,31 @@
     line-height: 24px;
     overflow: hidden;
     color: #414b5a !important;
+}
+
+ .row {
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.row > a, .row > .point, .recent_ord, .total_ord{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+.total_pnt, .total_pnt > span {
+    color: var(--sub-color);
+    font-weight: bold;
 }
 
