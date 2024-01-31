@@ -8,40 +8,35 @@
 .board_latest .items > li a { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block; height: 35px; width: calc(100% - 1px); line-height: 35px; padding: 0 10px; }
 .board_latest .items > li + li { border-top: 1px dashed #d5d5d5; }
 
-/* main - 지도 옆 best S */
-.main_best {
-    text-align: left;
+
+/* 베스트 S */
+.best_zone{
+
 }
-.main_best > li a {
-     display: inline-block;
-     margin-bottom: 20px;
+.best_items{
+    width: 550px
 }
-.main_best > li {
-    list-style-type: none;
+
+.best_item{
+
 }
-/* main - 지도 옆 best E */
+
 
  /* 카카오 지도 S*/
 .kakao_map {
     float: right;
-    margin: 20px 600px 20px 100px;
+    width: 550px;
+    height: 550px;
 }
 /* 카카오 지도 E */
+/* 베스트 E */
 
-.latestTitle {
+.title {
     text-align: center;
 }
 
-.recommendedRecipes {
-    text-align: center;
-}
-
-.inSeasonTitle {
-    text-align: center;
-}
 
 .inSeasonProducts {
-    display: flex;
     justify-content: flex-start; /* 좌측 정렬 설정 */
     flex-wrap: wrap;
     margin: 0 auto; /* 좌우 여백 설정 */
