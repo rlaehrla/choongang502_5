@@ -16,9 +16,8 @@ import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.entities.Recipe;
-import org.choongang.recipe.services.RecipeDeleteService;
-import org.choongang.recipe.services.RecipeInfoService;
-import org.choongang.recipe.services.RecipeSaveService;
+import org.choongang.recipe.entities.RecipeCate;
+import org.choongang.recipe.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +36,9 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeInfoService recipeInfoService;
     private final RecipeSaveService recipeSaveService;
     private final RecipeDeleteService recipeDeleteService;
-
-/*    private final RecipeCategoryValidator recipeCategoryValidator;*/
+    private final RecipeCateSaveService recipeCateSaveService;
+    private final RecipeCategoryValidator recipeCategoryValidator;
+    private final RecipeCateInfoService recipeCateInfoService;
 
 
     @ModelAttribute("menuCode")
@@ -62,14 +62,30 @@ public class RecipeController implements ExceptionProcessor {
 
         commonProcess("list", model);
 
+
+        List<String> addScript = new ArrayList<>();
+        addScript.add("recipe/list");
         ListData<Recipe> data = recipeInfoService.getListAdmin(form);
-        //List<String> cateCd = categoryInfoService.getList().stream().map(s -> s.getCateCd()).toList();*/
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-        //model.addAttribute("cateCd", cateCd);
-
+        model.addAttribute("addScript", addScript);
         return "admin/recipe/list";
+    }
+
+    @GetMapping("/select")
+    public String selectCate(Model model){
+        List<RecipeCate> categories = recipeCateInfoService.getList();
+
+        List<String> addCss = new ArrayList<>();
+        List<String> addJs = new ArrayList<>();
+        addJs.add("recipe/select");
+        addCss.add("product/select");
+
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addJs);
+        model.addAttribute("categories", categories);
+        return "admin/recipe/recipe_cate_select";
     }
 
     @PatchMapping
@@ -106,22 +122,17 @@ public class RecipeController implements ExceptionProcessor {
 
         return "admin/recipe/category";
     }
-/*    @PostMapping("/category")
+    @PostMapping("/category")
     public String categoryPs(@Valid RequestRecipeCategory form, Errors errors, Model model){
         commonProcess("category", model);
 
         recipeCategoryValidator.validate(form, errors);
 
         if(errors.hasErrors()){
-            List<String> messages = errors.getFieldErrors().stream()
-                    .map(e -> e.getCodes())
-                    .map(s -> Utils.getMessage(s[0]))
-                    .toList();
-
-            throw new AlertException(messages.get(0), HttpStatus.BAD_REQUEST);
+            return "admin/recipe/category";
         }
 
-        recipeSaveService.save(form);
+        recipeCateSaveService.save(form);
 
         //분류 추가가 완료되면 부모창 새로고침
         model.addAttribute("script", "parent.location.reload()");
@@ -148,11 +159,11 @@ public class RecipeController implements ExceptionProcessor {
 
         commonProcess("category", model);
 
-        categoryDeleteService.deleteList(chks);
+        //categoryDeleteService.deleteList(chks);
         // 삭제 완료 -> 새로고침
         model.addAttribute("script", "parent.location.reload()");
         return "common/_execute_script";
-    }*/
+    }
 
 
 

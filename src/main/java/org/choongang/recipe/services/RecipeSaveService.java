@@ -43,8 +43,7 @@ public class RecipeSaveService {
         data.setRcpName(form.getRcpName());
         data.setRcpInfo(form.getRcpInfo());
         data.setEstimatedT(form.getEstimatedT());
-        data.setCategory(form.getCategory());
-        data.setSubCategory(form.getSubCategory());
+        //data.setCategory(form.getCategory());
         data.setAmount(form.getAmount());
         data.setRequiredIng(form.getRequiredIngJSON());
         data.setSubIng(form.getSubIngJSON());

@@ -25,7 +25,7 @@ import org.choongang.member.entities.Authorities;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
-import org.choongang.product.entities.QCategory;
+//import org.choongang.product.entities.QCategory;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.QRecipe;
@@ -234,8 +234,7 @@ public class RecipeInfoService {
                 .rcpName(data.getRcpName())
                 .rcpInfo(data.getRcpInfo())
                 .estimatedT(data.getEstimatedT())
-                .category(data.getCategory())
-                //.subCategory(data.getSubCategory())
+                //.category(data.getRecipeCate())
                 .mainImages(data.getMainImages())
                 .amount(data.getAmount())
                 .mode("edit")
@@ -342,14 +341,11 @@ public class RecipeInfoService {
         BooleanBuilder andBuilder = new BooleanBuilder();
 
         /* 검색 조건 처리 S */
-        String category = search.getCategory();
-        String subCategory = search.getSubCategory();
-        if (StringUtils.hasText(category)) {
-            andBuilder.and(recipe.category.eq(category.trim()));
+        String cateCd = search.getCateCd();
+        if (StringUtils.hasText(cateCd)) {
+            andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd.trim()));
         }
-/*        if (StringUtils.hasText(subCategory)) {
-            andBuilder.and(recipe.subCategory.eq(subCategory.trim()));
-        }*/
+
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
 
@@ -386,7 +382,7 @@ public class RecipeInfoService {
         PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
         List<Recipe> items = new JPAQueryFactory(em)
                 .selectFrom(recipe)
-                .leftJoin(recipe.member)
+                //.leftJoin(recipe.member)
                 .fetchJoin()
                 .offset(offset) // 시작 번호
                 .limit(limit)
@@ -416,13 +412,26 @@ public class RecipeInfoService {
         QRecipe recipe = QRecipe.recipe;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
+        String cateCd = search.getCateCd();
         List<Long> seq = search.getSeq();
+        String rcpName = search.getRcpName();
+        String nickname = search.getNickName();
         LocalDate sdate = search.getSdate();
         LocalDate edate = search.getEdate();
-        String rcpName = search.getRcpName();
+
+        if(StringUtils.hasText(cateCd)){
+            andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd));
+        }
 
         if (seq != null && !seq.isEmpty()){
             andBuilder.and(recipe.seq.in(seq));
+        }
+
+        if(StringUtils.hasText(rcpName)){
+            andBuilder.and(recipe.rcpName.contains(rcpName.trim()));
+        }
+        if(StringUtils.hasText(nickname)){
+            andBuilder.and(recipe.member.nickname.eq(nickname));
         }
 
         if(sdate != null){
@@ -433,9 +442,6 @@ public class RecipeInfoService {
             andBuilder.and(recipe.createdAt.loe(LocalDateTime.of(edate, LocalTime.of(23, 59, 59))));
         }
 
-        if(StringUtils.hasText(rcpName)){
-            andBuilder.and(recipe.rcpName.contains(rcpName.trim()));
-        }
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
 
@@ -456,7 +462,7 @@ public class RecipeInfoService {
         QRecipe recipe = QRecipe.recipe;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        return (List<Recipe>) recipeRepository.findAll(Sort.by(asc("category"), desc("createdAt")));
+        return (List<Recipe>) recipeRepository.findAll(Sort.by(desc("createdAt")));
     }
 
 

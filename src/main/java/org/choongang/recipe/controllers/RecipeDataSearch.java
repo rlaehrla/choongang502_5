@@ -30,8 +30,7 @@ public class RecipeDataSearch {
     private String sopt; // 검색 옵션
     private String skey; // 검색 키워드
 
-    private String category;
-    private String subCategory;
+    private String cateCd;
 
     // 관리자 페이지
     private List<Long> seq;

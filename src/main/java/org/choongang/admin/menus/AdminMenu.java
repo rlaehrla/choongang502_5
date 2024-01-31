@@ -31,7 +31,7 @@ public class AdminMenu {
 
         adminMenus.put("recipe", Arrays.asList(
                 new MenuDetail("list", "레시피리스트", "/admin/recipe"),
-                new MenuDetail("category", "레시피분류", "/admin/recipe/category")
+                new MenuDetail("category", "레시피분류등록", "/admin/recipe/category")
         ));
 
         adminMenus.put("product", Arrays.asList(
