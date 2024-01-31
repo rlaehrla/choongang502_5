@@ -2,23 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="farm">
     <div class="max-w-screen-lg ma">
-        <div class="flex" th:each="farm, status : *{farmers}" th:object="${farm}">
-
-            <a th:href="@{/farm/blog/{id}(id=*{userId})}">
-                <div th:if="${status.index < 3}">
-                    <img src="../image/ranking-01.png">
+        <div class="farmerBox" th:each="farm, status : *{farmers}" th:object="${farm}">
+            <a class="best_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
+                <div class="lank" th:if="${status.index < 3}">
+                    <img th:src="'../image/ranking-0' + ${status.index+1} +'.png'">
                 </div>
                 <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
-                <div>
-                    <span th:text="*{salePoint}"></span>
+                <div class="lank_text flex">
+                    <div th:text="*{salePoint}"></div>
+                    <div th:text="*{farmTitle}"></div>
                 </div>
                 <!--<p th:text="#{찜}"></p>-->
                 <div class="imgBox">
                     <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
                     <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
                 </div>
-                <p th:text="*{farmTitle}"></p>
             </a>
+            <div class="boxLine"></div>
         </div>
     </div>
 </section>
