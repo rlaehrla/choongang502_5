@@ -5,9 +5,10 @@ import lombok.Data;
 
 @Data
 public class RequestRecipeCategory {
-    @NotBlank
-    private String category;
 
     @NotBlank
-    private String subCategory;
+    private String cateCd;
+
+    @NotBlank
+    private String cateNm;
 }

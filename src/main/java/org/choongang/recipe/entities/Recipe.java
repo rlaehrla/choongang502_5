@@ -43,10 +43,10 @@ public class Recipe extends Base implements AuthCheck {
     @Column(nullable = false)
     private int estimatedT;
 
-    @Column(length = 60)//,nullable = false)
-    private String category;
-    @Column(length = 60) //, nullable = false)
-    private String subCategory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipeCateCd")
+    private RecipeCate recipeCate;
+
 
     @Column(nullable = false)
     private int amount;

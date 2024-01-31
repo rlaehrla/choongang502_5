@@ -35,6 +35,9 @@ flex : 1 1 0%
     display: flex;
     align-items: center;
 }
+h2{
+    font-size: 2rem;
+}
 /* 중간 정렬? E*/
 
 /* header */
@@ -409,3 +412,5 @@ li {
     height: 100%;
     border-left: 1px solid #ccc;
     margin: 0 20px;
+}
+

@@ -116,7 +116,6 @@ public class RecipeController implements ExceptionProcessor {
     public String save(@Valid RequestRecipe form, Errors errors, Model model) {
         String mode = form.getMode();
         commonProcess(mode, model);
-        System.out.println("폼 = " + form);
 
         if (errors.hasErrors()) {
             return utils.tpl("recipe/" + mode);

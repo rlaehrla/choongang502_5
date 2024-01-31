@@ -3,11 +3,11 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <header th:fragment="common">
         <div class="headerWrap">
-            <div class="logo">
+            <h1 class="logo">
                 <a th:href="@{/}"> <!-- 메인 로고 부분-->
                     <img th:src="@{/image/title.png}" height="80"/>
                 </a>
-            </div>
+            </h1>
             <!--검색창 폼-->
             <div class="searchBox">
                 <form class="searchFrm" name="searchFrm" th:action="@{/search/result}">

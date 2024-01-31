@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">  <!--csrf 토큰 추가-->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
+    <link rel="stylesheet" type="text/css"
+          th:each="cssFile : ${addCommonCss}"
+          th:href="@{/common/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
+    <link rel="stylesheet" type="text/css"
+          th:each="cssFile : ${addCss}"
+          th:href="@{/admin/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
+
+    <th:block layout:fragment="addCss"></th:block>
+
+    <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script th:each="jsFile : ${addCommonScript}"
+            th:src="@{/common/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+
+    <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script th:each="jsFile : ${addScript}"
+            th:src="@{/admin/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+
+    <th:block layout:fragment="addScript"></th:block>
+</head>
+<body>
+<div class="category_container" data-filter-id="category">
+    <div class="category_header">카테고리</div>
+    <div class="category_list mb30">
+        <ul>
+            <li th:if="${categories != null}" th:each="cate : ${categories}" th:object="${cate}">
+                <input type="radio" name="cateCd" class="cateCd" th:data-cate-nm="*{cateNm}" th:value="*{cateCd}" th:id="*{'cateCd_' + cateCd}">
+                <label th:for="*{'cateCd_' + cateCd}" th:text="*{cateNm}"></label>
+            </li>
+        </ul>
+    </div>
+    <button type="button" class="sbtn" id="select_done">선택완료</button>
+</div>
+</body>
+</html>
+
+

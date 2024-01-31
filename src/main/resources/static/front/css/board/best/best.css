@@ -70,3 +70,7 @@ h2.lank_title {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+.first_lank .lank_text strong:first-child {
+    color: rgb(33, 34, 36);
+    font-size: 19px;
+}
