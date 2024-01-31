@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section  class="max-w-screen-lg ma">
+    <div  class="max-w-screen-lg ma">
         <section th:replace="~{front/outlines/_banner::banner}">
         </section>
 
@@ -29,28 +29,31 @@
         <div class="title"> <!-- 제철/특산품 -->
             <h1 th:text="#{제철_특산품}"></h1>
         </div>
-        <section class="inSeasonProducts flex" id="inSeasonProductsContainer">
+        <section class="inSeasonProducts productsItem flex" id="inSeasonProductsContainer">
             <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
-                <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}">
-                    <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
-                    <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
-                    <div th:text="*{name}"></div>
-                    <div class="productText">
-                        <span th:text="*{consumerPrice}"></span>
-                        <span th:text="#{돈단위}"></span>
-                        <span th:if="*{discount != 0}">
-                               <th:block th:text="*{'할인율 : ' + discount}"></th:block>
-                               <th:block th:text="#{%}"></th:block>
-                            </span>
+                <a th:href="@{/product/detail/{seq}(seq=*{seq})}">
+                    <div class="imgBox">
+                        <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                        <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
                     </div>
-                    <div>
-                        <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                    <div class="textBox">
+                        <div th:text="*{name}"></div>
+                        <div class="productText">
+                            <div class="consumerPrice">
+                                <span th:text="*{consumerPrice}"></span>
+                            </div>
+                            <div th:if="*{discount != 0}">
+                               <th:block th:text="*{discount}"></th:block>
+                            </div>
+                        </div>
+                        <div>
+                            <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                        </div>
+                        <div class="star">
+                            <i class="xi-star"></i>
+                            <span th:text="${평점}"></span>
+                        </div>
                     </div>
-                    <div class="star">
-                        <i class="xi-star"></i>
-                        <span th:text="${평점}"></span>
-                    </div>
-
                 </a>
             </div>
         </section>
@@ -58,26 +61,30 @@
         <div class="title">
             <h1 th:text="#{최신상품}"></h1>
         </div>
-        <section class="latestProducts">
+        <section class="latestProducts productsItem">
             <div class="products" th:each="item : ${items}" th:object="${item}">
-                <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}" >
-                    <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
-                    <div th:text="*{name}"></div>
-                    <div class="productText">
-                        <span th:text="*{consumerPrice}"></span>
-                        <span th:text="#{돈단위}"></span>
-                        <span th:if="*{discount != 0}">
+                <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
+                    <div class="imgBox">
+                        <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                    </div>
+                    <div class="textBox">
+                        <div th:text="*{name}"></div>
+                        <div class="productText">
+                            <span th:text="*{consumerPrice}"></span>
+                            <span th:text="#{돈단위}"></span>
+                            <span th:if="*{discount != 0}">
                                <th:block th:text="*{discount}"></th:block>
                                <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
                                <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
                             </span>
-                    </div>
-                    <div>
-                        <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
-                    </div>
-                    <div class="star">
-                        <i class="xi-star"></i>
-                        <span th:text="${평점}"></span>
+                        </div>
+                        <div>
+                            <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                        </div>
+                        <div class="star">
+                            <i class="xi-star"></i>
+                            <span th:text="${평점}"></span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -106,7 +113,7 @@
 
             <div class="kakao_map" id="map"></div>
         </section>
-    </section>
+    </div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30c3d31753d6d4b0cc09566b021bca87"></script>
     <script>
         var mapContainer = document.getElementById('map'),
