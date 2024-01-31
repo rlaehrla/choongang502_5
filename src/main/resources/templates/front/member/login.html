@@ -21,14 +21,14 @@
         <dl>
             <dt th:text="#{아이디}"></dt>
             <dd>
-                <input type="text" class="id_input_box" name="username" th:value="${session.username}">
+                <input type="text" class="id_input_box" name="username" value="abc1004"><!-- th:value="${session.username}"> -->
                 <div class="error" th:if="${session.NotBlank_username != null}" th:text="${session.NotBlank_username}"></div>
             </dd>
         </dl>
         <dl>
             <dt th:text="#{비밀번호}"></dt>
             <dd>
-                <input type="password" name="password">
+                <input type="password" name="password" value="_aA123456">
                 <div class="error" th:if="${session.NotBlank_password != null}" th:text="${session.NotBlank_password}"></div>
             </dd>
         </dl>

@@ -13,10 +13,8 @@ import org.choongang.product.entities.Product;
 import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
-import org.choongang.recipe.services.RecipeAuthService;
-import org.choongang.recipe.services.RecipeDeleteService;
-import org.choongang.recipe.services.RecipeInfoService;
-import org.choongang.recipe.services.RecipeSaveService;
+import org.choongang.recipe.entities.RecipeCate;
+import org.choongang.recipe.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -36,6 +34,7 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeDeleteService recipeDeleteService;
     private final MemberUtil memberUtil;
     private final RecipeAuthService recipeAuthService;
+
     private Recipe recipe;
 
     @GetMapping
@@ -89,22 +88,6 @@ public class RecipeController implements ExceptionProcessor {
         return utils.tpl("recipe/edit");
     }
 
-    @GetMapping("/select")
-    public String selectCate(Model model){
-        //List<Category> categories = categoryInfoService.getList();
-
-        List<String> addCss = new ArrayList<>();
-        addCss.add("recipe/select");
-        List<String> addJs = new ArrayList<>();
-        addJs.add("recipe/select");
-
-        model.addAttribute("addCss", addCss);
-        model.addAttribute("addScript", addJs);
-
-        return "recipe/select_category";
-    }
-
-
     /**
      * 저장하기
      * @param form
@@ -132,7 +115,6 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/list")
     public String list(@ModelAttribute RecipeDataSearch search, Model model) {
         commonProcess("list", model);
-
         ListData<Recipe> data = recipeInfoService.getList(search);
         List<String> ingredients = recipeInfoService.getIngredients();
         model.addAttribute("recipes", data.getItems());
@@ -180,14 +162,15 @@ public class RecipeController implements ExceptionProcessor {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
-
         if (mode.equals("add") || mode.equals("edit")) {
             addCommonScript.add("fileManager");
             addScript.add("recipe/form");
+            addScript.add("recipe/list");
             pageTitle = Utils.getMessage("레서피_작성", "commons");
         } else if (mode.equals("view")) {
             pageTitle = recipe.getRcpName();
-    }
+        }
+
         addCss.add("recipe/style");
         addScript.add("recipe/detail");
         model.addAttribute("pageTitle", pageTitle);
