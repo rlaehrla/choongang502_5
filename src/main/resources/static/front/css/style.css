@@ -369,8 +369,18 @@ li {
     color: black;
     justify-content: center;
 }
-.productText > div{
+.products h4{
+    margin: 10px 0;
+}
+.productPrice .consumerPrice {
     text-decoration: line-through;
+}
+.productPrice .discount {
+    font-size: 1rem;
+    color: var(--highlight-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .imgBox .product_main {

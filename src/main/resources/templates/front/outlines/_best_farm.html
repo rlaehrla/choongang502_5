@@ -8,7 +8,7 @@
                 <div class="lank" th:if="${status.index < 3}">
                     <img th:src="'../image/ranking-0' + ${status.index+1} +'.png'">
                 </div>
-                <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
+                <div class="lank_number" th:unless="${status.index < 3}" th:text="${status.count}"></div>
                 <div class="lank_text flex">
                     <div th:text="*{salePoint}"></div>
                     <div th:text="*{farmTitle}"></div>

@@ -74,3 +74,11 @@ h2.lank_title {
     color: rgb(33, 34, 36);
     font-size: 19px;
 }
+.lank_number {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #535a6a;
+}

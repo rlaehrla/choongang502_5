@@ -31,28 +31,34 @@
         </div>
         <section class="inSeasonProducts productsItem flex" id="inSeasonProductsContainer">
             <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
-                <a th:href="@{/product/detail/{seq}(seq=*{seq})}">
+                <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                     <div class="imgBox">
-                        <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
-                        <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
+                        <th:block th:if="*{listImages != null && listImages.size() != 0}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
                     </div>
-                    <div class="textBox">
-                        <div th:text="*{name}"></div>
-                        <div class="productText">
-                            <div class="consumerPrice">
-                                <span th:text="*{consumerPrice}"></span>
-                            </div>
-                            <div th:if="*{discount != 0}">
-                               <th:block th:text="*{discount}"></th:block>
-                            </div>
+                    <th:block th:unless="*{listImages != null && listImages.size() != 0}" width="100px" height="100px"></th:block>
+
+                    <div  class="font-semibold text-18px"th:text="*{name}"></div>
+
+                    <div class="productPrice items-center gap-2px">
+                        <div class="consumerPrice text-16px">
+                            <th:block th:text="*{consumerPrice}"></th:block>
+                            <th:block th:text="#{돈단위}"></th:block>
                         </div>
-                        <div>
-                            <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                        <div class="salePrice font-semibold text-16px">
+                            <th:block th:text="*{salePrice}"></th:block>
+                            <th:block th:text="#{돈단위}"></th:block>
                         </div>
-                        <div class="star">
-                            <i class="xi-star"></i>
-                            <span th:text="${평점}"></span>
+                        <div class="discount" th:if="*{discount != 0}">
+                            <th:block th:text="#{추가할인} + ' : ' + *{discount}"></th:block>
+                            <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
+                            <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
+                            <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
                         </div>
+                    </div>
+                    <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
+                    <div class="star">
+                        <i class="xi-star"></i>
+                        <span th:text="${평점}"></span>
                     </div>
                 </a>
             </div>
@@ -65,26 +71,32 @@
             <div class="products" th:each="item : ${items}" th:object="${item}">
                 <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                     <div class="imgBox">
-                        <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                        <th:block th:if="*{listImages != null && listImages.size() != 0}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
                     </div>
-                    <div class="textBox">
-                        <div th:text="*{name}"></div>
-                        <div class="productText">
-                            <span th:text="*{consumerPrice}"></span>
-                            <span th:text="#{돈단위}"></span>
-                            <span th:if="*{discount != 0}">
-                               <th:block th:text="*{discount}"></th:block>
-                               <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
-                               <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
-                            </span>
+                    <th:block th:unless="*{listImages != null && listImages.size() != 0}" width="100px" height="100px"></th:block>
+
+                    <div  class="font-semibold text-18px"th:text="*{name}"></div>
+
+                    <div class="productPrice items-center gap-2px">
+                        <div class="consumerPrice text-16px">
+                            <th:block th:text="*{consumerPrice}"></th:block>
+                            <th:block th:text="#{돈단위}"></th:block>
                         </div>
-                        <div>
-                            <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                        <div class="salePrice font-semibold text-16px">
+                            <th:block th:text="*{salePrice}"></th:block>
+                            <th:block th:text="#{돈단위}"></th:block>
                         </div>
-                        <div class="star">
-                            <i class="xi-star"></i>
-                            <span th:text="${평점}"></span>
+                        <div class="discount" th:if="*{discount != 0}">
+                            <th:block th:text="#{추가할인} + ' : ' + *{discount}"></th:block>
+                            <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
+                            <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
+                            <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
                         </div>
+                    </div>
+                    <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
+                    <div class="star">
+                        <i class="xi-star"></i>
+                        <span th:text="${평점}"></span>
                     </div>
                 </a>
             </div>
