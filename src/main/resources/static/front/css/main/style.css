@@ -47,3 +47,13 @@
     max-width: 1200px; /* 최대 너비 설정 */
     padding: 20px 0 50px 0;
 }
+
+.prod_button {
+     background-color: #21BF73;
+     color: #fff;
+     border: none;
+     padding: 10px;
+     cursor: pointer;
+     font-size: 16px;
+}
+

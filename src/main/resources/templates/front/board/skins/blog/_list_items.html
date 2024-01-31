@@ -67,7 +67,9 @@
          </li>
       </ul>
 
-       <!--// list_search -->
+
+       <!--// list_search
+
       <div class="list_search">
          <form name="frmSearch" method="get" th:action="@{/board/list/{bid}(bid=${board.bid})}" autocomplete="off" th:object="${boardDataSearch}">
             <select name="sopt" th:field="*{sopt}">
@@ -81,7 +83,8 @@
             <button type="submit" th:text="#{검색하기}"></button>
          </form>
       </div>
-      <!--// list_search -->
+
+       list_search -->
 
       <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 
