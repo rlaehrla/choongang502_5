@@ -56,13 +56,6 @@
     </div>
     <div class="rows">
         <div class="stit" th:text="#{카테고리}"></div>
-<!--        <select name="category" th:field="*{category}">
-            <option value="" th:text="#{요리_분류}"></option>
-        </select>
-        <select name="subCategory" th:field="*{subCategory}">
-            <option value="" th:text="#{요리_종류}"></option>
-        </select>-->
-
         <tr>
             <th>요리 분류</th>
             <td th:unless="*{mode == 'edit'}">
@@ -151,7 +144,8 @@
     <script>
         const { popup } = commonLib;
         const cate_select = document.getElementById("cate_select");
-        cate_select.onclick = () => popup.open('/admin/recipe/select', 450, 450);
+        cate_select.onclick = () => popup.open('/admin/recipe/select', 500, 500);
+
     </script>
 
     <th:block th:replace="~{common/_file_tpl::image1_tpl}"></th:block>
