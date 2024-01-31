@@ -18,24 +18,23 @@
                 </div>
                 <th:block th:unless="*{listImages != null && listImages.size() != 0}" width="100px" height="100px"></th:block>
 
-                <div class="cate  text-16px" th:each="cate : *{category}">
-                    <span th:text="${cate.cateNm}"></span>
-                </div>
-                <div  class="font-semibold text-16px"th:text="*{name}"></div>
+                <div  class="font-semibold text-18px"th:text="*{name}"></div>
 
-                <div class="flex items-center gap-2px">
-                    <div class="font-semibold pink text-16px" th:if="*{discount != 0}">
-                       <th:block th:text="*{discount}"></th:block>
-                        <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
-                       <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
-                    </div>
-                    <div class="font-semibold text-16px">
+                <div class="productPrice items-center gap-2px">
+                    <div class="consumerPrice text-16px">
                         <th:block th:text="*{consumerPrice}"></th:block>
                         <th:block th:text="#{돈단위}"></th:block>
                     </div>
-                    <th:block th:if="*{discount != 0}">
+                    <div class="salePrice font-semibold text-16px">
+                        <th:block th:text="*{salePrice}"></th:block>
+                        <th:block th:text="#{돈단위}"></th:block>
+                    </div>
+                    <div class="discount" th:if="*{discount != 0}">
+                        <th:block th:text="#{추가할인} + ' : ' + *{discount}"></th:block>
+                        <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
+                        <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
                         <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
-                    </th:block>
+                    </div>
                 </div>
                 <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
                 <div class="star">
