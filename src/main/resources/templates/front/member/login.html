@@ -16,6 +16,7 @@
             <label for="farmer" class="tab">농장주인 회원</label>
         </div>
 
+        <div class="error global" th:if="${session.Global_error != null}" th:text="${session.Global_error}"></div>
 
         <dl>
             <dt th:text="#{아이디}"></dt>
@@ -40,8 +41,6 @@
         </div>
 
         <button class="loginBtn" type="submit" th:text="#{로그인}"></button>
-
-        <div class="error" th:if="${session.Global_error != null}" th:text="${session.Global_error}"></div>
     </form>
 </main>
 </html>

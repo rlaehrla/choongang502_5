@@ -47,7 +47,7 @@ input[type="password"],
 .error {
     color: red;
     margin-top: 5px;
-    font-size: small;
+    font-size: 1.1em;
     font-weight: 500;
 }
 
@@ -73,6 +73,8 @@ input[type="checkbox"] {
     color: red;
     margin-top: 15px;
     text-align: center;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 /* 링크 스타일 */
