@@ -92,6 +92,11 @@
     line-height: 2rem;
 }
 
+.chat_text {
+    color: #fff;
+    font-size: 1.15em;
+}
+
 .xi-forum {
     color: #fff;
     font-size: 1.3em;
