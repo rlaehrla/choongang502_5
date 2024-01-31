@@ -67,8 +67,9 @@
                         <span th:text="*{consumerPrice}"></span>
                         <span th:text="#{돈단위}"></span>
                         <span th:if="*{discount != 0}">
-                               <th:block th:text="*{'할인율 : ' + discount}"></th:block>
-                               <th:block th:text="#{%}"></th:block>
+                               <th:block th:text="*{discount}"></th:block>
+                               <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
+                               <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
                             </span>
                     </div>
                     <div>

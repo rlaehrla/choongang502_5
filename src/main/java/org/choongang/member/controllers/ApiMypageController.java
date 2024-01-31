@@ -25,23 +25,6 @@ public class ApiMypageController {
 
     @RequestMapping("/recentlyview")
     public JSONData<List<Product>> recentlyView(@RequestParam("seq") List<Long> seqs){
-        /*
-        List<Product> products = new ArrayList<>();
-        for(Long seq : seqs){
-            Product product = productInfoService.get(seq);
-            List<FileInfo> mainImages = fileInfoService.getListDone(product.getGid(), "product_main");
-            List<FileInfo> listImages = fileInfoService.getListDone(product.getGid(), "product_list");
-
-            product.setMainImages(mainImages);
-            product.setListImages(listImages);
-
-            products.add(product);
-        }
-
-
-        JSONData<Object> jsonData = new JSONData<>();
-        jsonData.setData(products);
-        */
 
         ProductSearch search = new ProductSearch();
         search.setLimit(100000);
