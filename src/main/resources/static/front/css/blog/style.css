@@ -107,24 +107,21 @@
     background-color: #2a7a54;
 }
 
-.faq-container {
-  max-width: 700px;
+.sns-container {
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-.sns-container {
-
-}
-
 .faq {
-  background-color: transparent;
-  border: 1px solid #9fa4a8;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 10px;
   margin: 20px 0;
   padding: 30px;
   position: relative;
   overflow: hidden;
   transition: 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .faq-top {
@@ -158,11 +155,13 @@
 
 .faq-title {
   margin: 0 35px 0 0;
+  color: #333;
 }
 
 .faq-text {
-  margin: 30px 0 0;
+  margin: 15px 0 0;
   transition: all 0.5s;
+  color: #666;
 }
 
 .faq.active .faq-text {
@@ -170,8 +169,8 @@
 }
 
 .faq-toggle {
-  background: transparent;
-  border: 0;
+  background: #E64848;
+  border: 2px solid var(--sub-color);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -180,7 +179,7 @@
   font-size: 16px;
   padding: 0;
   position: absolute;
-  top: 30px;
+  top: 50px;
   right: 30px;
   height: 30px;
   width: 30px;

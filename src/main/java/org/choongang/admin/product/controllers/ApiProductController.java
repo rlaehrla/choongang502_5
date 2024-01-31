@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@RestController("adminApiProductController")
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
 public class ApiProductController implements ExceptionRestProcessor {
