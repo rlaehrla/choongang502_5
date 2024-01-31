@@ -47,6 +47,26 @@
                     </div>
                 </form>
             </div>
+            <!-- 카테고리 필터 -->
+
+            <div>
+                <form name="frmSearch" method="get" th:action="@{/recipe/list}"
+                      th:object="${recipeDataSearch}">
+                    카테고리
+
+
+                    <div>
+                        <input type="hidden" name="cateCd" value="cateCd">
+
+                        <th:block th:each="cate : ${cateCd}" >
+                            <button class="product_action ingBtn" th:value="${cate}" th:text="${cate}">
+                            </button>
+                        </th:block>
+                    </div>
+                </form>
+
+
+            </div>
         </div>
         <!-- 검색 E -->
 
@@ -84,12 +104,10 @@
                 </div>
                 <div class="rcpName_list">
                     <span class="rcpName" th:text="*{rcpName}"></span>
+                    <span class="rcpEst" th:if="*{recipeCate !=null}" th:text="*{recipeCate.cateNm}"></span>
                 </div>
                 <div class="rcpInfo_list">
                     <span th:text="*{rcpInfo}"></span>
-                </div>
-                <div class="rcpCate_list">
-                    <span th:text="*{recipeCate}"></span>
                 </div>
             </div>
         </div>

@@ -77,7 +77,6 @@ public class RecipeController implements ExceptionProcessor {
      */
     @GetMapping("/edit/{seq}")
     public String edit(@PathVariable("seq") Long seq, Model model) {
-        //commonProcess(seq, "edit", model);
         commonProcess("edit", model);
 
         RequestRecipe form = recipeInfoService.getForm(seq);
