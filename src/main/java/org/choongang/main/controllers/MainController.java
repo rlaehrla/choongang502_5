@@ -40,7 +40,7 @@ public class MainController implements ExceptionProcessor {
 
     @GetMapping("/")
     public String index(@ModelAttribute ProductSearch form, Model model) {
-
+        commonProcess("mode", model);
 
         /* 농장 랭킹 S */
         MemberSearch search = new MemberSearch();
@@ -123,8 +123,13 @@ public class MainController implements ExceptionProcessor {
         List<String> addCss = new ArrayList<>();
 
 
+        if(mode.equals("mode")){
+            pageTitle = null;
 
-        if(mode.equals("faq")){
+
+            addCss.add("main/style");
+            addCss.add("board/best/best");
+        }else if(mode.equals("faq")){
             pageTitle = "자주 묻는 질문";
             addCss.add("board/faq");
         }
