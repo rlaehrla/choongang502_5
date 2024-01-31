@@ -73,7 +73,7 @@ public class ProductWishService {
         builder.and(productWish.product.seq.eq(productSeq));
         builder.and(productWish.member.seq.eq(memberUtil.getMember().getSeq()));
 
-        ProductWish productWish1 = productWishRepository.findOne(builder).orElse(null);
+        ProductWish productWish1 = productWishRepository.findOne(builder).orElseThrow(ProductWishNotFoundException::new);
 
         if(productWish1 != null){
             productWishRepository.delete(productWish1);

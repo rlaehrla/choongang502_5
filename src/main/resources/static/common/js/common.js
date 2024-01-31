@@ -27,7 +27,7 @@ commonLib.ajaxLoad = function(method, url, params, responseType) {
 
         xhr.onreadystatechange = function() {
             if (xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE) {
-                const resultData = responseType == 'json' ? xhr.response : xhr.responseText;
+                const resultData = responseType == 'json' && xhr.responseText ? xhr.response : xhr.responseText;
 
                 resolve(resultData);    // 성공 시 응답 데이터
             }

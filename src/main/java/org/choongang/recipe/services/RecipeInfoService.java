@@ -128,7 +128,7 @@ public class RecipeInfoService {
         return recipe;
     }
 
-    private void addRecipe(Recipe recipe) {
+    public void addRecipe(Recipe recipe) {
         /* 파일 정보 추가 S */
         String gid = recipe.getGid();
         String mgid = recipe.getMember().getGid();
@@ -329,6 +329,28 @@ public class RecipeInfoService {
 
     }
 
+
+    public ListData<Recipe> getPersonalList(RecipeDataSearch search){
+        QRecipe recipe = QRecipe.recipe;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(recipe.member.seq.eq(memberUtil.getMember().getSeq()));
+
+        int page = search.getPage();
+        int limit = search.getLimit();
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+
+        Page<Recipe> data = recipeRepository.findAll(builder, pageable);
+
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
+
+        List<Recipe> items = data.getContent();
+        items.forEach(this::addRecipe);
+
+        return new ListData<>(items, pagination);
+
+    }
+
     /**
      * 목록 조회하기
      * @param search
@@ -468,7 +490,7 @@ public class RecipeInfoService {
         QRecipe recipe = QRecipe.recipe;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        return (List<Recipe>) recipeRepository.findAll(Sort.by(desc("createdAt")));
+        return recipeRepository.findAll(Sort.by(desc("createdAt")));
     }
 
 

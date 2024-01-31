@@ -51,7 +51,13 @@ public class Recipe extends Base implements AuthCheck {
     @Column(nullable = false)
     private int amount;
 
+
+
+=======
+    @JsonIgnore
     private String[] how;
+
+    @JsonIgnore
 
     private String[] tip;
 
