@@ -38,9 +38,16 @@ public class ProductWishService {
      * @param productSeq
      */
     public void save(Long productSeq){
+
+        if(!memberUtil.isLogin()){
+            throw new UnAuthorizedException("로그인이 필요한 서비스입니다.");
+
+        }
+
         if(memberUtil.isFarmer()){
             throw new UnAuthorizedException(Utils.getMessage("NotFarmer", "errors"));
         }
+
 
         Member member = (Member) memberUtil.getMember();
         Product product = productInfoService.get(productSeq);
@@ -54,6 +61,12 @@ public class ProductWishService {
 
 
     public void delete(Long productSeq){
+        if(!memberUtil.isLogin()){
+            throw new UnAuthorizedException("로그인이 필요한 서비스입니다.");
+        }
+        if(memberUtil.isFarmer()){
+            throw new UnAuthorizedException(Utils.getMessage("NotFarmer", "errors"));
+        }
         QProductWish productWish = QProductWish.productWish;
 
         BooleanBuilder builder = new BooleanBuilder();
@@ -95,6 +108,10 @@ public class ProductWishService {
     }
 
     public ListData<ProductWish> getWishProducts(ProductSearch search){
+        if(!memberUtil.isLogin()){
+            throw new UnAuthorizedException("로그인이 필요한 서비스입니다.");
+
+        }
         if(memberUtil.isFarmer()){
             throw new UnAuthorizedException(Utils.getMessage("NotFarmer", "errors"));
         }
