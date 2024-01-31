@@ -396,9 +396,7 @@ li {
     justify-content: space-between;
     align-items: center;
 }
-.farmRanking {
-    padding: 0 0 0 360px;
-}
+
 .center-line {
     height: 100%;
     border-left: 1px solid #ccc;

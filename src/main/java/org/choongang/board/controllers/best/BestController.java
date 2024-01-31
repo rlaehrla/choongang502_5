@@ -11,9 +11,11 @@ import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.FarmerInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +28,7 @@ public class BestController {
 
     @GetMapping
     public String best(Model model){
+        commonProcess("best", model);
 
         /* 농장 랭킹 S */
         MemberSearch search = new MemberSearch();
@@ -47,5 +50,15 @@ public class BestController {
         model.addAttribute("farmers", farmers);
 
         return utils.tpl("board/best");
+    }
+
+    private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "best";
+
+        List<String> addCss = new ArrayList<>();
+
+        addCss.add("board/best/best");
+
+        model.addAttribute("addCss", addCss);
     }
 }
