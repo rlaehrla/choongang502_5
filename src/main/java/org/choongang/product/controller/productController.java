@@ -113,7 +113,7 @@ public class productController {
         if(mode.equals("product")){
             pageTitle = "전체보기";
             addCss.add("product/style");
-
+            addScript.add("product/list");
 
             if(category == MainCategory.FRUIT){
                 pageTitle = "과일 "+ pageTitle;

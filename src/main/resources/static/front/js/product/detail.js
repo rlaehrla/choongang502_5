@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", function() {
             el.addEventListener("click", function() {
                 const mode = this.dataset.mode;
                 if (mode == 'WISH') { // 찜하기
-
+                    continue;
                 } else { // 장바구니, 바로구매
                     frmSave.mode.value = mode;
                     frmSave.submit();
