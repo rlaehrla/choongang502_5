@@ -61,8 +61,7 @@ public class RecipeSaveService {
     // 재료로 검색
     private String getKeyword(RequestRecipe form) {
         String[] requiredIng = form.getRequiredIng();
-        String[] subIng = form.getSubIng();
-        String[] condiments = form.getCondiments();
+        //String[] subIng = form.getSubIng();
 
         List<String> keywords = new ArrayList<>();
 
@@ -71,20 +70,10 @@ public class RecipeSaveService {
                     .forEach(keywords::add);
         }
 
-        if(subIng != null) {
-            Arrays.stream(subIng).map(s -> "__" + s.trim() + "__")
-                    .forEach(keywords::add);
-        }
-
-/*        if(condiments != null) {
-            Arrays.stream(condiments).map(s -> "__" + s.trim() + "__")
-                    .forEach(keywords::add);
-        }*/
         return keywords.stream().distinct().collect(Collectors.joining()); // 공백 없이 문자열로 키워드 저장
 
     }
-
-
+    
     /**
      * 관리자 페이지에서 수정
      * @param chks
