@@ -30,6 +30,8 @@ import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.QRecipe;
 import org.choongang.recipe.entities.Recipe;
+import org.choongang.recipe.entities.RecipeCate;
+import org.choongang.recipe.repositories.RecipeCateRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -59,6 +61,7 @@ public class RecipeInfoService {
 
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
+    private RecipeCate recipeCate;
 
 
     /**
@@ -136,6 +139,7 @@ public class RecipeInfoService {
 
         recipe.setMainImages(mainImages);
         recipe.setProfileImage(profileImage);
+
         /* 파일 정보 추가 E */
 
         /* 재료 가져오기 S */
@@ -218,7 +222,6 @@ public class RecipeInfoService {
     }
 
 
-
     /**
      * 수정하기
      * Recipe 엔터티 -> RequestRecipe
@@ -234,11 +237,12 @@ public class RecipeInfoService {
                 .rcpName(data.getRcpName())
                 .rcpInfo(data.getRcpInfo())
                 .estimatedT(data.getEstimatedT())
-                //.category(data.getRecipeCate())
+                .cateCd(data.getRecipeCate().getCateNm())
                 .mainImages(data.getMainImages())
                 .amount(data.getAmount())
                 .mode("edit")
                 .build();
+        System.out.println("레시피 = " + data.getRecipeCate().getCateNm());
 
         try {
             ObjectMapper om = new ObjectMapper();
@@ -364,9 +368,10 @@ public class RecipeInfoService {
 
         /* 검색 조건 처리 S */
         String cateCd = search.getCateCd();
-        if (StringUtils.hasText(cateCd)) {
+        System.out.println("씨디 = " + cateCd);
+      /*  if (StringUtils.hasText(cateCd)) {
             andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd.trim()));
-        }
+        }*/
 
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
@@ -412,6 +417,7 @@ public class RecipeInfoService {
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 최신게시글 순서로 정렬
                 .fetch();
+        System.out.println("아이템 = " + items);
 
 
         // 게시글 전체 갯수

@@ -96,6 +96,7 @@ cursor: pointer;
 .contentBox .item .imgBox img{
     width: 100%;
     height: 100%;
+    border-radius: 10px;
 }
 .cate {
 position: absolute;
@@ -154,6 +155,16 @@ display: -webkit-box;
 -webkit-line-clamp: 2 ;
 -webkit-box-orient: vertical;
 }
+
+.item .rcpName_list {
+ margin: 10px 0;
+ }
+.item .rcpName_list .rcpEst {
+border: 1px solid #D3D2D2; border-radius: 5px;
+padding: 2px; color:#887B7B;
+background-color: #F6F4F4;
+}
+
 
 /* 레시피 리스트 E */
 
@@ -323,7 +334,19 @@ label:hover {
 .product_detail .product_main .main_image img { width: 100%; }
 .product_detail .product_main .right_section { flex-grow: 1;  }
 .product_detail .product_main .product_info { margin-top: 5px;}
+
 .product_detail .product_main .product_info .rcp_title { font-weight: bold; font-size: 1.93rem; }
+.product_detail .product_main .product_info .rcp_ect {
+ margin: 10px 0;
+ }
+.product_detail .product_main .product_info .rcp_ect .estimated {
+border: 1px solid; border-radius: 5px;
+padding: 2px;
+}
+.product_detail .product_main .product_info .rcp_ect .cateNm{
+font-size: 1.1rem; color: #887B7B; margin-left: 5px;
+}
+
 .product_detail .product_main .farmer_info .farm * {position:relative; display: flex; align-items: center; }
 .product_detail .product_main .farmer_info .farm .recipe_poster { font-weight: bold; font-size: 1.305rem; align-items: center; }
 .product_detail .product_main .farmer_info { margin-top: 10px; }
@@ -336,14 +359,35 @@ label:hover {
 .product_detail .tabs { display: flex; align-items: center; }
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
 .product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
+
+.tab_content{
+grid-template-columns: repeat(3, minmax(0,1fr));
+}
 .tab_content .content { margin-top: 15px; }
 .tab_content .content .ings { margin: 5px; font-weight: bold; font-size: 1.7rem; align-items: center; }
 .tab_content .content .amount { margin: 5px; font-weight: bold; font-size: 1.205rem; align-items: center;  color: var(--sub-color); }
 
 .tab_content .sub_content { margin: 30px 10px; }
-.tab_content .sub_content .border{ margin: 30px; width: 300px; height: 100px; border: 1px solid #d5d5d5; border-radius: 10px; margin: 5px; padding: 20px;}
+.tab_content .sub_content .border{
+margin: 30px; width: 300px; height: 100px;
+border: 1px solid #d5d5d5; border-radius: 10px;
+margin: 5px; padding: 20px;}
 .tab_content .sub_content .sub { margin: 5px; font-weight: bold; font-size: 1.205rem; }
-
+.tab_content .sub_content .border .requiredIngP_border {
+margin: 5px;
+}
+.tab_content .sub_content .border .requiredIngP {
+border: 1px solid #D3D2D2;
+border-radius: 5px;
+background-color: #F6F4F4;
+display: inline-block; padding: 5px
+}
+.tab_content .sub_content .border .requiredIngP span {
+color: #887B7B
+}
+.tab_content .sub_content .border .requiredIngP span:first-child {
+font-weight: bold;
+}
 
 
 /* 레시피 상세 E */

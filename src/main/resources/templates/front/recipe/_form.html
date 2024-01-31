@@ -62,7 +62,7 @@
                 <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
             </th:block>
             <th:block th:unless="*{#strings.isEmpty(cateCd)}">
-                <button type="button" name="cate_select" id="cate_select" class="sbtn on" th:text="*{@recipeUtils.findCateNm(cateCd)}"></button>
+                <button type="button" name="cate_select" id="cate_select" class="sbtn on" th:text="*{cateCd}"></button>
                 <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
             </th:block>
         </div>
