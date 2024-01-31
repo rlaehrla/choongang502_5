@@ -51,10 +51,10 @@ public class Recipe extends Base implements AuthCheck {
     @Column(nullable = false)
     private int amount;
 
-    //@Lob
+    @JsonIgnore
     private String[] how;
 
-    //@Lob
+    @JsonIgnore
     private String[] tip;
 
 
