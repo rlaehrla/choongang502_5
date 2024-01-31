@@ -55,59 +55,48 @@
                       th:text="#{등록된_레시피가_없습니다.}">
             </th:block>
             <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}" th:if="*{recipe.active}">
-                <ul>
-                    <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
-                        <div class="imgBox">
-                            <th:block th:block th:if="*{mainImages != null && mainImages.size() != 0}" th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
-                            <div class="imgBox_in cate">
-                                <form name="frmSearch" method="get" th:action="@{/recipe/list}">
-                                    <th:block th:each="re : *{requiredIngP}">
-                                        <input type="hidden" name="sopt" value="rcpIng">
-                                        <button class="product_action ingBtn" name="skey" th:value="${re}"
-                                                th:text="${re}">
-                                        </button>
-                                    </th:block>
-                                </form>
-                            </div>
-                        </div>
-                        <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
-
-                    </a>
-                        <div class="post_list">
-                            <a th:href="@{임시}">
-                                <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                                    <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
-                                    </th:block>
+                <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
+                    <div class="imgBox">
+                        <th:block th:block th:if="*{mainImages != null && mainImages.size() != 0}" th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
+                        <div class="imgBox_in cate">
+                            <form name="frmSearch" method="get" th:action="@{/recipe/list}">
+                                <th:block th:each="re : *{requiredIngP}">
+                                    <input type="hidden" name="sopt" value="rcpIng">
+                                    <button class="product_action ingBtn" name="skey" th:value="${re}"
+                                            th:text="${re}">
+                                    </button>
                                 </th:block>
-                                <span class="poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
-                                <span class="poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
-                            </a>
+                            </form>
                         </div>
-                        <li th:text="*{rcpName}"></li>
-                        <li th:text="*{rcpInfo}"></li>
-                        <li th:text="*{category}"></li>
+                    </div>
+                    <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
 
-                    <br><br><br><br><br>
-                </ul>
+                </a>
+                <div class="post_list">
+                    <a th:href="@{임시}">
+                        <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
+                            <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                            </th:block>
+                        </th:block>
+                        <span class="poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
+                        <span class="poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
+                    </a>
+                </div>
+                <div class="rcpName_list">
+                    <span class="rcpName" th:text="*{rcpName}"></span>
+                </div>
+                <div class="rcpInfo_list">
+                    <span th:text="*{rcpInfo}"></span>
+                </div>
+                <div class="rcpCate_list">
+                    <span th:text="*{category}"></span>
+                </div>
             </div>
         </div>
 
     </section>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
-    <script>
-        function change_btn(e) {
-        var btns = document.querySelectorAll(".button");
-        btns.forEach(function (btn, i) {
-        if (e.currentTarget == btn) {
-            btn.classList.add("active");
-        } else {
-            btn.classList.remove("active");
-        }
-        });
-        console.log(e.currentTarget);
-        }
 
-    </script>
 </main>
 
 
