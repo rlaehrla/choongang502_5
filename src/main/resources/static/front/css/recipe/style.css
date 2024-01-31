@@ -195,6 +195,13 @@ display: -webkit-box;
     font-size: 1rem;
     margin-bottom: 5px;
 }
+.cate_select button {
+     background-color: var(--main-color);
+     color: #fff;
+     border: 1px solid #fff;
+     border-radius: 5px;
+     padding: 10px;
+}
 
 /* 검색 S */
 .rcpsearchBox {
