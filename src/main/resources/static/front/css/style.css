@@ -109,6 +109,10 @@ flex : 1 1 0%
 /*검색*/
 
 /*login*/
+.profile_image{
+    width: 40px;
+    border-radius: 50%;
+}
 .user{
     height: 30px;
     text-align: center;
@@ -117,7 +121,11 @@ flex : 1 1 0%
 .user .idMenu{
     display: flex;
     justify-content: space-between;
-    width: 500px;
+    width: 400px;
+    align-items: center;
+}
+.user .idMenu div:first-child {
+    align-items: center;
 }
 .user .loginPlz{ /* 로그인 회원가입 장바구니 */
     text-align: center;

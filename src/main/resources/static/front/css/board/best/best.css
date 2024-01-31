@@ -25,12 +25,12 @@ h2 {
     margin-left: 20px;
     flex: 1 1 0%;
 }
-.best_lank .lank_text:first-child {
+.best_lank .lank_text div:first-child {
     color: rgb(33, 34, 36);
     font-size: 17px;
     font-weight: 500;
 }
-.best_lank .lank_text:last-child {
+.best_lank .lank_text div:last-child {
     color: rgb(154, 155, 167);
     font-size: 14px;
     position: relative;
