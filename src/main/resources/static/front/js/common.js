@@ -41,8 +41,9 @@ const productDetails = {
           let lastPrice = 0;
           if(discount.innerText != '0'){
               if(discountType.innerText == '%'){
-                lastPrice = Number(salePrice) * Number(discount) * 0.01;
+                lastPrice = Number(salePrice) * Number(discount.innerText.replace(/\,/g, '')) * 0.01;
               }else{
+
                 lastPrice = Number(salePrice) - Number(discount.innerText.replace(/\,/g, ''));
               }
           }else{
@@ -295,36 +296,6 @@ window.addEventListener("DOMContentLoaded", function() {
     }
     /* 전체 선택 토글 기능 E */
 
-    /* 수량 변경 기능 S *//*
-    const changeEaEls = document.getElementsByClassName("change_ea");
-    for (const el of changeEaEls) {
-        el.addEventListener("click", function() {
-            const targetEl = document.getElementById(this.dataset.targetId);
-            const inputEl = document.getElementById(this.dataset.eaId);
-            const price = Number(this.dataset.price);
-
-            let ea = Number(inputEl.value);
-            let i = 0;
-            const classList = el.classList;
-            if (classList.contains('down')) {
-                ea--;
-                i--;
-            } else {
-                ea++;
-                i++;
-            }
-
-            ea = ea < 1 ? 1 : ea;
-            inputEl.value = ea;
-
-            const total = price * ea;
-            targetEl.innerText = total.toLocaleString();
-
-
-
-        });
-    }
-     수량 변경 기능 E */
 });
 
 

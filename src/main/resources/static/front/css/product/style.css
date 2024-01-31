@@ -205,6 +205,10 @@
 .incartBtn {
     background-color: var(--sub-color);
 }
+.save_post{
+    background: none;
+    border: none;
+}
 
 /* 탭 스타일 */
 .tabs {

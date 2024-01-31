@@ -39,11 +39,6 @@ window.addEventListener("DOMContentLoaded", async function(){
         } catch (err) {
             console.error(err);
         }
-
-
-
-
-
     }
 });
 
