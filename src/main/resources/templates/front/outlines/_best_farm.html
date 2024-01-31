@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="farm">
     <div class="max-w-screen-lg ma">
-        <div class="farmerBox" th:each="farm, status : *{farmers}" th:object="${farm}">
+        <div class="farmerBox" th:each="farm, status : *{farmers}" th:if="${!status.first}" th:object="${farm}">
+
             <a class="best_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
                 <div class="lank" th:if="${status.index < 3}">
                     <img th:src="'../image/ranking-0' + ${status.index+1} +'.png'">

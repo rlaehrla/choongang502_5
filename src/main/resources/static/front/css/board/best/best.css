@@ -1,5 +1,15 @@
-h2 {
+main     {
+    margin-top: 50px;
+}
+h2.lank_title {
     width: 500px;
+    padding: 12px 0px;
+    color: rgb(33, 34, 36);
+    text-align: center;
+    background-color: var(--sub-color);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin: 0;
 }
 .farmRanking section {
     box-shadow: rgba(48, 52, 65, 0.08) 0px 5px 23px -2px;
@@ -52,4 +62,11 @@ h2 {
     border-radius: 50%;
     opacity: 1;
     object-fit: cover;
+}
+.first_lank {
+    box-shadow: rgba(48, 52, 65, 0.08) 0px 5px 23px -2px;
+    border: 1px solid var(--sub-color);
+    margin-bottom: 16px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
