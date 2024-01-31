@@ -2,6 +2,7 @@ package org.choongang.member.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.board.controllers.BoardDataSearch;
 import org.choongang.board.entities.BoardData;
 import org.choongang.board.service.SaveBoardDataService;
@@ -21,7 +22,9 @@ import org.choongang.order.entities.OrderItem;
 import org.choongang.order.repositories.OrderInfoRepository;
 import org.choongang.order.service.OrderInfoService;
 import org.choongang.product.entities.Product;
+import org.choongang.product.entities.ProductWish;
 import org.choongang.product.service.ProductInfoService;
+import org.choongang.product.service.ProductWishService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,6 +47,7 @@ public class MypageController implements ExceptionProcessor {
     private final PointInfoService pointInfoService;
     private final SaveBoardDataService saveBoardDataService;
     private final ProductInfoService productInfoService;
+    private final ProductWishService productWishService;
 
     @GetMapping
     public String myPage(Model model) {
@@ -130,17 +134,17 @@ public class MypageController implements ExceptionProcessor {
     }
 
     /**
-     * 찜 게시글 목록
+     * 찜한 상품 목록
      *
      * @param search
      * @param model
      * @return
      */
     @GetMapping("/save_post")
-    public String savePost(@ModelAttribute BoardDataSearch search, Model model) {
+    public String savePost(@ModelAttribute ProductSearch search, Model model) {
         commonProcess("save_post", model);
 
-        ListData<BoardData> data = saveBoardDataService.getList(search);
+        ListData<ProductWish> data = productWishService.getWishProducts(search);
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());

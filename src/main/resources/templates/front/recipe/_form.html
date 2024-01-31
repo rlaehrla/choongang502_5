@@ -56,18 +56,18 @@
     </div>
     <div class="rows">
         <div class="stit" th:text="#{카테고리}"></div>
-        <tr>
-            <th>요리 분류</th>
-            <td th:unless="*{mode == 'edit'}">
+        <div class="cate_select">
+            <th:block th:if="*{#strings.isEmpty(cateCd)}">
                 <button type="button" name="cate_select" id="cate_select" class="sbtn">요리 분류</button>
-                <input type="hidden" id="category" name="category" th:field="*{category}">
-                <!--<div class="error" th:each="err : ${#fields.errors('cateCd')}" th:text="${err}"></div>-->
-            </td>
-            <td th:if="*{mode == 'edit'}">
-                <button type="button" name="cate_select" id="cate_select" class="sbtn" th:text="${category}"></button>
-                <input type="hidden" id="category" name="category" th:field="*{category}">
-            </td>
-        </tr>
+                <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
+            </th:block>
+            <th:block th:unless="*{#strings.isEmpty(cateCd)}">
+                <button type="button" name="cate_select" id="cate_select" class="sbtn on" th:text="*{@recipeUtils.findCateNm(cateCd)}"></button>
+                <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
+            </th:block>
+        </div>
+
+
     </div>
 
     <div class="rows">
@@ -144,7 +144,8 @@
     <script>
         const { popup } = commonLib;
         const cate_select = document.getElementById("cate_select");
-        cate_select.onclick = () => popup.open('/admin/recipe/select', 500, 500);
+
+        cate_select.onclick = () => popup.open('/admin/recipe/select', 450, 450);
     </script>
 
     <th:block th:replace="~{common/_file_tpl::image1_tpl}"></th:block>

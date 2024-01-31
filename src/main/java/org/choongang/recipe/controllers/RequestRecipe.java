@@ -32,8 +32,9 @@ public class RequestRecipe {
     
     private int estimatedT;
 
-    private String category;
-    private String subCategory;
+    @NotBlank
+    private String cateCd;
+
     private int amount;
 
     private String[] requiredIng; // 필수재료

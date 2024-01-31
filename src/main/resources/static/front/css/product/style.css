@@ -1,5 +1,3 @@
-
-
 /* 상품 상세 S */
 .product_detail { max-width: 1000px; }
 .product_detail .product_main { display: flex; margin-bottom: 100px; }
@@ -132,7 +130,7 @@
 .incartBtn {
     background-color: var(--sub-color);
 }
-.save_post{
+.share_btns .save_post{
     background: none;
     border: none;
 }
