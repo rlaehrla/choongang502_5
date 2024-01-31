@@ -25,6 +25,12 @@ import org.choongang.product.entities.Product;
 import org.choongang.product.entities.ProductWish;
 import org.choongang.product.service.ProductInfoService;
 import org.choongang.product.service.ProductWishService;
+import org.choongang.recipe.controllers.RecipeDataSearch;
+import org.choongang.recipe.entities.Recipe;
+import org.choongang.recipe.entities.RecipeWish;
+import org.choongang.recipe.services.RecipeInfoService;
+import org.choongang.recipe.services.RecipeWishNotFoundException;
+import org.choongang.recipe.services.RecipeWishService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -48,6 +54,8 @@ public class MypageController implements ExceptionProcessor {
     private final SaveBoardDataService saveBoardDataService;
     private final ProductInfoService productInfoService;
     private final ProductWishService productWishService;
+    private final RecipeWishService recipeWishService;
+    private final RecipeInfoService recipeInfoService;
 
     @GetMapping
     public String myPage(Model model) {
@@ -78,12 +86,31 @@ public class MypageController implements ExceptionProcessor {
     @GetMapping("/diary")
     public String diary(@ModelAttribute RequestMemberInfo memberInfo, Model model, Errors errors) {
         commonProcess("diary", model);
+
         return utils.tpl("member/mypage/diary");
     }
 
-    @GetMapping("/diary/content/{tab}")
-    public String content(@PathVariable("tab") String tab) {
-        return utils.tpl("member/mypage/content/" + tab);
+    @GetMapping("/diary/content/bookmark")
+    public String content(@ModelAttribute RecipeDataSearch search, Model model) {
+
+        ListData<RecipeWish> wishes = recipeWishService.getWishRecipes(search);
+        List<Recipe> recipes = wishes.getItems().stream().map(s -> s.getRecipe()).toList();
+
+
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("pagination", wishes.getPagination());
+        return utils.tpl("member/mypage/content/bookmark");
+    }
+
+    @GetMapping("/diary/content/recipe")
+    public String recipe(@ModelAttribute RecipeDataSearch search, Model model){
+
+        ListData<Recipe> recipes = recipeInfoService.getPersonalList(search);
+
+
+        model.addAttribute("recipes", recipes.getItems());
+        model.addAttribute("pagination", recipes.getPagination());
+        return utils.tpl("member/mypage/content/recipe");
     }
 
 
@@ -175,6 +202,9 @@ public class MypageController implements ExceptionProcessor {
             pageTitle = "포인트 상세";
             addCss.add("member/mypage/point");
             addCss.add("member/mypage/mypage");
+        }else if (mode.equals("diary")) {
+            addCss.add("member/mypage/diary");
+            addScript.add("member/mypage/diary");
         }
         addCommonScript.add("tab");
         addCommonCss.add("tab");

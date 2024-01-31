@@ -15,18 +15,15 @@ public class ApiProductController {
 
 
     @GetMapping("/save_post/{pSeq}")
-    public JSONData<Object> savePost(@PathVariable("pSeq") Long pSeq){
+    public void savePost(@PathVariable("pSeq") Long pSeq){
 
         productWishService.save(pSeq);
-
-        return new JSONData<>();
     }
 
     @DeleteMapping("/save_post/{pSeq}")
-    public JSONData<Object> deletePost(@PathVariable("pSeq") Long pSeq){
+    public void deletePost(@PathVariable("pSeq") Long pSeq){
         productWishService.delete(pSeq);
 
-        return new JSONData<>();
     }
 
 }
