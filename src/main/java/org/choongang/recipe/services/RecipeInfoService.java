@@ -382,7 +382,7 @@ public class RecipeInfoService {
         PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
         List<Recipe> items = new JPAQueryFactory(em)
                 .selectFrom(recipe)
-                //.leftJoin(recipe.member)
+                .leftJoin(recipe.member)
                 .fetchJoin()
                 .offset(offset) // 시작 번호
                 .limit(limit)
