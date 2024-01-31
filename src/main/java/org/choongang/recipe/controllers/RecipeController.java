@@ -34,7 +34,7 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeSaveService recipeSaveService;
     private final RecipeInfoService recipeInfoService;
     private final RecipeDeleteService recipeDeleteService;
-
+    private final MemberUtil memberUtil;
     private final RecipeAuthService recipeAuthService;
     private Recipe recipe;
 
@@ -53,7 +53,18 @@ public class RecipeController implements ExceptionProcessor {
     @GetMapping("/add")
     public String write(@ModelAttribute RequestRecipe form, Model model) {
         commonProcess("add", model);
-        // member, admin만 등록 가능
+
+        if(!memberUtil.isLogin()){
+
+            String script = "alert('로그인이 필요한 페이지입니다.');" +
+                    "location.href='/member/login';";
+            model.addAttribute("script", script);
+
+            return "common/_execute_script";
+        }
+
+
+        // 관리자, 회원, 농부 체크
         recipeAuthService.accessCheck(form);
 
         return utils.tpl("recipe/add");
