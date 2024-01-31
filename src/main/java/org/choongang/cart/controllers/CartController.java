@@ -8,6 +8,10 @@ import org.choongang.cart.service.CartInfoService;
 import org.choongang.cart.service.CartSaveService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertBackException;
+import org.choongang.commons.exceptions.AlertException;
+import org.choongang.member.MemberUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -30,6 +34,7 @@ public class CartController implements ExceptionProcessor {
     private final CartInfoService cartInfoService;
     private final CartDeleteService cartDeleteService;
     private final Utils utils;
+    private final MemberUtil memberUtil;
 
     @ModelAttribute("pageTitle")
     public String getPageTitle() {
@@ -45,6 +50,10 @@ public class CartController implements ExceptionProcessor {
     @PostMapping("/save")
     public String save(RequestCart form, Errors errors, Model model) {
         commonProcess("product", model);
+
+        if(memberUtil.isFarmer()){
+            throw new AlertException(Utils.getMessage("NotFarmer", "errors"), HttpStatus.BAD_REQUEST);
+        }
 
         cartSaveService.save(form);
 
