@@ -41,7 +41,7 @@ const productDetails = {
           let lastPrice = 0;
           if(discount.innerText != '0'){
               if(discountType.innerText == '%'){
-                lastPrice = Number(salePrice) * Number(discount.innerText.replace(/\,/g, '')) * 0.01;
+                lastPrice = Number(salePrice) - (Number(salePrice) * Number(discount.innerText.replace(/\,/g, '')) * 0.01);
               }else{
 
                 lastPrice = Number(salePrice) - Number(discount.innerText.replace(/\,/g, ''));

@@ -20,7 +20,7 @@ public class ProductUtils {
             if(discountType == DiscountType.PRICE){
                 return salePrice - discount + deliveryPrice;
             } else{
-                return (int) Math.round(salePrice * (discount * 0.01)) + deliveryPrice;
+                return salePrice - ((int) Math.round(salePrice * (discount * 0.01))) + deliveryPrice;
             }
         }else {
             return salePrice + deliveryPrice;
