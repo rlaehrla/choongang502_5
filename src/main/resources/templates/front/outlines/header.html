@@ -30,11 +30,13 @@
                 </div>
                 <th:block sec:authorize="isAuthenticated()"> <!-- 로그인 상태 -->
 
-                    <th:block th:if="${session.member.profileImage != null}"
-                              th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
-                    </th:block>
                     <div class="idMenu">
-                        <span th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></span>
+                        <div class="flex">
+                            <th:block class="profile_image" th:if="${session.member.profileImage != null}"
+                                      th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
+                            </th:block>
+                            <div th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></div>
+                        </div>
                         <a th:href="@{/cart}" th:text="#{장바구니}"></a>
                         <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
                         <a th:if="${@memberUtil.isFarmer()}" th:href="@{/farmer}" th:text="#{관리페이지}"></a>
