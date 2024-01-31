@@ -3,44 +3,73 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <section th:replace="~{front/outlines/_banner::banner}">
-    </section>
+    <section  class="max-w-screen-lg ma">
+        <section th:replace="~{front/outlines/_banner::banner}">
+        </section>
 
-        <div class="recommendedRecipes">
+        <div class="title">
             <h1 th:text="#{추천레시피}"></h1>
         </div>
-    <section class="max-w-screen-lg flex ma">
-        <ul>
-            <li th:each="recipe : ${추천레시피}" th:object="${recipe}">
-                <a th:href="@{레시피게시물링크}">
-                    <div>
-                        <strong type="text" th:field="*{레시피제목}"></strong>
-                        <input type="text" th:field="*{상품태그}" readonly>
-                    </div>
-                    <input type="text" th:field="*{좋아요}" readonly>
-                    <img th:src="*{프로필사진링크}">
-                    <input type="text" th:field="*{글쓴이}" readonly>
-                </a>
-            </li>
-        </ul>
-    </section>
+        <section class="flex">
+            <ul>
+                <li th:each="recipe : ${추천레시피}" th:object="${recipe}">
+                    <a th:href="@{레시피게시물링크}">
+                        <div>
+                            <strong type="text" th:field="*{레시피제목}"></strong>
+                            <input type="text" th:field="*{상품태그}" readonly>
+                        </div>
+                        <input type="text" th:field="*{좋아요}" readonly>
+                        <img th:src="*{프로필사진링크}">
+                        <input type="text" th:field="*{글쓴이}" readonly>
+                    </a>
+                </li>
+            </ul>
+        </section>
 
-    <div class="inSeasonTitle"> <!-- 제철/특산품 -->
-        <h1 th:text="#{제철_특산품}"></h1>
-    </div>
-    <section class="inSeasonProducts" id="inSeasonProductsContainer">
-            <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
-                <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}">
-                    <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
-                    <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
+        <div class="title"> <!-- 제철/특산품 -->
+            <h1 th:text="#{제철_특산품}"></h1>
+        </div>
+        <section class="inSeasonProducts flex" id="inSeasonProductsContainer">
+                <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
+                    <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}">
+                        <th:block th:if="*{listImages != null && !listImages.isEmpty()}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
+                        <th:block th:unless="*{listImages != null && !listImages.isEmpty()}" width="1000" height="1000"></th:block>
+                        <div th:text="*{name}"></div>
+                        <div class="productText">
+                            <span th:text="*{consumerPrice}"></span>
+                            <span th:text="#{돈단위}"></span>
+                            <span th:if="*{discount != 0}">
+                               <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                               <th:block th:text="#{%}"></th:block>
+                            </span>
+                        </div>
+                        <div>
+                            <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
+                        </div>
+                        <div class="star">
+                            <i class="xi-star"></i>
+                            <span th:text="${평점}"></span>
+                        </div>
+
+                    </a>
+                </div>
+        </section>
+
+        <div class="title">
+            <h1 th:text="#{최신상품}"></h1>
+        </div>
+        <section class="latestProducts">
+            <div class="products" th:each="item : ${items}" th:object="${item}">
+                <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}" >
+                    <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
                     <div th:text="*{name}"></div>
                     <div class="productText">
                         <span th:text="*{consumerPrice}"></span>
                         <span th:text="#{돈단위}"></span>
                         <span th:if="*{discount != 0}">
-                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
-                           <th:block th:text="#{%}"></th:block>
-                        </span>
+                               <th:block th:text="*{'할인율 : ' + discount}"></th:block>
+                               <th:block th:text="#{%}"></th:block>
+                            </span>
                     </div>
                     <div>
                         <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
@@ -49,40 +78,34 @@
                         <i class="xi-star"></i>
                         <span th:text="${평점}"></span>
                     </div>
-
                 </a>
             </div>
-    </section>
+        </section>
 
-    <div class="latestTitle">
-        <h1 th:text="#{최신상품}"></h1>
-    </div>
-    <section class="latestProducts">
-        <div class="products" th:each="item : ${items}" th:object="${item}">
-            <a class="imgBox" th:href="@{/product/detail/{seq}(seq=*{seq})}" >
-                <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
-                <div th:text="*{name}"></div>
-                <div class="productText">
-                    <span th:text="*{consumerPrice}"></span>
-                    <span th:text="#{돈단위}"></span>
-                    <span th:if="*{discount != 0}">
-                           <th:block th:text="*{'할인율 : ' + discount}"></th:block>
-                           <th:block th:text="#{%}"></th:block>
-                        </span>
+        <section class="flex best_zone">
+            <div class="best_items">
+                <div class="best_item" th:each="farm, status : *{farmers}" th:object="${farm}">
+                    <a class="best_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
+                        <div class="lank" th:if="${status.index < 3}">
+                            <img th:src="'../image/ranking-0' + ${status.index+1} +'.png'">
+                        </div>
+                        <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
+                        <div class="lank_text flex">
+                            <div th:text="*{salePoint}"></div>
+                            <div th:text="*{farmTitle}"></div>
+                        </div>
+                        <!--<p th:text="#{찜}"></p>-->
+                        <div class="imgBox">
+                            <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
+                            <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
+                        </div>
+                    </a>
                 </div>
-                <div>
-                    <p th:text="#{판매가} + ' : ' + *{salePrice}"></p>
-                </div>
-                <div class="star">
-                    <i class="xi-star"></i>
-                    <span th:text="${평점}"></span>
-                </div>
-            </a>
-        </div>
-    </section>
+            </div>
 
-    <!-- 지도 영역 : th:block th:if로 처리 -->
-    <div class="kakao_map" id="map" style="width:550px;height:550px;"></div>
+            <div class="kakao_map" id="map"></div>
+        </section>
+    </section>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30c3d31753d6d4b0cc09566b021bca87"></script>
     <script>
         var mapContainer = document.getElementById('map'),
@@ -125,26 +148,5 @@
             infowindow.open(map, marker);
         });
     </script>
-
-    <div class="max-w-screen-lg ma">
-        <div class="flex" th:each="farm, status : *{farmers}" th:object="${farm}">
-            <a th:href="@{/farm/blog/{id}(id=*{userId})}">
-                <div th:if="${status.index < 3}">
-
-                </div>
-                <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
-                <div>
-                    <span th:text="*{salePoint}"></span>
-                </div>
-                <!--<p th:text="#{찜}"></p>-->
-                <div class="imgBox">
-                    <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
-                    <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
-                </div>
-                <p th:text="*{farmTitle}"></p>
-            </a>
-        </div>
-    </div>
-
 </main>
 </html>
