@@ -6,12 +6,22 @@
     grid-template-columns: repeat(3, minmax(0,1fr));
     row-gap: 40px;
 }
+.product .item {
+    position: relative;
+    z-index: 1;
+}
+
+.product .item .share_btns {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
 .item > a > *{
     margin-top: 7px;
 }
 .contentBox .item .imgBox{
-    width: 250px;
-    height: 250px;
+    width: 100%;
     object-fit: cover;
     position: relative;
 }
@@ -205,7 +215,7 @@
 .incartBtn {
     background-color: var(--sub-color);
 }
-.save_post{
+.share_btns .save_post{
     background: none;
     border: none;
 }
