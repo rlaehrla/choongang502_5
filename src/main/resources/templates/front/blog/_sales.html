@@ -5,7 +5,7 @@
             <div class="item" th:each="item : ${products}" th:object="${item}">
                 <a th:href="@{/product/detail/{seq}(seq=*{seq})}" >
                     <div class="imgBox">
-                        <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 100, 100, 'product_main')}"></th:block>
+                        <th:block th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
                     </div>
                     <div class="cate text-16px" th:each="cate : *{category}">
                         <span th:text="${cate.cateNm}"></span>
