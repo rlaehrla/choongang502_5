@@ -8,6 +8,8 @@ import org.choongang.member.MemberUtil;
 import org.choongang.product.entities.Product;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.Recipe;
+import org.choongang.recipe.entities.RecipeCate;
+import org.choongang.recipe.repositories.RecipeCateRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class RecipeSaveService {
     private final RecipeRepository recipeRepository;
     private final FileUploadService fileUploadService;
     private final Utils utils;
+    private final RecipeCateRepository recipeCateRepository;
 
     public void save(RequestRecipe form) {
         String mode = form.getMode();
@@ -40,10 +43,13 @@ public class RecipeSaveService {
             data.setMember(memberUtil.getMember());
 
         }
+
+        RecipeCate recipeCate = recipeCateRepository.findById(form.getCateCd()).orElseThrow(RecipeCateNotFoundException::new);
+
         data.setRcpName(form.getRcpName());
         data.setRcpInfo(form.getRcpInfo());
         data.setEstimatedT(form.getEstimatedT());
-        //data.setCategory(form.getCategory());
+        data.setRecipeCate(recipeCate);
         data.setAmount(form.getAmount());
         data.setRequiredIng(form.getRequiredIngJSON());
         data.setSubIng(form.getSubIngJSON());
