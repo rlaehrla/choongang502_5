@@ -110,10 +110,11 @@ public class productController {
         List<String> addScript = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
 
+        addScript.add("product/list");
+
         if(mode.equals("product")){
             pageTitle = "전체보기";
             addCss.add("product/style");
-
 
             if(category == MainCategory.FRUIT){
                 pageTitle = "과일 "+ pageTitle;
