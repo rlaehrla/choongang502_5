@@ -11,10 +11,14 @@
 
 /* 베스트 S */
 .best_zone{
-
+    justify-content: space-between;
 }
 .best_items{
-    width: 550px
+    width: 400px
+}
+
+.best_items h2{
+    padding-left: 24px;
 }
 
 .best_item{

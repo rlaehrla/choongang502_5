@@ -8,7 +8,7 @@
         </section>
 
         <div class="title">
-            <h1 th:text="#{추천레시피}"></h1>
+            <h2 th:text="#{추천레시피}"></h2>
         </div>
         <section class="flex">
             <ul>
@@ -27,7 +27,7 @@
         </section>
 
         <div class="title"> <!-- 제철/특산품 -->
-            <h1 th:text="#{제철_특산품}"></h1>
+            <h2 th:text="#{제철_특산품}"></h2>
         </div>
         <section class="inSeasonProducts productsItem flex" id="inSeasonProductsContainer">
             <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
@@ -59,7 +59,7 @@
         </section>
 
         <div class="title">
-            <h1 th:text="#{최신상품}"></h1>
+            <h2 th:text="#{최신상품}"></h2>
         </div>
         <section class="latestProducts productsItem">
             <div class="products" th:each="item : ${items}" th:object="${item}">
@@ -92,12 +92,12 @@
 
         <section class="flex best_zone">
             <div class="best_items">
+                <h2 th:text="#{인기_많은_농장}"></h2>
                 <div class="best_item" th:each="farm, status : *{farmers}" th:object="${farm}">
                     <a class="best_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
-                        <div class="lank" th:if="${status.index < 3}">
+                        <div class="lank" th:if="${status.index < 5}">
                             <img th:src="'../image/ranking-0' + ${status.index+1} +'.png'">
                         </div>
-                        <div th:unless="${status.index < 3}" th:text="${status.count}"></div>
                         <div class="lank_text flex">
                             <div th:text="*{salePoint}"></div>
                             <div th:text="*{farmTitle}"></div>
