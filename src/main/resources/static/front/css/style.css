@@ -352,16 +352,15 @@ li {
 }
 
 .latestProducts {
-    max-width: 1200px; /* 최대 너비 설정 */
     padding: 20px 0 50px 0;
 }
 
 .products {
     padding: 0 40px;
     flex: 1 0 calc(33.33% - 30px); /* 아이템이 너비의 1/3을 차지하도록 설정 (30px 간격 고려) */
-    /*max-width: calc(33.33% - 100px); *//* 최대 너비 설정 */
     text-align: center;
     font-size: 20px;
+    position: relative;
 }
 
 .productText {

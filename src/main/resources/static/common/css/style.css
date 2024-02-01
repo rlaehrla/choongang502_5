@@ -43,6 +43,10 @@
 .products > a > *{
     margin-top: 7px;
 }
+.products  a div:first-child {
+    display: flex;
+    justify-content: space-evenly;
+}
 .contentBox .products .imgBox{
     width: 250px;
     height: 250px;
