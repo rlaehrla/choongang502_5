@@ -102,6 +102,7 @@ cursor: pointer;
     margin: 0 auto; /* 좌우 여백 설정 */
     max-width: 1200px; /* 최대 너비 설정 */
     padding: 20px 0 50px 0;
+    align-items: center;
 }
 .prod_button {
      background-color: #21BF73;
@@ -119,6 +120,7 @@ cursor: pointer;
     grid-template-columns: repeat(3,minmax(0,1fr));
     row-gap: 40px;
     display: grid;
+    margin: 49px;
 }
 .imgBox .recipe_main {
     width: 250px;
@@ -137,10 +139,15 @@ cursor: pointer;
     grid-template-columns: repeat(3, minmax(0,1fr));
     row-gap: 40px;
 }
-.item > a > *{
-    margin-top: 7px;
+.contentBox .share_btns{
+margin-left: 10px;
+margin-bottom: -10px;
 }
 
+.contentBox .item {
+    width: 800px;
+    height: 800px;
+}
 .contentBox .item .imgBox{
     width: 300px;
     height: 300px;
@@ -167,12 +174,16 @@ position: absolute;
 margin: 10px 0;
 
 }
+.post_list .img_nick {
+    display: flex;
+    align-items: center;
+}
+.item .post_list * {
+ position:relative;
+ }
 
-.item .post_list * { position:relative; display: flex; align-items: center; }
+.item .poster { color: var(--main-color); font-weight: bold; font-size: 1.2rem; align-items: center; }
 
-.item .poster { color: var(--main-color); font-weight: bold; font-size: 1.305rem; align-items: center; }
-
-.item .poster_main {  }
 
 .font-semibold {
     font-weight: 600;
@@ -210,10 +221,14 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 }
 
-.item .rcpName_list .rcpEst {
+.item .rcpName_list {
+ margin: 10px 0;
+ }
+.rcpName_list .rcpEst {
 border: 1px solid #D3D2D2; border-radius: 5px;
 padding: 2px; color:#887B7B;
 background-color: #F6F4F4;
+margin-left: 5px;
 }
 /* 레시피 리스트 E */
 
@@ -265,34 +280,45 @@ background-color: #F6F4F4;
     background-color: var(--highlight-color);
     color: #fff;
  }
- .xi-angle-right {
-    pointer:cursor;
-     align-items: center;
-     display: flex;
+
+ .xi-angle-right:before {
+     font-size: 30px;
  }
-  .xi-angle-left {
+  .xi-angle-right{
+      pointer:cursor;
+       align-items: center;
+       display: flex;
+}
+.xi-angle-left:before {
+font-size: 30px;
+
+ }
+.xi-angle-left {
     pointer:cursor;
     align-items: center;
      display: flex;
- }
+}
 
- .allbtn{
- width: 100%;
- border: 1px solid #D3D2D2;
- border-radius: 5px;
- background-color: #F6F4F4;
- text-align: center;
- padding: 10px;
- margin : 10px;
- }
- .rcp_slide .allbtn {
- width: 100%;
- border: 1px solid #D3D2D2;
- border-radius: 5px;
- background-color: #F6F4F4;
- text-align: center;
- padding: 10px;
- margin : 10px;
+
+.rcp_official .allbtn {
+     width: 90%;
+     border: 1px solid #D3D2D2;
+     border-radius: 5px;
+     background-color: #F6F4F4;
+     text-align: center;
+     padding: 10px;
+     margin: 10px;
+     cursor: pointer;
+     color: #887B7B;
+}
+.rcp_slide .allbtn{
+     width: 90%;
+     border: 1px solid #D3D2D2;
+     border-radius: 5px;
+     background-color: #F6F4F4;
+     text-align: center;
+     padding: 10px;
+     margin: 10px;
  }
 
 .allbtn span {
@@ -434,8 +460,12 @@ label:hover {
 .product_detail { max-width: 1000px; }
 .product_detail .product_main { display: flex; margin-bottom: 100px; }
 .product_detail .product_main .product_images { width: 450px; margin-right: 30px; }
-.product_detail .product_main .main_image img { width: 100%; }
-.product_detail .product_main .right_section { flex-grow: 1;  }
+.product_detail .product_main .main_image img { width: 100%;
+ border-radius: 5px;}
+.product_detail .product_main .right_section { flex-grow: 1; padding-left: 40px; padding-right: 40px; width: 500px; }
+.product_detail .product_main .right_section .btns {
+margin-top: 200px;
+ }
 .product_detail .product_main .product_info { margin-top: 5px;}
 
 .product_detail .product_main .product_info .rcp_title { font-weight: bold; font-size: 1.93rem; }
@@ -453,8 +483,12 @@ font-size: 1.1rem; color: #887B7B; margin-left: 5px;
 .product_detail .product_main .farmer_info .farm * {position:relative; display: flex; align-items: center; }
 .product_detail .product_main .farmer_info .farm .recipe_poster { font-weight: bold; font-size: 1.305rem; align-items: center; }
 .product_detail .product_main .farmer_info { margin-top: 10px; }
+.product_detail .product_main .farmer_info { margin-top: 10px; }
 .product_detail .thumbs { display: flex; height: 80px; margin-top: 10px; }
-.product_detail .thumbs .thumb { width: 80px; cursor: pointer; }
+.product_detail .thumbs .thumb { width: 80px; cursor: pointer;
+}
+ .product_detail .thumbs .thumb img {
+  border-radius: 5px; }
 .product_detail .thumbs .thumb + .thumb { margin-left: 3px; }
 .recipe_poster { color: var(--main-color); }
 

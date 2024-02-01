@@ -49,6 +49,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -73,6 +74,12 @@ public class RecipeInfoService {
      */
     public Recipe get(Long seq) {
         Recipe recipe = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
+        String how = recipe.getHow();
+        String tip = recipe.getTip();
+        String[] hows = how.split("__");
+        String[] tips = tip.split("__");
+        recipe.setHowP(hows);
+        recipe.setTipP(tips);
 
         try {
             ObjectMapper om = new ObjectMapper();
@@ -316,9 +323,6 @@ public class RecipeInfoService {
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
-/*            if(skey.contains("여름지기마켓")) {
-                System.out.println("여름지기 = " + recipe.member.authorities);
-            }*/
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
             BooleanExpression nickCond = recipe.member.nickname.contains(skey);
             BooleanExpression userIdCond = recipe.member.userId.contains(skey);
