@@ -11,6 +11,7 @@ import org.choongang.board.service.BoardInfoService;
 import org.choongang.board.service.BoardSaveService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.review.ReviewAuthService;
+import org.choongang.board.service.review.ReviewScoreService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 import org.choongang.commons.exceptions.AlertBackException;
@@ -37,8 +38,8 @@ import java.util.List;
 public class BoardController extends AbstractBoardController {
 
 
-    public BoardController(ProductInfoService productInfoService, ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(productInfoService, confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BoardController(ReviewScoreService reviewScoreService, ProductInfoService productInfoService, ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(reviewScoreService, productInfoService, confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     /**
@@ -199,6 +200,7 @@ public class BoardController extends AbstractBoardController {
 
         // 게시글 저장 처리
         BoardData boardData = boardSaveService.save(form);
+
 
         String redirectURL = "redirect:/board/";
         redirectURL += board.getLocationAfterWriting().equals("view") ? "view/" + boardData.getSeq() : "list/" + form.getBid(); // 글 작성후 이동 장소  - 게시글 상세 : 게시글 목록

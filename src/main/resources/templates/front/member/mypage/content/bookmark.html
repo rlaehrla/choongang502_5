@@ -26,8 +26,8 @@
             </a>
             <div class="post_list">
                 <a th:href="@{임시}">
-                    <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                        <th:block th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                    <th:block th:if="*{profileImage != null}">
+                        <th:block th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
                         </th:block>
                     </th:block>
                     <span class="poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>

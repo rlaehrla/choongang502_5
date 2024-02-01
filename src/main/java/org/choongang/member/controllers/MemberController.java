@@ -217,12 +217,16 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("not", model);
 
 
+
         return utils.tpl("member/member_not");
+
+
+
     }
 
     @PostMapping("/not")
     public String notMemberPs(@Valid RequestNonmember form, Errors errors, Model model){
-
+        commonProcess("not", model);
         nonmemberValidator.validate(form, errors);
 
         if (errors.hasErrors()) {

@@ -123,7 +123,7 @@ public class OrderController implements ExceptionProcessor {
 
         OrderInfo orderInfo = orderSaveService.save(form);
         Long seq = orderInfo.getSeq();
-        List<OrderItem> orderItems = orderItemRepository.findByOrderInfo(orderInfo).orElse(null);
+        List<OrderItem> orderItems = orderItemRepository.findByOrderInfoSeq(seq);
         if(orderInfo.getPayPrice() == 0){
             String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
                     + "location.replace('/order/detail/"+ seq+"');";
@@ -157,7 +157,7 @@ public class OrderController implements ExceptionProcessor {
         OrderInfo orderInfo = orderInfoService.get(seq);
 
         /* 포인트 적립 S */
-        int pt = (int)Math.round(0.05 * (orderInfo.getPayPrice() - orderInfo.getUsePoint()));
+        int pt = (int)Math.round(0.05 * orderInfo.getPayPrice());
 
         Point point = Point.builder()
                 .member((Member)memberUtil.getMember())
@@ -174,7 +174,7 @@ public class OrderController implements ExceptionProcessor {
     public String payFail(Model model){
 
         String script="alert('결제를 취소하였습니다.');"
-                +"history.back();";
+                +"location.replace('/cart');";
 
         model.addAttribute("script", script);
         return "common/_execute_script";
@@ -212,6 +212,8 @@ public class OrderController implements ExceptionProcessor {
             pageTitle = "주문하기";
             addCommonScript.add("address");
             addScript.add("order/order");
+            addCss.add("order/form");
+            addCss.add("cart/cart");
         }else if(mode.equals("detail")){
             addCss.add("order/detail");
             pageTitle = "주문상세";

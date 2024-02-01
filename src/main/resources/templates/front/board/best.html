@@ -6,20 +6,22 @@
     <div class="flex max-w-screen-lg ma">
         <div class="farmRanking">
             <h2 class="lank_title">농장 랭킹</h2>
-            <div class="farmerBox" th:each="farm, status : *{farmers[0]}" th:object="${farm}">
-                <a class="best_lank first_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
-                    <div class="lank">
-                        <img th:src="'../image/ranking-01.png'">
-                    </div>
-                    <div class="lank_text flex">
-                        <strong th:text="${farmerCount.get(farm.seq)}"></strong>
-                        <div th:text="*{farmTitle}"></div>
-                    </div>
-                    <div class="imgBox">
-                        <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
-                        <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
-                    </div>
-                </a>
+            <div  class="farmerBox" th:each="farmer, status : ${farmers}" th:object="${farmer}">
+                <th:block th:if="${status.index == 0}">
+                    <a class="best_lank first_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
+                        <div class="lank">
+                            <img th:src="'../image/ranking-01.png'">
+                        </div>
+                        <div class="lank_text flex">
+                            <strong th:text="${farmerCount.get(farm.seq)}"></strong>
+                            <div th:text="*{farmTitle}"></div>
+                        </div>
+                        <div class="imgBox">
+                            <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
+                            <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
+                        </div>
+                    </a>
+                </th:block>
             </div>
             <section th:replace="~{front/outlines/_best_farm::farm}"></section>
         </div>

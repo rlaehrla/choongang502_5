@@ -19,7 +19,9 @@
                     <div class="farm">
                         <a th:href="@{임시}">
                             <div th:if="*{profileImage != null}">
-                                <th:block  class="profile_img" th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
+
+                                <th:block class="profile_img" th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
+
                                 </th:block>
                             </div>
                             <span class="recipe_poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>

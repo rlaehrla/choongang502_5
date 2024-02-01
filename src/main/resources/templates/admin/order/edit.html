@@ -40,17 +40,17 @@
                 <td th:text="*{payPrice} + '원'"></td>
                 <th>주문상태</th>
                 <td>
-                    <select name="orderStatus" th:value="*{status}">
-                        <option value="READY" th:selected="*{status.title} == '주문 접수 전'">주문 접수 전</option>
-                        <option value="ORDER" th:selected="*{status.title} == '주문 접수'">주문 접수</option>
-                        <option value="IN_CASH" th:selected="*{status.title} == '결제 완료'">결제 완료</option>
-                        <option value="PREPARE" th:selected="*{status.title} == '상품 준비중'">상품 준비중</option>
-                        <option value="DELIVERY" th:selected="*{status.title} == '배송중'">배송중</option>
-                        <option value="ARRIVAL" th:selected="*{status.title} == '배송완료'">배송완료</option>
-                        <option value="DONE" th:selected="*{status.title} == '주문완료'">주문완료</option>
-                        <option value="CANCEL" th:selected="*{status.title} == '입금확인 전 취소'">입금확인 전 취소</option>
-                        <option value="REFUND" th:selected="*{status.title} == '입금 후 취소'">입금 후 취소</option>
-                        <option value="EXCHANGE" th:selected="*{status.title} == '교환'">교환</option>
+                    <select name="orderStatus" th:value="${item.status}">
+                        <option value="READY" th:selected="${item.status.title} == '주문 접수 전'">주문 접수 전</option>
+                        <option value="ORDER" th:selected="${item.status.title} == '주문 접수'">주문 접수</option>
+                        <option value="IN_CASH" th:selected="${item.status.title} == '결제 완료'">결제 완료</option>
+                        <option value="PREPARE" th:selected="${item.status.title} == '상품 준비중'">상품 준비중</option>
+                        <option value="DELIVERY" th:selected="${item.status.title} == '배송중'">배송중</option>
+                        <option value="ARRIVAL" th:selected="${item.status.title} == '배송완료'">배송완료</option>
+                        <option value="DONE" th:selected="${item.status.title} == '주문완료'">주문완료</option>
+                        <option value="CANCEL" th:selected="${item.status.title} == '입금확인 전 취소'">입금확인 전 취소</option>
+                        <option value="REFUND" th:selected="${item.status.title} == '입금 후 취소'">입금 후 취소</option>
+                        <option value="EXCHANGE" th:selected="${item.status.title} == '교환'">교환</option>
                     </select>
                     <button type="submit" class="sbtn">주문 상태 변경</button>
                 </td>

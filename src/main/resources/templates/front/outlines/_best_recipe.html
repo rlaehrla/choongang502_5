@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <section class="rank-sec" name="recipeRank" th:fragment="recipe">
-    <div class="max-w-screen-lg flex ma" th:each="recipe : ${recipes}" th:object="${recipe}">
+    <div class="recipeBox" th:each="recipe, status : ${recipes}" th:if="${!status.first}" th:object="${recipe}">
         <!--<img class="rank-img" th:src="랭킹사진링크">-->
-        <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
-            <div>
-                <strong type="text" th:text="*{rcpName}"></strong>
+        <a class="best_lank flex"  th:href="@{/recipe/view/{seq}(seq=*{seq})}">
+            <div class="recipeImg">
+                <th:block th:if="*{mainImages != null && !mainImages.isEmpty()}" th:utext="*{@utils.printThumb(mainImages[0].seq, 500, 500)}"></th:block>
+            </div>
+            <div class="lank_text">
+                <div>
+                    <strong type="text" th:text="*{rcpName}"></strong>
+                    <div th:text="#{좋아요} + ${recipeCount.get(recipe)}"></div>
+                </div>
                 <div th:if="*{requiredIngP != null}" th:each="required : *{requiredIngP}">
                     <span th:text="${required}"></span>
                 </div>
             </div>
-            <p th:text="${recipeCount.get(recipe)}"></p>
-            <div class="imgBox">
-                <th:block th:if="*{mainImages != null && !mainImages.isEmpty()}" th:utext="*{@utils.printThumb(mainImages[0].seq, 500, 500)}"></th:block>
+            <div class="writer">
+                <div th:text="*{member.nickname}"></div>
+                <div class="imgBox">
+                    <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
+                    <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
+                </div>
             </div>
-            <p th:text="*{member.nickname}"></p>
         </a>
+        <div class="boxLine"></div>
+        </th:block>
     </div>
 </section>
 </html>

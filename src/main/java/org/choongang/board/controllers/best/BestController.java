@@ -71,6 +71,7 @@ public class BestController {
 
         ListData<Recipe> data = recipeInfoService.getBestRecipe(recipeDataSearch);
         List<Recipe> recipes = data.getItems().stream().limit(20).toList();
+
         Map<Recipe, Long> recipeCount = new HashMap<>();
         for(Recipe recipe : recipes){
             QRecipeWish recipeWish = QRecipeWish.recipeWish;

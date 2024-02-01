@@ -1,7 +1,6 @@
 package org.choongang.farmer.blog.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.board.controllers.AbstractBoardController;
@@ -14,6 +13,7 @@ import org.choongang.board.service.BoardInfoService;
 import org.choongang.board.service.BoardSaveService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.review.ReviewAuthService;
+import org.choongang.board.service.review.ReviewScoreService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 import org.choongang.farmer.blog.intro.BlogIntroPost;
@@ -37,8 +37,8 @@ import java.util.List;
 @RequestMapping("/farm/blog")
 public class BlogController extends AbstractBoardController {
 
-    public BlogController(ProductInfoService productInfoService, ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(productInfoService, confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BlogController(ReviewScoreService reviewScoreService, ProductInfoService productInfoService, ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(reviewScoreService, productInfoService, confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     @GetMapping("/{farmerId}")
@@ -57,6 +57,7 @@ public class BlogController extends AbstractBoardController {
         model.addAttribute("introSum", introSum) ;
 
         List<String> addCss = new ArrayList<>() ;
+        List<String> addCommonScript = new ArrayList<>() ;
 
         model.addAttribute("tab", tab);
 
@@ -74,6 +75,8 @@ public class BlogController extends AbstractBoardController {
 
         } else if (tab.equals("review")) {
             String bid = "review" ;
+            commonProcess(bid, "list", model);
+            addCommonScript.add("accordion");
 
             ListData<BoardData> data = boardInfoService.getList(bid, search);
 
@@ -97,6 +100,7 @@ public class BlogController extends AbstractBoardController {
         addCss.add("blog/style");
 
         model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
 
         return utils.tpl("blog/index");
     }

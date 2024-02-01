@@ -104,7 +104,7 @@ public class RecipeWishService {
      */
     public boolean saved(Long reSeq){
         if(memberUtil.isFarmer()){
-            throw new UnAuthorizedException(Utils.getMessage("NotFarmer", "errors"));
+            return false;
         }
 
         if(memberUtil.isLogin()){
