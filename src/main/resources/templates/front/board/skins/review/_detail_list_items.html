@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="review">
-
     <div class="board_list layout_width">
         <div class="flex sb aic">
             <h1 th:replace="~{front/board/skins/review/_board_title::title}"></h1>
@@ -45,19 +44,10 @@
 
                     <!--// post_info -->
 
-                  </div>
-                        <!-- 리뷰 본문 내용 -->
-                        <div class="faq-text hidden">
-                            <th:block th:utext="*{content}"></th:block>
-                            <a th:if="*{showEditButton}" th:href="@{/board/update/{seq}(seq=*{seq})}" th:text="#{글수정}" class="btn"></a>
-                            <a th:if="*{showDeleteButton}" th:href="@{/board/delete/{seq}(seq=*{seq})}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
-                            <a th:if="${board.useReply}" th:href="@{/board/reply/{seq}(seq=*{seq})}" th:text="#{답글}" class="btn"></a>
-                        </div>
-
                         <button class="faq-toggle">
                             <i class="fas xi-angle-down"></i>
                         </button>
-                        <!--// btns-->
+
                  </div>
                 </div>
             </li>

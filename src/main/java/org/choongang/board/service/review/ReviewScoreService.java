@@ -46,7 +46,7 @@ public class ReviewScoreService {
         Iterator<BoardData> iterator = boardDataRepository.findAll(builder).iterator();
         while(iterator.hasNext()){
             BoardData boardData1 = iterator.next();
-            if(boardData1.getSeq() != seq && boardData1.getNum2() != 0){
+            if(boardData1.getSeq() != seq && boardData1.getNum2() != 0L){
                 sum += boardData1.getNum2();
                 count++;
             }else{
