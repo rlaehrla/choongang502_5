@@ -44,8 +44,8 @@
     justify-content: flex-start; /* 좌측 정렬 설정 */
     flex-wrap: wrap;
     margin: 0 auto; /* 좌우 여백 설정 */
-    max-width: 1200px; /* 최대 너비 설정 */
     padding: 20px 0 50px 0;
+    position: relative;
 }
 
 .prod_button {
