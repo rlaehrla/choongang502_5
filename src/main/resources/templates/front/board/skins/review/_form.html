@@ -24,7 +24,7 @@
         <dd>
             <th:block th:each="score : ${#numbers.sequence(1, 5)}">
                 <span>
-                    <input type="radio" name="num2" th:value="${score}" th:field="*{num2}" th:id="${'score_' + score}">
+                    <input type="radio" name="num2" th:value="${score}" th:field="*{num2}" th:id="${'score_' + score}" th:checked="${score == 5}">
                     <label th:for="${'score_' + score}">
                         <th:block th:each="star : ${#numbers.sequence(1, score)}"><i class="xi-star"></i></th:block>
                     </label>
