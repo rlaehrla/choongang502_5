@@ -14,12 +14,14 @@ import org.choongang.file.service.FileUploadService;
 import org.choongang.member.MemberUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BoardSaveService {
 
     private final BoardAuthService boardAuthService;
@@ -112,6 +114,8 @@ public class BoardSaveService {
 
         // 상품 후기일 때(상품번호가 있고, bid가 review일 때) 평점 평균 업데이트
         if (data.getBoard().getBid().equals("review") && form.getNum1() != null) {
+            System.out.println("---- 체크 ----");
+            System.out.println(form);
             reviewScoreService.update(Objects.requireNonNullElse(data.getNum1(), 0L), Objects.requireNonNullElse(data.getNum2(), 0L), Objects.requireNonNullElse(data.getSeq(), 0L));
         }
 
