@@ -8,11 +8,12 @@ import org.choongang.commons.ListData;
 import org.choongang.commons.MenuDetail;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
+import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.controllers.OrderSearch;
 import org.choongang.order.entities.OrderItem;
-import org.choongang.order.service.OrderInfoService;
 import org.choongang.order.service.OrderItemInfoService;
 import org.choongang.order.service.OrderSaveService;
+import org.choongang.order.service.OrderStatusService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller("adminOrderController")
@@ -30,7 +32,7 @@ import java.util.List;
 public class OrderController implements ExceptionProcessor {
 
     private final OrderItemInfoService orderItemInfoService;
-    private final OrderInfoService orderInfoService ;
+    private final OrderStatusService orderStatusService ;
     private final OrderSaveService orderSaveService ;
     private final MemberUtil memberUtil;
     private final HttpServletRequest request ;
@@ -80,12 +82,15 @@ public class OrderController implements ExceptionProcessor {
      */
     @GetMapping("/save")
     public String orderStatusSave(Model model) {
-        Long seq = Long.valueOf(request.getParameter("seq"));
+        Long orderInfoSeq = Long.valueOf(request.getParameter("seq"));
+        List<Long> orderItemSeq = Collections.singletonList(Long.valueOf(request.getParameter("orderItemSeq")));
+        OrderStatus status = OrderStatus.valueOf(request.getParameter("orderStatus"));
 
-        orderSaveService.statusSave(seq);
+        orderSaveService.updateDelivery(orderItemSeq.get(0));  // 배송 정보 업데이트
+        orderStatusService.change(orderInfoSeq, orderItemSeq, status);
 
         String script = String.format("alert('%s'); location.href='/admin/order/edit/%d';",
-                Utils.getMessage("주문_정보가_변경되었습니다.", "commons"), seq);
+                Utils.getMessage("주문_정보가_변경되었습니다.", "commons"), orderItemSeq.get(0));
         model.addAttribute("script", script) ;
 
         return "common/_execute_script" ;
