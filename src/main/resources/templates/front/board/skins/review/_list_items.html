@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <th:block th:fragment="review">
+    <th:block layout:fragment="addScript">
+        <script th:src="@{/common/js/accordion.js}"></script>
+    </th:block>
    <div class="board_list layout_width">
       <div class="flex sb aic">
          <h1 th:replace="~{front/board/skins/review/_board_title::title}"></h1>
@@ -19,11 +23,16 @@
 
          <li th:unless="${items == null || items.isEmpty()}"
              th:each="item : ${items}" th:object="${item}" class="item">
-<!--             [[${item}]]-->
-             <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
-                 <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
-               <h3 th:text="*{subject}"></h3>
-            </a>
+         <!--[[${item}]]-->
+
+
+         <div class="sns-container">
+             <div class="faq">
+                 <div class="faq-title">
+                    <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
+                       <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
+                      <h3 th:text="*{subject}"></h3>
+                      </a>
 
             <div class="post_info">
                     <span class="poster">
@@ -42,10 +51,17 @@
                별점 <th:block th:text="*{num2}"></th:block>
             </div>
             <!--// post_info -->
-             <!-- 리뷰 본문 내용 -->
-             <div>
-                 <th:block th:utext="*{content}"></th:block>
+
+                     <div class="faq-text hidden">
+                     <th:block th:utext="*{content}"></th:block>
+                     </div>
+                     <!-- 리뷰 본문 내용 -->
+                     <button class="faq-toggle">
+                         <i class="fas xi-angle-down"></i>
+                     </button>
+                 </div>
              </div>
+         </div>
          </li>
       </ul>
 
