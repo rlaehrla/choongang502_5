@@ -3,7 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content" class="product_detail layout_width" th:object="${recipe}">
-    <!-- [[${recipe}]]<br><br>-->
     <section class="product_main">
         <div class="product_images">
             <div class="main_image">
@@ -19,8 +18,10 @@
                 <div class="farmer_info">
                     <div class="farm">
                         <a th:href="@{임시}">
+                            <div th:if="*{profileImage != null}">
                                 <th:block  class="profile_img" th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
                                 </th:block>
+                            </div>
                             <span class="recipe_poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
                             <span class="recipe_poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
                         </a>

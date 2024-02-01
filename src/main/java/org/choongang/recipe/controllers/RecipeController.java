@@ -14,6 +14,7 @@ import org.choongang.recipe.entities.Recipe;
 import org.choongang.commons.Utils;
 
 import org.choongang.recipe.entities.RecipeCate;
+import org.choongang.recipe.repositories.RecipeRepository;
 import org.choongang.recipe.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,7 @@ public class RecipeController implements ExceptionProcessor {
     private final RecipeDeleteService recipeDeleteService;
     private final MemberUtil memberUtil;
     private final RecipeAuthService recipeAuthService;
+    private final RecipeRepository recipeRepository;
 
     private Recipe recipe;
 
@@ -42,12 +44,13 @@ public class RecipeController implements ExceptionProcessor {
         commonProcess("recipe", model);
 
         /* 공식 레시피 추출 */
-        List<Recipe> officialRecipe = recipeInfoService.getAdminRecipe(search).stream().limit(5).toList();
+        List<Recipe> officialRecipe = recipeInfoService.getAdminRecipe(search).stream().limit(6).toList();
 
-        /* 최근 레시피 5개 추출 */
+        /* 최근 레시피 6개 추출 */
         ListData<Recipe> data = recipeInfoService.getList(search);
-        List<Recipe> lastRecipes = data.getItems().stream().limit(5).toList();
+        List<Recipe> lastRecipes = data.getItems().stream().limit(6).toList();
 
+        List<Recipe> list = data.getItems().stream().toList();
 
         model.addAttribute("officialRecipes", officialRecipe);
         model.addAttribute("lastRecipes", lastRecipes);
@@ -91,7 +94,6 @@ public class RecipeController implements ExceptionProcessor {
         commonProcess("edit", model);
 
         RequestRecipe form = recipeInfoService.getForm(seq);
-
         recipeAuthService.check("edit", seq);
         model.addAttribute("requestRecipe", form);
 
