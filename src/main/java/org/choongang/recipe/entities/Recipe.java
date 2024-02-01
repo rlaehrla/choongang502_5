@@ -54,11 +54,11 @@ public class Recipe extends Base implements AuthCheck {
     private int amount;
 
     @JsonIgnore
-    private String[] how;
+    private String how;
 
     @JsonIgnore
 
-    private String[] tip;
+    private String tip;
 
 
     @Lob
@@ -99,7 +99,7 @@ public class Recipe extends Base implements AuthCheck {
     @JsonIgnore
     private List<CommentData> comments; // 댓글 목록
 
-    @Transient
+
     private boolean authoritychk;
 
     private boolean active;// 노출 여부 : true -> 소비자 페이지 노출

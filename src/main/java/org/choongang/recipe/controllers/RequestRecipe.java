@@ -35,6 +35,8 @@ public class RequestRecipe {
     @NotBlank
     private String cateCd;
 
+    private String cateNm;
+
     private int amount;
 
     private String[] requiredIng; // 필수재료

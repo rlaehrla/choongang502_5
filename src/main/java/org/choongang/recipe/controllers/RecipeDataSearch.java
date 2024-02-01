@@ -24,7 +24,7 @@ public class RecipeDataSearch {
      */
     private String rcpName;
     private String requiredIng;
-
+    private boolean authoritychk;
     private String nickName;
 
     private String sopt; // 검색 옵션
