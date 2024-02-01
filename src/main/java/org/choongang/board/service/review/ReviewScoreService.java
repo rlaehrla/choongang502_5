@@ -33,6 +33,8 @@ public class ReviewScoreService {
      * @param seq : 보드 번호
      */
     public void update(Long productSeq, Long star, Long seq){
+
+
         Product product = productRepository.findById(productSeq).orElseThrow(ProductNotFoundException::new);
 
         QBoardData boardData = QBoardData.boardData;
@@ -58,6 +60,6 @@ public class ReviewScoreService {
         }
 
         product.setScore(sum/(float)count);
-        productRepository.saveAndFlush(product);
+        productRepository.flush();
     }
 }
