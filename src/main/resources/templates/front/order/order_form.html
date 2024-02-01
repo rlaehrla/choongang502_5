@@ -15,18 +15,21 @@
         <input type="hidden" name="totalPrice" th:field="*{totalPrice}">
         <input type="hidden" name="totalDeliveryPrice" th:field="*{totalDeliveryPrice}">
         <input type="hidden" name="totalDiscount" th:field="*{totalDiscount}">
-        <input type="hidden" name="cartType" th:field="${cartType}">
+        <input type="hidden" name="cartType" th:value="${cartType}">
 
-        <h3 class="font-semibold text-18px" th:text="#{주문_상품}"></h3>
+        <div>
+            <div class="order_list_title" th:text="#{주문_상품}"></div>
 
-        <th:block th:replace="~{front/cart/_items::items}"></th:block>
+            <th:block th:replace="~{front/cart/_items::items}"></th:block>
+        </div>
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <div th:object="${requestOrder}">
-            <h3 class="font-semibold text-18px" th:text="#{주문자_정보}"></h3>
+            <article>
+            <div class="order_list_title" th:text="#{주문자_정보}"></div>
 
             <table class="table_order">
                 <tr>
-                    <th th:text="#{주문자_이름}"></th>
+                    <th class="table_head" th:text="#{주문자_이름}"></th>
                     <th:block th:if="${@memberUtil.isLogin()}">
                         <td>
                             <input type="text" name="orderName" th:value="${session.member.username}" readonly id="orderName">
@@ -40,10 +43,14 @@
                     </th:block>
                 </tr>
                 <tr>
-                    <th th:text="#{휴대전화번호}"></th>
+                    <th class="table_head" th:text="#{휴대전화번호}"></th>
                     <th:block th:if="${@memberUtil.isLogin()}">
                         <td>
-                            <input type="text" name="orderCellPhone" th:value="${session.member.tel}" readonly id="orderCellPhone" oninput="autoHyphen(this)">
+                            <input type="text" name="orderCellPhone1" th:value="${session.member.tel}" style="width:70px" maxlength="4" readonly id="orderCellPhone1" oninput="autoHyphen(this)">
+                            -
+                            <input type="text" name="orderCellPhone2" th:value="${session.member.tel}" style="width:70px" maxlength="4" readonly id="orderCellPhone2" oninput="autoHyphen(this)">
+                            -
+                            <input type="text" name="orderCellPhone3" th:value="${session.member.tel}" style="width:70px" maxlength="4" readonly id="orderCellPhone3" oninput="autoHyphen(this)">
                         </td>
                     </th:block>
                     <th:block th:unless="${@memberUtil.isLogin()}">
@@ -55,7 +62,7 @@
                 </tr>
 
                 <tr>
-                    <th th:text="#{이메일}"></th>
+                    <th class="table_head" th:text="#{이메일}"></th>
                     <th:block th:if="${@memberUtil.isLogin()}">
                         <td>
                             <input type="text" name="orderEmail" th:value="${session.member.email}" readonly id="orderEmail">
@@ -70,44 +77,50 @@
                 </tr>
 
             </table>
+            </article>
 
-            <h3 class="font-semibold text-18px" th:text="#{받는분_정보}"></h3>
+            <article>
+            <div class="order_list_title" th:text="#{받는분_정보}"></div>
             <table class="table_order">
                 <input type="checkbox" name="eqOrder" id="eqOrder">
                 <label for="eqOrder" th:text="#{주문자와_동일}"></label>
                 <tr>
-                    <th th:text="#{받는분_이름}"></th>
+                    <th class="table_head" th:text="#{받는분_이름}"></th>
                     <td>
                         <input type="text" name="receiverName" id="receiverName" th:field="*{receiverName}">
                         <div class="error" th:each="err : ${#fields.errors('receiverName')}" th:text="${err}"></div>
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="#{휴대전화번호}"></th>
+                    <th class="table_head" th:text="#{휴대전화번호}"></th>
                     <td>
-                        <input type="text" name="receiverCellPhone" id="receiverCellPhone" oninput="autoHyphen(this)" th:field="*{receiverCellPhone}">
+                        <input type="text" name="receiverCellPhone1" id="receiverCellPhone1" oninput="autoHyphen(this)" style="width:70px" maxlength="3" th:field="*{receiverCellPhone}">
+                        -
+                        <input type="text" name="receiverCellPhone2" id="receiverCellPhone2" oninput="autoHyphen(this)" style="width:70px" maxlength="4" th:field="*{receiverCellPhone}">
+                        -
+                        <input type="text" name="receiverCellPhone3" id="receiverCellPhone3" oninput="autoHyphen(this)" style="width:70px" maxlength="4" th:field="*{receiverCellPhone}">
                         <div class="error" th:each="err : ${#fields.errors('receiverCellPhone')}" th:text="${err}"></div>
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="#{배송_주소}"></th>
+                    <th class="table_head" th:text="#{배송_주소}"></th>
                     <td th:if="${addr != null}"}>
+                        <button type="button" class="search_address" data-zonecode-id="zonecode" data-address-id="address">
+                            <i class="xi-search"></i>
+                            <th:block th:text="#{주소_찾기}"></th:block>
+                        </button>
                         <div class="address_rows">
                             <input type="text" name="zoneCode" th:placeholder="#{우편번호}" readonly id="zonecode" th:value="${addr.zoneCode}">
                             <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
-                            <button type="button" class="btn search_address" data-zonecode-id="zonecode" data-address-id="address">
-                                <i class="xi-search"></i>
-                                <th:block th:text="#{주소_찾기}"></th:block>
-                            </button>
                         </div>
 
                         <div class="address_rows">
-                            <input type="text" name="address" th:placeholder="#{주소}" readonly id="address" th:value="${addr.address}">
+                            <input style="width:70%" type="text" name="address" th:placeholder="#{주소}" readonly id="address" th:value="${addr.address}">
                             <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
                         </div>
 
                         <div class="address_rows">
-                            <input type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" th:value="${addr.addressSub}">
+                            <input style="width:70%" type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" th:value="${addr.addressSub}">
                         </div>
                     </td>
                     <td th:unless="${addr != null}"}>
@@ -132,24 +145,26 @@
                 </tr>
 
                 <tr>
-                    <th th:text="#{배송_메세지}"></th>
+                    <th class="table_head" th:text="#{배송_메세지}"></th>
                     <td>
                         <input type="text" name="deliveryMemo">
                     </td>
                 </tr>
             </table>
+            </article>
 
-            <h3 class="font-semibold text-18px" th:text="#{결제_정보}"></h3>
+            <article>
+            <div class="order_list_title" th:text="#{결제_정보}"></div>
             <table class="table_order">
                 <tr>
-                    <th th:text="#{상품합계}"></th>
+                    <th class="table_head" th:text="#{상품합계}"></th>
                     <td>
                         <span class="money" id="total_price" th:text="${cartData.totalPrice}"></span>
                         <th:block th:text="#{돈단위}"></th:block>
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="#{배송비}"></th>
+                    <th class="table_head" th:text="#{배송비}"></th>
                     <td>
                         <th:block th:if="${cartData.totalDeliveryPrice > 0}">
                             <span class="money" th:text="${cartData.totalDeliveryPrice}"></span>
@@ -160,7 +175,7 @@
                 </tr>
 
                 <tr th:if="${cartData.totalDiscount > 0}">
-                    <th th:text="#{상품할인}"></th>
+                    <th class="table_head" th:text="#{상품할인}"></th>
                     <td>
                         <span class="money" th:text="${cartData.totalDiscount * -1}"></span>
                         <th:block th:text="#{돈단위}"></th:block>
@@ -168,7 +183,7 @@
                 </tr>
 
                 <tr th:if="${@memberUtil.isLogin()}">
-                    <th th:text="#{포인트_사용}"></th>
+                    <th class="table_head" th:text="#{포인트_사용}"></th>
                     <td>
                         <span th:text="#{보유포인트}"></span>
                         :
@@ -181,14 +196,14 @@
                 </tr>
 
                 <tr>
-                    <th th:text="#{결제금액}"></th>
+                    <th class="table_head" th:text="#{결제금액}"></th>
                     <td>
                         <span id="pay_price" class="money" th:text="${cartData.payPrice}"></span>
                         <th:block th:text="#{돈단위}"></th:block>
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="#{결제약관_동의}"></th>
+                    <th class="table_head" th:text="#{결제약관_동의}"></th>
                     <td>
                         <textarea th:text="${paymentConfig.personalInfoEntrust}" readonly></textarea>
                         <input type="checkbox" value="true" name="agree" id="agree" th:field="*{agree}">
@@ -197,6 +212,7 @@
                     </td>
                 </tr>
             </table>
+            </article>
         </div>
         <button type="submit" class="sbtn">결제하기</button>
     </form>

@@ -42,4 +42,9 @@ public class ChatHistoryInfoService {
 
         return items;
     }
+
+    public List<ChatHistory> getList(String roomId) {
+        ChatHistorySearch search = new ChatHistorySearch();
+        return getList(roomId, search);
+    }
 }

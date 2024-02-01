@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -45,10 +46,9 @@ public class OrderStatusService {
      */
     public void change(Long orderSeq, List<Long> orderItemSeq, OrderStatus status, boolean manualSendEmail){
         OrderInfo orderInfo = orderInfoService.get(orderSeq);
-        List<OrderItem> items = orderInfo.getOrderItems();
+        List<OrderItem> items = orderItemInfoService.getItem(orderSeq);
 
         OrderStatus prevStatus= orderInfo.getStatus(); // 변경 전 상태
-
 
         int cnt = 0;
 
