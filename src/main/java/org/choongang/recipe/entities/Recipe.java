@@ -119,6 +119,12 @@ public class Recipe extends Base implements AuthCheck {
     @Transient
     private String[] condimentsEaP;
 
+    @Transient
+    private String[] howP;
+
+    @Transient
+    private String[] tipP;
+
 
 }
 
