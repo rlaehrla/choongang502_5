@@ -23,7 +23,11 @@ public class RequestOrder {
     private String orderName; // 주문자 이름
 
     @NotBlank
-    private String orderCellPhone; // 주문자 번호
+    private String orderCellPhone1; // 주문자 번호
+    @NotBlank
+    private String orderCellPhone2; // 주문자 번호
+    @NotBlank
+    private String orderCellPhone3; // 주문자 번호
 
     @NotBlank
     @Email
@@ -33,7 +37,11 @@ public class RequestOrder {
     private String receiverName; // 받는분 이름
 
     @NotBlank
-    private String receiverCellPhone; // 받는분 번호
+    private String receiverCellPhone1; // 받는분 번호
+    @NotBlank
+    private String receiverCellPhone2; // 받는분 번호
+    @NotBlank
+    private String receiverCellPhone3; // 받는분 번호
 
     @NotBlank
     private String zoneCode; // 받는사람 우편번호
