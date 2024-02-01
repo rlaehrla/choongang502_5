@@ -220,6 +220,8 @@ public class MypageController implements ExceptionProcessor {
         if (mode.equals("save_post")) { // 찜한 게시글 페이지
             pageTitle = Utils.getMessage("찜한상품", "commons");
 
+            addCss.add("product/style");
+
             addScript.add("board/common");
             addScript.add("member/mypage/save_post");
         }

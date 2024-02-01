@@ -32,8 +32,12 @@
 
         <section class="inSeasonProducts flex" id="inSeasonProductsContainer">
             <!-- 이전 화살표 -->
-            <div class="prev_button">
+            <!--<div class="prev_button">
                 <button class="prod_button" onclick="prevSlide()">◀</button>
+            </div>-->
+            <div class="btns">
+                <div class="slide_prev_button slide_button">◀</div>
+                <div class="slide_next_button slide_button">▶</div>
             </div>
             <div class="productsItem">
                 <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
@@ -70,9 +74,9 @@
                 </div>
             </div>
             <!-- 다음 화살표 -->
-            <div class="next_button">
+            <!--<div class="next_button">
                 <button class="prod_button" onclick="nextSlide()">▶</button>
-            </div>
+            </div>-->
         </section>
 
 
