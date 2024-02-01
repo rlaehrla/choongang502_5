@@ -123,7 +123,7 @@ public class OrderController implements ExceptionProcessor {
 
         OrderInfo orderInfo = orderSaveService.save(form);
         Long seq = orderInfo.getSeq();
-        List<OrderItem> orderItems = orderItemRepository.findByOrderInfo(orderInfo).orElse(null);
+        List<OrderItem> orderItems = orderItemRepository.findByOrderInfoSeq(seq);
         if(orderInfo.getPayPrice() == 0){
             String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
                     + "location.replace('/order/detail/"+ seq+"');";
