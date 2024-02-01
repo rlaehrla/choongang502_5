@@ -8,6 +8,7 @@
 
     <form name="frmOrderDetail" method="get" th:action="@{/admin/order/save}" th:object="${item.orderInfo}">
         <input type="hidden" name="seq" th:value="*{seq}">
+        <input type="hidden" name="orderItemSeq" th:value="${item.seq}">
 
         <h2>주문 기본 정보</h2>
         <table class="table_cols mb30">
