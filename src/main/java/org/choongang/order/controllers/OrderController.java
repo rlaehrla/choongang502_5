@@ -127,6 +127,7 @@ public class OrderController implements ExceptionProcessor {
         if(orderInfo.getPayPrice() == 0){
             String script = "alert('" + Utils.getMessage("주문완료", "commons")+ "');"
                     + "location.replace('/order/detail/"+ seq+"');";
+            orderStatusService.change(seq, OrderStatus.IN_CASH);
 
             model.addAttribute("script", script);
 

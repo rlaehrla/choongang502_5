@@ -25,8 +25,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
@@ -60,7 +62,8 @@ public class RecipeWishService {
                 .member(member)
                 .build();
         recipeWishRepository.saveAndFlush(recipeWish);
-        System.out.println("레시피저장");
+
+        addRecipeLike(recipe);
     }
 
     /**
@@ -89,6 +92,8 @@ public class RecipeWishService {
 
         recipeWishRepository.delete(recipeWish1);
         recipeWishRepository.flush();
+
+        addRecipeLike(recipe);
     }
 
 
@@ -120,6 +125,11 @@ public class RecipeWishService {
         return false;
     }
 
+    /**
+     * 레시피 like 목록 반환
+     * @param search
+     * @return
+     */
     public ListData<RecipeWish> getWishRecipes(RecipeDataSearch search){
         if(!memberUtil.isLogin()){
             throw new UnAuthorizedException("로그인이 필요한 서비스입니다.");
@@ -153,5 +163,24 @@ public class RecipeWishService {
         }
 
         return new ListData<>(items, pagination);
+    }
+
+    /**
+     * 레시피 like 업데이트
+     *
+     * @param recipe
+     */
+    public void addRecipeLike(Recipe recipe){
+        QRecipeWish countWish = QRecipeWish.recipeWish;
+        BooleanBuilder builder = new BooleanBuilder();
+        LocalDateTime refDay = LocalDateTime.now().minusMonths(3);
+        builder.and(countWish.createdAt.goe(refDay));
+        builder.and(countWish.recipe.eq(recipe));
+
+        long count = recipeWishRepository.count(builder);
+
+        recipe.setLike(count);
+        recipeRepository.saveAndFlush(recipe);
+
     }
 }

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <section class="rank-sec" name="recipeRank" th:fragment="recipe">
-    <div class="max-w-screen-lg flex ma" th:each="recipe : recipeRank" th:object="${recipe}">
+    <div class="max-w-screen-lg flex ma" th:each="recipe : ${recipes}" th:object="${recipe}">
         <!--<img class="rank-img" th:src="랭킹사진링크">-->
-        <a th:href="@{레시피게시물링크}">
+        <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
             <div>
-                <strong type="text" th:text="#{레시피제목}"></strong>
+                <strong type="text" th:text="*{rcpName}"></strong>
                 <p th:text="#{상품태그}"></p>
             </div>
-            <p th:text="#{좋아요}"></p>
-            <img th:src="#{프로필사진링크}">
-            <p th:text="#{글쓴이}"></p>
+            <p th:text="${recipeCount.get(recipe)}"></p>
+            <div class="imgBox">
+                <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImages[0].seq, 1000, 1000)}"></th:block>
+            </div>
+            <p th:text="*{member.nickname}"></p>
         </a>
     </div>
 </section>

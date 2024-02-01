@@ -9,14 +9,23 @@ import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.service.FarmerInfoService;
+import org.choongang.recipe.controllers.RecipeDataSearch;
+import org.choongang.recipe.entities.QRecipeWish;
+import org.choongang.recipe.entities.Recipe;
+import org.choongang.recipe.repositories.RecipeRepository;
+import org.choongang.recipe.repositories.RecipeWishRepository;
+import org.choongang.recipe.services.RecipeInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,16 +34,15 @@ public class BestController {
     private final Utils utils;
     private final FarmerInfoService farmerInfoService;
     private final FileInfoService fileInfoService;
+    private final RecipeInfoService recipeInfoService;
+    private final RecipeWishRepository recipeWishRepository;
 
     @GetMapping
-    public String best(Model model){
+    public String best(@ModelAttribute MemberSearch memberSearch, @ModelAttribute RecipeDataSearch recipeDataSearch, Model model){
         commonProcess("best", model);
 
         /* 농장 랭킹 S */
-        MemberSearch search = new MemberSearch();
-        search.setPage(1);
-        search.setLimit(20);
-        ListData<Farmer> farmerData = farmerInfoService.topFarmer(search);
+        ListData<Farmer> farmerData = farmerInfoService.topFarmer(memberSearch);
         List<Farmer> farmers = farmerData.getItems().stream().limit(20).toList();
 
         for(Farmer farmer : farmers){
@@ -47,8 +55,24 @@ public class BestController {
 
         /* 농장 랭킹 E */
 
-        model.addAttribute("farmers", farmers);
 
+        /* 레시피 랭킹 S */
+
+        ListData<Recipe> data = recipeInfoService.getBestRecipe(recipeDataSearch);
+        List<Recipe> recipes = data.getItems().stream().limit(20).toList();
+        Map<Recipe, Long> recipeCount = new HashMap<>();
+        for(Recipe recipe : recipes){
+            QRecipeWish recipeWish = QRecipeWish.recipeWish;
+            long count = recipeWishRepository.count(recipeWish.recipe.eq(recipe));
+            recipeCount.put(recipe, count);
+        }
+
+
+        /* 레시피 랭킹 E */
+
+        model.addAttribute("farmers", farmers);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("recipeCount", recipeCount);
         return utils.tpl("board/best");
     }
 
