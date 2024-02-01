@@ -19,7 +19,7 @@
             <dt th:text="#{이메일}"></dt>
             <dd>
                 <div>
-                    <input type="text" class="input_text" name="email" th:field="*{email}"  th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
+                    <input type="text" class="input_text" name="email" th:field="*{email}"  th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}" placeholder="이메일">
                     <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
                     <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}"
                             type="button" class="btn" id="email_verify" th:text="#{인증코드전송}"></button>
@@ -43,7 +43,7 @@
         <dl>
             <dt th:text="#{아이디}"></dt>
             <dd>
-                <input type="text" class="input_text" name="userId" th:field="*{userId}" placeholder="6자 이상 입력하세요.">
+                <input type="text" class="input_text" name="userId" th:field="*{userId}" placeholder="6자 이상 입력">
                 <button type="button" class="btn" id="userId_dup_check" th:text="#{중복_확인}"></button>
                 <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
                 <div class="id_check_ok"></div>
@@ -53,7 +53,7 @@
         <dl>
             <dt th:text="#{비밀번호}"></dt>
             <dd>
-                <input type="password" class="input_text" name="password" th:field="*{password}">
+                <input type="password" class="input_text" name="password" th:field="*{password}" placeholder="영문 대소문자,숫자,특수문자 포함해서 입력">
                 <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -61,23 +61,23 @@
         <dl>
             <dt th:text="#{비밀번호_확인}"></dt>
             <dd>
-                <input type="password" class="input_text" name="confirmPassword" th:field="*{confirmPassword}">
+                <input type="password" class="input_text" name="confirmPassword" th:field="*{confirmPassword}" placeholder="비밀번호 확인">
                 <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
             </dd>
         </dl>
 
         <dl>
-            <dt th:text="#{회원명}"></dt>
+            <dt th:text="#{이름}"></dt>
             <dd>
-                <input type="text" class="input_text" name="username" th:field="*{username}">
+                <input type="text" class="input_text" name="username" th:field="*{username}" placeholder="이름">
                 <div class="error" th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
             </dd>
         </dl>
 
         <dl>
-            <dt th:text="#{전화번호}"></dt>
+            <dt th:text="#{휴대폰번호}"></dt>
             <dd>
-                <input type="tel" class="input_text" name="tel" th:field="*{tel}" oninput="autoHyphen(this)" maxlength="13">
+                <input type="tel" class="input_text" name="tel" th:field="*{tel}" oninput="autoHyphen(this)" maxlength="13" placeholder="휴대폰번호">
                 <div class="error" th:each="err : ${#fields.errors('tel')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -85,7 +85,7 @@
         <dl>
             <dt th:text="#{닉네임}"></dt>
             <dd>
-                <input type="text" class="input_text" name="nickname" th:field="*{nickname}">
+                <input type="text" class="input_text" name="nickname" th:field="*{nickname}" placeholder="닉네임">
                 <button type="button" class="btn" id="nickname_dup_check" th:text="#{중복_확인}"></button>
                 <div class="error" th:each="err : ${#fields.errors('nickname')}" th:text="${err}"></div>
                 <div class="nick_check_ok"></div>
