@@ -62,13 +62,10 @@ public class MainController implements ExceptionProcessor {
                 farmer.setProfileImage(profileImage.get(0));
             }
         }
-        Map<Farmer, Long> farmerCount = new HashMap<>();
+        Map<Long, Long> farmerCount = new HashMap<>();
         for(Farmer farmer : farmers){
-            QProductWish productWish = QProductWish.productWish;
-            BooleanBuilder builder = new BooleanBuilder();
-            builder.and(productWish.product.farmer.eq(farmer));
-            long count = productWishRepository.count(builder);
-            farmerCount.put(farmer, count);
+            long count = productInfoService.saleSum(farmer);
+            farmerCount.put(farmer.getSeq(), count);
         }
 
         model.addAttribute("farmers", farmers);

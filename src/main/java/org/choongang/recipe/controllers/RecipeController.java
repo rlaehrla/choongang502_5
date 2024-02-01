@@ -38,8 +38,19 @@ public class RecipeController implements ExceptionProcessor {
     private Recipe recipe;
 
     @GetMapping
-    public String recipe(Model model) {
+    public String recipe(@ModelAttribute RecipeDataSearch search, Model model) {
         commonProcess("recipe", model);
+
+        /* 공식 레시피 추출 */
+        List<Recipe> officialRecipe = recipeInfoService.getAdminRecipe(search).stream().limit(5).toList();
+
+        /* 최근 레시피 5개 추출 */
+        ListData<Recipe> data = recipeInfoService.getList(search);
+        List<Recipe> lastRecipes = data.getItems().stream().limit(5).toList();
+
+
+        model.addAttribute("officialRecipes", officialRecipe);
+        model.addAttribute("lastRecipes", lastRecipes);
         return utils.tpl("recipe/recipe");
     }
 

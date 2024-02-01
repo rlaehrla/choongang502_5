@@ -1,6 +1,7 @@
 package org.choongang.farmer.blog.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.board.controllers.AbstractBoardController;
@@ -24,6 +25,7 @@ import org.choongang.member.service.MemberInfo;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.order.service.OrderItemInfoService;
 import org.choongang.product.entities.Product;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +37,8 @@ import java.util.List;
 @RequestMapping("/farm/blog")
 public class BlogController extends AbstractBoardController {
 
-    public BlogController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BlogController(ProductInfoService productInfoService, ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(productInfoService, confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     @GetMapping("/{farmerId}")
@@ -47,8 +49,9 @@ public class BlogController extends AbstractBoardController {
 
         // farmer 정보 가져오기
         Farmer farmerInfo = (Farmer) ((MemberInfo) memberInfoService.loadUserByUsername(farmerId)).getMember() ;
-        model.addAttribute("farmer", farmerInfo) ;
 
+        model.addAttribute("farmer", farmerInfo) ;
+        model.addAttribute("farmerCount", productInfoService.saleSum(farmerInfo));
         // 한 줄 소개 문장 가져오기
         BlogIntroPost introSum = confInfoService.get(farmerId + "_sum", BlogIntroPost.class).orElseGet(BlogIntroPost::new) ;
         model.addAttribute("introSum", introSum) ;

@@ -15,8 +15,6 @@ import org.choongang.member.entities.Point;
 import org.choongang.member.repositories.AddressRepository;
 import org.choongang.member.repositories.PointRepository;
 import org.choongang.member.service.AddressSaveService;
-import org.choongang.member.service.PointInfoService;
-import org.choongang.member.service.PointSaveService;
 import org.choongang.order.constants.OrderStatus;
 import org.choongang.order.controllers.RequestOrder;
 import org.choongang.order.entities.OrderInfo;
@@ -157,20 +155,15 @@ public class OrderSaveService {
 
 
     /**
-     * 주문 상태 및 배송 정보 변경 저장
+     * 배송 정보 변경 저장
      */
-    public void statusSave(Long orderSeq) {
-        String status = request.getParameter("orderStatus") ;
+    public void updateDelivery(Long orderSeq) {
         String deliveryCompany = request.getParameter("deliveryCompany") ;
         String deliveryInvoice = request.getParameter("deliveryInvoice") ;
 
-        OrderInfo info = orderInfoService.get(orderSeq) ;
-        info.setStatus(OrderStatus.valueOf(status));
+        if (deliveryCompany == null || deliveryInvoice == null) { return; }
 
-        orderInfoRepository.saveAndFlush(info) ;
-
-        OrderItem item = orderItemRepository.findById(orderSeq).orElseGet(null) ;
-        item.setStatus(OrderStatus.valueOf(status));
+        OrderItem item = orderItemRepository.findById(orderSeq).orElse(null) ;
         item.setDeliveryCompany(deliveryCompany);
         item.setDeliveryInvoice(deliveryInvoice);
 
