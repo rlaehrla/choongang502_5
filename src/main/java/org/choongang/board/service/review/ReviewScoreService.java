@@ -40,15 +40,20 @@ public class ReviewScoreService {
         builder.and(boardData.board.bid.eq("review"));
         builder.and(boardData.num1.eq(productSeq));
 
-        long sum = star;
-        int count = 1;
+        long sum = 0;
+        int count = 0;
 
         Iterator<BoardData> iterator = boardDataRepository.findAll(builder).iterator();
         while(iterator.hasNext()){
             BoardData boardData1 = iterator.next();
-            if(boardData1.getSeq() != seq){
+            if(boardData1.getSeq() != seq && boardData1.getNum2() != 0){
                 sum += boardData1.getNum2();
                 count++;
+            }else{
+                if(star != 0){
+                    sum += star;
+                    count++;
+                }
             }
         }
 

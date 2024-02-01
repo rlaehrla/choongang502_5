@@ -112,7 +112,7 @@ public class BoardSaveService {
 
         // 상품 후기일 때(상품번호가 있고, bid가 review일 때) 평점 평균 업데이트
         if (data.getBoard().getBid().equals("review") && form.getNum1() != null) {
-            reviewScoreService.update(form.getNum1());
+            reviewScoreService.update(data.getNum1(), data.getNum2(), data.getSeq());
         }
 
         boardDataRepository.saveAndFlush(data);

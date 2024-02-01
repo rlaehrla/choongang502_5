@@ -201,7 +201,6 @@ public class BoardController extends AbstractBoardController {
         // 게시글 저장 처리
         BoardData boardData = boardSaveService.save(form);
 
-        reviewScoreService.update(form.getNum1(), form.getNum2(), boardData.getSeq());
 
         String redirectURL = "redirect:/board/";
         redirectURL += board.getLocationAfterWriting().equals("view") ? "view/" + boardData.getSeq() : "list/" + form.getBid(); // 글 작성후 이동 장소  - 게시글 상세 : 게시글 목록
