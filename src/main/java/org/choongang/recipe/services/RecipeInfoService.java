@@ -427,7 +427,7 @@ public class RecipeInfoService {
         int page = search.getPage();
         int limit = search.getLimit();
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("like")));
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("rcpLike")));
 
         Page<Recipe> data = recipeRepository.findAll(builder, pageable);
 
@@ -453,10 +453,13 @@ public class RecipeInfoService {
 
 
         List<FileInfo> mainImages = fileInfoService.getListDone(gid);
-        List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
+
+        List<FileInfo> profileImages = fileInfoService.getListDone(mgid);
+        if(profileImages != null && !profileImages.isEmpty()){
+            recipe.setProfileImage(profileImages.get(0));
+        }
 
         recipe.setMainImages(mainImages);
-        recipe.setProfileImage(profileImage);
 
         /* 파일 정보 추가 E */
 

@@ -78,7 +78,7 @@ public class Recipe extends Base implements AuthCheck {
     private List<FileInfo> mainImages; // 대표 이미지, null X
 
     @Transient
-    private List<FileInfo> profileImage; // 작성자 프로필 이미지
+    private FileInfo profileImage; // 작성자 프로필 이미지
 
     @Transient
     private boolean editable; // 수정 가능 여부
