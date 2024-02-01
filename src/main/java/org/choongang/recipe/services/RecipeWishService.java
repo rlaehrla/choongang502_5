@@ -179,7 +179,7 @@ public class RecipeWishService {
 
         long count = recipeWishRepository.count(builder);
 
-        recipe.setLike(count);
+        recipe.setRcpLike(count);
         recipeRepository.saveAndFlush(recipe);
 
     }
