@@ -52,8 +52,6 @@ public class Recipe extends Base implements AuthCheck {
     private int amount;
 
 
-
-=======
     @JsonIgnore
     private String[] how;
 
