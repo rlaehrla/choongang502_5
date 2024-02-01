@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,10 +42,15 @@ public class RecipeSaveService {
             data = new Recipe();
             data.setGid(form.getGid());
             data.setMember(memberUtil.getMember());
-
+            data.setAuthoritychk(memberUtil.isAdmin());
         }
-
         RecipeCate recipeCate = recipeCateRepository.findById(form.getCateCd()).orElseThrow(RecipeCateNotFoundException::new);
+
+        String[] hows = Objects.requireNonNullElse(form.getHow(), new String[] {});
+        String how = Arrays.stream(hows).collect(Collectors.joining("__"));
+
+        String[] tips = Objects.requireNonNullElse(form.getTip(), new String[] {});
+        String tip = Arrays.stream(tips).collect(Collectors.joining("__"));
 
         data.setRcpName(form.getRcpName());
         data.setRcpInfo(form.getRcpInfo());
@@ -55,8 +61,8 @@ public class RecipeSaveService {
         data.setSubIng(form.getSubIngJSON());
         data.setCondiments(form.getCondimentsJSON());
         data.setKeyword(getKeyword(form));
-        data.setHow(form.getHow());
-        data.setTip(form.getTip());
+        data.setHow(how);
+        data.setTip(tip);
         data.setActive(true);
 
         recipeRepository.saveAndFlush(data);

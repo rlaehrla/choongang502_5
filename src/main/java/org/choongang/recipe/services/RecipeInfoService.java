@@ -7,6 +7,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.ListPath;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -22,6 +23,7 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Authorities;
+import org.choongang.member.entities.QAuthorities;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.entities.Category;
 import org.choongang.product.entities.Product;
@@ -154,15 +156,26 @@ public class RecipeInfoService {
      */
     public RequestRecipe getForm(Long seq) {
         Recipe data = get(seq);
+
+        String tip = data.getTip();
+        String how = data.getHow();
+        System.out.println("tip = " + how);
+
+        String[] tips = tip == null ? null : tip.split("__");
+        String[] hows = how == null ? null : how.split("__");
+
         RequestRecipe form = RequestRecipe.builder()
                 .seq(data.getSeq())
                 .gid(data.getGid())
                 .rcpName(data.getRcpName())
                 .rcpInfo(data.getRcpInfo())
                 .estimatedT(data.getEstimatedT())
-                .cateCd(data.getRecipeCate().getCateNm())
+                .cateCd(data.getRecipeCate().getCateCd())
+                .cateNm(data.getRecipeCate().getCateNm())
                 .mainImages(data.getMainImages())
                 .amount(data.getAmount())
+                .tip(tips)
+                .how(hows)
                 .mode("edit")
                 .build();
 
@@ -291,16 +304,22 @@ public class RecipeInfoService {
         if (StringUtils.hasText(cateCd)) {
             andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd.trim()));
         }
+        if(search.isAuthoritychk()){
+            andBuilder.and(recipe.authoritychk.eq(true));
+        }
 
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
 
         sopt = StringUtils.hasText(sopt) ? sopt : "all";
+        BooleanExpression adminCond = null;
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
+/*            if(skey.contains("여름지기마켓")) {
+                System.out.println("여름지기 = " + recipe.member.authorities);
+            }*/
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
-
             BooleanExpression nickCond = recipe.member.nickname.contains(skey);
             BooleanExpression userIdCond = recipe.member.userId.contains(skey);
             BooleanExpression rcpIngCond = recipe.keyword.contains("__" + skey + "__");
@@ -323,6 +342,8 @@ public class RecipeInfoService {
 
                 andBuilder.and(orBuilder);
             }
+
+
         }
         /* 검색 조건 처리 E */
         PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
@@ -336,8 +357,6 @@ public class RecipeInfoService {
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 최신게시글 순서로 정렬
                 .fetch();
-        System.out.println("아이템 = " + items);
-
 
         // 게시글 전체 갯수
         int total = (int) recipeRepository.count(andBuilder);
