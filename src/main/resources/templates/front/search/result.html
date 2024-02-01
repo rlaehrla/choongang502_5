@@ -12,29 +12,30 @@
                         <th:block th:if="*{listImages != null && listImages.size() != 0}" th:utext="*{@utils.printThumb(listImages[0].seq, 1000, 1000, 'product_main')}"></th:block>
                     </div>
                     <th:block th:unless="*{listImages != null && listImages.size() != 0}" width="100px" height="100px"></th:block>
+                    <div class="textBox">
+                        <div  class="font-semibold text-18px"th:text="*{name}"></div>
 
-                    <div  class="font-semibold text-18px"th:text="*{name}"></div>
-
-                    <div class="productPrice items-center gap-2px">
-                        <div class="consumerPrice text-16px">
-                            <th:block th:text="*{consumerPrice}"></th:block>
-                            <th:block th:text="#{돈단위}"></th:block>
+                        <div class="productPrice items-center gap-2px">
+                            <div class="consumerPrice text-16px">
+                                <th:block th:text="*{consumerPrice}"></th:block>
+                                <th:block th:text="#{돈단위}"></th:block>
+                            </div>
+                            <div class="salePrice font-semibold text-16px">
+                                <th:block th:text="*{salePrice}"></th:block>
+                                <th:block th:text="#{돈단위}"></th:block>
+                            </div>
+                            <div class="discount" th:if="*{discount != 0}">
+                                <th:block th:text="#{추가할인} + ' : ' + *{discount}"></th:block>
+                                <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
+                                <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
+                                <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
+                            </div>
                         </div>
-                        <div class="salePrice font-semibold text-16px">
-                            <th:block th:text="*{salePrice}"></th:block>
-                            <th:block th:text="#{돈단위}"></th:block>
+                        <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
+                        <div class="star">
+                            <i class="xi-star"></i>
+                            <span th:text="${평점}"></span>
                         </div>
-                        <div class="discount" th:if="*{discount != 0}">
-                            <th:block th:text="#{추가할인} + ' : ' + *{discount}"></th:block>
-                            <th:block th:if="*{discountType == DiscountType.PERCENT}" th:text="#{%}"></th:block>
-                            <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
-                            <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
-                        </div>
-                    </div>
-                    <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
-                    <div class="star">
-                        <i class="xi-star"></i>
-                        <span th:text="${평점}"></span>
                     </div>
                 </a>
             </div>

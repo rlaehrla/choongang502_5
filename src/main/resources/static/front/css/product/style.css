@@ -6,10 +6,7 @@
     grid-template-columns: repeat(3, minmax(0,1fr));
     row-gap: 40px;
 }
-.product .products {
-    position: relative;
-    z-index: 1;
-}
+
 
 .products .share_btns {
     position: absolute;
@@ -17,7 +14,7 @@
     right: 10px;
     z-index: 10;
 }
-.products > a > *{
+.products > a > div> *{
     margin-top: 7px;
 }
 .contentBox .products .imgBox{
@@ -32,7 +29,7 @@
 }
 .contentBox .share_btns {
     position: absolute;
-    top: 15px;
+    top: 30px;
     right: 45px;
 }
 .contentBox .share_btns .save_post {
@@ -46,6 +43,7 @@
     stroke: #fff;
     cursor: pointer;
 }
+
 .cate{
     margin-bottom: 10px;
 }
