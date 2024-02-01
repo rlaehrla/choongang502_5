@@ -7,41 +7,8 @@
     row-gap: 40px;
 }
 
-
-.products .share_btns {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-}
 .products > a > div> *{
     margin-top: 7px;
-}
-.contentBox .products .imgBox{
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    /*position: relative;*/
-}
-.contentBox .products .imgBox img{
-    width: 100%;
-    height: 100%;
-}
-.contentBox .share_btns {
-    position: absolute;
-    top: 30px;
-    right: 45px;
-}
-.contentBox .share_btns .save_post {
-    border: none;
-    background-color: inherit;
-}
-.contentBox .share_btns .save_post {
-    padding: 0;
-}
-.contentBox .share_btns .save_post svg {
-    stroke: #fff;
-    cursor: pointer;
 }
 
 .cate{
