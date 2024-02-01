@@ -4,15 +4,17 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
     <h1 th:text="#{비회원_주문조회}"></h1>
-    <form name="frmNonmember" class="login_frm" method="post" th:action="@{/member/not}" autocomplete="off" th:field="${requestNonmember}">
+    <form name="frmNonmember" class="login_frm" method="post" th:action="@{/member/not}" autocomplete="off" th:object="${requestNonmember}">
         <dl>
             <dt th:text="#{주문번호}"></dt>
             <dd>
-                <input type="number" class="id_input_box" name="orderNo">
+                <input type="number" class="id_input_box" name="orderNo" th:field="*{orderNo}">
+                <div class="error" th:each="err : ${#fields.errors('orderNo')}" th:text="${err}"></div>
             </dd>
             <dt th:text="#{주문자_전화번호}"></dt>
             <dd>
-                <input type="text" class="id_input_box" name="orderCellPhone" oninput="autoHyphen(this)">
+                <input type="text" class="id_input_box" name="orderCellPhone" oninput="autoHyphen(this)" th:field="*{orderCellPhone}">
+                <div class="error" th:each="err : ${#fields.errors('orderCellPhone')}" th:text="${err}"></div>
             </dd>
         </dl>
 
