@@ -54,7 +54,7 @@ public class OrderStatusService {
 
         for(OrderItem item : items){
 
-            if(orderItemSeq == null || orderItemSeq.size() == 0 || orderItemSeq.contains(item.getSeq())){
+            if(orderItemSeq == null || orderItemSeq.isEmpty() || orderItemSeq.contains(item.getSeq())){
                 item.setStatus(status);
             }
 
