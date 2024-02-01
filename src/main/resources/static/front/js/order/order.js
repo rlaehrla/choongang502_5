@@ -6,19 +6,28 @@ window.addEventListener("DOMContentLoaded", function() {
     eqOrder.addEventListener("click", function() {
         if(eqOrder.checked){
             const orderName = document.querySelector("#orderName").value;
-            const orderCellPhone = document.querySelector("#orderCellPhone").value;
-            console.log(orderCellPhone);
+            const orderCellPhone1 = document.querySelector("#orderCellPhone1").value;
+            const orderCellPhone2 = document.querySelector("#orderCellPhone2").value;
+            const orderCellPhone3 = document.querySelector("#orderCellPhone3").value;
             const receiverName = document.querySelector("#receiverName");
-            const receiverCellPhone = document.querySelector("#receiverCellPhone");
+            const receiverCellPhone1 = document.querySelector("#receiverCellPhone1");
+            const receiverCellPhone2 = document.querySelector("#receiverCellPhone2");
+            const receiverCellPhone3 = document.querySelector("#receiverCellPhone3");
 
             receiverName.value = orderName;
-            receiverCellPhone.value = orderCellPhone;
+            receiverCellPhone1.value = orderCellPhone1;
+            receiverCellPhone2.value = orderCellPhone2;
+            receiverCellPhone3.value = orderCellPhone3;
 
             receiverName.setAttribute("readonly", true);
-            receiverCellPhone.setAttribute("readonly", true);
+            receiverCellPhone1.setAttribute("readonly", true);
+            receiverCellPhone2.setAttribute("readonly", true);
+            receiverCellPhone3.setAttribute("readonly", true);
         }else{
             receiverName.removeAttribute("readonly");
-            receiverCellPhone.removeAttribute("readonly");
+            receiverCellPhone1.removeAttribute("readonly");
+            receiverCellPhone2.removeAttribute("readonly");
+            receiverCellPhone3.removeAttribute("readonly");
         }
 
     });
