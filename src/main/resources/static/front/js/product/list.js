@@ -18,7 +18,6 @@ const productLib = {
     */
     deleteSave(pSeq){
         const { ajaxLoad } = commonLib;
-        console.log('삭제중삭제중');
         ajaxLoad('DELETE', `/api/product/save_post/${pSeq}`);
     }
 
