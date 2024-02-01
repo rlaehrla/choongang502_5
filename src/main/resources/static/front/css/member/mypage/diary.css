@@ -1,0 +1,49 @@
+.recipe_tabs .tabs { display: flex; align-items: center; }
+.recipe_tabs .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
+.recipe_tabs .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
+
+/* 탭 스타일 */
+.tabs {
+    list-style: none;
+    display: flex;
+}
+
+.tab {
+    text-decoration: none;
+    /* padding: 10px 20px; */
+    font-size: medium;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab input[type="radio"] {
+    display: none;
+}
+
+.tab label {
+    display: block;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.tab input[type="radio"]:checked + label {
+    background-color: var(--highlight-color);
+    color: #fff;
+}
+
+label:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+/* 탭 콘텐츠 */
+.tab_content {
+    border-top: 1px solid #ccc;
+}
+
+.tab_content.on {
+    display: block;
+    margin-top: 20px;
+}

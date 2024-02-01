@@ -77,7 +77,6 @@ public class RecipeController implements ExceptionProcessor {
      */
     @GetMapping("/edit/{seq}")
     public String edit(@PathVariable("seq") Long seq, Model model) {
-        //commonProcess(seq, "edit", model);
         commonProcess("edit", model);
 
         RequestRecipe form = recipeInfoService.getForm(seq);
@@ -169,6 +168,9 @@ public class RecipeController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("레서피_작성", "commons");
         } else if (mode.equals("view")) {
             pageTitle = recipe.getRcpName();
+        }else if(mode.equals("list")){
+            addScript.add("recipe/list");
+
         }
 
         addCss.add("recipe/style");

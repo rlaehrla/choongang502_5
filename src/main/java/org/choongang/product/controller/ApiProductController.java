@@ -25,7 +25,6 @@ public class ApiProductController {
     @DeleteMapping("/save_post/{pSeq}")
     public JSONData<Object> deletePost(@PathVariable("pSeq") Long pSeq){
         productWishService.delete(pSeq);
-
         return new JSONData<>();
     }
 

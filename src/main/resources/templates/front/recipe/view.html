@@ -30,9 +30,9 @@
                 </div>
                 <div class="product_info">
                     <span class="rcp_title" th:text=*{rcpName}></span>
-                    <div>
-                        <th:block th:text="*{EstimatedT} + #{분_컷}"></th:block>
-                        <th:block th:text="*{category}"></th:block><br>
+                    <div class="rcp_ect">
+                        <span class="estimated" th:text="*{EstimatedT} + #{분_컷}"></span>
+                        <span class="cateNm" th:text="*{recipeCate.cateNm}"></span>
                         <hr style="margin-top: 24px; margin-bottom: 24px;">
                         <div>
                             <th:block th:text="*{rcpInfo}"></th:block><br>
@@ -65,6 +65,7 @@
             </li>
         </ul>
 
+
         <div class="tab_content" id="tab_content_ings">
             <div class="content">
                 <span class="ings" th:text="#{재료}"></span>
@@ -75,11 +76,11 @@
                     <div>
                         <span class="sub" th:text="#{주재료}"></span>
                     </div>
-                    <div>
-                        <th:block th:each="requiredP, status : *{requiredIngP}">
+                    <div class="requiredIngP_border">
+                        <div class="requiredIngP" th:each="requiredP, status : *{requiredIngP}">
                             <span th:text="${requiredP}"></span>
                             <span th:text="${recipe.requiredIngEaP[status.index]}"></span>
-                        </th:block>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,11 +89,11 @@
                     <div>
                         <span class="sub" th:text="#{부재료}"></span>
                     </div>
-                    <div>
-                        <th:block th:each="subP, status : *{subIngP}">
+                    <div class="requiredIngP_border">
+                        <div class="requiredIngP" th:each="subP, status : *{subIngP}">
                             <span th:text="${subP}"></span>
                             <span th:text="${recipe.subIngEaP[status.index]}"></span>
-                        </th:block>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,15 +102,17 @@
                     <div>
                         <span class="sub" th:text="#{양념}"></span>
                     </div>
-                    <div>
-                        <th:block th:each="conP, status : *{condimentsP}">
+                    <div class="requiredIngP_border">
+                        <div class="requiredIngP" th:each="conP, status : *{condimentsP}">
                             <span th:text="${conP}"></span>
                             <span th:text="${recipe.condimentsEaP[status.index]}"></span>
-                        </th:block>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="tab_content dn" id="tab_content_howto">
             <div class="content">
                 <span class="ings" th:text="#{만드는_방법}"></span>
@@ -121,6 +124,7 @@
                 <li th:text="#{TIP} + ' ' + ${t}"></li>
             </ul>
         </div>
+
 
     </section>
 

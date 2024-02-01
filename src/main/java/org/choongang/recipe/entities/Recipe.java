@@ -37,6 +37,8 @@ public class Recipe extends Base implements AuthCheck {
     @Column(length = 100, nullable = false)
     private String rcpName;
 
+    private long like; // 최근 3개월 좋아요
+
     @Lob
     private String rcpInfo;
 
@@ -51,10 +53,11 @@ public class Recipe extends Base implements AuthCheck {
     @Column(nullable = false)
     private int amount;
 
-    //@Lob
+    @JsonIgnore
     private String[] how;
 
-    //@Lob
+    @JsonIgnore
+
     private String[] tip;
 
 
@@ -115,6 +118,7 @@ public class Recipe extends Base implements AuthCheck {
     private String[] condimentsP;
     @Transient
     private String[] condimentsEaP;
+
 
 }
 

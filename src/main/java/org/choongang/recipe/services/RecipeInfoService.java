@@ -29,8 +29,12 @@ import org.choongang.product.entities.Product;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.QRecipe;
+import org.choongang.recipe.entities.QRecipeWish;
 import org.choongang.recipe.entities.Recipe;
+import org.choongang.recipe.entities.RecipeCate;
+import org.choongang.recipe.repositories.RecipeCateRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
+import org.choongang.recipe.repositories.RecipeWishRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -56,9 +60,10 @@ public class RecipeInfoService {
     private final EntityManager em;
     private final RecipeRepository recipeRepository;
     private final HttpServletRequest request;
-
+    private final RecipeWishRepository recipeWishRepository;
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
+    private RecipeCate recipeCate;
 
 
     /**
@@ -125,86 +130,7 @@ public class RecipeInfoService {
         return recipe;
     }
 
-    private void addRecipe(Recipe recipe) {
-        /* 파일 정보 추가 S */
-        String gid = recipe.getGid();
-        String mgid = recipe.getMember().getGid();
 
-
-        List<FileInfo> mainImages = fileInfoService.getListDone(gid);
-        List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
-
-        recipe.setMainImages(mainImages);
-        recipe.setProfileImage(profileImage);
-        /* 파일 정보 추가 E */
-
-        /* 재료 가져오기 S */
-        try {
-            ObjectMapper om = new ObjectMapper();
-
-            if (StringUtils.hasText(recipe.getRequiredIng())) {
-                List<String[]> requiredIngTmp = om.readValue(recipe.getRequiredIng(), new TypeReference<>() {});
-
-                // 필수 재료 내용
-                String[] requiredIng = requiredIngTmp.stream().map(s -> s[0])
-                        .toArray(String[]::new);
-
-                recipe.setRequiredIngP(requiredIng);
-            }
-            if (StringUtils.hasText(recipe.getSubIng())) {
-                List<String[]> subIngTmp = om.readValue(recipe.getSubIng(), new TypeReference<>() {});
-                // 부재료 내용
-                String[] subIng = subIngTmp.stream().map(s -> s[0])
-                        .toArray(String[]::new);
-                recipe.setSubIngP(subIng);
-            }
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-
-        /* 재료 가져오기 E */
-
-        /** 임시 !! */
-        /* 수정, 삭제 권한 정보 처리 S */
-        boolean editable = false, deletable = false, mine = false;
-        AbstractMember _member = recipe.getMember(); // 작성한 회원
-        boolean authoritychk = false; // 작성자가 admin인지 체크
-
-        // 관리자 -> 삭제, 수정 모두 가능
-        if (memberUtil.isAdmin()) {
-            editable = true;
-            deletable = true;
-        }
-
-        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
-        AbstractMember member = memberUtil.getMember();
-        if (_member != null && memberUtil.isLogin() && _member.getUserId().equals(_member.getUserId())) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        authoritychk =
-        _member.getAuthorities().stream()
-                        .map(Authorities::getAuthority)
-                                .anyMatch(a -> a == Authority.ADMIN || a == Authority.MANAGER);
-
-        recipe.setEditable(editable);
-        recipe.setDeletable(deletable);
-        recipe.setMine(mine);
-        recipe.setAuthoritychk(authoritychk);
-
-        // 수정 버튼 노출 여부
-        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
-        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
-        boolean showDeleteButton = showEditButton;
-
-        recipe.setShowEditButton(showEditButton);
-        recipe.setShowDeleteButton(showDeleteButton);
-        /* 수정, 삭제 권한 정보 처리 E */
-    }
 
     public List<String> getIngredients(){
         List<String> keywordTmp = recipeRepository.getIngredients();
@@ -216,7 +142,6 @@ public class RecipeInfoService {
                         .distinct()
                         .toList();
     }
-
 
 
     /**
@@ -234,11 +159,12 @@ public class RecipeInfoService {
                 .rcpName(data.getRcpName())
                 .rcpInfo(data.getRcpInfo())
                 .estimatedT(data.getEstimatedT())
-                //.category(data.getRecipeCate())
+                .cateCd(data.getRecipeCate().getCateNm())
                 .mainImages(data.getMainImages())
                 .amount(data.getAmount())
                 .mode("edit")
                 .build();
+        System.out.println("레시피 = " + data.getRecipeCate().getCateNm());
 
         try {
             ObjectMapper om = new ObjectMapper();
@@ -325,6 +251,28 @@ public class RecipeInfoService {
 
     }
 
+
+    public ListData<Recipe> getPersonalList(RecipeDataSearch search){
+        QRecipe recipe = QRecipe.recipe;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(recipe.member.seq.eq(memberUtil.getMember().getSeq()));
+
+        int page = search.getPage();
+        int limit = search.getLimit();
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+
+        Page<Recipe> data = recipeRepository.findAll(builder, pageable);
+
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
+
+        List<Recipe> items = data.getContent();
+        items.forEach(this::addRecipe);
+
+        return new ListData<>(items, pagination);
+
+    }
+
     /**
      * 목록 조회하기
      * @param search
@@ -342,9 +290,10 @@ public class RecipeInfoService {
 
         /* 검색 조건 처리 S */
         String cateCd = search.getCateCd();
-        if (StringUtils.hasText(cateCd)) {
+        System.out.println("씨디 = " + cateCd);
+      /*  if (StringUtils.hasText(cateCd)) {
             andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd.trim()));
-        }
+        }*/
 
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
@@ -390,6 +339,7 @@ public class RecipeInfoService {
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 최신게시글 순서로 정렬
                 .fetch();
+        System.out.println("아이템 = " + items);
 
 
         // 게시글 전체 갯수
@@ -462,7 +412,120 @@ public class RecipeInfoService {
         QRecipe recipe = QRecipe.recipe;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        return (List<Recipe>) recipeRepository.findAll(Sort.by(desc("createdAt")));
+        return recipeRepository.findAll(Sort.by(desc("createdAt")));
+    }
+
+    /**
+     * 레시피 찜순 정렬
+     * @param search
+     * @return
+     */
+    public ListData<Recipe> getBestRecipe(RecipeDataSearch search){
+        QRecipe recipe = QRecipe.recipe;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        int page = search.getPage();
+        int limit = search.getLimit();
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("like")));
+
+        Page<Recipe> data = recipeRepository.findAll(builder, pageable);
+
+        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
+
+        List<Recipe> items = data.getContent();
+        items.forEach(this::addRecipe);
+
+        return new ListData<>(items, pagination);
+    }
+
+
+
+
+    /**
+     * 레시피 추가처리
+     * @param recipe
+     */
+    public void addRecipe(Recipe recipe) {
+        /* 파일 정보 추가 S */
+        String gid = recipe.getGid();
+        String mgid = recipe.getMember().getGid();
+
+
+        List<FileInfo> mainImages = fileInfoService.getListDone(gid);
+        List<FileInfo> profileImage = fileInfoService.getListDone(mgid);
+
+        recipe.setMainImages(mainImages);
+        recipe.setProfileImage(profileImage);
+
+        /* 파일 정보 추가 E */
+
+        /* 재료 가져오기 S */
+        try {
+            ObjectMapper om = new ObjectMapper();
+
+            if (StringUtils.hasText(recipe.getRequiredIng())) {
+                List<String[]> requiredIngTmp = om.readValue(recipe.getRequiredIng(), new TypeReference<>() {});
+
+                // 필수 재료 내용
+                String[] requiredIng = requiredIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+
+                recipe.setRequiredIngP(requiredIng);
+            }
+            if (StringUtils.hasText(recipe.getSubIng())) {
+                List<String[]> subIngTmp = om.readValue(recipe.getSubIng(), new TypeReference<>() {});
+                // 부재료 내용
+                String[] subIng = subIngTmp.stream().map(s -> s[0])
+                        .toArray(String[]::new);
+                recipe.setSubIngP(subIng);
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
+        /* 재료 가져오기 E */
+
+        /** 임시 !! */
+        /* 수정, 삭제 권한 정보 처리 S */
+        boolean editable = false, deletable = false, mine = false;
+        AbstractMember _member = recipe.getMember(); // 작성한 회원
+        boolean authoritychk = false; // 작성자가 admin인지 체크
+
+        // 관리자 -> 삭제, 수정 모두 가능
+        if (memberUtil.isAdmin()) {
+            editable = true;
+            deletable = true;
+        }
+
+        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
+        AbstractMember member = memberUtil.getMember();
+        if (_member != null && memberUtil.isLogin() && _member.getUserId().equals(_member.getUserId())) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        authoritychk =
+                _member.getAuthorities().stream()
+                        .map(Authorities::getAuthority)
+                        .anyMatch(a -> a == Authority.ADMIN || a == Authority.MANAGER);
+
+        recipe.setEditable(editable);
+        recipe.setDeletable(deletable);
+        recipe.setMine(mine);
+        recipe.setAuthoritychk(authoritychk);
+
+        // 수정 버튼 노출 여부
+        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
+        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
+        boolean showDeleteButton = showEditButton;
+
+        recipe.setShowEditButton(showEditButton);
+        recipe.setShowDeleteButton(showDeleteButton);
+        /* 수정, 삭제 권한 정보 처리 E */
     }
 
 
