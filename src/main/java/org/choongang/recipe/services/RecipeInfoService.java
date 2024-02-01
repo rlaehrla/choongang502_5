@@ -49,6 +49,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.springframework.data.domain.Sort.Order.asc;
@@ -73,6 +74,14 @@ public class RecipeInfoService {
      */
     public Recipe get(Long seq) {
         Recipe recipe = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
+        String how = recipe.getHow();
+        String tip = recipe.getTip();
+        System.out.println("-------------------- 체크 -----" + how +"---" + tip);
+        String[] hows = how.split("__");
+        String[] tips = how.split("__");
+        //System.out.println("하우 = " + how.length());
+        recipe.setHowP(hows);
+        recipe.setTipP(tips);
 
         try {
             ObjectMapper om = new ObjectMapper();

@@ -118,12 +118,15 @@
             <div class="content">
                 <span class="ings" th:text="#{만드는_방법}"></span>
             </div>
+
             <div class="border_howto">
-                <div class="howto_list" th:each="h, status: *{how}">
+                <div class="howto_border">
+                <div class="howto_list" th:each="h, status: *{howP}">
                     <span class="howto_no" th:text="${status.count}"></span>
                     <span class="content" th:text="${h}"></span>
+                </div><br>
                 </div>
-                <div class="howto_list" th:each="t: *{tip}">
+                <div class="howto_list" th:each="t: *{tipP}">
                     <span class="tip_no" th:text="#{TIP}"></span>
                     <span class="content" th:text="${t}"></span>
                 </div>
