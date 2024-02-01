@@ -29,10 +29,11 @@
         <div class="title"> <!-- 제철/특산품 -->
             <h2 th:text="#{제철_특산품}"></h2>
         </div>
+
         <section class="inSeasonProducts flex" id="inSeasonProductsContainer">
             <!-- 이전 화살표 -->
-            <div class="button_area flex align-items">
-                <button class="prod_button" onclick="prevSlide()">이전</button>
+            <div class="prev_button">
+                <button class="prod_button" onclick="prevSlide()">◀</button>
             </div>
             <div class="productsItem">
                 <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
@@ -69,8 +70,8 @@
                 </div>
             </div>
             <!-- 다음 화살표 -->
-            <div class="button_area flex align-items">
-                <button class="prod_button" onclick="nextSlide()">다음</button>
+            <div class="next_button">
+                <button class="prod_button" onclick="nextSlide()">▶</button>
             </div>
         </section>
 
@@ -208,24 +209,11 @@
             document.getElementById('totalSlides').textContent = totalSlides;
         }
 
-        setInterval(nextSlide, 2000);
+        setInterval(nextSlide, 2500);
 
         // 초기 슬라이드 표시
         showSlides(currentIndex);
         updateSlideInfo();
-
-        // 이전 화살표
-        var prevButton = document.createElement('button');
-        prevButton.innerHTML = '&#9664;';  // 왼쪽 화살표
-        prevButton.onclick = prevSlide;
-        document.body.appendChild(prevButton);
-
-        // 다음 화살표
-        var nextButton = document.createElement('button');
-        nextButton.innerHTML = '&#9654;';  // 오른쪽 화살표
-        nextButton.onclick = nextSlide;
-        document.body.appendChild(nextButton);
     </script>
-
 </main>
 </html>
