@@ -15,7 +15,7 @@
         <input type="hidden" name="totalPrice" th:field="*{totalPrice}">
         <input type="hidden" name="totalDeliveryPrice" th:field="*{totalDeliveryPrice}">
         <input type="hidden" name="totalDiscount" th:field="*{totalDiscount}">
-        <input type="hidden" name="cartType" th:field="${cartType}">
+        <input type="hidden" name="cartType" th:value="${cartType}">
 
         <h3 class="font-semibold text-18px" th:text="#{주문_상품}"></h3>
 
