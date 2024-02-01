@@ -188,3 +188,4 @@ const recipeForm = {
            mainImageEl.style.backgroundImage=`url('${url}')`;
          });
        }
+

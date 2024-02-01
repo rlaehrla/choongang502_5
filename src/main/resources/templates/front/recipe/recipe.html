@@ -7,52 +7,18 @@
     <section th:replace="~{front/outlines/_banner::recipe}">
     </section>
     <section class="max-w-screen-lg ma">
-        <a th:href="@{/recipe/add}" th:text="#{레시피올리기}"></a><br>
-        <!--<h2 th:text="#{맞춤레시피}"></h2>
         <div>
-            <ul>
-                <li th:each="recipe : ${맞춤레시피}" th:object="${recipe}">
-                    <img th:src="*{썸네일링크}">
-                    <p th:text="*{제목}"></p>
-                    <p th:text="*{내용}"></p>
-                </li>
-            </ul>
-        </div>-->
-        <h2 th:text="#{공식레시피}"></h2>
-        <div>
-            <ul>
-                <li th:each="recipe : ${officialRecipes}" th:object="${recipe}">
-                    <div class="share_btns" >
-                        <button sec:authorize="isAuthenticated()" type="button" class="save_post" th:data-seq="*{seq}" data-refresh="true" th:classappend="*{@recipeWishService.saved(seq)} ? 'on'">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: var(--f-mkcy-f); stroke-width: 2; overflow: visible;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
-                        </button>
-                        <button sec:authorize="isAnonymous()" type="button" class="save_post" onclick="alert('로그인이 필요한 서비스 입니다.');">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: var(--f-mkcy-f); stroke-width: 2; overflow: visible;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
-                        </button>
-                    </div>
-                    <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
-                        <div class="imgBox">
-                            <th:block th:block th:if="*{mainImages != null && mainImages.size() != 0}" th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
-                            <div class="imgBox_in cate">
-                                <form name="frmSearch" method="get" th:action="@{/recipe/list}">
-                                    <th:block th:each="re : *{requiredIngP}">
-                                        <input type="hidden" name="sopt" value="rcpIng">
-                                        <button class="product_action ingBtn" name="skey" th:value="${re}"
-                                                th:text="${re}">
-                                        </button>
-                                    </th:block>
-                                </form>
-                            </div>
-                        </div>
-                        <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
-                    </a>
-                </li>
-            </ul>
+            <a th:href="@{/recipe/add}"><button class="product_action addbtn" type="button"  th:text="#{레시피올리기}"></button>
+            </a>
         </div>
-        <h2 th:text="#{최신레시피}"></h2>
-        <div>
-            <ul>
-                <li th:each="recipe : ${lastRecipes}" th:object="${recipe}">
+
+        <div class="rcp_official">
+            <h1 th:text="#{공식레시피}"></h1>
+            <div class="content_official">
+                <th:block th:if="${officialRecipes == null || officialRecipes.isEmpty()}"
+                          th:text="#{등록된_레시피가_없습니다.}">
+                </th:block>
+                <div class="3" th:each="recipe : ${officialRecipes}" th:object="${recipe}">
                     <div class="share_btns" >
                         <button sec:authorize="isAuthenticated()" type="button" class="save_post" th:data-seq="*{seq}" data-refresh="true" th:classappend="*{@recipeWishService.saved(seq)} ? 'on'">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: var(--f-mkcy-f); stroke-width: 2; overflow: visible;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
@@ -64,24 +30,153 @@
                     <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                         <div class="imgBox">
                             <th:block th:block th:if="*{mainImages != null && mainImages.size() != 0}" th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
-                            <div class="imgBox_in cate">
+                            <div class="rcpName_list">
+                                <span class="rcpName" th:text="*{rcpName}"></span>
+                                <span class="rcpEst" th:if="*{recipeCate !=null}" th:text="*{recipeCate.cateNm}"></span>
+                            </div>
+                            <span class="poster_main" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
+                            <span class="poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
+                            <div class="imgBox_in cate_main">
                                 <form name="frmSearch" method="get" th:action="@{/recipe/list}">
                                     <th:block th:each="re : *{requiredIngP}">
                                         <input type="hidden" name="sopt" value="rcpIng">
-                                        <button class="product_action ingBtn" name="skey" th:value="${re}"
+                                        <button class="product_action ingBtn_main" name="skey" th:value="${re}"
                                                 th:text="${re}">
                                         </button>
                                     </th:block>
                                 </form>
                             </div>
                         </div>
-                        <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
-                </li>
-            </ul>
-            <div>
-                <a th:href="@{recipe/list}">모두 보기</a>
+                    </a>
+                    <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
+
+
+                </div>
             </div>
+            <form name="frmSearch" method="get" th:action="@{/recipe/list}" th:object="${recipeDataSearch}">
+                <button class="allbtn" name="authoritychk" value="true" th:text="#{공식레시피보기}">
+                </button>
+            </form>
+        </div>
+
+        <h1 th:text="#{최신레시피}"></h1>
+        <div class="rcp_slide flex">
+
+               <th:block th:if="${lastRecipes != null}">
+                   <i class="xi-angle-left" onclick="nextSlide()"></i>
+               </th:block>
+            <div class="content recent">
+                <th:block th:if="${lastRecipes == null || lastRecipes.isEmpty()}"
+                          th:text="#{등록된_레시피가_없습니다.}">
+                </th:block>
+                <div class="item" th:each="recipe : ${lastRecipes}" th:object="${recipe}">
+                    <div class="share_btns" >
+                        <button sec:authorize="isAuthenticated()" type="button" class="save_post" th:data-seq="*{seq}" data-refresh="true" th:classappend="*{@recipeWishService.saved(seq)} ? 'on'">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: var(--f-mkcy-f); stroke-width: 2; overflow: visible;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
+                        </button>
+                        <button sec:authorize="isAnonymous()" type="button" class="save_post" onclick="alert('로그인이 필요한 서비스 입니다.');">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: var(--f-mkcy-f); stroke-width: 2; overflow: visible;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
+                        </button>
+                    </div>
+
+                    <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
+                        <div class="recipeItem">
+                            <div class="imgBox">
+                            <th:block th:block th:if="*{mainImages != null && mainImages.size() != 0}" th:utext="*{@utils.printThumb(mainImages[0].seq, 1000, 1000, 'recipe_main')}"></th:block>
+                            </div>
+                            <span class="poster_main" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
+
+                            <div class="cateName">
+                                <div class="imgBox_in cate_main">
+                                    <form name="frmSearch" method="get" th:action="@{/recipe/list}">
+                                        <th:block th:each="re : *{requiredIngP}">
+                                            <input type="hidden" name="sopt" value="rcpIng">
+                                            <button class="product_action ingBtn_main" name="skey" th:value="${re}"
+                                                    th:text="${re}">
+                                            </button>
+                                        </th:block>
+                                    </form>
+                                </div>
+
+                                <div class="rcpName_list">
+                                    <span class="rcpName" th:text="*{rcpName}"></span>
+                                    <!--<span class="rcpEst" th:if="*{recipeCate !=null}" th:text="*{recipeCate.cateNm}"></span>-->
+                                </div>
+                            </div>
+
+                        </div>
+                            <div class="profileImage flex">
+                            <th:block th:if="*{profileImage != null}">
+                                <th:block th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
+                                </th:block>
+                            </th:block>
+                            <div class="poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></div>
+                            </div>
+
+
+                    </a>
+                    <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
+                </div>
+            </div>
+            <th:block th:unless="${lastRecipes == null || lastRecipes.isEmpty()}">
+                <i class="xi-angle-right" onclick="nextSlide()"></i>
+            </th:block>
+            <a th:href="@{recipe/list}" class="allbtn">
+                <span th:text="#{모두보기}"></span>
+            </a>
         </div>
     </section>
+    <script>
+        // 자동 롤링을 위한 JavaScript 코드
+        var currentIndex = 0;
+        var slides = document.querySelectorAll('.rcp_slide .item');
+        var totalSlides = slides.length;
+        var slidesPerPage = 3; // 한 번에 보여줄 상품 수
+
+        function showSlides(startIndex) {
+        slides.forEach(function (slides, index) {
+        var displayStyle = index >= startIndex && index < startIndex + slidesPerPage ? 'block' : 'none';
+        slides.style.display = displayStyle;
+        });
+        }
+
+        function nextSlide() {
+        currentIndex = (currentIndex + slidesPerPage) % totalSlides;
+        showSlides(currentIndex);
+        updateSlideInfo();
+        }
+
+        function prevSlide() {
+        currentIndex = (currentIndex - slidesPerPage + totalSlides) % totalSlides;
+        showSlides(currentIndex);
+        updateSlideInfo();
+        }
+
+        function updateSlideInfo() {
+        document.getElementById('currentSlide').textContent = currentIndex + 1;
+        document.getElementById('totalSlides').textContent = totalSlides;
+        }
+
+        setInterval(nextSlide, 2000);
+
+        // 초기 슬라이드 표시
+        showSlides(currentIndex);
+        updateSlideInfo();
+
+        // 이전 화살표
+        var prevButton = document.createElement('button');
+        prevButton.innerHTML = '&#9664;';  // 왼쪽 화살표
+        prevButton.onclick = prevSlide;
+        document.body.appendChild(prevButton);
+
+        // 다음 화살표
+        var nextButton = document.createElement('button');
+        nextButton.innerHTML = '&#9654;';  // 오른쪽 화살표
+        nextButton.onclick = nextSlide;
+        document.body.appendChild(nextButton);
+
+
+
+    </script>
 </main>
 </html>
