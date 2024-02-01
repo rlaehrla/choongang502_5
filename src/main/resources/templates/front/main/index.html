@@ -32,8 +32,8 @@
 
         <section class="inSeasonProducts flex" id="inSeasonProductsContainer">
             <div class="btns">
-                <div class="slide_prev_button slide_button2">◀</div>
-                <div class="slide_next_button slide_button2">▶</div>
+                <div class="slide_prev_button slide_button2" onclick="prevSlide()">◀</div>
+                <div class="slide_next_button slide_button2" onclick="nextSlide()">▶</div>
             </div>
             <div class="productsItem">
                 <div class="products" th:each="item : ${inSeasonProducts}" th:object="${item}">
