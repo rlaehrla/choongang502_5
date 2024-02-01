@@ -43,7 +43,7 @@ public class BoardDeleteService {
 
         // 상품 평점 업데이트
         if (bid.equals("review") && num1 != null) {
-            reviewScoreService.update(num1);
+            reviewScoreService.update(data.getNum1(), 0L, data.getSeq());
         }
     }
 }
