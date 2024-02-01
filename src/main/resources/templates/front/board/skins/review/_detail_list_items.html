@@ -2,9 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="review">
-    <th:block layout:fragment="addScript">
-        <script th:src="@{/common/js/accordion.js}"></script>
-    </th:block>
+
     <div class="board_list layout_width">
         <div class="flex sb aic">
             <h1 th:replace="~{front/board/skins/review/_board_title::title}"></h1>
@@ -15,7 +13,7 @@
                 th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
         </div>
 
-        <ul class="review_items toggle_action" data-button-class="content_view" data-target-class="content">
+        <ul class="review_items toggle_action" data-button-class="faq-toggle" data-target-class="faq-text">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
                 th:text="#{조회된_게시글이_없습니다.}"></li>
 
@@ -26,13 +24,10 @@
                 <div class="sns-container">
                     <div class="faq">
                         <div class="faq-title">
-                <div class="item_top">
-                    <div class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
-                        <th:block th:if="*{parentSeq != null}"><i class="xi-share"></i>RE</th:block>
-                        <h3 th:text="*{subject}"></h3>
-                    </div>
 
-                    <div class="post_info">
+                        <h3 th:text="*{subject}"></h3>
+
+
                         <span class="poster">
                             작성자 :
                             <th:block th:text="*{poster}"></th:block>
@@ -47,23 +42,22 @@
                         작성일 : <span class="post_date"
                                     th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
                         별점 <th:block th:text="*{num2}"></th:block>
-                    </div>
-                    <!--// post_info -->
-                </div>
 
-                <!-- 리뷰 본문 내용 -->
-                   <div class="faq-text hidden">
-                    <th:block th:utext="*{content}"></th:block>
-                   </div>
-                        <a th:if="*{showEditButton}" th:href="@{/board/update/{seq}(seq=*{seq})}" th:text="#{글수정}" class="btn"></a>
-                        <a th:if="*{showDeleteButton}" th:href="@{/board/delete/{seq}(seq=*{seq})}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
-                        <a th:if="${board.useReply}" th:href="@{/board/reply/{seq}(seq=*{seq})}" th:text="#{답글}" class="btn"></a>
+                    <!--// post_info -->
+
+                  </div>
+                        <!-- 리뷰 본문 내용 -->
+                        <div class="faq-text hidden">
+                            <th:block th:utext="*{content}"></th:block>
+                            <a th:if="*{showEditButton}" th:href="@{/board/update/{seq}(seq=*{seq})}" th:text="#{글수정}" class="btn"></a>
+                            <a th:if="*{showDeleteButton}" th:href="@{/board/delete/{seq}(seq=*{seq})}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
+                            <a th:if="${board.useReply}" th:href="@{/board/reply/{seq}(seq=*{seq})}" th:text="#{답글}" class="btn"></a>
+                        </div>
 
                         <button class="faq-toggle">
                             <i class="fas xi-angle-down"></i>
                         </button>
-                    <!--// btns-->
-                  </div>
+                        <!--// btns-->
                  </div>
                 </div>
             </li>
