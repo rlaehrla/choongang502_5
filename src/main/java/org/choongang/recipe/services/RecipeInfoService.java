@@ -60,10 +60,8 @@ public class RecipeInfoService {
     private final EntityManager em;
     private final RecipeRepository recipeRepository;
     private final HttpServletRequest request;
-    private final RecipeWishRepository recipeWishRepository;
     private final FileInfoService fileInfoService;
     private final MemberUtil memberUtil;
-    private RecipeCate recipeCate;
 
 
     /**
@@ -131,7 +129,10 @@ public class RecipeInfoService {
     }
 
 
-
+    /**
+     * 재료 추출
+     * @return
+     */
     public List<String> getIngredients(){
         List<String> keywordTmp = recipeRepository.getIngredients();
 
@@ -164,7 +165,6 @@ public class RecipeInfoService {
                 .amount(data.getAmount())
                 .mode("edit")
                 .build();
-        System.out.println("레시피 = " + data.getRecipeCate().getCateNm());
 
         try {
             ObjectMapper om = new ObjectMapper();
@@ -278,8 +278,6 @@ public class RecipeInfoService {
      * @param search
      * @return
      */
-
-
     public ListData<Recipe> getList(RecipeDataSearch search) {
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 10);
@@ -290,10 +288,9 @@ public class RecipeInfoService {
 
         /* 검색 조건 처리 S */
         String cateCd = search.getCateCd();
-        System.out.println("씨디 = " + cateCd);
-      /*  if (StringUtils.hasText(cateCd)) {
+        if (StringUtils.hasText(cateCd)) {
             andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd.trim()));
-        }*/
+        }
 
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
@@ -440,6 +437,18 @@ public class RecipeInfoService {
     }
 
 
+    /**
+     * 공식 레시피 추출
+     * @param search
+     * @return
+     */
+    public List<Recipe> getAdminRecipe(RecipeDataSearch search){
+        List<Recipe> recipes = getList(search).getItems().stream()
+                .filter(s -> authorityChk(s))
+                .toList();
+        return recipes;
+    }
+
 
 
     /**
@@ -531,7 +540,13 @@ public class RecipeInfoService {
         /* 수정, 삭제 권한 정보 처리 E */
     }
 
+    public boolean authorityChk(Recipe recipe){
+        AbstractMember _member = recipe.getMember(); // 작성한 회원
+        return _member.getAuthorities().stream()
+                        .map(Authorities::getAuthority)
+                        .anyMatch(a -> a == Authority.ADMIN || a == Authority.MANAGER);
 
+    }
 
 
 }
