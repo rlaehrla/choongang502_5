@@ -23,6 +23,7 @@ import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.order.entities.OrderItem;
 import org.choongang.order.service.OrderItemInfoService;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +37,8 @@ import java.util.List;
 public class BoardController extends AbstractBoardController {
 
 
-    public BoardController(ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
-        super(confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
+    public BoardController(ProductInfoService productInfoService, ConfigInfoService confInfoService, BoardConfigInfoService configInfoService, FileInfoService fileInfoService, BoardFormValidator boardFormValidator, BoardSaveService boardSaveService, BoardInfoService boardInfoService, BoardDeleteService boardDeleteService, BoardAuthService boardAuthService, ReviewAuthService reviewAuthService, OrderItemInfoService orderItemInfoService, MemberUtil memberUtil, MemberInfoService memberInfoService, Utils utils, SellingInfoService sellingInfoService, HttpServletRequest request) {
+        super(productInfoService, confInfoService, configInfoService, fileInfoService, boardFormValidator, boardSaveService, boardInfoService, boardDeleteService, boardAuthService, reviewAuthService, orderItemInfoService, memberUtil, memberInfoService, utils, sellingInfoService, request);
     }
 
     /**

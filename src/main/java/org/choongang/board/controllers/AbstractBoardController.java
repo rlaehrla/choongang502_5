@@ -16,6 +16,7 @@ import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.order.service.OrderItemInfoService;
+import org.choongang.product.service.ProductInfoService;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public abstract class AbstractBoardController implements ExceptionProcessor{
 
+    protected final ProductInfoService productInfoService;
     protected final ConfigInfoService confInfoService ;
     protected final BoardConfigInfoService configInfoService;
     protected final FileInfoService fileInfoService;

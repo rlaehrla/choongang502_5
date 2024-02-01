@@ -7,8 +7,12 @@
     <input type="hidden" name="bid" th:field="*{bid}">
     <input type="hidden" name="gid" th:field="*{gid}">
     <input th:if="*{parentSeq != null}" type="hidden" name="parentSeq" th:field="*{parentSeq}">
-    <input th:if="${mode != 'update' && param.productSeq != null}" type="hidden" name="num1" th:value="${param.productSeq}">
+
+    <input th:if="${mode != 'update' && orderItem != null && orderItem.product != null}" type="hidden" name="num1" th:value="${orderItem.product.seq}">
     <input th:if="${mode == 'update' && seq != null}" type="hidden" name="num1" th:field="*{num1}">
+
+    <input th:if="${mode != 'update' && orderItem != null}" type="hidden" name="num3" th:value="${orderItem.seq}">
+    <input th:if="${mode == 'update' && seq != null}" type="hidden" name="num3" th:field="*{num3}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
     <div class="mb30" >

@@ -1,5 +1,6 @@
 package org.choongang.board.controllers.best;
 
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.commons.ListData;
@@ -8,7 +9,10 @@ import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Farmer;
+import org.choongang.member.repositories.ProductWishRepository;
 import org.choongang.member.service.FarmerInfoService;
+import org.choongang.product.entities.QProductWish;
+import org.choongang.product.service.ProductInfoService;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.entities.QRecipeWish;
 import org.choongang.recipe.entities.Recipe;
@@ -36,6 +40,7 @@ public class BestController {
     private final FileInfoService fileInfoService;
     private final RecipeInfoService recipeInfoService;
     private final RecipeWishRepository recipeWishRepository;
+    private final ProductInfoService productInfoService;
 
     @GetMapping
     public String best(@ModelAttribute MemberSearch memberSearch, @ModelAttribute RecipeDataSearch recipeDataSearch, Model model){
@@ -51,6 +56,12 @@ public class BestController {
             if(!profileImage.isEmpty() && profileImage != null){
                 farmer.setProfileImage(profileImage.get(0));
             }
+        }
+
+        Map<Long, Long> farmerCount = new HashMap<>();
+        for(Farmer farmer : farmers){
+            long count = productInfoService.saleSum(farmer);
+            farmerCount.put(farmer.getSeq(), count);
         }
 
         /* 농장 랭킹 E */
@@ -71,8 +82,10 @@ public class BestController {
         /* 레시피 랭킹 E */
 
         model.addAttribute("farmers", farmers);
+        model.addAttribute("farmerCount", farmerCount);
         model.addAttribute("recipes", recipes);
         model.addAttribute("recipeCount", recipeCount);
+
         return utils.tpl("board/best");
     }
 

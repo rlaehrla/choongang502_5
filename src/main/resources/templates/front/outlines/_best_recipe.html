@@ -6,11 +6,13 @@
         <a th:href="@{/recipe/view/{seq}(seq=*{seq})}">
             <div>
                 <strong type="text" th:text="*{rcpName}"></strong>
-                <p th:text="#{상품태그}"></p>
+                <div th:if="*{requiredIngP != null}" th:each="required : *{requiredIngP}">
+                    <span th:text="${required}"></span>
+                </div>
             </div>
             <p th:text="${recipeCount.get(recipe)}"></p>
             <div class="imgBox">
-                <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImages[0].seq, 1000, 1000)}"></th:block>
+                <th:block th:if="*{mainImages != null && !mainImages.isEmpty()}" th:utext="*{@utils.printThumb(mainImages[0].seq, 500, 500)}"></th:block>
             </div>
             <p th:text="*{member.nickname}"></p>
         </a>
