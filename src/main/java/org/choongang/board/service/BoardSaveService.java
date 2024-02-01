@@ -85,8 +85,8 @@ public class BoardSaveService {
 
         // 추가 필드 - 정수
         data.setNum1(Objects.requireNonNullElse(form.getNum1(), 0L));
-        data.setNum2(Objects.requireNonNullElse(form.getNum1(), 0L));
-        data.setNum3(Objects.requireNonNullElse(form.getNum1(), 0L));
+        data.setNum2(Objects.requireNonNullElse(form.getNum2(), 0L));
+        data.setNum3(Objects.requireNonNullElse(form.getNum3(), 0L));
 
         // 추가 필드 - 한줄 텍스트
         data.setText1(form.getText1());
