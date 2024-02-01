@@ -6,7 +6,8 @@
     <div class="flex max-w-screen-lg ma">
         <div class="farmRanking">
             <h2 class="lank_title">농장 랭킹</h2>
-            <div class="farmerBox" th:if="*{farmers != null && !farmers.isEmpty()}" th:each="farm, status : *{farmers[0]}" th:object="${farm}">
+            <div th:if="${!#arrays.isEmpty(farmers)}" class="farmerBox" th:each="farm, status : *{farmers[0]}" th:object="${farm}">
+
                 <a class="best_lank first_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
                     <div class="lank">
                         <img th:src="'../image/ranking-01.png'">
