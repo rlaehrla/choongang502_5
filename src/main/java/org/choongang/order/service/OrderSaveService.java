@@ -79,11 +79,14 @@ public class OrderSaveService {
         /* 주문 정보 저장 S */
         OrderInfo orderInfo = new OrderInfo();
 
+        String orderCellphone = form.getOrderCellPhone1().trim() +"-"+ form.getOrderCellPhone2().trim() +"-"+ form.getOrderCellPhone3().trim();
+        String receiverCellphone = form.getReceiverCellPhone1().trim() +"-"+ form.getReceiverCellPhone2().trim() +"-"+ form.getReceiverCellPhone3().trim();
+
         orderInfo.setOrderName(form.getOrderName());
-        orderInfo.setOrderCellphone(form.getOrderCellPhone());
+        orderInfo.setOrderCellphone(orderCellphone);
         orderInfo.setOrderEmail(form.getOrderEmail());
         orderInfo.setReceiverName(form.getReceiverName());
-        orderInfo.setReceiverCellphone(form.getReceiverCellPhone());
+        orderInfo.setReceiverCellphone(receiverCellphone);
         orderInfo.setDeliveryMemo(form.getDeliveryMemo());
         orderInfo.setStatus(OrderStatus.READY);
         orderInfo.setTotalPrice(totalPrice);

@@ -46,17 +46,21 @@
                     <th class="table_head" th:text="#{휴대전화번호}"></th>
                     <th:block th:if="${@memberUtil.isLogin()}">
                         <td>
-                            <input type="text" name="orderCellPhone1" th:value="${session.member.tel}" style="width:70px" maxlength="4" readonly id="orderCellPhone1" oninput="autoHyphen(this)">
+                            <input type="text" name="orderCellPhone1" th:value="${session.member.tel.substring(0, session.member.tel.indexOf('-'))}" style="width:70px" maxlength="3" readonly id="orderCellPhone1">
                             -
-                            <input type="text" name="orderCellPhone2" th:value="${session.member.tel}" style="width:70px" maxlength="4" readonly id="orderCellPhone2" oninput="autoHyphen(this)">
+                            <input type="text" name="orderCellPhone2" th:value="${session.member.tel.substring(session.member.tel.indexOf('-')+1, session.member.tel.lastIndexOf('-'))}" style="width:70px" maxlength="4" readonly id="orderCellPhone2">
                             -
-                            <input type="text" name="orderCellPhone3" th:value="${session.member.tel}" style="width:70px" maxlength="4" readonly id="orderCellPhone3" oninput="autoHyphen(this)">
+                            <input type="text" name="orderCellPhone3" th:value="${session.member.tel.substring(session.member.tel.lastIndexOf('-')+1)}" style="width:70px" maxlength="4" readonly id="orderCellPhone3">
                         </td>
                     </th:block>
                     <th:block th:unless="${@memberUtil.isLogin()}">
                         <td>
-                            <input type="text" name="orderCellPhone" id="orderCellPhone" oninput="autoHyphen(this)" th:field="*{orderCellPhone}">
-                            <div class="error" th:each="err : ${#fields.errors('orderCellPhone')}" th:text="${err}"></div>
+                            <input type="text" name="orderCellPhone1" style="width:70px" maxlength="3" id="orderCellPhone1" th:field="*{orderCellPhone1}">
+                            -
+                            <input type="text" name="orderCellPhone2" style="width:70px" maxlength="4" id="orderCellPhone2" th:field="*{orderCellPhone2}">
+                            -
+                            <input type="text" name="orderCellPhone3" style="width:70px" maxlength="4" id="orderCellPhone3" th:field="*{orderCellPhone3}">
+                            <div class="error" th:each="err : ${#fields.errors('orderCellPhone1')}" th:text="${err}"></div>
                         </td>
                     </th:block>
                 </tr>
@@ -94,12 +98,12 @@
                 <tr>
                     <th class="table_head" th:text="#{휴대전화번호}"></th>
                     <td>
-                        <input type="text" name="receiverCellPhone1" id="receiverCellPhone1" oninput="autoHyphen(this)" style="width:70px" maxlength="3" th:field="*{receiverCellPhone}">
+                        <input type="text" name="receiverCellPhone1" id="receiverCellPhone1" style="width:70px" maxlength="3" th:field="*{receiverCellPhone1}">
                         -
-                        <input type="text" name="receiverCellPhone2" id="receiverCellPhone2" oninput="autoHyphen(this)" style="width:70px" maxlength="4" th:field="*{receiverCellPhone}">
+                        <input type="text" name="receiverCellPhone2" id="receiverCellPhone2" style="width:70px" maxlength="4" th:field="*{receiverCellPhone2}">
                         -
-                        <input type="text" name="receiverCellPhone3" id="receiverCellPhone3" oninput="autoHyphen(this)" style="width:70px" maxlength="4" th:field="*{receiverCellPhone}">
-                        <div class="error" th:each="err : ${#fields.errors('receiverCellPhone')}" th:text="${err}"></div>
+                        <input type="text" name="receiverCellPhone3" id="receiverCellPhone3" style="width:70px" maxlength="4" th:field="*{receiverCellPhone3}">
+                        <div class="error" th:each="err : ${#fields.errors('receiverCellPhone1')}" th:text="${err}"></div>
                     </td>
                 </tr>
                 <tr>
