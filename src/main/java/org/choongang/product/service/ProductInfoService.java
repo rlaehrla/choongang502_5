@@ -11,6 +11,10 @@ import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Farmer;
+import org.choongang.order.entities.OrderItem;
+import org.choongang.order.entities.QOrderItem;
+import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.product.constants.MainCategory;
 import org.choongang.product.constants.ProductStatus;
 import org.choongang.product.entities.Product;
@@ -28,6 +32,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.desc;
@@ -40,7 +45,7 @@ public class ProductInfoService {
     private final MemberUtil memberUtil;
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
-    private final CategoryInfoService categoryInfoService;
+    private final OrderItemRepository orderItemRepository;
 
 
     public Product get(Long seq) {
@@ -262,6 +267,28 @@ public class ProductInfoService {
         inSeasonProducts.forEach(this::addProductInfo);
 
         return inSeasonProducts;
+    }
+
+    /**
+     * 농부별 판매량 합계
+     *
+     * @param farmer
+     * @return
+     */
+    public long saleSum(Farmer farmer){
+        QOrderItem orderItem = QOrderItem.orderItem;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(orderItem.product.farmer.eq(farmer));
+
+        Iterator<OrderItem> orderItems = orderItemRepository.findAll(builder).iterator();
+        long sum = 0L;
+
+        while(orderItems.hasNext()){
+            OrderItem orderItem1 = orderItems.next();
+            sum += orderItem1.getEa();
+        }
+
+      return sum;
     }
 
 }

@@ -12,6 +12,7 @@ import org.choongang.member.entities.Farmer;
 import org.choongang.member.repositories.ProductWishRepository;
 import org.choongang.member.service.FarmerInfoService;
 import org.choongang.product.entities.QProductWish;
+import org.choongang.product.service.ProductInfoService;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.entities.QRecipeWish;
 import org.choongang.recipe.entities.Recipe;
@@ -39,7 +40,7 @@ public class BestController {
     private final FileInfoService fileInfoService;
     private final RecipeInfoService recipeInfoService;
     private final RecipeWishRepository recipeWishRepository;
-    private final ProductWishRepository productWishRepository;
+    private final ProductInfoService productInfoService;
 
     @GetMapping
     public String best(@ModelAttribute MemberSearch memberSearch, @ModelAttribute RecipeDataSearch recipeDataSearch, Model model){
@@ -57,13 +58,10 @@ public class BestController {
             }
         }
 
-        Map<Farmer, Long> farmerCount = new HashMap<>();
+        Map<Long, Long> farmerCount = new HashMap<>();
         for(Farmer farmer : farmers){
-            QProductWish productWish = QProductWish.productWish;
-            BooleanBuilder builder = new BooleanBuilder();
-            builder.and(productWish.product.farmer.eq(farmer));
-            long count = productWishRepository.count(builder);
-            farmerCount.put(farmer, count);
+            long count = productInfoService.saleSum(farmer);
+            farmerCount.put(farmer.getSeq(), count);
         }
 
         /* 농장 랭킹 E */
