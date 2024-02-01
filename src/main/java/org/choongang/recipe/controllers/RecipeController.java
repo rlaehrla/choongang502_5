@@ -179,9 +179,8 @@ public class RecipeController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("레서피_작성", "commons");
         } else if (mode.equals("view")) {
             pageTitle = recipe.getRcpName();
-        }else if(mode.equals("list")){
+        }else if(mode.equals("list") || mode.equals("recipe")){
             addScript.add("recipe/list");
-
         }
 
         addCss.add("recipe/style");

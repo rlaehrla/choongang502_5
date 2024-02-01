@@ -1,7 +1,6 @@
 package org.choongang.farmer.blog.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.board.controllers.AbstractBoardController;
@@ -58,6 +57,7 @@ public class BlogController extends AbstractBoardController {
         model.addAttribute("introSum", introSum) ;
 
         List<String> addCss = new ArrayList<>() ;
+        List<String> addCommonScript = new ArrayList<>() ;
 
         model.addAttribute("tab", tab);
 
@@ -75,6 +75,8 @@ public class BlogController extends AbstractBoardController {
 
         } else if (tab.equals("review")) {
             String bid = "review" ;
+            commonProcess(bid, "list", model);
+            addCommonScript.add("accordion");
 
             ListData<BoardData> data = boardInfoService.getList(bid, search);
 
@@ -98,6 +100,7 @@ public class BlogController extends AbstractBoardController {
         addCss.add("blog/style");
 
         model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
 
         return utils.tpl("blog/index");
     }

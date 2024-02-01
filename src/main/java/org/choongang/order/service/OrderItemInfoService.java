@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -177,6 +178,25 @@ public class OrderItemInfoService {
         return salePoint;
     }
 
+    /**
+     * orderInfo seq로 item들 가져오기
+     * @param infoSeq
+     * @return
+     */
+    public List<OrderItem> getItem(Long infoSeq){
+        QOrderItem orderItem = QOrderItem.orderItem;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(orderItem.orderInfo.seq.eq(infoSeq));
+
+        Iterator<OrderItem> iterator = orderItemRepository.findAll(builder).iterator();
+        List<OrderItem> items = new ArrayList<>();
+
+        while(iterator.hasNext()){
+            items.add(iterator.next());
+        }
+
+        return items;
+    }
 
 
 

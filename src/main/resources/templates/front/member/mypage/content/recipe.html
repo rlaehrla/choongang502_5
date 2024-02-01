@@ -1,7 +1,7 @@
 <!-- 마이 다이어리 레시피 -->
 <div xmlns:th="http://www.thymeleaf.org">
     <section th:fragment="recipe">
-        <h1>레시피</h1>
+        <h2>레시피</h2>
         <div class="item" th:each="recipe : ${recipes}" th:object="${recipe}" th:if="*{recipe.active}">
             <div class="share_btns" >
                 <button type="button" class="save_post" th:data-seq="*{seq}" data-refresh="true" th:classappend="*{@recipeWishService.saved(seq)} ? 'on'">
