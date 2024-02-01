@@ -36,6 +36,7 @@
                         <th:block th:if="*{discountType == DiscountType.PRICE}" th:text="#{돈단위}"></th:block>
                         <img class="discount_arrow" th:src="@{/image/discount-arrow.svg}">
                     </div>
+                    <div class="discount" th:unless="*{discount != 0}"></div>
                 </div>
                 <!--<div th:text="#{판매가} + ' : ' + *{salePrice}"></div>-->
                 <div class="star">

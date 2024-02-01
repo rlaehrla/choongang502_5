@@ -9,6 +9,7 @@ import org.choongang.board.entities.BoardData;
 import org.choongang.board.service.*;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.board.service.review.ReviewAuthService;
+import org.choongang.board.service.review.ReviewScoreService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.farmer.blog.service.SellingInfoService;
@@ -27,6 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public abstract class AbstractBoardController implements ExceptionProcessor{
 
+
+    protected final ReviewScoreService reviewScoreService;
     protected final ProductInfoService productInfoService;
     protected final ConfigInfoService confInfoService ;
     protected final BoardConfigInfoService configInfoService;

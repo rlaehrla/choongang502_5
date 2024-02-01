@@ -134,7 +134,9 @@
     font-weight: bold;
     color: var(--main-color);
 }
-
+.discount{
+    height: 20px;
+}
 .discount_type {
     font-weight: bold;
     color: #007bff; /* 파란색으로 할인 종류 강조 */

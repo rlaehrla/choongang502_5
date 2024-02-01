@@ -38,7 +38,7 @@
                                     <div class="list-head">
                                         <!-- 상품명 -->
                                         <div class="OrderTableCardContent_title">
-                                            <a th:href="@{/product/detail/{seq}(seq=*{seq})}"
+                                            <a th:href="@{/product/detail/{seq}(seq=*{product.seq})}"
                                                class="title-txt"
                                                for="prd-name"
                                             th:text="*{product.name}"></a>
@@ -62,10 +62,12 @@
                          <!--농장 설명-->
                         <td class="td-controller wow-b row fixed">
                             <div class="col farm">
-                                <span class="txt" th:text="*{product.farmer.farmTitle}"></span>
+                                <a th:href="@{/farm/blog/{userId}(userId=*{product.farmer.userId})}">
+                                    <span class="txt" th:text="*{product.farmer.farmTitle}"></span>
+                                </a>
                             </div>
                             <div class="col">
-                                <a href="/w/message/070d9941-8dd2-426c-8144-a79b6e05c154"
+                                <a th:href="@{/farm/blog/{userId}(userId=*{product.farmer.userId})}"
                                    class="btn btn-s btn-white"
                                    type="button"
                                 th:text="#{메세지_문의}"></a>
