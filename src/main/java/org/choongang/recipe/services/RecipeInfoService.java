@@ -76,10 +76,8 @@ public class RecipeInfoService {
         Recipe recipe = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
         String how = recipe.getHow();
         String tip = recipe.getTip();
-        System.out.println("-------------------- 체크 -----" + how +"---" + tip);
         String[] hows = how.split("__");
-        String[] tips = how.split("__");
-        //System.out.println("하우 = " + how.length());
+        String[] tips = tip.split("__");
         recipe.setHowP(hows);
         recipe.setTipP(tips);
 
@@ -325,9 +323,6 @@ public class RecipeInfoService {
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
-/*            if(skey.contains("여름지기마켓")) {
-                System.out.println("여름지기 = " + recipe.member.authorities);
-            }*/
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
             BooleanExpression nickCond = recipe.member.nickname.contains(skey);
             BooleanExpression userIdCond = recipe.member.userId.contains(skey);

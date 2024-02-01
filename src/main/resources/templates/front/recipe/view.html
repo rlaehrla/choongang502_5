@@ -17,11 +17,9 @@
             <div><!-- 멤버, 레시피 정보 출력 -->
                 <div class="farmer_info">
                     <div class="farm">
-                        <a th:href="@{임시}">
+                        <a href="#">
                             <div th:if="*{profileImage != null}">
-
                                 <th:block class="profile_img" th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
-
                                 </th:block>
                             </div>
                             <span class="recipe_poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
@@ -40,18 +38,19 @@
                         </div>
                     </div>
 
-                    <div class="btns">
-                        <th:block th:if="${@memberUtil.isMember()}">
-                            <a th:if="*{showEditButton}" th:href="@{/recipe/edit/{seq}(seq=*{seq})}">
-                                <button type="button" th:text="#{수정하기}" class="product_action"></button>
-                            </a>
-                            <a th:if="*{showDeleteButton}" th:href="@{/recipe/delete/{seq}(seq=*{seq})}"><button type="button" th:text="#{삭제하기}" class="product_action incartBtn" onclick="return confirm('정말 삭제하겠습니까?');"></button>
-                            </a>
-                        </th:block>
-                    </div>
                 </div>
             </div>
+            <div class="btns">
+                <th:block th:if="${@memberUtil.isMember()}">
+                    <a th:if="*{showEditButton}" th:href="@{/recipe/edit/{seq}(seq=*{seq})}">
+                        <button type="button" th:text="#{수정하기}" class="product_action"></button>
+                    </a>
+                    <a th:if="*{showDeleteButton}" th:href="@{/recipe/delete/{seq}(seq=*{seq})}"><button type="button" th:text="#{삭제하기}" class="product_action incartBtn" onclick="return confirm('정말 삭제하겠습니까?');"></button>
+                    </a>
+                </th:block>
+            </div>
         </div>
+
     </section>
 
     <section class="product_tabs">
@@ -120,18 +119,19 @@
             </div>
 
             <div class="border_howto">
-                <div class="howto_border">
-                <div class="howto_list" th:each="h, status: *{howP}">
-                    <span class="howto_no" th:text="${status.count}"></span>
-                    <span class="content" th:text="${h}"></span>
-                </div><br>
+                <div class="howto_border" th:each="h, status: *{howP}">
+                    <div class="howto_list" >
+                        <span class="howto_no" th:text="${status.count}"></span>
+                        <span class="content" th:text="${h}"></span>
+                    </div>
                 </div>
-                <div class="howto_list" th:each="t: *{tipP}">
-                    <span class="tip_no" th:text="#{TIP}"></span>
-                    <span class="content" th:text="${t}"></span>
+                <div class="howto_border" th:each="t: *{tipP}">
+                    <div class="howto_list" >
+                        <span class="tip_no" th:text="#{TIP}"></span>
+                        <span class="content" th:text="${t}"></span>
+                    </div>
                 </div>
             </div>
-        </div>
 
     </section>
 
