@@ -6,7 +6,7 @@
     <h1 th:text="#{찜한상품}"></h1>
 
     <ul class="items">
-        <li th:if="${items == null || items.isEmpty()}" class="no_data" th:text="#{찜_게시글이_없습니다.}"></li>
+        <li th:if="${items == null || items.isEmpty()}" class="no_data" th:text="#{찜_상품이_없습니다}"></li>
         <li th:unless="${items == null || items.isEmpty()}"
             th:each="item : ${items}" th:object="${item.product}">
             <div class="share_btns" >
