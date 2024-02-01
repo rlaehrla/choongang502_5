@@ -212,6 +212,8 @@ public class OrderController implements ExceptionProcessor {
             pageTitle = "주문하기";
             addCommonScript.add("address");
             addScript.add("order/order");
+            addCss.add("order/form");
+            addCss.add("cart/cart");
         }else if(mode.equals("detail")){
             addCss.add("order/detail");
             pageTitle = "주문상세";
