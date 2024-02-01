@@ -13,14 +13,16 @@ public class ApiRecipeController {
 
 
     @GetMapping("/saveReci/{reSeq}")
-    public void saveReci(@PathVariable("reSeq") Long reSeq){
+    public JSONData<Object> saveReci(@PathVariable("reSeq") Long reSeq){
 
         recipeWishService.save(reSeq);
 
+        return new JSONData<>();
     }
 
     @DeleteMapping("/saveReci/{reSeq}")
-    public void delReci(@PathVariable("reSeq") Long reSeq){
+    public JSONData<Object> delReci(@PathVariable("reSeq") Long reSeq){
         recipeWishService.delete(reSeq);
+        return new JSONData<>();
     }
 }
