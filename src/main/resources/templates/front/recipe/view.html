@@ -19,10 +19,8 @@
                 <div class="farmer_info">
                     <div class="farm">
                         <a th:href="@{임시}">
-                            <th:block th:if="*{profileImage != null && profileImage.size() != 0}">
-                                <th:block  class="profile_img" th:utext="*{@utils.printThumb(profileImage[0].seq, 50, 50, 'profile_img')}">
+                                <th:block  class="profile_img" th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
                                 </th:block>
-                            </th:block>
                             <span class="recipe_poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
                             <span class="recipe_poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
                         </a>
@@ -117,14 +115,17 @@
             <div class="content">
                 <span class="ings" th:text="#{만드는_방법}"></span>
             </div>
-            <ul th:each="h, status: *{how}">
-                <li th:text="${status.count} + ' ' + ${h}"></li>
-            </ul>
-            <ul th:each="t: *{tip}">
-                <li th:text="#{TIP} + ' ' + ${t}"></li>
-            </ul>
+            <div class="border_howto">
+                <div class="howto_list" th:each="h, status: *{how}">
+                    <span class="howto_no" th:text="${status.count}"></span>
+                    <span class="content" th:text="${h}"></span>
+                </div>
+                <div class="howto_list" th:each="t: *{tip}">
+                    <span class="tip_no" th:text="#{TIP}"></span>
+                    <span class="content" th:text="${t}"></span>
+                </div>
+            </div>
         </div>
-
 
     </section>
 

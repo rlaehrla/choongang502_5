@@ -214,6 +214,11 @@ background-color: #F6F4F4;
      padding: 10px;
 }
 
+
+
+
+/* 레시피 상세 E */
+
 /* 검색 S */
 .rcpsearchBox {
     position: absolute;
@@ -360,13 +365,10 @@ font-size: 1.1rem; color: #887B7B; margin-left: 5px;
 .product_detail .tabs .tab { border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
 .product_detail .tabs .tab:first-of-type { border-left: 1px solid #ccc; }
 
-.tab_content{
-grid-template-columns: repeat(3, minmax(0,1fr));
-}
 .tab_content .content { margin-top: 15px; }
 .tab_content .content .ings { margin: 5px; font-weight: bold; font-size: 1.7rem; align-items: center; }
 .tab_content .content .amount { margin: 5px; font-weight: bold; font-size: 1.205rem; align-items: center;  color: var(--sub-color); }
-
+/* 재료 S */
 .tab_content .sub_content { margin: 30px 10px; }
 .tab_content .sub_content .border{
 margin: 30px; width: 300px; height: 100px;
@@ -388,6 +390,36 @@ color: #887B7B
 .tab_content .sub_content .border .requiredIngP span:first-child {
 font-weight: bold;
 }
+/* 재료 E */
+/* 만드는 방법 S */
+.tab_content .border_howto {
+margin-top: 20px;
+}
+.tab_content .border_howto .howto_list{
+border: 1px solid #D3D2D2;
+border-radius: 5px;
+background-color: #F6F4F4;
+display: inline-block;
+margin: 10px; padding: 5px;
+}
+.tab_content .border_howto .howto_list .howto_no {
+font-weight: bold; font-size: 1.305rem;
+color: var(--main-color);
+margin-right: 3px;
+}
+.tab_content .howto_list .content {
+font-size: 1.2rem;
+}
+.tab_content .howto_list .{
+font-weight: bold; font-size: 1.305rem;
+}
+
+.tab_content .howto_list .tip_no {
+font-weight: bold; font-size: 1.25rem;
+margin-right: 5px;
+}
+
+/* 만드는 방법 E */
 
 
 /* 레시피 상세 E */
