@@ -216,60 +216,71 @@ window.addEventListener("DOMContentLoaded", function() {
 * 아이디 중복 확인
 */
 window.addEventListener("DOMContentLoaded", function() {
-    const idDupCheckBtn = document.querySelector('#userId_dup_check') ;
+    const idDupCheckBtn = document.querySelector('#userId_dup_check');
+    const nickDupCheckBtn = document.querySelector('#nickname_dup_check');
+
     if (idDupCheckBtn) {
         idDupCheckBtn.addEventListener("click", function() {
             const idOkEl = document.querySelector(".id_check_ok");
-            idOkEl.innerHTML = "" ;
+            idOkEl.innerHTML = "";
 
-            const userId = frmJoin.userId.value.replace(/(\s*)/g, "");
-            console.log(userId) ;
-            if (userId.length >= 6) {
-                const { ajaxLoad } = commonLib ;
+            const userId = frmJoin.userId.value.trim();
+            console.log(userId);
+
+            // 아이디 유효성을 검사하는 정규식 추가
+            const idRegex = /^[a-zA-Z0-9_]{6,20}$/;
+
+            // 아이디 길이 제한 추가
+            if (userId.length >= 6 && userId.length <= 20 && idRegex.test(userId)) {
+                const { ajaxLoad } = commonLib;
 
                 ajaxLoad("GET", `/api/member/userId_dup_check?userId=${userId}`, null, "json")
                     .then(data => {
                         if (data.success) {
-                            alert("❌이미 존재하는 아이디입니다.") ;
-                            frmJoin.userId.focus() ;
+                            alert("❌이미 존재하는 아이디입니다.");
+                            frmJoin.userId.focus();
                         } else {
-                            alert("✅사용 가능한 아이디입니다.") ;
+                            alert("✅사용 가능한 아이디입니다.");
                             idOkEl.innerHTML = "<span class='confirmed'>✅사용 가능한 아이디입니다.</span>";
                         }
-                    })
+                    });
             } else {
-                alert("⚠️아이디를 6자 이상 입력하세요.") ;
+                alert("⚠️아이디를 6자 이상 20자 이하로 입력하세요. 알파벳 대소문자, 숫자, 언더스코어(_)만 사용 가능합니다.");
             }
         });
     }
-});
+
+
 
 /**
 * 닉네임 중복 확인
 */
-window.addEventListener("DOMContentLoaded", function() {
-    const nickDupCheckBtn = document.querySelector('#nickname_dup_check') ;
     if (nickDupCheckBtn) {
         nickDupCheckBtn.addEventListener("click", function() {
             const nickOkEl = document.querySelector(".nick_check_ok");
             nickOkEl.innerHTML = "";
 
-            const nickname = frmJoin.nickname.value.replace(/(\s*)/g, "");
-            if (nickname) {
-                const { ajaxLoad } = commonLib ;
+            const nickname = frmJoin.nickname.value.trim();
+
+            // 닉네임 유효성을 검사하는 정규식 추가
+            const nickRegex = /^[a-zA-Z0-9가-힣_]+$/;
+
+            // 닉네임 길이 제한 추가
+            if (nickname.length >= 2 && nickname.length <= 20 && nickRegex.test(nickname)) {
+                const { ajaxLoad } = commonLib;
 
                 ajaxLoad("GET", `/api/member/nickname_dup_check?nickname=${nickname}`, null, "json")
                     .then(data => {
                         if (data.success) {
-                            alert("❌이미 존재하는 닉네임입니다.") ;
-                            frmJoin.nickname.focus() ;
+                            alert("❌이미 존재하는 닉네임입니다.");
+                            frmJoin.nickname.focus();
                         } else {
-                            alert("✅사용 가능한 닉네임입니다.") ;
+                            alert("✅사용 가능한 닉네임입니다.");
                             nickOkEl.innerHTML = "<span class='confirmed'>✅사용 가능한 닉네임입니다.</span>";
                         }
-                    })
+                    });
             } else {
-                alert("⚠️닉네임을 입력하세요.") ;
+                alert("⚠️닉네임을 2자 이상 20자 이하로 입력하세요. 알파벳(대소문자), 숫자, 언더스코어(_), 한글만 사용 가능합니다.");
             }
         });
     }
