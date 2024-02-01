@@ -1,5 +1,6 @@
 package org.choongang.main.controllers;
 
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.product.controllers.ProductSearch;
 import org.choongang.commons.ExceptionProcessor;
@@ -9,11 +10,13 @@ import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Farmer;
+import org.choongang.member.repositories.ProductWishRepository;
 import org.choongang.member.service.FarmerInfoService;
 import org.choongang.order.repositories.OrderItemRepository;
 import org.choongang.order.service.OrderInfoService;
 import org.choongang.order.service.OrderItemInfoService;
 import org.choongang.product.entities.Product;
+import org.choongang.product.entities.QProductWish;
 import org.choongang.product.service.ProductInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +37,7 @@ public class MainController implements ExceptionProcessor {
     private final ProductInfoService productInfoService;
     private final FileInfoService fileInfoService;
     private final FarmerInfoService farmerInfoService;
+    private final ProductWishRepository productWishRepository;
 
     @ModelAttribute("addCss")
     public String[] addCss() {
@@ -56,7 +62,17 @@ public class MainController implements ExceptionProcessor {
                 farmer.setProfileImage(profileImage.get(0));
             }
         }
+        Map<Farmer, Long> farmerCount = new HashMap<>();
+        for(Farmer farmer : farmers){
+            QProductWish productWish = QProductWish.productWish;
+            BooleanBuilder builder = new BooleanBuilder();
+            builder.and(productWish.product.farmer.eq(farmer));
+            long count = productWishRepository.count(builder);
+            farmerCount.put(farmer, count);
+        }
+
         model.addAttribute("farmers", farmers);
+        model.addAttribute("farmerCount", farmerCount);
         /* 농장 랭킹 E */
 
 
