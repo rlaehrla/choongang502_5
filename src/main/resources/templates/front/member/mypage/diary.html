@@ -2,30 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content">
-    <h1>마이 다이어리</h1>
+<main layout:fragment="content"  class="diary ma">
+    <h2>마이 다이어리</h2>
     <div>
-        <div>
+        <div class="flex">
             <input type="hidden" name="gid" value="testgid">
-            <div>
+            <div class="userName">
+                <th:block th:text="${session.member.nickname}"></th:block><br>
+            </div>
+            <div class="profileImage">
                 <th:block th:if="${session.member.profileImage != null}"
                       th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
                 </th:block>
             </div>
-            <div>
-                <th:block th:text="${session.member.nickname}"></th:block><br>
-            </div>
         </div>
-        <div>
+        <div class="flex edit_profile">
             <a th:href="@{/member/info}" th:text="#{프로필_수정}"></a>
         </div>
         <div class="widget_tab">
             <ul class="tabs">
-                <li>
+                <li class="tab flex">
                     <input type="radio" name="tab" class="tab" value="/mypage/diary/content/bookmark" id="widget_tab1" checked>
-                    <label for="widget_tab1" th:text="#{북마크}"></label>
+                    <img class="bookmark" th:src="@{/image/bookmark_brand1_20x20.svg}">
+                    <label for="widget_tab1" th:text="#{북마크}">
+
+                    </label>
                 </li>
-                <li>
+                <li class="tab flex">
                     <input type="radio" name="tab" class="tab" value="/mypage/diary/content/recipe" id="widget_tab2">
                     <label for="widget_tab2" th:text="#{레시피}"></label>
 

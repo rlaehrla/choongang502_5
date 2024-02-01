@@ -202,10 +202,8 @@ label:hover {
     background-color: var(--main-color);
     color: #fff;
 }
-
-.rcpName_list {
-margin: 5px 0;
-
+.cate_main {
+    margin: 0;
 }
 .rcpName_list .rcpName {
 color: #887B7B;
@@ -265,10 +263,12 @@ margin-left: 5px;
 
 }
 .ingBtn_main {
-    color: #fff;
-    border: 1px solid #D3D2D2;
-    background-color: #adaaaa;
-
+    background-color: rgb(229 231 235);
+     color: rgb(31 41 55);
+     font-weight: 500;
+     font-size: 14px;
+     /* padding: 8px; */
+     border-radius: 10px;
 }
 
 .ingBtn_main:hover {
@@ -556,3 +556,62 @@ margin-right: 5px;
 
 /* 레시피 상세 E */
 
+/* 레시피 상세*/
+.recent .products {
+    padding: 0;
+}
+.recent .share_btns {
+    top: 20px;
+    right: 20px;
+}
+.recent {
+    width: 100%;
+}
+.recipeItem{
+    position: relative;
+}
+.recent .imgBox {
+    width: 100%;
+    height: 240px;
+}
+.recent .recipe_main, .recent .profile_img {
+    width: 100%;
+    height: 100%;
+}
+.profileImage  {
+    align-items: center;
+    gap: 3px;
+}
+.profileImage .profile_img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.poster {
+    --tw-text-opacity: 1;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+}
+.rcpName_list {
+    font-weight: 700;
+    font-size: 22px;
+}
+.rcpName_list .rcpName {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255);
+}
+.cateName {
+    padding: 10px;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
+.item .rcpName_list {
+    margin: 10px 0;
+ }
