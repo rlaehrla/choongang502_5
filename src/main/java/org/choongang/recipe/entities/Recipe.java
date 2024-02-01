@@ -37,7 +37,7 @@ public class Recipe extends Base implements AuthCheck {
     @Column(length = 100, nullable = false)
     private String rcpName;
 
-    private long like; // 최근 3개월 좋아요
+    private long rcpLike; // 최근 3개월 좋아요
 
     @Lob
     private String rcpInfo;
@@ -78,7 +78,7 @@ public class Recipe extends Base implements AuthCheck {
     private List<FileInfo> mainImages; // 대표 이미지, null X
 
     @Transient
-    private List<FileInfo> profileImage; // 작성자 프로필 이미지
+    private FileInfo profileImage; // 작성자 프로필 이미지
 
     @Transient
     private boolean editable; // 수정 가능 여부

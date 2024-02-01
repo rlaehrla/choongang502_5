@@ -77,7 +77,7 @@
                                 <div class="OrderTableCardButtonItem">
                                     <button class="btn btn-s btn-point"
                                        type="button" th:disabled="*{status.title!='주문완료'}?'disabled'"
-                                       th:onclick="|location.href='@{/board/write/review?productSeq={seq}(seq=*{product.seq})}'|"
+                                       th:onclick="|location.href='@{/board/write/review?orderItemSeq={seq}(seq=*{seq})}'|"
                                        data-modal-id="modal-review"
                                        data-modal-trigger="modal-link"
                                      th:text="#{후기_작성}"></button>
