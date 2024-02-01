@@ -90,7 +90,7 @@ public class ProductWishService {
      */
     public boolean saved(Long pSeq){
         if(memberUtil.isFarmer()){
-            throw new UnAuthorizedException(Utils.getMessage("NotFarmer", "errors"));
+            return false;
         }
         if (memberUtil.isLogin()) {
             Product product = productInfoService.get(pSeq);
