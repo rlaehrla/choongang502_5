@@ -285,6 +285,26 @@ header nav > .inner a:hover { background: #222; }
   background-color: #cccc;
   cursor: pointer;
 }
+.slide_button2 {
+  /* layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* position */
+  position: absolute;
+  /* 버튼이 중앙에 위치하게 하기위해 계산 */
+  top: calc(33% - 16px);
+
+  /* size */
+  width: 32px;
+  height: 32px;
+
+  /* style */
+  border-radius: 100%;
+  background-color: #cccc;
+  cursor: pointer;
+}
 
 .slide_prev_button {
   left: 10px;
