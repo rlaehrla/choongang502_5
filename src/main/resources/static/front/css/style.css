@@ -354,10 +354,12 @@ li {
 .latestProducts {
     padding: 20px 0 50px 0;
 }
-.latestProducts .btns .slide_button{
-
+.inSeasonProducts .btns .slide_prev_button{
+    left: -70px;
 }
-.latestProducts .btns .slide_button
+.inSeasonProducts .btns .slide_next_button{
+    right: -70px;
+}
 
 .products {
     padding: 0 40px;
@@ -366,11 +368,18 @@ li {
     font-size: 20px;
     position: relative;
 }
-
+.products {
+    position: relative;
+    z-index: 1;
+}
 .productText {
     gap: 3px;
     color: black;
     justify-content: center;
+}
+
+.textBox {
+    text-align: center;
 }
 .products h4{
     margin: 10px 0;
