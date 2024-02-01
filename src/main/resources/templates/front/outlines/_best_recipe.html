@@ -3,7 +3,7 @@
 <section class="rank-sec" name="recipeRank" th:fragment="recipe">
     <div class="recipeBox" th:each="recipe, status : ${recipes}" th:if="${!status.first}" th:object="${recipe}">
         <!--<img class="rank-img" th:src="랭킹사진링크">-->
-        <a class="best_lank first_lank flex"  th:href="@{/recipe/view/{seq}(seq=*{seq})}">
+        <a class="best_lank flex"  th:href="@{/recipe/view/{seq}(seq=*{seq})}">
             <div class="recipeImg">
                 <th:block th:if="*{mainImages != null && !mainImages.isEmpty()}" th:utext="*{@utils.printThumb(mainImages[0].seq, 500, 500)}"></th:block>
             </div>
@@ -24,6 +24,8 @@
                 </div>
             </div>
         </a>
+        <div class="boxLine"></div>
+        </th:block>
     </div>
 </section>
 </html>

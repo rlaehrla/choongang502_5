@@ -18,3 +18,50 @@
 #xi-search{
     height: auto;
 }
+
+.order_list_title {
+    text-align: left;
+    font-size: 16px;
+    color: #111;
+    font-weight: 700;
+}
+.table_order {
+    width: 100%;
+    border-top: solid 1px #1a1a1a;
+    margin-top: 10px !important;
+}
+.table_order td {
+    padding-top: 10px;
+}
+.table_order .table_head {
+    width: 150px;
+    height: 35px;
+    padding-top: 10px;
+    font-size: 14px;
+    text-align: left;
+}
+.table_order .table_head, .table_order td {
+    height: 60px;
+    padding: 15px 20px;
+    border-bottom: solid 1px #ddd;
+    text-align: left;
+    box-sizing: border-box;
+}
+form article {
+    margin-bottom: 50px;
+}
+input[type=text], input[type=password] {
+    padding-right: 10px;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+    height: 30px;
+    line-height: 30px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 12px;
+    color: #333;
+    background: #fff;
+    border: solid 1px #ddd;
+}
+.table_order td > * {
+    margin-bottom: 10px;
+}

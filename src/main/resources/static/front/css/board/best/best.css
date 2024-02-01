@@ -11,7 +11,7 @@ h2.lank_title {
     border-top-right-radius: 8px;
     margin: 0;
 }
-.farmRanking section {
+.farmRanking section, .recipeRanking section {
     box-shadow: rgba(48, 52, 65, 0.08) 0px 5px 23px -2px;
     border-radius: 8px;
 }
@@ -19,7 +19,7 @@ h2.lank_title {
     padding: 20px 24px 20px 12px;
     align-items: center;
 }
-.farmerBox .boxLine{
+.boxLine{
     height: 1px;
     width: calc(100% - 48px);
     margin: 0px auto;
