@@ -46,8 +46,11 @@ public class OrderInfoService {
         OrderInfo orderInfo = orderInfoRepository.findById(seq).orElseThrow(OrderNotFoundException::new);
 
         if(orderInfo.getMember() != null){
-            if(!memberUtil.isLogin() || (!memberUtil.isAdmin() && (memberUtil.getMember().getSeq() != orderInfo.getMember().getSeq()))){
-                throw new UnAuthorizedException();
+            if (!memberUtil.isFarmer()) {
+                if (!memberUtil.isLogin() ||
+                        (!memberUtil.isAdmin() && (memberUtil.getMember().getSeq() != orderInfo.getMember().getSeq()))) {
+                    throw new UnAuthorizedException();
+                }
             }
         }
 

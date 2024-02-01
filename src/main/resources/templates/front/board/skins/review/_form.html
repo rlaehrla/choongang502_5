@@ -12,21 +12,7 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
     <div class="mb30" >
-        <dl>
-            <h2>구매 상품 정보</h2>
-            <table class="table_cols" th:object="${item.product}">
-                <tr>
-                    <th>구매 상품명</th>
-                    <th>상품금액</th>
-                    <th>판매자</th>
-                </tr>
-                <tr>
-                    <td th:text="*{name}"></td>
-                    <td th:text="*{consumerPrice}"></td>
-                    <td th:text="*{farmer.userId}"></td>
-                </tr>
-            </table>
-        </dl>
+        <dl th:replace="~{front/common/_order_item::item}"></dl>
     </div>
 
     <dl>
