@@ -17,11 +17,11 @@
         <input type="hidden" name="totalDiscount" th:field="*{totalDiscount}">
         <input type="hidden" name="cartType" th:value="${cartType}">
 
-        <div>
+        <article>
             <div class="order_list_title" th:text="#{주문_상품}"></div>
 
             <th:block th:replace="~{front/cart/_items::items}"></th:block>
-        </div>
+        </article>
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <div th:object="${requestOrder}">
             <article>
@@ -105,7 +105,7 @@
                 <tr>
                     <th class="table_head" th:text="#{배송_주소}"></th>
                     <td th:if="${addr != null}"}>
-                        <button type="button" class="search_address" data-zonecode-id="zonecode" data-address-id="address">
+                        <button type="button" class="button search_address" data-zonecode-id="zonecode" data-address-id="address">
                             <i class="xi-search"></i>
                             <th:block th:text="#{주소_찾기}"></th:block>
                         </button>
@@ -115,31 +115,31 @@
                         </div>
 
                         <div class="address_rows">
-                            <input style="width:70%" type="text" name="address" th:placeholder="#{주소}" readonly id="address" th:value="${addr.address}">
+                            <input style="width:45%" type="text" name="address" th:placeholder="#{주소}" readonly id="address" th:value="${addr.address}">
                             <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
                         </div>
 
                         <div class="address_rows">
-                            <input style="width:70%" type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" th:value="${addr.addressSub}">
+                            <input style="width:45%" type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" th:value="${addr.addressSub}">
                         </div>
                     </td>
                     <td th:unless="${addr != null}"}>
+                        <button type="button" class="button  search_address" data-zonecode-id="zonecode" data-address-id="address">
+                            <i id="xi-search" class="xi-search"></i>
+                            <th:block th:text="#{주소_찾기}"></th:block>
+                        </button>
                         <div class="address_rows">
                             <input type="text" name="zoneCode" th:placeholder="#{우편번호}" readonly id="zonecode" th:field="*{zoneCode}">
                             <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
-                            <button type="button" class="btn search_address" data-zonecode-id="zonecode" data-address-id="address">
-                                <i id="xi-search" class="xi-search"></i>
-                                <th:block th:text="#{주소_찾기}"></th:block>
-                            </button>
                         </div>
 
                         <div class="address_rows">
-                            <input type="text" name="address" th:placeholder="#{주소}" readonly id="address" th:field="*{address}" >
+                            <input style="width:45%"  type="text" name="address" th:placeholder="#{주소}" readonly id="address" th:field="*{address}" >
                             <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
                         </div>
 
                         <div class="address_rows">
-                            <input type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" th:field="*{addressSub}">
+                            <input style="width:45%"  type="text" name="addressSub" th:pleaceholder="#{나머지_주소}" th:field="*{addressSub}">
                         </div>
                     </td>
                 </tr>
@@ -175,7 +175,7 @@
                 </tr>
 
                 <tr th:if="${cartData.totalDiscount > 0}">
-                    <th class="table_head" th:text="#{상품할인}"></th>
+                    <th class="table_head" th:text="#{추가할인}"></th>
                     <td>
                         <span class="money" th:text="${cartData.totalDiscount * -1}"></span>
                         <th:block th:text="#{돈단위}"></th:block>
@@ -190,7 +190,7 @@
                         <span id="avail_point" class="money" th:text="${point}"></span><br/>
                         <input type="number" name="usePoint" min="0" id="use_point" th:field="*{usePoint}">
                         <div class="error" th:each="err : ${#fields.errors('usePoint')}" th:text="${err}"></div>
-                        <button type="button" id="pointBtn" class="sbtn" th:text="#{적용하기}"></button>
+                        <button type="button" id="pointBtn" class="button  sbtn" th:text="#{적용하기}"></button>
                         <div class="auth_box"></div>
                     </td>
                 </tr>
@@ -214,7 +214,7 @@
             </table>
             </article>
         </div>
-        <button type="submit" class="sbtn">결제하기</button>
+        <button type="submit" class="button sbtn">결제하기</button>
     </form>
     </div>
 </main>
