@@ -191,10 +191,8 @@ label:hover {
     background-color: var(--main-color);
     color: #fff;
 }
-
-.rcpName_list {
-margin: 5px 0;
-
+.cate_main {
+    margin: 0;
 }
 .rcpName_list .rcpName {
 color: #887B7B;
@@ -212,9 +210,6 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 }
 
-.item .rcpName_list {
- margin: 10px 0;
- }
 .item .rcpName_list .rcpEst {
 border: 1px solid #D3D2D2; border-radius: 5px;
 padding: 2px; color:#887B7B;
@@ -253,10 +248,12 @@ background-color: #F6F4F4;
 
 }
 .ingBtn_main {
-    color: #fff;
-    border: 1px solid #D3D2D2;
-    background-color: #adaaaa;
-
+    background-color: rgb(229 231 235);
+     color: rgb(31 41 55);
+     font-weight: 500;
+     font-size: 14px;
+     /* padding: 8px; */
+     border-radius: 10px;
 }
 
 .ingBtn_main:hover {
@@ -548,14 +545,7 @@ margin-right: 5px;
     height: 100%;
 }
 .profileImage  {
-    position: absolute;
-    bottom: 10px;
-    /* display: flex; */
-    justify-content: center;
-    width: 100%;
-    display: flex;
     align-items: center;
-    justify-content: center;
     gap: 3px;
 }
 .profileImage .profile_img {
@@ -566,13 +556,28 @@ margin-right: 5px;
 }
 .poster {
     --tw-text-opacity: 1;
-    color: rgb(255 255 255/var(--tw-text-opacity));
     font-weight: 500;
     font-size: 14px;
     line-height: 1;
 }
 .rcpName_list {
     font-weight: 700;
-    font-size: 18px;
-    padding: 16px 16px 12px;
+    font-size: 22px;
 }
+.rcpName_list .rcpName {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255);
+}
+.cateName {
+    padding: 10px;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    display: flex;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
+.item .rcpName_list {
+    margin: 10px 0;
+ }
