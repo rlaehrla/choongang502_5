@@ -56,7 +56,7 @@
     /* position */
     position: absolute;
     /* 버튼이 중앙에 위치하게 계산 */
-    top: 800px;
+    top: 720px;
 
         /* size */
     width: 32px;
@@ -74,6 +74,6 @@
 }
 
 .next_button {
-    padding: 0 0 0 990px;
+    padding: 0 0 0 992px;
 }
 
