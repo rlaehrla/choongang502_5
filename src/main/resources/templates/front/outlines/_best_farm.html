@@ -10,7 +10,7 @@
                 </div>
                 <div class="lank_number" th:unless="${status.index < 3}" th:text="${status.count}"></div>
                 <div class="lank_text flex">
-                    <div th:text="${farmerCount.get(farmer)}"></div>
+                    <div th:text="${farmerCount.get(farm.seq)}"></div>
                     <div th:text="*{farmTitle}"></div>
                 </div>
                 <div class="imgBox">
