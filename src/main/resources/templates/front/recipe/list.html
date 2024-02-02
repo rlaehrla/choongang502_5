@@ -82,14 +82,13 @@
                 </a>
                 <th:block th:unless="*{mainImages != null && mainImages.size() != 0}" width="100px" height="100px"></th:block>
 
-                <div class="post_list">>
-                    <div th:if="*{profileImage != null}">
+                <div class="post_list">
+                    <div class="img_nick" th:if="*{profileImage != null}">
                         <th:block th:utext="*{@utils.printThumb(profileImage.seq, 50, 50, 'profile_img')}">
                         </th:block>
-                    </div>
                     <span class="poster" th:if=*{authoritychk} th:text="#{여름지기마켓}"></span>
                     <span class="poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
-
+                    </div>
                     <div class="rcpName_list">
                         <span class="rcpName" th:text="*{rcpName}"></span>
                         <span class="rcpEst" th:if="*{recipeCate !=null}" th:text="*{recipeCate.cateNm}"></span>

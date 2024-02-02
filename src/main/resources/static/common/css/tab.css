@@ -4,4 +4,4 @@
 .widget_tab .tabs input[type='radio']:checked+label { background: #222; color: #fff; }
 .widget_tab .tabs li+li { margin-left: 5px; }
 
-.widget_tab .tab_content { min-height: 300px; border: 1px solid #222; margin-top: 20px; }
+.widget_tab .tab_content { min-height: 300px; margin-top: 20px; }

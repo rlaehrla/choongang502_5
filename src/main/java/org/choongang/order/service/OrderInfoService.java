@@ -48,7 +48,7 @@ public class OrderInfoService {
         if(orderInfo.getMember() != null){
             if (!memberUtil.isFarmer()) {
                 if (!memberUtil.isLogin() ||
-                        (!memberUtil.isAdmin() && (memberUtil.getMember().getSeq() != orderInfo.getMember().getSeq()))) {
+                        (!memberUtil.isAdmin() && (memberUtil.getMember().getSeq().longValue() != orderInfo.getMember().getSeq().longValue()))) {
                     throw new UnAuthorizedException();
                 }
             }
