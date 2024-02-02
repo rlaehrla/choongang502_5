@@ -63,7 +63,7 @@ public class JoinService {
             Farmer farmer = (Farmer) member;
             farmer.setFarmTitle(form.getFarmTitle());
             farmer.setBusinessPermitNum(form.getBusinessPermitNum());
-
+            farmer.setSalePoint(0L);
             processFarmer(farmer);
 
             // 농부 회원 --> FARMER 권한 부여
