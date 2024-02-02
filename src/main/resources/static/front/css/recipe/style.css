@@ -182,7 +182,9 @@ margin: 10px 0;
  position:relative;
  }
 
+/*
 .item .poster { color: var(--main-color); font-weight: bold; font-size: 1.2rem; align-items: center; }
+*/
 
 
 .font-semibold {
@@ -202,8 +204,10 @@ label:hover {
     background-color: var(--main-color);
     color: #fff;
 }
-.cate_main {
-    margin: 0;
+
+.rcpName_list {
+margin: 5px 0;
+
 }
 .rcpName_list .rcpName {
 color: #887B7B;
@@ -224,7 +228,7 @@ display: -webkit-box;
 .item .rcpName_list {
  margin: 10px 0;
  }
-.rcpName_list .rcpEst {
+.item .rcpName_list .rcpEst {
 border: 1px solid #D3D2D2; border-radius: 5px;
 padding: 2px; color:#887B7B;
 background-color: #F6F4F4;
@@ -263,12 +267,10 @@ margin-left: 5px;
 
 }
 .ingBtn_main {
-    background-color: rgb(229 231 235);
-     color: rgb(31 41 55);
-     font-weight: 500;
-     font-size: 14px;
-     /* padding: 8px; */
-     border-radius: 10px;
+    color: #fff;
+    border: 1px solid #D3D2D2;
+    background-color: #adaaaa;
+
 }
 
 .ingBtn_main:hover {
@@ -557,7 +559,7 @@ margin-right: 5px;
 /* 레시피 상세 E */
 
 /* 레시피 상세*/
-.recent .products {
+/*.recent .products {
     padding: 0;
 }
 .recent .share_btns {
@@ -614,4 +616,4 @@ margin-right: 5px;
 }
 .item .rcpName_list {
     margin: 10px 0;
- }
+ }*/
