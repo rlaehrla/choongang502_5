@@ -3,11 +3,11 @@ package org.choongang.member.repositories;
 import com.querydsl.core.BooleanBuilder;
 import org.choongang.member.entities.Farmer;
 import org.choongang.member.entities.QFarmer;
-import org.choongang.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface FarmerRepository extends JpaRepository<Farmer, Long>, QuerydslPredicateExecutor<Farmer> {
@@ -40,4 +40,6 @@ public interface FarmerRepository extends JpaRepository<Farmer, Long>, QuerydslP
 
         return exists(builder);
     }
+
+    List<Farmer> findAllByOrderBySalePointDesc();
 }
