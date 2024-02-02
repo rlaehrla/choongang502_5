@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <section th:fragment="farm">
     <div class="max-w-screen-lg ma">
-        <div class="farmerBox" th:each="farm, status : *{farmers}" th:if="*{farmers != null && !farmers.isEmpty()}" th:object="${farm}">
+        <div class="farmerBox" th:each="farm, status : *{farmers}" th:if="*{farmers != null && !farmers.isEmpty()}"  th:object="${farm}">
             <th:block th:if="${!status.first}">
             <a class="best_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
                 <div class="lank" th:if="${status.index < 3}">
