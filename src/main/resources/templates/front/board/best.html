@@ -6,21 +6,22 @@
     <div class="flex max-w-screen-lg ma">
         <div class="farmRanking">
             <h2 class="lank_title">농장 랭킹</h2>
-            <div th:if="${!#arrays.isEmpty(farmers)}" class="farmerBox" th:each="farm, status : *{farmers[0]}" th:object="${farm}">
-
-                <a class="best_lank first_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
-                    <div class="lank">
-                        <img th:src="'../image/ranking-01.png'">
-                    </div>
-                    <div class="lank_text flex">
-                        <strong th:text="${farmerCount.get(farm.seq)}"></strong>
-                        <div th:text="*{farmTitle}"></div>
-                    </div>
-                    <div class="imgBox">
-                        <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
-                        <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
-                    </div>
-                </a>
+            <div  class="farmerBox" th:each="farmer, status : ${farmers}" th:object="${farmer}">
+                <th:block th:if="${status.index == 0}">
+                    <a class="best_lank first_lank flex" th:href="@{/farm/blog/{id}(id=*{userId})}">
+                        <div class="lank">
+                            <img th:src="'../image/ranking-01.png'">
+                        </div>
+                        <div class="lank_text flex">
+                            <!--<strong th:text="${farmerCount.get(farm.seq)}"></strong>-->
+                            <div th:text="*{farmTitle}"></div>
+                        </div>
+                        <div class="imgBox">
+                            <th:block th:if="*{profileImage != null}" th:utext="*{@utils.printThumb(profileImage.seq, 100, 100)}"></th:block>
+                            <th:block th:unless="*{profileImage != null}" width="100" height="100"></th:block>
+                        </div>
+                    </a>
+                </th:block>
             </div>
             <section th:replace="~{front/outlines/_best_farm::farm}"></section>
         </div>
@@ -28,6 +29,8 @@
         <div class="recipeRanking">
             <h2 class="lank_title">레시피 랭킹</h2>
             <div class="recipeBox" th:each="recipe, status : ${recipes[0]}" th:object="${recipe}">
+                <!--<img class="rank-img" th:src="랭킹사진링크">-->
+                <th:block th:if="${status.index == 0}">
                 <a class="best_lank first_lank flex"  th:href="@{/recipe/view/{seq}(seq=*{seq})}">
                     <div class="recipeImg">
                         <th:block th:if="*{mainImages != null && !mainImages.isEmpty()}" th:utext="*{@utils.printThumb(mainImages[0].seq, 500, 500)}"></th:block>
@@ -49,6 +52,8 @@
                         </div>
                     </div>
                 </a>
+                <div class="boxLine"></div>
+                </th:block>
             </div>
             <section th:replace="~{front/outlines/_best_recipe::recipe}"></section>
         </div>

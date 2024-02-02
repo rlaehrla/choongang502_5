@@ -58,8 +58,8 @@ window.addEventListener("DOMContentLoaded", function() {
                if(!_payPrice){
                  _payPrice = 0;
                }
-               payPriceVal.innerText = _payPrice;
-               payPrice.innerText = _payPrice.toLocaleString();
+              if (payPriceVal) payPriceVal.value = _payPrice;
+              if (payPrice) payPrice.innerText = _payPrice.toLocaleString();
             }else{
                 alert('보유포인트보다 적게 입력해주세요.');
             }

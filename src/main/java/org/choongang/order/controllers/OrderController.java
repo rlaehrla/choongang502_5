@@ -106,7 +106,7 @@ public class OrderController implements ExceptionProcessor {
 
     @PostMapping
     public String orderPs(@Valid RequestOrder form, Errors errors, Model model){
-
+        commonProcess("order", model);
         validator.validate(form, errors);
 
         if(errors.hasErrors()){

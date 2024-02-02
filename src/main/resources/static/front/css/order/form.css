@@ -65,3 +65,12 @@ input[type=text], input[type=password] {
 .table_order td > * {
     margin-bottom: 10px;
 }
+.button {
+    cursor: pointer;
+    background-color: var(--sub-color);
+    font-size: 14px;
+    color: #fff;
+    border-width: 0px;
+    padding: 8px 16px;
+    border-radius: 4px;
+}

@@ -12,7 +12,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.product.controllers.CategorySearch;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -22,19 +21,11 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Authorities;
-import org.choongang.product.constants.MainCategory;
-import org.choongang.product.entities.Category;
-import org.choongang.product.entities.Product;
-//import org.choongang.product.entities.QCategory;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.QRecipe;
-import org.choongang.recipe.entities.QRecipeWish;
 import org.choongang.recipe.entities.Recipe;
-import org.choongang.recipe.entities.RecipeCate;
-import org.choongang.recipe.repositories.RecipeCateRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
-import org.choongang.recipe.repositories.RecipeWishRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,9 +38,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
-import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
 
@@ -71,6 +60,12 @@ public class RecipeInfoService {
      */
     public Recipe get(Long seq) {
         Recipe recipe = recipeRepository.findById(seq).orElseThrow(RecipeNotFoundException::new);
+        String how = recipe.getHow();
+        String tip = recipe.getTip();
+        String[] hows = how.split("__");
+        String[] tips = tip.split("__");
+        recipe.setHowP(hows);
+        recipe.setTipP(tips);
 
         try {
             ObjectMapper om = new ObjectMapper();
@@ -154,15 +149,26 @@ public class RecipeInfoService {
      */
     public RequestRecipe getForm(Long seq) {
         Recipe data = get(seq);
+
+        String tip = data.getTip();
+        String how = data.getHow();
+        System.out.println("tip = " + how);
+
+        String[] tips = tip == null ? null : tip.split("__");
+        String[] hows = how == null ? null : how.split("__");
+
         RequestRecipe form = RequestRecipe.builder()
                 .seq(data.getSeq())
                 .gid(data.getGid())
                 .rcpName(data.getRcpName())
                 .rcpInfo(data.getRcpInfo())
                 .estimatedT(data.getEstimatedT())
-                .cateCd(data.getRecipeCate().getCateNm())
+                .cateCd(data.getRecipeCate().getCateCd())
+                .cateNm(data.getRecipeCate().getCateNm())
                 .mainImages(data.getMainImages())
                 .amount(data.getAmount())
+                .tip(tips)
+                .how(hows)
                 .mode("edit")
                 .build();
 
@@ -291,16 +297,19 @@ public class RecipeInfoService {
         if (StringUtils.hasText(cateCd)) {
             andBuilder.and(recipe.recipeCate.cateCd.eq(cateCd.trim()));
         }
+        if(search.isAuthoritychk()){
+            andBuilder.and(recipe.authoritychk.eq(true));
+        }
 
         String sopt = search.getSopt(); // 옵션
         String skey = search.getSkey(); // 키워드
 
         sopt = StringUtils.hasText(sopt) ? sopt : "all";
+        BooleanExpression adminCond = null;
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression rcpCond = recipe.rcpName.contains(skey); // 제목 - rcpName LIKE '%skey%';
-
             BooleanExpression nickCond = recipe.member.nickname.contains(skey);
             BooleanExpression userIdCond = recipe.member.userId.contains(skey);
             BooleanExpression rcpIngCond = recipe.keyword.contains("__" + skey + "__");
@@ -323,6 +332,8 @@ public class RecipeInfoService {
 
                 andBuilder.and(orBuilder);
             }
+
+
         }
         /* 검색 조건 처리 E */
         PathBuilder<Recipe> pathBuilder = new PathBuilder<>(Recipe.class, "recipe");
@@ -336,8 +347,6 @@ public class RecipeInfoService {
                 .orderBy(new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")))
                 // 최신게시글 순서로 정렬
                 .fetch();
-        System.out.println("아이템 = " + items);
-
 
         // 게시글 전체 갯수
         int total = (int) recipeRepository.count(andBuilder);
@@ -417,36 +426,13 @@ public class RecipeInfoService {
      * @param search
      * @return
      */
-    public ListData<Recipe> getBestRecipe(RecipeDataSearch search){
-        QRecipe recipe = QRecipe.recipe;
-        BooleanBuilder builder = new BooleanBuilder();
+    public List<Recipe> getBestRecipe(RecipeDataSearch search){
 
-        int page = search.getPage();
-        int limit = search.getLimit();
+        Pageable pageable = PageRequest.of(0, 10000, Sort.by(desc("rcpLike")));
+        Page<Recipe> data = recipeRepository.findAll(pageable);
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("rcpLike")));
+        return data.getContent();
 
-        Page<Recipe> data = recipeRepository.findAll(builder, pageable);
-
-        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
-
-        List<Recipe> items = data.getContent();
-        items.forEach(this::addRecipe);
-
-        return new ListData<>(items, pagination);
-    }
-
-
-    /**
-     * 공식 레시피 추출
-     * @param search
-     * @return
-     */
-    public List<Recipe> getAdminRecipe(RecipeDataSearch search){
-        List<Recipe> recipes = getList(search).getItems().stream()
-                .filter(s -> authorityChk(s))
-                .toList();
-        return recipes;
     }
 
 

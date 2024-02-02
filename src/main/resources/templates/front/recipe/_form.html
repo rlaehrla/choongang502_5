@@ -19,10 +19,9 @@
             <i class="xi-plus"></i>
             <div class="txt" th:text="#{대표_이미지_업로드}"></div>
         </div>
-
         <div class="thumbs">
             <th:block th:if="*{mainImages != null}" th:each="item : *{mainImages}">
-                <th:block th:replace="~{common/_image_file::item}"></th:block>
+                <th:block th:replace="~{front/recipe/_image_file::item}"></th:block>
             </th:block>
         </div>
     </div>
@@ -62,12 +61,10 @@
                 <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
             </th:block>
             <th:block th:unless="*{#strings.isEmpty(cateCd)}">
-                <button type="button" name="cate_select" id="cate_select" class="sbtn on" th:text="*{cateCd}"></button>
+                <button type="button" name="cate_select" id="cate_select" class="sbtn on" th:text="*{cateNm}"></button>
                 <input type="hidden" id="cateCd" name="cateCd" th:field="*{cateCd}">
             </th:block>
         </div>
-
-
     </div>
 
     <div class="rows">
