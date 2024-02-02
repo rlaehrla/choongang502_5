@@ -1,7 +1,6 @@
 package org.choongang.board.controllers.best;
 
 import lombok.RequiredArgsConstructor;
-import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
@@ -64,8 +63,8 @@ public class BestController {
 
         /* 레시피 랭킹 S */
 
-        ListData<Recipe> data = recipeInfoService.getBestRecipe(recipeDataSearch);
-        List<Recipe> recipes = data.getItems().stream().limit(20).toList();
+        List<Recipe> data = recipeInfoService.getBestRecipe(recipeDataSearch);
+        List<Recipe> recipes = data.stream().limit(20).toList();
 
         Map<Recipe, Long> recipeCount = new HashMap<>();
         for(Recipe recipe : recipes){
