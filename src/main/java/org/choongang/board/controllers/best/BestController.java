@@ -1,22 +1,16 @@
 package org.choongang.board.controllers.best;
 
-import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.choongang.board.repositories.BoardDataRepository;
-import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Farmer;
-import org.choongang.member.repositories.ProductWishRepository;
 import org.choongang.member.service.FarmerInfoService;
-import org.choongang.product.entities.QProductWish;
 import org.choongang.product.service.ProductInfoService;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.entities.QRecipeWish;
 import org.choongang.recipe.entities.Recipe;
-import org.choongang.recipe.repositories.RecipeRepository;
 import org.choongang.recipe.repositories.RecipeWishRepository;
 import org.choongang.recipe.services.RecipeInfoService;
 import org.springframework.stereotype.Controller;
@@ -47,8 +41,8 @@ public class BestController {
         commonProcess("best", model);
 
         /* 농장 랭킹 S */
-        ListData<Farmer> farmerData = farmerInfoService.topFarmer(memberSearch);
-        List<Farmer> farmers = farmerData.getItems().stream().limit(20).toList();
+        List<Farmer> farmerData = farmerInfoService.topFarmer(memberSearch);
+        List<Farmer> farmers = farmerData.stream().limit(20).toList();
 
         for(Farmer farmer : farmers){
             List<FileInfo> profileImage =  fileInfoService.getListDone(farmer.getGid());
@@ -69,8 +63,8 @@ public class BestController {
 
         /* 레시피 랭킹 S */
 
-        ListData<Recipe> data = recipeInfoService.getBestRecipe(recipeDataSearch);
-        List<Recipe> recipes = data.getItems().stream().limit(20).toList();
+        List<Recipe> data = recipeInfoService.getBestRecipe(recipeDataSearch);
+        List<Recipe> recipes = data.stream().limit(20).toList();
 
         Map<Recipe, Long> recipeCount = new HashMap<>();
         for(Recipe recipe : recipes){

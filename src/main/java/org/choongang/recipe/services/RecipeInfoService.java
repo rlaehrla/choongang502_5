@@ -7,13 +7,11 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.ListPath;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.product.controllers.CategorySearch;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -23,20 +21,11 @@ import org.choongang.member.MemberUtil;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.AbstractMember;
 import org.choongang.member.entities.Authorities;
-import org.choongang.member.entities.QAuthorities;
-import org.choongang.product.constants.MainCategory;
-import org.choongang.product.entities.Category;
-import org.choongang.product.entities.Product;
-//import org.choongang.product.entities.QCategory;
 import org.choongang.recipe.controllers.RecipeDataSearch;
 import org.choongang.recipe.controllers.RequestRecipe;
 import org.choongang.recipe.entities.QRecipe;
-import org.choongang.recipe.entities.QRecipeWish;
 import org.choongang.recipe.entities.Recipe;
-import org.choongang.recipe.entities.RecipeCate;
-import org.choongang.recipe.repositories.RecipeCateRepository;
 import org.choongang.recipe.repositories.RecipeRepository;
-import org.choongang.recipe.repositories.RecipeWishRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,10 +38,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
-import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 
 
@@ -440,36 +426,13 @@ public class RecipeInfoService {
      * @param search
      * @return
      */
-    public ListData<Recipe> getBestRecipe(RecipeDataSearch search){
-        QRecipe recipe = QRecipe.recipe;
-        BooleanBuilder builder = new BooleanBuilder();
+    public List<Recipe> getBestRecipe(RecipeDataSearch search){
 
-        int page = search.getPage();
-        int limit = search.getLimit();
+        Pageable pageable = PageRequest.of(0, 10000, Sort.by(desc("rcpLike")));
+        Page<Recipe> data = recipeRepository.findAll(pageable);
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("rcpLike")));
+        return data.getContent();
 
-        Page<Recipe> data = recipeRepository.findAll(builder, pageable);
-
-        Pagination pagination = new Pagination(page, (int) data.getTotalElements(), 10, limit, request);
-
-        List<Recipe> items = data.getContent();
-        items.forEach(this::addRecipe);
-
-        return new ListData<>(items, pagination);
-    }
-
-
-    /**
-     * 공식 레시피 추출
-     * @param search
-     * @return
-     */
-    public List<Recipe> getAdminRecipe(RecipeDataSearch search){
-        List<Recipe> recipes = getList(search).getItems().stream()
-                .filter(s -> authorityChk(s))
-                .toList();
-        return recipes;
     }
 
 

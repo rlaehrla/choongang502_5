@@ -53,8 +53,8 @@ public class MainController implements ExceptionProcessor {
         search.setLimit(5);
         search.setPage(1);
 
-        ListData<Farmer> farmerData = farmerInfoService.topFarmer(search);
-        List<Farmer> farmers = farmerData.getItems().stream().limit(5).toList();
+        List<Farmer> farmerData = farmerInfoService.topFarmer(search);
+        List<Farmer> farmers = farmerData.stream().limit(5).toList();
         for(Farmer farmer : farmers){
             List<FileInfo> profileImage =  fileInfoService.getListDone(farmer.getGid());
 
