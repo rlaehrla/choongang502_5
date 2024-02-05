@@ -526,6 +526,18 @@ public class RecipeInfoService {
         /* 수정, 삭제 권한 정보 처리 E */
     }
 
+    /**
+     * 공식 레시피 추출
+     * @param search
+     * @return
+     */
+    public List<Recipe> getAdminRecipe(RecipeDataSearch search){
+        List<Recipe> recipes = getList(search).getItems().stream()
+                .filter(s -> authorityChk(s))
+                .toList();
+        return recipes;
+    }
+
     public boolean authorityChk(Recipe recipe){
         AbstractMember _member = recipe.getMember(); // 작성한 회원
         return _member.getAuthorities().stream()
