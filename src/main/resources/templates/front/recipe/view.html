@@ -26,6 +26,9 @@
                             <span class="recipe_poster" th:unless=*{authoritychk} th:if="*{member != null}" th:text="*{member.nickname}"></span>
                         </a>
                     </div>
+                    <div class="backBtnDiv">
+                        <button type="button" class="product_action backBtn" th:text="#{목록}"></button>
+                    </div>
                 </div>
                 <div class="product_info">
                     <span class="rcp_title" th:text=*{rcpName}></span>
