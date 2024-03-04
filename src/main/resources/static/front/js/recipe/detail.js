@@ -30,4 +30,18 @@ window.addEventListener("DOMContentLoaded", function() {
                 if (el2) el2.classList.remove("dn");
             });
         }
+
+    const backBtn = document.querySelector(".backBtn");
+    backBtn.addEventListener("click", function(){
+        const referrer = sessionStorage.getItem("referrer");
+        const url = referrer ? referrer : '/recipe/list';
+
+        sessionStorage.removeItem("referrer");
+        location.href=url;
+
+    });
+
+
+
+
     });
