@@ -169,6 +169,9 @@ header .logo_search .search { display: flex; }
 header nav { background: var(--main-color); }
 header nav > .inner a { display: inline-block; height: 45px; line-height: 45px; padding: 0 25px; min-width: 120px; text-align: center; color: #fff; font-size: 1.35rem; }
 header nav > .inner a:hover { background: #222; }
+header .userId{
+    margin-left: 10px;
+}
 /* 헤더 공통 E */
 
 .footerInfoSect {

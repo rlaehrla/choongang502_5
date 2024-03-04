@@ -12,7 +12,7 @@
             </li>
         </ul>
         <form name="frmChat" class="input_box">
-            <input type="hidden" name="roomId" th:value="*{roomId}">
+            <input type="hidden" name="roomId" th:value="*{roomId}" readonly>
 
             <input type="text" name="nickName" th:value="${session.member != null ? session.member.nickname : ''}" th:placeholder="#{닉네임}">
 
