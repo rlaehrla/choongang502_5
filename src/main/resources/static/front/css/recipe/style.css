@@ -292,18 +292,17 @@ margin-left: 5px;
      font-size: 30px;
  }
   .xi-angle-right{
-      pointer:cursor;
-       align-items: center;
-       display: flex;
+      cursor: pointer;
+      align-items: center;
+      display: flex;
 }
 .xi-angle-left:before {
 font-size: 30px;
-
  }
 .xi-angle-left {
-    pointer:cursor;
+    cursor: pointer;
     align-items: center;
-     display: flex;
+    display: flex;
 }
 
 
