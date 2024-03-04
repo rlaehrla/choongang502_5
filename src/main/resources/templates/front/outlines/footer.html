@@ -25,7 +25,7 @@
                         <tr>
                             <td>
                                 <div class="service">
-                                    <a th:href="@{/chatting/apply/admin}" th:text="#{문의하기}"></a>  |
+                                    <button id="qnaBtn" th:text="#{문의하기}"></button>
                                     <a th:href="@{/faq}" th:text="#{자주_묻는_질문}">자주 묻는 질문</a>
                                 </div>
                             </td>
@@ -33,7 +33,11 @@
                     </table>
                 </div>
             </div>
-
+            <script>
+                const {popup} = commonLib;
+                const qnaBtn = document.querySelector("#qnaBtn");
+                qnaBtn.onclick = () => popup.open('/chatting/apply/_admin', 500, 600);
+            </script>
         </section>
     </footer>
 </html>
