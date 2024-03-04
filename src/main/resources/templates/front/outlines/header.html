@@ -35,7 +35,7 @@
                             <th:block class="profile_image" th:if="${session.member.profileImage != null}"
                                       th:utext="${@utils.printThumb(session.member.profileImage.seq, 80, 80, 'profile_image')}">
                             </th:block>
-                            <div th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></div>
+                            <div class="userId" th:text="${#messages.msg('LOGIN_MSG', session.member.username, session.member.userId)}"></div>
                         </div>
                         <a th:href="@{/cart}" th:text="#{장바구니}"></a>
                         <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
