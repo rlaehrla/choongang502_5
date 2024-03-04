@@ -604,3 +604,9 @@ li {
     width: 100%;
     height: 100%;
 }
+
+#qnaBtn{
+    background: none;
+    border: none;
+    text-decoration-line: underline;
+}

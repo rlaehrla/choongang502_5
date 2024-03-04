@@ -1,0 +1,44 @@
+.chat_box{
+    margin: 10px;
+}
+
+.room_nm{
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    padding: 10px;
+}
+.input_box{
+    border-top: 1px solid var(--bg-color);
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background: var(--bg-color);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input_box input{
+    border: none;
+    background: none;
+}
+
+.input_box input:nth-of-type(2){
+    width: 100px;
+    text-align: center;
+}
+
+.input_box input:last-of-type{
+    width: 60%;
+}
+
+.submit_btn{
+    background: var(--main-color);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 10px;
+}
+

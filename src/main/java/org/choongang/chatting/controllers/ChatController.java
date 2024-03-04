@@ -130,11 +130,13 @@ public class ChatController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("채팅방_생성", "commons");
         } else if (mode.equals("chat_room")) {
             pageTitle = chatRoom.getRoomNm();
+            addCss.add("chat/style");
             addScript.add("chat/room");
         }
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("addCss", addCss);
     }
 }
