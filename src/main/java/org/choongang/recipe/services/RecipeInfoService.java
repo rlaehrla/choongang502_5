@@ -430,7 +430,7 @@ public class RecipeInfoService {
 
         Pageable pageable = PageRequest.of(0, 10000, Sort.by(desc("rcpLike")));
         Page<Recipe> data = recipeRepository.findAll(pageable);
-
+        data.forEach(this::addRecipe);
         return data.getContent();
 
     }
