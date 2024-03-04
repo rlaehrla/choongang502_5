@@ -31,15 +31,16 @@ window.addEventListener("DOMContentLoaded", function() {
             });
         }
 
-    const backBtn = document.querySelector(".backBtn");
-    backBtn.addEventListener("click", function(){
-        const referrer = sessionStorage.getItem("referrer");
-        const url = referrer ? referrer : '/recipe/list';
+    const backBtnEl = document.querySelector(".backBtn");
+    if(backBtnEl) {
+        backBtnEl.addEventListener("click", function(){
+            const referrer = sessionStorage.getItem("referrer");
+            const url = referrer ? referrer : '/recipe/list';
 
-        sessionStorage.removeItem("referrer");
-        location.href=url;
-
+            sessionStorage.removeItem("referrer");
+            location.href=url;
     });
+    }
 
 
 
