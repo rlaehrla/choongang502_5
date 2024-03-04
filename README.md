@@ -79,9 +79,25 @@
   |:-:|:-:|
   |![main_home](https://github.com/rlaehrla/choongang502_5/assets/143992194/9c1f8749-24ef-4804-9117-9743cb071427)|![회원가입_](https://github.com/rlaehrla/choongang502_5/assets/143992194/01c2613b-5abf-408a-b0ae-264f63bf0b1b)|
 
-  |로그인|베스트 페이지|
+  |로그인|상품 상세 페이지|
   |:-:|:-:|
-  |![로그인_](https://github.com/rlaehrla/choongang502_5/assets/143992194/df6e33f0-cdac-49af-b7fe-d818d57573af)||
+  |![로그인_](https://github.com/rlaehrla/choongang502_5/assets/143992194/df6e33f0-cdac-49af-b7fe-d818d57573af)|![상품_상세](https://github.com/rlaehrla/choongang502_5/assets/143992194/dd777ada-c275-424f-93b1-5aa567412700)|
+
+  |장바구니|주문서|
+  |:-:|:-:|
+  |![장바구니](https://github.com/rlaehrla/choongang502_5/assets/143992194/9f58e7e2-8de9-4338-9dc7-a8c93c8e1ca4)|![주문서](https://github.com/rlaehrla/choongang502_5/assets/143992194/6871a752-cbca-4a46-a2f8-f24ece73992c)|
+
+  |결제하기|주문 상세|
+  |:-:|:-:|
+  |![결제](https://github.com/rlaehrla/choongang502_5/assets/143992194/ea8b007d-7abf-4bbb-a468-e68ea1cf216f)|![주문상세](https://github.com/rlaehrla/choongang502_5/assets/143992194/69314eac-bfbe-4568-865d-06309652bc76)|
+
+  |레시피 페이지|레시피 상세보기|
+  |:-:|:-:|
+  |![레시피_페이지](https://github.com/rlaehrla/choongang502_5/assets/143992194/04aba3c5-852a-4756-bfb4-b1c4fa736149)|![레시피_상세](https://github.com/rlaehrla/choongang502_5/assets/143992194/5039fdc1-831c-472b-8d28-2d811df6d599)|
+
+  |판매자 전용 관리페이지|농부 블로그 페이지|
+  |:-:|:-:|
+  |![판매자_관리_페이지](https://github.com/rlaehrla/choongang502_5/assets/143992194/b6bb02d4-3ce3-4bc0-a24e-c0e37dbe8817)|![판매자_블로그](https://github.com/rlaehrla/choongang502_5/assets/143992194/d8c933bf-891d-4aed-a092-d1bbbb7f47c3)|
 </details>
 
 ## 자체 총평 및 소감
