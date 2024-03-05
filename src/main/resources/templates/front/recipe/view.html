@@ -128,14 +128,14 @@
                         <span class="content" th:text="${h}"></span>
                     </div>
                 </div>
-                <div class="howto_border" th:each="t: *{tipP}">
+                <div class="howto_border" th:if="*{tipP != null}" th:each="t: *{tipP}">
                     <div class="howto_list" >
                         <span class="tip_no" th:text="#{TIP}"></span>
                         <span class="content" th:text="${t}"></span>
                     </div>
                 </div>
             </div>
-
+        </div>
     </section>
 
 
