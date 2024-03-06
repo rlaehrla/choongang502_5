@@ -48,7 +48,7 @@ public class RecipeController implements ExceptionProcessor {
 
         /* 최근 레시피 6개 추출 */
         ListData<Recipe> data = recipeInfoService.getList(search);
-        List<Recipe> lastRecipes = data.getItems().stream().limit(6).toList();
+        List<Recipe> lastRecipes = data.getItems().stream().limit(3).toList();
 
         List<Recipe> list = data.getItems().stream().toList();
 

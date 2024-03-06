@@ -63,7 +63,10 @@ public class RecipeInfoService {
         String how = recipe.getHow();
         String tip = recipe.getTip();
         String[] hows = how.split("__");
-        String[] tips = tip.split("__");
+        String[] tips = null;
+        if(StringUtils.hasText(tip)) {
+            tips =   tip.split("__");
+        }
         recipe.setHowP(hows);
         recipe.setTipP(tips);
 
